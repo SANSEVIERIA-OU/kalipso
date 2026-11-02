@@ -68,7 +68,7 @@ protected:
         const QColor accent = palette().color(QPalette::Highlight);
         const QRectF ring = QRectF(rect()).adjusted(1.5, 1.5, -1.5, -1.5);
         painter.setPen(QPen(accent, 2));
-        painter.setBrush(done_ ? accent : Qt::NoBrush);
+        painter.setBrush(done_ ? QBrush(accent) : QBrush(Qt::NoBrush)); // Qt::NoBrush alone would turn black.
         painter.drawEllipse(ring);
         auto font = this->font();
         font.setWeight(QFont::DemiBold);
