@@ -70,6 +70,8 @@ signals:
     void error(quint64 generation, const QString &message);
     void transcript(const QString &text, bool final, quint64 generation);
     void consumed(int bytes, quint64 generation, bool skipped);
+    // Whether the recognizer now expects the script (a grammar from setVocabulary) or any words.
+    void guided(bool learnt, quint64 generation);
 
 private:
     bool current(quint64 generation) const { return epoch_->load() == generation; }
@@ -119,8 +121,12 @@ public:
     // restricts recognition to known phrases.
     void setCommandPhrases(const QStringList &phrases);
     bool active() const { return active_; }
+    // The recognizer learnt the script (Vosk with the script's sentences, Windows with its phrases):
+    // it hears the script's words even in what is said off it. Give it to ScriptTracker::setGuided.
+    bool guided() const { return guided_; }
 
 signals:
+    void guidedChanged(bool guided);
     void transcript(const QString &text, bool final);
     void listening();
     void status(const QString &text);
@@ -136,6 +142,7 @@ private:
     void fail(const QString &message);
 
     void updateVocabulary();
+    void setGuided(bool guided);
 
     SystemSpeechClient system_;
     QString script_, language_;
@@ -154,5 +161,6 @@ private:
     CatchUpPolicy catchUp_;
     quint64 generation_ = 0;
     bool active_ = false;
+    bool guided_ = false;
     QString microphone_;
 };

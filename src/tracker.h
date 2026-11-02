@@ -57,6 +57,10 @@ public:
     const QVector<Word> &words() const { return words_; }
     // Several consecutive utterances did not match anywhere in the script.
     bool lost() const { return misses_ >= 2; }
+    // The recognizer learnt the script (SpeechService::guided): it hears the script's words even in
+    // what is said off it, so moving ahead or elsewhere takes more words heard right.
+    void setGuided(bool guided) { guided_ = guided; }
+    bool guided() const { return guided_; }
 
 private:
     int localMatch(const QVector<SpokenWords::Key> &spoken) const;
@@ -68,4 +72,5 @@ private:
     QHash<QString, QVector<int>> occurrences_; // Folded word (or spelt number) -> indexes, for recovery.
     int position_ = -1;
     int misses_ = 0;
+    bool guided_ = false;
 };

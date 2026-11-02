@@ -92,8 +92,10 @@ configuration. Measured 2026-11-02 on 48 Italian sentences (12 minutes, many spe
 
 Two sentences said off the script moved the reader on by 0 words before and by at most 7 after. With the script learnt
 and the old thresholds (two words heard right to move anywhere nearby, four to jump anywhere) they moved it on by 116 to
-228 words: the recognizer hears runs of the script's words in anything said off the script. Moonshine has no way to learn
-a script; its transcripts differ slightly from run to run, so its numbers vary by a few points between runs.
+228 words: the recognizer hears runs of the script's words in anything said off the script. So the tracker asks for four
+and five only when the recognizer learnt the script (`ScriptTracker::setGuided`, `SpeechService::guided`); with those
+thresholds, a recognizer that hears any words lost the speaker more often in noise. Moonshine has no way to learn a
+script; its transcripts differ slightly from run to run, so its numbers vary by a few points between runs.
 
 ## Provenance and rights
 

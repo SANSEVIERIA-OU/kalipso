@@ -229,6 +229,7 @@ PlasmoidItem {
         id: audio
         onTranscript: function(event) {
             const lostBefore = root.tracker.lost
+            root.tracker.guided = audio.guided
             if (root.tracker.follow(event.text, event.final) || root.tracker.lost !== lostBefore)
                 root.refresh()
         }

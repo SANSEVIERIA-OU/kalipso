@@ -124,10 +124,8 @@ int main(int argc, char **argv) {
     request.language = spec.value("language").toString("en");
     ScriptTracker tracker;
     tracker.setScript(script);
-#ifndef FOLLOW_BASELINE
     if (bias)
         worker.setVocabulary(speechVocabulary(script, request.language));
-#endif
     QMultiMap<int, QPair<QString, bool>> replayed; // Audio chunk -> transcripts after it.
     if (!replay.isEmpty()) {
         QFile events(replay);
@@ -138,8 +136,12 @@ int main(int argc, char **argv) {
             replayed.insert(event[0].toInt(), {event[1].toString(), event[2].toBool()});
         }
     } else {
+        // As the app does: the tracker knows whether the recognizer learnt the script.
+        QObject::connect(&worker, &SpeechWorker::guided, &app, [&](bool learnt, quint64) { tracker.setGuided(learnt); });
         worker.load(request, 1);
     }
+    if (!replay.isEmpty())
+        tracker.setGuided(bias);
     if (failed)
         return 1;
 

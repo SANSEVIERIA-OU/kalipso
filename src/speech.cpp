@@ -88,8 +88,10 @@ void SpeechWorker::setVocabulary(const QStringList &words) {
 void SpeechWorker::applyVocabulary() {
     if (!recognizer_ || !setGrammar_ || !findWord_ || vocabulary_ == applied_)
         return;
-    setGrammar_(recognizer_, grammar().constData());
+    const auto words = grammar();
+    setGrammar_(recognizer_, words.constData());
     applied_ = vocabulary_;
+    emit guided(words != "[]", generation_);
 }
 
 void SpeechWorker::load(const SpeechRequest &request, quint64 generation) {
@@ -104,6 +106,7 @@ void SpeechWorker::load(const SpeechRequest &request, quint64 generation) {
             emit error(generation, message);
             return;
         }
+        emit guided(false, generation);
     } else if (request.backend == QLatin1String("vosk")) {
         if (!loadVosk(request, generation))
             return;
@@ -165,6 +168,7 @@ bool SpeechWorker::loadVosk(const SpeechRequest &request, quint64 generation) {
         emit error(generation, tr("Not enough resources to start speech recognition."));
         return false;
     }
+    emit guided(words != "[]", generation);
     return true;
 }
 
@@ -243,6 +247,10 @@ SpeechService::SpeechService(QObject *parent) : QObject(parent), worker_(new Spe
         if (active_ && generation == generation_)
             emit transcript(text, final);
     });
+    connect(worker_, &SpeechWorker::guided, this, [this](bool learnt, quint64 generation) {
+        if (active_ && generation == generation_)
+            setGuided(learnt);
+    });
     connect(worker_, &SpeechWorker::consumed, this, [this](int bytes, quint64 generation, bool skipped) {
         if (generation == generation_ && !skipped) // Skipped audio left the count when it was skipped.
             queued_ = std::max(0, queued_ - bytes);
@@ -268,6 +276,9 @@ void SpeechService::start(const SpeechRequest &request) {
         }
         systemMode_ = true;
         active_ = true;
+#ifdef Q_OS_WIN
+        setGuided(true); // Windows recognizes only the script's phrases near the reading position.
+#endif
         emit status(tr("Starting on-device system speech…"));
         system_.start(request.language, scriptPhrases(script_, scriptPosition_, commands_));
         return;
@@ -382,8 +393,16 @@ void SpeechService::stop() {
     queued_ = 0;
     buffer_.clear();
     QMetaObject::invokeMethod(worker_, &SpeechWorker::unload);
+    setGuided(false);
     if (wasActive)
         emit stopped();
+}
+
+void SpeechService::setGuided(bool guided) {
+    if (guided_ == guided)
+        return;
+    guided_ = guided;
+    emit guidedChanged(guided);
 }
 
 void SpeechService::queueAudio(const QByteArray &pcm) {
