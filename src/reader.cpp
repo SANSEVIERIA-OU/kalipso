@@ -35,11 +35,39 @@ bool wayland() { return QGuiApplication::platformName().startsWith(QLatin1String
 
 } // namespace
 
-// The reader has no title bar: dragging the grip and title moves the window.
+// Draws its text on one line, cut with "…" when it does not fit; the whole text is in the
+// tooltip. A label that wrapped would make its bar taller and push the controls about.
+template <class Label> class OneLine : public Label {
+public:
+    explicit OneLine(const QString &text = {}) : Label(text) {
+        Label::setWordWrap(false);
+        Label::setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+    }
+    void setLine(const QString &value) {
+        Label::setText(value);
+        Label::setToolTip(value);
+        Label::update();
+    }
+    QSize sizeHint() const override {
+        return {Label::fontMetrics().horizontalAdvance(Label::text()) + 4, Label::fontMetrics().height()};
+    }
+    QSize minimumSizeHint() const override { return {0, Label::fontMetrics().height()}; }
+
+protected:
+    void paintEvent(QPaintEvent *) override {
+        QPainter painter(this);
+        const QRect area = Label::contentsRect();
+        Label::style()->drawItemText(
+            &painter, area, int(Label::alignment() | Qt::AlignVCenter), Label::palette(), Label::isEnabled(),
+            Label::fontMetrics().elidedText(Label::text(), Qt::ElideRight, area.width()), Label::foregroundRole());
+    }
+};
+
+// The reader has no title bar while reading: dragging the grip and title moves the window.
 // Works on Wayland too, where applications cannot position their own windows.
 class DragHandle : public QWidget {
 public:
-    DragHandle() : grip(new QLabel), title(new QLabel) {
+    DragHandle() : grip(new QLabel), title(new OneLine<QLabel>) {
         auto *layout = new QHBoxLayout(this);
         layout->setContentsMargins(0, 0, 0, 0);
         layout->setSpacing(Design::Metric::space1);
@@ -49,10 +77,12 @@ public:
         setCursor(Qt::SizeAllCursor);
         setToolTip(QObject::tr("Drag to move the reader"));
     }
-    QLabel *grip, *title;
+    QLabel *grip;
+    OneLine<QLabel> *title;
     QSize sizeHint() const override {
         return {std::min(320, layout()->sizeHint().width()), layout()->sizeHint().height()};
     }
+    QSize minimumSizeHint() const override { return {grip->sizeHint().width(), layout()->sizeHint().height()}; }
 
 protected:
     void mousePressEvent(QMouseEvent *event) override {
@@ -179,11 +209,15 @@ void ReaderView::paintEdges(QPainter &painter) const {
     const int line = fontMetrics().lineSpacing();
     QColor clear = fadeColor_;
     clear.setAlpha(0);
+    // Over the bottom bar, when it shows, the lines it covers fade out above it instead of being cut.
+    const int edge = area.bottom() - std::clamp(bottomBar_, 0, area.height() / 2);
     const int bottom = std::min(line, area.height() / 5);
-    QLinearGradient down(0, area.bottom() - bottom, 0, area.bottom());
+    QLinearGradient down(0, edge - bottom, 0, edge);
     down.setColorAt(0, clear);
     down.setColorAt(1, fadeColor_);
-    painter.fillRect(QRect(0, area.bottom() - bottom, area.width(), bottom + 1), down);
+    painter.fillRect(QRect(0, edge - bottom, area.width(), bottom + 1), down);
+    if (edge < area.bottom())
+        painter.fillRect(QRect(0, edge, area.width(), area.bottom() - edge + 1), fadeColor_);
     QTextCursor cursor(document());
     cursor.setPosition(std::clamp(anchor_, 0, std::max(0, document()->characterCount() - 1)));
     const int top = std::clamp(cursorRect(cursor).top() - 2, 0, line / 2);
@@ -237,14 +271,26 @@ void ReaderView::mouseReleaseEvent(QMouseEvent *event) {
         emit characterClicked(cursorForPosition(unmirrored(event->position().toPoint())).position());
 }
 
-ReaderWindow::ReaderWindow(QWidget *parent)
-    : QWidget(parent, Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint) {
+
+namespace {
+// A quiet button whose label goes away when the bar is short of room; the icon and the
+// accessible name stay.
+AccessibleButton *quietButton(const QString &label, const QString &tip) {
+    auto *button = new AccessibleButton(label);
+    button->setAccessibleName(label);
+    button->setToolTip(tip);
+    button->setProperty("quiet", true);
+    button->setProperty("label", label);
+    return button;
+}
+} // namespace
+
+ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     Accessibility::useInterfaceStyle();
     Accessibility::useInterfaceFont();
-    // Fixed title: the KWin script and the macOS color sampler identify the reader by it.
-    setWindowTitle(QStringLiteral("Kalipso — reading"));
     setAccessibleName(tr("Kalipso reader"));
-    setObjectName("readingWindow");
+    setObjectName("readingPage");
+    setProperty("ownLook", true); // Its own colours and style, whatever the window's.
     resize(680, 360);
     setMinimumSize(320, 180);
 
@@ -253,38 +299,36 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
-    // Top bar: what you are reading, and quiet window actions.
+    // Top bar: what you are reading; sections, settings, and back to writing.
     auto *topBar = new QWidget;
     topBar->setObjectName("readerBar");
     bars_.append(topBar);
-    auto *bar = new FlowLayout(topBar);
+    auto *bar = new QHBoxLayout(topBar);
     bar->setContentsMargins(space3, space1, space2, space1);
     bar->setSpacing(space1);
     handle_ = new DragHandle;
     handle_->title->setText(tr("Kalipso"));
     sections_ = new MenuButton;
     sections_->setText(tr("Sections"));
+    sections_->setProperty("label", sections_->text());
     sections_->setObjectName("readerSections");
     sections_->setAccessibleName(tr("Jump to section"));
+    sections_->setToolTip(tr("Jump to a section"));
     sections_->setProperty("quiet", true);
+    sections_->setAutoRaise(true);
     sections_->setPopupMode(QToolButton::InstantPopup);
     sections_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    sections_->setMenu(new QMenu(sections_));
+    sections_->setMenu(new QMenu);
     sections_->hide();
-    edit_ = new AccessibleButton(tr("Edit"));
-    edit_->setAccessibleName(tr("Edit"));
-    edit_->setToolTip(tr("Edit the script in the reader"));
-    edit_->setCheckable(true);
-    edit_->setProperty("quiet", true);
-    auto *hide = new AccessibleButton(tr("Hide"));
-    hide->setObjectName("readerHide");
-    hide->setAccessibleName(tr("Hide"));
-    hide->setProperty("quiet", true);
-    hide->setToolTip(tr("Hide the reader (Esc). The microphone turns off."));
-    bar->addWidget(handle_);
-    bar->addTrailing(sections_);
-    bar->addTrailing(edit_);
-    bar->addTrailing(hide);
+    settings_ = quietButton(QString(), tr("Settings"));
+    settings_->setObjectName("readerSettings");
+    settings_->setAccessibleName(tr("Settings"));
+    write_ = quietButton(tr("Write"), tr("Back to writing (Esc)"));
+    write_->setObjectName("readerWrite");
+    bar->addWidget(handle_, 1);
+    bar->addWidget(sections_);
+    bar->addWidget(settings_);
+    bar->addWidget(write_);
     topBar->setParent(this); // Over the text, placed by placeBars().
 
     progress_ = new QProgressBar;
@@ -292,10 +336,12 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     progress_->setAccessibleName(tr("Reading progress"));
     progress_->setTextVisible(false);
     progress_->setRange(0, 1);
+    if (Accessibility::native())
+        progress_->setFixedHeight(3); // A line, as with the drawn style, not the desktop's thick bar.
     layout->addWidget(progress_);
 
     text = new ReaderView;
-    text->setPlaceholderText(tr("Add your script in the editor to begin."));
+    text->setPlaceholderText(tr("Write your script first: press Write."));
     text->installEventFilter(this);
     auto *page = new QVBoxLayout;
     page->setContentsMargins(space4, space2, space5, space2);
@@ -307,22 +353,19 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     countdown_->setAttribute(Qt::WA_TransparentForMouseEvents);
     countdown_->hide();
 
-    // Bottom bar: step, start or pause, and how the reader advances.
+    // Bottom bar, always one row: step, start or pause, how the reader advances, and what is
+    // happening. Changing the mode changes what is in the row, never its height.
     auto *controlBar = new QWidget;
     controlBar->setObjectName("readerControls");
     bars_.append(controlBar);
-    auto *controls = new FlowLayout(controlBar);
+    auto *controls = new QHBoxLayout(controlBar);
     controls->setContentsMargins(space3, space2, space3, space2);
     controls->setSpacing(space2);
-    auto *previous = new AccessibleButton(QString());
+    auto *previous = quietButton(QString(), tr("Previous word (← or Page Up)"));
     previous->setAccessibleName(tr("Previous word"));
-    previous->setToolTip(tr("Previous word (← or Page Up)"));
-    previous->setProperty("quiet", true);
-    auto *next = new AccessibleButton(QString());
+    auto *next = quietButton(QString(), tr("Next word (→ or Page Down)"));
     next->setAccessibleName(tr("Next word"));
-    next->setToolTip(tr("Next word (→ or Page Down)"));
-    next->setProperty("quiet", true);
-    primary_ = new AccessibleButton(tr("Start listening"));
+    primary_ = new AccessibleButton(tr("Start"));
     primary_->setObjectName("readerListeningButton");
     primary_->setProperty("primary", true);
     primary_->setToolTip(tr("Start or pause (Space)"));
@@ -331,7 +374,9 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     modes_->setObjectName("readerMode");
     modes_->setPopupMode(QToolButton::InstantPopup);
     modes_->setProperty("quiet", true);
-    auto *modeMenu = new QMenu(modes_);
+    modes_->setAutoRaise(true);
+    modes_->setToolTip(tr("How the reader advances"));
+    auto *modeMenu = new QMenu;
     auto *modeGroup = new QActionGroup(modes_);
     for (const auto &[label, mode] :
          {std::pair{tr("Manual"), ReadingMode::Manual}, std::pair{tr("Steady speed"), ReadingMode::Steady},
@@ -344,81 +389,80 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     }
     modes_->setMenu(modeMenu);
     speedBox_ = new QWidget;
+    speedBox_->setObjectName("readerSpeedBox");
     auto *speedLayout = new QHBoxLayout(speedBox_);
     speedLayout->setContentsMargins(0, 0, 0, 0);
-    speedLayout->setSpacing(space1);
-    auto *slower = new AccessibleButton(QStringLiteral("−"));
+    speedLayout->setSpacing(0);
+    auto *slower = quietButton(QStringLiteral("−"), tr("Slower (−)"));
     slower->setAccessibleName(tr("Slower"));
-    slower->setToolTip(tr("Slower (−)"));
-    slower->setProperty("quiet", true);
-    auto *faster = new AccessibleButton(QStringLiteral("+"));
+    auto *faster = quietButton(QStringLiteral("+"), tr("Faster (+)"));
     faster->setAccessibleName(tr("Faster"));
-    faster->setToolTip(tr("Faster (+)"));
-    faster->setProperty("quiet", true);
     speed_ = new QLabel;
     speed_->setObjectName("readerSpeed");
+    speed_->setAlignment(Qt::AlignCenter);
     speedLayout->addWidget(slower);
     speedLayout->addWidget(speed_);
     speedLayout->addWidget(faster);
-    status_ = new StatusLabel(tr("Microphone off"));
+    status_ = new OneLine<StatusLabel>(tr("Microphone off"));
     status_->setObjectName("readerListeningStatus");
     status_->setProperty("role", "muted");
+    status_->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     for (auto *widget : QList<QWidget *>{previous, primary_, next, modes_, speedBox_})
         controls->addWidget(widget);
-    controls->addTrailing(status_);
+    controls->addWidget(status_, 1);
+    controls->addStretch(0); // Keeps the controls together on the left when the status is hidden.
+    steps_ = {previous, next};
     controlBar->setParent(this);
-    icons_ = {{previous, "previous"}, {next, "next"}, {sections_, "sections"}, {edit_, "edit"}, {hide, "close"}};
+    icons_ = {{previous, "previous"}, {next, "next"}, {sections_, "sections"}, {settings_, "settings"},
+              {write_, "edit"}};
+
+    // The menus are the desktop's own, in the window's colours rather than the reader's: without a
+    // parent they keep the desktop's look (rounded, shadowed) instead of the reader's style sheet.
+    for (auto *menu : {sections_->menu(), modeMenu})
+        connect(menu, &QMenu::aboutToShow, this, [this, menu] {
+            menu->setPalette(window()->palette());
+            if (!Accessibility::native())
+                menu->setStyleSheet(window()->styleSheet());
+        });
 
     // Clicking a control must not move keyboard focus off the script: pedals and
     // clickers send Space and arrows, which would otherwise activate or edit.
     for (auto *control : findChildren<QAbstractButton *>())
         control->setFocusPolicy(Qt::TabFocus);
-    // While reading, the bars fade out (keeping their space, so the text does
-    // not move) and come back with the mouse, a key, or a pause.
+    // While reading, the bars fade out (the text keeps its place) and come back with the mouse,
+    // a key, or a pause.
     idle_.setSingleShot(true);
     idle_.setInterval(2500);
     connect(&idle_, &QTimer::timeout, this, [this] { setControlsVisible(false); });
-    for (auto *bar : bars_) {
-        auto *effect = new QGraphicsOpacityEffect(bar);
+    for (auto *widget : bars_) {
+        auto *effect = new QGraphicsOpacityEffect(widget);
         effect->setOpacity(1.0);
         new QPropertyAnimation(effect, "opacity", effect);
-        bar->setGraphicsEffect(effect);
-        bar->setMouseTracking(true);
-        bar->installEventFilter(this);
+        widget->setGraphicsEffect(effect);
+        widget->setMouseTracking(true);
+        widget->installEventFilter(this);
+        widget->setAutoFillBackground(true);
     }
     text->viewport()->setMouseTracking(true);
     text->viewport()->installEventFilter(this);
-    auto *grip = new QSizeGrip(this);
-    grip->setObjectName("readerResize");
-    grip->setToolTip(tr("Drag to resize the reader"));
-    setMouseTracking(true); // The edges resize: see edgesAt().
+    setMouseTracking(true); // The edges resize when the window has no frame: see edgesAt().
 
     connect(previous, &QPushButton::clicked, this, [this] { emit step(-1); });
     connect(next, &QPushButton::clicked, this, [this] { emit step(1); });
-    connect(hide, &QPushButton::clicked, this, &QWidget::hide);
-    connect(primary_, &QPushButton::clicked, this, &ReaderWindow::toggleRequested);
+    connect(write_, &QPushButton::clicked, this, &ReaderPage::writeRequested);
+    connect(settings_, &QPushButton::clicked, this, &ReaderPage::settingsRequested);
+    connect(primary_, &QPushButton::clicked, this, [this] {
+        if (!blocked_)
+            emit toggleRequested();
+        else
+            emit blockedRequested();
+    });
     connect(slower, &QPushButton::clicked, this, [this] { emit speedRequested(-10); });
     connect(faster, &QPushButton::clicked, this, [this] { emit speedRequested(10); });
-    connect(text, &ReaderView::characterClicked, this, &ReaderWindow::jumpRequested);
-    connect(edit_, &QPushButton::toggled, this, [this](bool enabled) {
-        editing_ = enabled;
-        text->setReadOnly(!enabled);
-        text->highlighter()->setHideMarks(!enabled); // Editing shows the marks it changes.
-        // Scroll bars only while editing; reading follows the current line.
-        text->setVerticalScrollBarPolicy(enabled ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
-        text->style()->unpolish(text); // The style sheet depends on readOnly.
-        text->style()->polish(text);
-        edit_->setText(enabled ? tr("Done") : compact_ ? QString() : tr("Edit"));
-        edit_->setAccessibleName(enabled ? tr("Done") : tr("Edit"));
-        edit_->setIcon(enabled ? QIcon() : Icons::icon("edit", QColor(colors_.text), QColor(colors_.muted)));
-        text->setFocus();
-        text->viewport()->update();
-        if (!enabled)
-            highlight(position_, length_);
-    });
+    connect(text, &ReaderView::characterClicked, this, &ReaderPage::jumpRequested);
 
     backdrop_ = new Backdrop(this);
-    connect(backdrop_, &Backdrop::unavailable, this, &ReaderWindow::colorStatus);
+    connect(backdrop_, &Backdrop::unavailable, this, &ReaderPage::colorStatus);
     connect(backdrop_, &Backdrop::colorChanged, this, [this](const QColor &sample) {
         // Hysteresis: switch only on a clear change and at most every 2.5 s.
         const auto luminance = Accessibility::luminance(sample);
@@ -432,10 +476,14 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     setReaderTheme("dark");
     setTextSize(28);
     setMode(ReadingMode::Voice);
-    setCaptureExcluded(false);
 }
 
-void ReaderWindow::applyPalette(const Design::Palette &palette) {
+ReaderPage::~ReaderPage() {
+    delete sections_->menu();
+    delete modes_->menu();
+}
+
+void ReaderPage::applyPalette(const Design::Palette &palette) {
     colors_ = palette;
     Accessibility::apply(this, palette);
     text->setPalette(Accessibility::palette(palette));
@@ -447,27 +495,26 @@ void ReaderWindow::applyPalette(const Design::Palette &palette) {
                                   .arg(palette.text, palette.surface, palette.border));
     for (const auto &[button, name] : icons_) {
         button->setProperty("motion", Icons::motion(name));
-        if (!(button == edit_ && editing_))
-            button->setIcon(Icons::icon(name, QColor(palette.text), QColor(palette.muted)));
+        button->setIcon(Icons::icon(name, QColor(palette.text), QColor(palette.muted)));
     }
     handle_->grip->setPixmap(Icons::icon("grip", QColor(palette.muted)).pixmap(18, 18));
     updatePrimary();
     highlight(position_, length_);
 }
 
-void ReaderWindow::setReaderTheme(const QString &theme) {
+void ReaderPage::setReaderTheme(const QString &theme) {
     resolvedTheme_ = theme == "light" ? "light" : "dark";
     paletteAge_.invalidate();
     applyPalette(resolvedTheme_ == "light" ? Design::light : Design::dark);
     backdrop_->setEnabled(theme == "auto");
 }
 
-void ReaderWindow::setTextFont(const QString &family) {
+void ReaderPage::setTextFont(const QString &family) {
     fontFamily_ = family;
     setTextSize(textPoints_);
 }
 
-void ReaderWindow::setTextSize(int points) {
+void ReaderPage::setTextSize(int points) {
     textPoints_ = points;
     QFont font = fontFamily_.isEmpty() ? QApplication::font() : QFont(fontFamily_);
     font.setPointSize(points);
@@ -478,19 +525,20 @@ void ReaderWindow::setTextSize(int points) {
     countdown_->setFont(large);
 }
 
-void ReaderWindow::setMode(ReadingMode mode) {
+void ReaderPage::setMode(ReadingMode mode) {
     readingMode_ = mode;
     for (auto *action : modes_->menu()->actions())
         if (action->data().toInt() == int(mode)) {
             action->setChecked(true);
-            modes_->setText(action->text());
+            modes_->setProperty("label", action->text());
             modes_->setAccessibleName(tr("Reading mode: %1").arg(action->text()));
         }
     speedBox_->setVisible(mode == ReadingMode::Steady);
     updatePrimary();
+    updateLabels();
 }
 
-void ReaderWindow::setRunning(bool running, const QString &status) {
+void ReaderPage::setRunning(bool running, const QString &status) {
     const bool changed = running != running_;
     running_ = running;
     updatePrimary();
@@ -499,23 +547,33 @@ void ReaderWindow::setRunning(bool running, const QString &status) {
         revealControls();
 }
 
-void ReaderWindow::setAutoHideControls(bool hide) {
+void ReaderPage::setBlocked(bool blocked) {
+    if (blocked_ == blocked)
+        return;
+    blocked_ = blocked;
+    updatePrimary();
+    updateLabels();
+}
+
+void ReaderPage::setAutoHideControls(bool hide) {
     autoHide_ = hide;
     revealControls();
 }
 
-void ReaderWindow::revealControls() {
+void ReaderPage::revealControls() {
     setControlsVisible(true);
-    if (running_ && autoHide_ && !editing_)
+    if (running_ && autoHide_)
         idle_.start();
     else
         idle_.stop();
 }
 
-void ReaderWindow::setControlsVisible(bool visible) {
+void ReaderPage::setControlsVisible(bool visible) {
     controlsVisible_ = visible;
-    for (auto *bar : bars_) {
-        auto *effect = static_cast<QGraphicsOpacityEffect *>(bar->graphicsEffect());
+    // The lines under the bottom bar come back as it fades out.
+    text->setBottomBar(visible ? overlap_ : 0);
+    for (auto *widget : bars_) {
+        auto *effect = static_cast<QGraphicsOpacityEffect *>(widget->graphicsEffect());
         auto *fade = effect->findChild<QPropertyAnimation *>();
         fade->stop();
         if (Motion::reduced() || !isVisible()) {
@@ -531,59 +589,128 @@ void ReaderWindow::setControlsVisible(bool visible) {
     }
 }
 
-void ReaderWindow::setStatus(const QString &status) {
+void ReaderPage::setStatus(const QString &status) {
     status_->setText(status);
-    placeBars(); // A longer status can wrap to a second line.
+    status_->setToolTip(status);
+    status_->update();
 }
 
-void ReaderWindow::placeBars() {
+void ReaderPage::placeBars() {
     if (bars_.size() < 2)
         return;
-    const auto heightFor = [this](QWidget *bar) {
-        return bar->layout()->hasHeightForWidth() ? bar->layout()->heightForWidth(width()) : bar->sizeHint().height();
-    };
     auto *top = bars_.first(), *bottom = bars_.last();
-    const int topHeight = heightFor(top), bottomHeight = heightFor(bottom);
+    const int topHeight = top->sizeHint().height(), bottomHeight = bottom->sizeHint().height();
     top->setGeometry(0, progress_->height(), width(), topHeight);
     bottom->setGeometry(0, height() - bottomHeight, width(), bottomHeight);
     // The first line starts under the top bar; while reading, the bars fade and the text has the
     // whole window.
     text->setTopInset(topHeight);
+    overlap_ = std::max(0, text->geometry().bottom() + 1 - (height() - bottomHeight));
+    text->setBottomBar(controlsVisible_ ? overlap_ : 0);
     top->raise();
     bottom->raise();
-    if (auto *grip = findChild<QSizeGrip *>("readerResize")) {
-        grip->adjustSize();
-        grip->move(width() - grip->width() - 2, height() - grip->height() - 2);
-        grip->raise();
+}
+
+// Labels shorten before anything wraps or overlaps. Each bar decides for itself, and the bottom
+// bar decides for its widest mode (steady, with the speed), so changing the mode never changes the
+// other controls: the mode takes its short name, then the start button keeps its icon and the speed
+// its number, then the word steps go (keys and pedals still step). The status has the room left;
+// with too little it goes (the editor keeps it, and assistive technology hears it).
+void ReaderPage::updateLabels() {
+    const auto need = [this](QWidget *bar, const QList<QWidget *> &extra) {
+        const auto margins = bar->layout()->contentsMargins();
+        int width = margins.left() + margins.right(), visible = 0;
+        for (int i = 0; i < bar->layout()->count(); ++i)
+            if (auto *widget = bar->layout()->itemAt(i)->widget();
+                widget && widget != status_ && (!widget->isHidden() || extra.contains(widget))) {
+                width += widget == static_cast<QWidget *>(handle_) ? handle_->minimumSizeHint().width()
+                                                                    : widget->sizeHint().width();
+                ++visible;
+            }
+        return width + std::max(0, visible - 1) * bar->layout()->spacing();
+    };
+    const int words = fontMetrics().averageCharWidth() * 12;
+    // Top bar: labels, or icons.
+    for (const bool icons : {false, true}) {
+        for (auto *button : {static_cast<QAbstractButton *>(write_), static_cast<QAbstractButton *>(sections_)})
+            button->setText(icons ? QString() : button->property("label").toString());
+        sections_->setToolButtonStyle(icons ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextBesideIcon);
+        write_->updateGeometry();
+        sections_->updateGeometry();
+        if (need(bars_.first(), {}) + words <= width())
+            break;
     }
+    // Bottom bar, measured with the speed shown and the longest mode name.
+    QString longest;
+    for (auto *action : modes_->menu()->actions())
+        if (action->text().size() > longest.size())
+            longest = action->text();
+    QString widest;
+    for (const auto &label : {tr("Start"), tr("Pause"), tr("Choose language")})
+        if (fontMetrics().horizontalAdvance(label) > fontMetrics().horizontalAdvance(widest))
+            widest = label;
+    const auto apply = [this, &longest, &widest](int level, bool measuring) {
+        compact_ = level;
+        const auto mode = modes_->property("label").toString();
+        modes_->setText(level == 0 ? (measuring ? longest : mode)
+                        : measuring || readingMode_ == ReadingMode::Steady ? tr("Steady")
+                        : readingMode_ == ReadingMode::Voice                ? tr("Voice")
+                                                                            : mode);
+        primary_->setText(level >= 2 ? QString() : measuring ? widest : primary_->property("label").toString());
+        speed_->setText(level >= 2 ? QString::number(speed_->property("wpm").toInt())
+                                   : tr("%1 words/min").arg(speed_->property("wpm").toInt()));
+        for (auto *step : steps_)
+            step->setVisible(level < 3);
+        speedBox_->setVisible(readingMode_ == ReadingMode::Steady && level < 4); // + and − keys still work.
+        for (auto *widget : bars_.last()->findChildren<QWidget *>())
+            widget->updateGeometry();
+    };
+    int level = 0;
+    while (level < 4) {
+        apply(level, true);
+        if (need(bars_.last(), level < 4 ? QList<QWidget *>{speedBox_} : QList<QWidget *>{}) <= width())
+            break;
+        ++level;
+    }
+    apply(level, false);
+    status_->setVisible(width() - need(bars_.last(), {}) - bars_.last()->layout()->spacing() >= words);
 }
 
-void ReaderWindow::updatePrimary() {
-    primary_->setVisible(readingMode_ != ReadingMode::Manual);
-    if (readingMode_ == ReadingMode::Steady)
-        primary_->setText(running_ ? tr("Pause scrolling") : tr("Start scrolling"));
-    else
-        primary_->setText(running_ ? tr("Pause listening") : tr("Start listening"));
-    primary_->setIcon(Icons::icon(running_ ? "pause" : "play", QColor(colors_.actionText)));
-    primary_->setProperty("motion", Icons::motion("play"));
+void ReaderPage::updatePrimary() {
+    primary_->setVisible(readingMode_ != ReadingMode::Manual || blocked_);
+    // Voice: the microphone and Start; reading: Pause. Blocked: what to do first.
+    const QString icon = blocked_                             ? QStringLiteral("settings")
+                         : running_                           ? QStringLiteral("pause")
+                         : readingMode_ == ReadingMode::Voice ? QStringLiteral("microphone")
+                                                              : QStringLiteral("play");
+    const QString label = blocked_ ? tr("Choose language") : running_ ? tr("Pause") : tr("Start");
+    primary_->setProperty("label", label);
+    primary_->setAccessibleName(label);
+    primary_->setToolTip(blocked_ ? tr("Choose the language you speak, in Settings") : tr("Start or pause (Space)"));
+    primary_->setText(compact_ >= 2 ? QString() : label);
+    primary_->setIcon(Icons::icon(icon, QColor(colors_.actionText)));
+    primary_->setProperty("motion", Icons::motion(icon));
+    primary_->updateGeometry();
 }
 
-void ReaderWindow::setTitle(const QString &title) {
-    handle_->title->setText(title.isEmpty() ? tr("Kalipso") : title);
-    handle_->title->setToolTip(title);
+void ReaderPage::setTitle(const QString &title) {
+    handle_->title->setLine(title.isEmpty() ? tr("Kalipso") : title);
 }
 
-void ReaderWindow::setProgress(int read, int total) {
+void ReaderPage::setProgress(int read, int total) {
     progress_->setRange(0, std::max(1, total));
     progress_->setValue(std::clamp(read, 0, std::max(1, total)));
 }
 
-void ReaderWindow::setSpeed(int wordsPerMinute) {
-    speed_->setText(tr("%1 words/min").arg(wordsPerMinute));
-    speed_->setAccessibleName(speed_->text());
+void ReaderPage::setSpeed(int wordsPerMinute) {
+    speed_->setProperty("wpm", wordsPerMinute);
+    speed_->setText(compact_ >= 2 ? QString::number(wordsPerMinute) : tr("%1 words/min").arg(wordsPerMinute));
+    speed_->setAccessibleName(tr("%1 words/min").arg(wordsPerMinute));
+    speed_->setToolTip(speed_->accessibleName());
+    updateLabels();
 }
 
-void ReaderWindow::setSections(const QVector<Section> &sections) {
+void ReaderPage::setSections(const QVector<Section> &sections) {
     auto *menu = sections_->menu();
     menu->clear();
     for (const auto &section : sections) {
@@ -591,21 +718,16 @@ void ReaderWindow::setSections(const QVector<Section> &sections) {
         connect(action, &QAction::triggered, this, [this, start = section.start] { emit jumpRequested(start); });
     }
     sections_->setVisible(!sections.isEmpty());
+    updateLabels();
 }
 
-void ReaderWindow::setCaptureExcluded(bool excluded) {
-    captureExcluded_ = excluded;
-    if (isVisible())
-        CaptureExclusion::apply(this, excluded);
-    // Said to assistive technology; a tooltip over the whole reader would cover the text whenever the
-    // pointer rests on it.
-    setAccessibleDescription(
-        excluded ? tr("Kalipso asked the system to hide this reader from screen sharing. Check the view "
-                      "from another participant.")
-                 : tr("Screen sharing may include this reader."));
+void ReaderPage::setResizableEdges(bool resizable) {
+    resizable_ = resizable;
+    if (!resizable)
+        unsetCursor();
 }
 
-void ReaderWindow::showCountdown(int seconds) {
+void ReaderPage::showCountdown(int seconds) {
     countdown_->setVisible(seconds > 0);
     if (seconds <= 0)
         return;
@@ -617,7 +739,7 @@ void ReaderWindow::showCountdown(int seconds) {
     countdown_->raise();
 }
 
-void ReaderWindow::highlight(int position, int length) {
+void ReaderPage::highlight(int position, int length) {
     position_ = position;
     length_ = length;
     const int limit = std::max(0, text->document()->characterCount() - 1);
@@ -635,77 +757,31 @@ void ReaderWindow::highlight(int position, int length) {
     current.format.setFontUnderline(true);
     current.format.setUnderlineColor(QColor(colors_.accent));
     text->setExtraSelections({read, current});
-    if (!editing_)
-        text->scrollToCharacter(position, isVisible());
+    text->scrollToCharacter(position, isVisible());
 }
 
-void ReaderWindow::showOn(QScreen *screen) {
-    screen_ = screen ? screen : QGuiApplication::primaryScreen();
-    if (screen_) {
-        placing_ = true;
-        winId();
-        windowHandle()->setScreen(screen_);
-        const auto available = screen_->availableGeometry();
-        const auto saved = QSettings().value("reader/geometry/" + screen_->name()).toRect();
-        if (saved.isValid() && available.contains(saved.center()) && !wayland()) {
-            setGeometry(saved);
-        } else {
-            const int extra =
-                std::max(0, qRound((primary_->font().pointSizeF() - QApplication::font().pointSizeF()) * 12));
-            // About two fifths of the screen: five or six lines at the default size, under the camera.
-            resize(std::min(std::clamp(available.width() * 2 / 5, 560, 960), std::max(320, available.width() - 32)),
-                   std::min(available.height() - 32, std::clamp(available.height() * 2 / 5, 360, 600) + extra));
-            move(available.center().x() - width() / 2, available.top()); // Under the camera.
-        }
-        placing_ = false;
-    }
-    show();
-    raise();
-    activateWindow();
-    text->setFocus();
-}
-
-void ReaderWindow::saveGeometry() {
-    if (placing_ || !isVisible() || !screen_ || wayland())
-        return;
-    QSettings().setValue("reader/geometry/" + screen_->name(), geometry());
-}
-
-void ReaderWindow::showEvent(QShowEvent *event) {
-    QWidget::showEvent(event);
-    if (captureExcluded_ || CaptureExclusion::supported())
-        CaptureExclusion::apply(this, captureExcluded_);
-}
-
-void ReaderWindow::hideEvent(QHideEvent *event) {
-    QWidget::hideEvent(event);
-    emit hidden();
-}
-
-void ReaderWindow::moveEvent(QMoveEvent *event) {
-    QWidget::moveEvent(event);
-    saveGeometry();
-}
-
-void ReaderWindow::resizeEvent(QResizeEvent *event) {
+void ReaderPage::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
-    // A narrow reader keeps the window actions as icons so the text keeps its room.
-    const bool compact = width() < 480;
-    if (compact != compact_) {
-        compact_ = compact;
-        sections_->setToolButtonStyle(compact ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextBesideIcon);
-        if (!editing_)
-            edit_->setText(compact ? QString() : tr("Edit"));
-        auto *hide = findChild<QPushButton *>("readerHide");
-        hide->setText(compact ? QString() : tr("Hide"));
-    }
+    if (bars_.size() < 2 || !status_)
+        return;
+    updateLabels();
     placeBars();
     if (countdown_->isVisible())
         showCountdown(countdown_->text().toInt());
-    saveGeometry();
 }
 
-void ReaderWindow::trigger(ReaderAction action) {
+void ReaderPage::changeEvent(QEvent *event) {
+    QWidget::changeEvent(event);
+    // The style can change while the page is still being built (the first page sets the app's style).
+    if (bars_.size() < 2 || !status_)
+        return;
+    if (event->type() == QEvent::FontChange || event->type() == QEvent::StyleChange) {
+        updateLabels();
+        placeBars();
+    }
+}
+
+void ReaderPage::trigger(ReaderAction action) {
     switch (action) {
     case ReaderAction::Toggle: emit toggleRequested(); break;
     case ReaderAction::Next: emit step(1); break;
@@ -718,7 +794,7 @@ void ReaderWindow::trigger(ReaderAction action) {
     }
 }
 
-void ReaderWindow::keyPressEvent(QKeyEvent *event) {
+void ReaderPage::keyPressEvent(QKeyEvent *event) {
     revealControls();
     if (event->key() != Qt::Key_Escape) {
         const auto custom = customKeys_.constFind(event->keyCombination().toCombined());
@@ -729,12 +805,7 @@ void ReaderWindow::keyPressEvent(QKeyEvent *event) {
     }
     // Foot pedals and presentation remotes send these keys.
     switch (event->key()) {
-    case Qt::Key_Escape:
-        if (editing_)
-            edit_->setChecked(false);
-        else
-            hide();
-        return;
+    case Qt::Key_Escape: emit writeRequested(); return;
     case Qt::Key_Space:
     case Qt::Key_MediaPlay:
     case Qt::Key_MediaTogglePlayPause: emit toggleRequested(); return;
@@ -752,27 +823,29 @@ void ReaderWindow::keyPressEvent(QKeyEvent *event) {
     }
 }
 
-// Without a title bar the window manager draws no borders, so the reader's own edges resize it.
+// Without a frame the window manager draws no borders, so the reader's own edges resize it.
 // The window system does the resizing, which also works on Wayland, where applications cannot
 // resize or move their windows themselves. Presses on the edges reach here because the bars and
 // the progress line do not use them.
-Qt::Edges ReaderWindow::edgesAt(const QPoint &point) const {
-    if (isMaximized() || isFullScreen())
+Qt::Edges ReaderPage::edgesAt(const QPoint &point) const {
+    const auto *top = window();
+    if (!resizable_ || top->isMaximized() || top->isFullScreen())
         return {};
+    const QPoint at = mapTo(top, point);
     constexpr int border = Design::Metric::space2;
     Qt::Edges edges;
-    if (point.x() < border)
+    if (at.x() < border)
         edges |= Qt::LeftEdge;
-    else if (point.x() >= width() - border)
+    else if (at.x() >= top->width() - border)
         edges |= Qt::RightEdge;
-    if (point.y() < border)
+    if (at.y() < border)
         edges |= Qt::TopEdge;
-    else if (point.y() >= height() - border)
+    else if (at.y() >= top->height() - border)
         edges |= Qt::BottomEdge;
     return edges;
 }
 
-void ReaderWindow::mouseMoveEvent(QMouseEvent *event) {
+void ReaderPage::mouseMoveEvent(QMouseEvent *event) {
     const auto edges = edgesAt(event->position().toPoint());
     const bool horizontal = edges & (Qt::LeftEdge | Qt::RightEdge), vertical = edges & (Qt::TopEdge | Qt::BottomEdge);
     if (horizontal && vertical)
@@ -786,33 +859,29 @@ void ReaderWindow::mouseMoveEvent(QMouseEvent *event) {
     QWidget::mouseMoveEvent(event);
 }
 
-void ReaderWindow::mousePressEvent(QMouseEvent *event) {
+void ReaderPage::mousePressEvent(QMouseEvent *event) {
     const auto edges = edgesAt(event->position().toPoint());
-    if (event->button() == Qt::LeftButton && edges && windowHandle() && windowHandle()->startSystemResize(edges)) {
+    if (event->button() == Qt::LeftButton && edges && window()->windowHandle() &&
+        window()->windowHandle()->startSystemResize(edges)) {
         event->accept();
         return;
     }
     QWidget::mousePressEvent(event);
 }
 
-void ReaderWindow::leaveEvent(QEvent *event) {
+void ReaderPage::leaveEvent(QEvent *event) {
     unsetCursor();
     QWidget::leaveEvent(event);
 }
 
-bool ReaderWindow::eventFilter(QObject *object, QEvent *event) {
+bool ReaderPage::eventFilter(QObject *object, QEvent *event) {
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::Enter ||
         event->type() == QEvent::MouseButtonPress)
         revealControls();
-    // While reading, the text view forwards control keys instead of scrolling.
-    if (object == text && event->type() == QEvent::KeyPress && !editing_) {
+    // The text view forwards control keys instead of scrolling.
+    if (object == text && event->type() == QEvent::KeyPress) {
         keyPressEvent(static_cast<QKeyEvent *>(event));
         return event->isAccepted();
-    }
-    if (object == text && event->type() == QEvent::KeyPress && editing_ &&
-        static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
-        edit_->setChecked(false);
-        return true;
     }
     return QWidget::eventFilter(object, event);
 }

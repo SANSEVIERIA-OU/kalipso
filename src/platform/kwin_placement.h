@@ -12,4 +12,9 @@ namespace KWinPlacement {
 bool load();
 // Unloads the script if load() loaded it.
 void unload();
+// Whether the script runs: then KWin frames, places and stacks the window, and Kalipso only says
+// with its title whether it is reading (see readingMark).
+bool active();
+// Starts the window title while reading. Invisible; the script looks for it.
+inline constexpr char16_t readingMark = u'\u2060';
 } // namespace KWinPlacement

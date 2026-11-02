@@ -26,6 +26,28 @@ int ScriptHighlighter::frontMatterEnd() {
     return end;
 }
 
+int ScriptHighlighter::headingMarks(const QTextBlock &block) {
+    if (!block.isValid() || block.position() < frontMatterEnd())
+        return 0;
+    const auto text = block.text();
+    if (ScriptTracker::headings(text).isEmpty())
+        return 0;
+    static const QRegularExpression mark(QStringLiteral(R"(^\s*#+\s*)"));
+    const auto found = mark.match(text);
+    return found.hasMatch() ? int(found.capturedLength()) : 0;
+}
+
+double ScriptHighlighter::headingSize(const QTextBlock &block) {
+    if (headingScale_ <= 0 || headingMarks(block) == 0)
+        return 1.0;
+    const auto text = block.text().trimmed();
+    int level = 0;
+    while (level < text.size() && text.at(level) == u'#')
+        ++level;
+    static constexpr double levels[] = {1.35, 1.20, 1.15, 1.10};
+    return headingScale_ * (level >= 1 && level <= 4 ? levels[level - 1] : 1.0);
+}
+
 void ScriptHighlighter::highlightBlock(const QString &text) {
     if (currentBlock().position() < frontMatterEnd()) {
         QTextCharFormat metadata;
@@ -38,14 +60,15 @@ void ScriptHighlighter::highlightBlock(const QString &text) {
     QTextCharFormat hidden;
     hidden.setForeground(Qt::transparent);
     hidden.setFontPointSize(1);
-    if (!ScriptTracker::headings(text).isEmpty()) {
+    if (const int marks = headingMarks(currentBlock()); marks > 0) {
         QTextCharFormat heading;
-        heading.setFontWeight(QFont::Bold);
+        heading.setFontWeight(headingWeight_);
         heading.setForeground(heading_);
+        if (const double size = headingSize(currentBlock()); size != 1.0)
+            heading.setFontPointSize((textPoints_ > 0 ? textPoints_ : document()->defaultFont().pointSizeF()) * size);
         setFormat(0, int(text.size()), heading);
-        static const QRegularExpression mark(QStringLiteral(R"(^\s*#+\s*)"));
-        if (const auto found = mark.match(text); hideMarks_ && found.hasMatch())
-            setFormat(0, int(found.capturedLength()), hidden);
+        if (hideMarks_ || hideHeadingMarks_)
+            setFormat(0, marks, hidden);
         return;
     }
     // Markdown emphasis: **bold** and *italic*, with the markers dimmed.

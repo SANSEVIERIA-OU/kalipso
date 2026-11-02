@@ -13,6 +13,7 @@ class QComboBox;
 class QProgressBar;
 class QPropertyAnimation;
 class QToolButton;
+class QPushButton;
 class QAbstractButton;
 class QPainter;
 class ScriptHighlighter;
@@ -33,8 +34,13 @@ public:
     Mirror mirror() const { return mirror_; }
     // Fraction of the visible height, from the top, where the current line sits.
     void setReadingLine(double fraction);
-    // Room above the first line for the bar that floats over the text.
+    // Room above the first line for the bar that floats over the text, and the height of the bar
+    // over the last lines: the lines under it fade out above it instead of being cut.
     void setTopInset(int pixels);
+    void setBottomBar(int pixels) {
+        bottomBar_ = pixels;
+        viewport()->update();
+    }
     void scrollToCharacter(int character, bool animate);
     void setTextColor(const QColor &color) { textColor_ = color; }
     void setFadeColor(const QColor &color) { fadeColor_ = color; }
@@ -65,17 +71,20 @@ private:
     QColor textColor_, markerColor_, fadeColor_;
     ScriptHighlighter *highlighter_;
     int topInset_ = 0;
+    int bottomBar_ = 0;
     QPropertyAnimation *scroll_;
 };
 
-// Frameless, always-on-top reading window placed near the camera.
-class ReaderWindow : public QWidget {
+// The reading view of the one Kalipso window: the script large, the current line at a fixed
+// height, and two bars that float over the text and fade while reading. MainWindow shows it in
+// place of the editor and turns the window into the reader near the camera.
+class ReaderPage : public QWidget {
     Q_OBJECT
 public:
-    explicit ReaderWindow(QWidget *parent = nullptr);
+    explicit ReaderPage(QWidget *parent = nullptr);
+    ~ReaderPage() override;
     ReaderView *text;
 
-    void showOn(QScreen *screen);
     void highlight(int position, int length);
     // Character at the reading line (the current word, or where reading starts).
     int anchor() const { return position_; }
@@ -89,11 +98,13 @@ public:
     void setMode(ReadingMode mode);
     void setRunning(bool running, const QString &status);
     void setStatus(const QString &status);
+    // Voice following cannot start yet (no language): the start button says "Choose language" and
+    // sends blockedRequested() instead.
+    void setBlocked(bool blocked);
     // Shows the controls and the status, which hide while reading, until the reader is idle again.
     void revealControls();
     void setSpeed(int wordsPerMinute);
     void setSections(const QVector<Section> &sections);
-    void setCaptureExcluded(bool excluded);
     // Shows a large number over the text; 0 hides it.
     void showCountdown(int seconds);
     void setTitle(const QString &title);
@@ -101,6 +112,8 @@ public:
     void setAutoHideControls(bool hide);
     bool controlsVisible() const { return controlsVisible_; }
     void setProgress(int read, int total);
+    // The window has no frame while reading: the page's edges resize it.
+    void setResizableEdges(bool resizable);
 
     QString colorSource() const { return backdrop_->source(); }
     bool usesWindowPortal() const { return backdrop_->usesWindowPortal(); }
@@ -119,28 +132,31 @@ signals:
     void modeRequested(ReadingMode mode);
     void jumpRequested(int character);
     void colorStatus(const QString &text);
-    void hidden();
+    // Back to writing (the Write button or Esc).
+    void writeRequested();
+    void settingsRequested();
+    // The primary button while blocked (see setBlocked()).
+    void blockedRequested();
 
 protected:
-    void showEvent(QShowEvent *event) override;
-    void hideEvent(QHideEvent *event) override;
-    void moveEvent(QMoveEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void leaveEvent(QEvent *event) override;
+    void changeEvent(QEvent *event) override;
     bool eventFilter(QObject *object, QEvent *event) override;
 
 private:
     Qt::Edges edgesAt(const QPoint &point) const;
     void applyPalette(const Design::Palette &palette);
-    void saveGeometry();
     void updatePrimary();
+    void updateLabels();
     void setControlsVisible(bool visible);
     void trigger(ReaderAction action);
+    void placeBars();
 
-    StatusLabel *status_;
+    StatusLabel *status_ = nullptr;
     QPushButton *primary_;
     QToolButton *modes_;
     DragHandle *handle_;
@@ -149,26 +165,26 @@ private:
     QWidget *speedBox_;
     QLabel *speed_;
     QToolButton *sections_;
+    QPushButton *settings_;
+    QPushButton *write_;
     QLabel *countdown_;
-    QPushButton *edit_;
     Backdrop *backdrop_;
     Design::Palette colors_ = Design::dark;
     QString resolvedTheme_ = "dark";
     QElapsedTimer paletteAge_;
     ReadingMode readingMode_ = ReadingMode::Voice;
     bool running_ = false;
-    bool editing_ = false;
-    bool compact_ = false;
+    bool blocked_ = false;
+    int compact_ = -1; // 0 full labels … 3 fewest controls; -1 before the first layout.
+    int overlap_ = 0;  // How much of the text the bottom bar covers while it shows.
     QString fontFamily_;
     int textPoints_ = 28;
     bool autoHide_ = true;
     bool controlsVisible_ = true;
+    bool resizable_ = false;
     QTimer idle_;
     QList<QWidget *> bars_; // Float over the text: hidden, they give it their room.
-    void placeBars();
+    QList<QWidget *> steps_; // Previous and next word.
     QHash<int, ReaderAction> customKeys_;
-    bool captureExcluded_ = false;
-    bool placing_ = false;
     int position_ = 0, length_ = 0;
-    QPointer<QScreen> screen_;
 };

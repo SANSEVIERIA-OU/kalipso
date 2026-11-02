@@ -82,14 +82,6 @@
         <translation>Kalipso</translation>
     </message>
     <message>
-        <source>Open reader</source>
-        <translation>Apri il lettore</translation>
-    </message>
-    <message>
-        <source>Read from cursor</source>
-        <translation>Leggi dal cursore</translation>
-    </message>
-    <message>
         <source>Paste or write the script you want to read…
 
 [Bracketed cues] are shown but not read aloud. Lines starting with # become sections you can jump to.</source>
@@ -112,10 +104,6 @@ Le [indicazioni tra parentesi quadre] si vedono ma non si leggono ad alta voce. 
     <message>
         <source>Ready to write.</source>
         <translation>Pronto per scrivere.</translation>
-    </message>
-    <message>
-        <source>Paused. The reader is hidden and the microphone is off.</source>
-        <translation>In pausa. Il lettore è nascosto e il microfono è spento.</translation>
     </message>
     <message>
         <source>Script saved.</source>
@@ -498,14 +486,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Le ultime modifiche non sono state salvate. Chiudere comunque Kalipso e perderle?</translation>
     </message>
     <message>
-        <source>Open the reader near your camera (Ctrl+Enter)</source>
-        <translation>Apri il lettore vicino alla videocamera (Ctrl+Invio)</translation>
-    </message>
-    <message>
-        <source>Start reading at the word under the text cursor</source>
-        <translation>Inizia a leggere dalla parola sotto il cursore</translation>
-    </message>
-    <message>
         <source>Kalipso settings</source>
         <translation>Impostazioni di Kalipso</translation>
     </message>
@@ -561,14 +541,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         </translation>
     </message>
     <message>
-        <source>Scrolling · %1</source>
-        <translation>Scorrimento · %1</translation>
-    </message>
-    <message>
-        <source>Paused · %1</source>
-        <translation>In pausa · %1</translation>
-    </message>
-    <message>
         <source>Hide the reader&apos;s controls while reading</source>
         <translation>Nascondi i comandi del lettore durante la lettura</translation>
     </message>
@@ -590,10 +562,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
             <numerusform>circa %n min</numerusform>
             <numerusform>circa %n min</numerusform>
         </translation>
-    </message>
-    <message>
-        <source>Word %1 of %2 · %3</source>
-        <translation>Parola %1 di %2 · %3</translation>
     </message>
     <message>
         <source>Interface font</source>
@@ -988,10 +956,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Scrivi o importa il copione</translation>
     </message>
     <message>
-        <source>Paste your text, or import a document, Markdown or the speaker notes of a presentation. Then open the reader under your camera.</source>
-        <translation>Incolla il testo, oppure importa un documento, un file Markdown o le note di una presentazione. Poi apri il lettore sotto la webcam.</translation>
-    </message>
-    <message>
         <source>Ready: Kalipso listens in %1, on this computer.</source>
         <translation>Pronto: Kalipso ascolta in %1, su questo computer.</translation>
     </message>
@@ -1006,10 +970,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Paused · microphone off</source>
         <translation>In pausa · microfono spento</translation>
-    </message>
-    <message>
-        <source>Choose the language you speak in Settings</source>
-        <translation>Scegli in Impostazioni la lingua in cui parli</translation>
     </message>
     <message>
         <source>Microphone off until you start</source>
@@ -1046,6 +1006,76 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Phone as a remote</source>
         <translation>Telefono come telecomando</translation>
+    </message>
+    <message>
+        <source>Read</source>
+        <translation>Leggi</translation>
+    </message>
+    <message>
+        <source>This window becomes the reader, near your camera (Ctrl+Enter)</source>
+        <translation>Questa finestra diventa il gobbo, vicino alla webcam (Ctrl+Invio)</translation>
+    </message>
+    <message>
+        <source>Read from here</source>
+        <translation>Leggi da qui</translation>
+    </message>
+    <message>
+        <source>Read from the word under the text cursor</source>
+        <translation>Leggi dalla parola sotto il cursore</translation>
+    </message>
+    <message>
+        <source>Empty</source>
+        <translation>Vuoto</translation>
+    </message>
+    <message>
+        <source>under 1 min</source>
+        <translation>meno di 1 min</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n min</source>
+        <translation>
+            <numerusform>%n min</numerusform>
+            <numerusform>%n min</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>yesterday</source>
+        <translation>ieri</translation>
+    </message>
+    <message>
+        <source>%1 · %2</source>
+        <translation>%1 · %2</translation>
+    </message>
+    <message>
+        <source>Paused. Back to writing: the microphone is off.</source>
+        <translation>In pausa. Sei tornato a scrivere: il microfono è spento.</translation>
+    </message>
+    <message>
+        <source>%1 — Kalipso</source>
+        <translation>%1 — Kalipso</translation>
+    </message>
+    <message>
+        <source>Kalipso asked the system to hide this reader from screen sharing. Check the view from another participant.</source>
+        <translation>Kalipso ha chiesto al sistema di nascondere questo lettore dalle condivisioni dello schermo. Verifica la vista di un altro partecipante.</translation>
+    </message>
+    <message>
+        <source>Screen sharing may include this reader.</source>
+        <translation>La condivisione dello schermo può includere questo lettore.</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n word(s)</source>
+        <translation>
+            <numerusform>%n parola</numerusform>
+            <numerusform>%n parole</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Paste your text, or import a document, Markdown or the speaker notes of a presentation. Then press Read: this window becomes the reader, under your camera.</source>
+        <translation>Incolla il testo, oppure importa un documento, un file Markdown o le note di una presentazione. Poi premi Leggi: questa finestra diventa il gobbo, sotto la webcam.</translation>
+    </message>
+    <message>
+        <source>Microphone off · no language chosen yet</source>
+        <translation>Microfono spento · manca la lingua</translation>
     </message>
 </context>
 <context>
@@ -1166,14 +1196,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
 </context>
 <context>
-    <name>ReaderView</name>
-    <message>
-        <source>Kalipso script</source>
-        <translation>Copione di Kalipso</translation>
-    </message>
-</context>
-<context>
-    <name>ReaderWindow</name>
+    <name>ReaderPage</name>
     <message>
         <source>Kalipso reader</source>
         <translation>Lettore di Kalipso</translation>
@@ -1191,20 +1214,56 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Vai alla sezione</translation>
     </message>
     <message>
-        <source>Edit</source>
-        <translation>Modifica</translation>
+        <source>Jump to a section</source>
+        <translation>Vai a una sezione</translation>
     </message>
     <message>
-        <source>Hide</source>
-        <translation>Nascondi</translation>
+        <source>Settings</source>
+        <translation>Impostazioni</translation>
     </message>
     <message>
-        <source>Add your script in the editor to begin.</source>
-        <translation>Aggiungi il copione nell&apos;editor per iniziare.</translation>
+        <source>Write</source>
+        <translation>Scrivi</translation>
     </message>
     <message>
-        <source>Start listening</source>
-        <translation>Inizia ad ascoltare</translation>
+        <source>Back to writing (Esc)</source>
+        <translation>Torna a scrivere (Esc)</translation>
+    </message>
+    <message>
+        <source>Reading progress</source>
+        <translation>Avanzamento della lettura</translation>
+    </message>
+    <message>
+        <source>Write your script first: press Write.</source>
+        <translation>Prima scrivi il copione: premi Scrivi.</translation>
+    </message>
+    <message>
+        <source>Previous word (← or Page Up)</source>
+        <translation>Parola precedente (← o Pag↑)</translation>
+    </message>
+    <message>
+        <source>Previous word</source>
+        <translation>Parola precedente</translation>
+    </message>
+    <message>
+        <source>Next word (→ or Page Down)</source>
+        <translation>Parola successiva (→ o Pag↓)</translation>
+    </message>
+    <message>
+        <source>Next word</source>
+        <translation>Parola successiva</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Avvio</translation>
+    </message>
+    <message>
+        <source>Start or pause (Space)</source>
+        <translation>Avvia o metti in pausa (Spazio)</translation>
+    </message>
+    <message>
+        <source>How the reader advances</source>
+        <translation>Come avanza il testo</translation>
     </message>
     <message>
         <source>Manual</source>
@@ -1219,8 +1278,16 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Segui la mia voce</translation>
     </message>
     <message>
+        <source>Slower (−)</source>
+        <translation>Più lento (−)</translation>
+    </message>
+    <message>
         <source>Slower</source>
         <translation>Più lento</translation>
+    </message>
+    <message>
+        <source>Faster (+)</source>
+        <translation>Più veloce (+)</translation>
     </message>
     <message>
         <source>Faster</source>
@@ -1231,80 +1298,39 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Microfono spento</translation>
     </message>
     <message>
-        <source>Drag to resize the reader</source>
-        <translation>Trascina per ridimensionare il lettore</translation>
+        <source>Reading mode: %1</source>
+        <translation>Modalità di lettura: %1</translation>
     </message>
     <message>
-        <source>Done</source>
-        <translation>Fatto</translation>
+        <source>Voice</source>
+        <translation>Voce</translation>
     </message>
     <message>
-        <source>Pause scrolling</source>
-        <translation>Metti in pausa</translation>
+        <source>Steady</source>
+        <translation>Costante</translation>
     </message>
     <message>
-        <source>Start scrolling</source>
-        <translation>Avvia lo scorrimento</translation>
-    </message>
-    <message>
-        <source>Pause listening</source>
-        <translation>Metti in pausa l&apos;ascolto</translation>
+        <source>Pause</source>
+        <translation>Pausa</translation>
     </message>
     <message>
         <source>%1 words/min</source>
         <translation>%1 parole/min</translation>
     </message>
     <message>
-        <source>Kalipso asked the system to hide this reader from screen sharing. Check the view from another participant.</source>
-        <translation>Kalipso ha chiesto al sistema di nascondere questo lettore dalle condivisioni dello schermo. Verifica la vista di un altro partecipante.</translation>
+        <source>Choose language</source>
+        <translation>Scegli la lingua</translation>
     </message>
     <message>
-        <source>Screen sharing may include this reader.</source>
-        <translation>La condivisione dello schermo può includere questo lettore.</translation>
+        <source>Choose the language you speak, in Settings</source>
+        <translation>Scegli nelle Impostazioni la lingua in cui parli</translation>
     </message>
+</context>
+<context>
+    <name>ReaderView</name>
     <message>
-        <source>Edit the script in the reader</source>
-        <translation>Modifica il copione nel lettore</translation>
-    </message>
-    <message>
-        <source>Hide the reader (Esc). The microphone turns off.</source>
-        <translation>Nascondi il lettore (Esc). Il microfono si spegne.</translation>
-    </message>
-    <message>
-        <source>Reading progress</source>
-        <translation>Avanzamento della lettura</translation>
-    </message>
-    <message>
-        <source>Previous word</source>
-        <translation>Parola precedente</translation>
-    </message>
-    <message>
-        <source>Previous word (← or Page Up)</source>
-        <translation>Parola precedente (← o Pag↑)</translation>
-    </message>
-    <message>
-        <source>Next word</source>
-        <translation>Parola successiva</translation>
-    </message>
-    <message>
-        <source>Next word (→ or Page Down)</source>
-        <translation>Parola successiva (→ o Pag↓)</translation>
-    </message>
-    <message>
-        <source>Start or pause (Space)</source>
-        <translation>Avvia o metti in pausa (Spazio)</translation>
-    </message>
-    <message>
-        <source>Slower (−)</source>
-        <translation>Più lento (−)</translation>
-    </message>
-    <message>
-        <source>Faster (+)</source>
-        <translation>Più veloce (+)</translation>
-    </message>
-    <message>
-        <source>Reading mode: %1</source>
-        <translation>Modalità di lettura: %1</translation>
+        <source>Kalipso script</source>
+        <translation>Copione di Kalipso</translation>
     </message>
 </context>
 <context>

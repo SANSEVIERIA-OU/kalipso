@@ -3,6 +3,9 @@
 #include "design_tokens.h"
 #include <QAbstractButton>
 #include <QFocusEvent>
+#include <QGraphicsOpacityEffect>
+#include <QPropertyAnimation>
+#include <QWidget>
 #include <QPainter>
 #include <QProcess>
 #include <QSettings>
@@ -50,6 +53,22 @@ void pressed(QPainter &painter, const QRectF &rect) {
     painter.translate(centre);
     painter.scale(0.97, 0.97);
     painter.translate(-centre);
+}
+
+void fadeIn(QWidget *widget) {
+    if (reduced() || !widget)
+        return;
+    auto *effect = new QGraphicsOpacityEffect(widget);
+    effect->setOpacity(0);
+    widget->setGraphicsEffect(effect);
+    auto *fade = new QPropertyAnimation(effect, "opacity", effect);
+    fade->setDuration(Design::Duration::enter);
+    fade->setEasingCurve(QEasingCurve::OutCubic);
+    fade->setStartValue(0.0);
+    fade->setEndValue(1.0);
+    // Without the effect afterwards: it would keep drawing the whole view off screen first.
+    QObject::connect(fade, &QPropertyAnimation::finished, widget, [widget] { widget->setGraphicsEffect(nullptr); });
+    fade->start();
 }
 } // namespace Motion
 

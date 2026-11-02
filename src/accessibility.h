@@ -245,12 +245,22 @@ inline QColor muted(const QPalette &p) {
 // quiet buttons are flat, the one primary action takes the accent colour, secondary text is muted.
 // No style sheet: under one, Qt fixes each control's colours when it first polishes it, and they
 // would stay light when the desktop turns dark. Call again when the desktop's colours change.
+// A view marked with the property "ownLook" (the reader) keeps its own colours and style and is
+// left alone.
 inline void applyNative(QWidget *widget, const QPalette &colors) {
     widget->setStyleSheet(QString());
     widget->setPalette(colors);
     const QPalette used = widget->palette();
     const QColor secondary = muted(used);
+    const auto own = [widget](QWidget *child) {
+        for (auto *ancestor = child; ancestor && ancestor != widget; ancestor = ancestor->parentWidget())
+            if (ancestor->property("ownLook").toBool())
+                return true;
+        return false;
+    };
     for (auto *label : widget->findChildren<QLabel *>()) {
+        if (own(label))
+            continue;
         const auto role = label->property("role").toString();
         if (role == QLatin1String("muted")) {
             QPalette own; // Only the text colour is Kalipso's; the rest follows the window.
@@ -263,6 +273,8 @@ inline void applyNative(QWidget *widget, const QPalette &colors) {
         }
     }
     for (auto *button : widget->findChildren<QPushButton *>()) {
+        if (own(button))
+            continue;
         if (button->property("quiet").toBool())
             button->setFlat(true);
         if (button->objectName() == QLatin1String("primaryAction") || button->property("primary").toBool()) {
@@ -281,7 +293,7 @@ inline void applyNative(QWidget *widget, const QPalette &colors) {
         }
     }
     for (auto *button : widget->findChildren<QToolButton *>())
-        if (button->property("quiet").toBool())
+        if (button->property("quiet").toBool() && !own(button))
             button->setAutoRaise(true);
 }
 // Whether the desktop asks for dark colours.

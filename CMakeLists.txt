@@ -70,7 +70,7 @@ endif()
 # --- Standalone application -----------------------------------------------------
 add_library(kalipso_app STATIC
   src/window.cpp src/reader.cpp src/backdrop.cpp src/library.cpp src/import.cpp src/remote.cpp
-  src/script_highlighter.cpp src/session_stats.cpp src/impress.cpp src/icons.cpp src/motion.cpp
+  src/script_highlighter.cpp src/script_editor.cpp src/session_stats.cpp src/impress.cpp src/icons.cpp src/motion.cpp
   src/platform/capture_exclusion.cpp src/platform/kwin_placement.cpp)
 target_link_libraries(kalipso_app PUBLIC kalipso_downloads Qt6::Widgets Qt6::Network Qt6::Svg PRIVATE kalipso_vendor)
 file(GLOB KALIPSO_ICONS CONFIGURE_DEPENDS
@@ -174,6 +174,9 @@ if(BUILD_TESTING)
   add_dependencies(system_speech_tests fake_system_speech)
   add_test(NAME system_speech COMMAND system_speech_tests)
 
+  # Every screen in every combination, checked and photographed (run by hand under each desktop look).
+  add_executable(layout_matrix tests/layout_matrix.cpp)
+  target_link_libraries(layout_matrix PRIVATE kalipso_app Qt6::Test)
   add_executable(ui_tests tests/ui_tests.cpp)
   target_link_libraries(ui_tests PRIVATE kalipso_app Qt6::Test)
   target_compile_definitions(ui_tests PRIVATE FAKE_MOONSHINE_LIBRARY="$<TARGET_FILE:fake_moonshine>")

@@ -5,7 +5,9 @@
 #include "import.h"
 #include "impress.h"
 #include "platform/capture_exclusion.h"
+#include "platform/kwin_placement.h"
 #include "remote.h"
+#include "script_editor.h"
 #include "script_highlighter.h"
 #include "speech_assets.h"
 #include "speech_download.h"
@@ -28,6 +30,7 @@
 #include <QKeySequenceEdit>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QStyledItemDelegate>
 #include <QMenu>
 #include <QMessageBox>
 #include <QPainter>
@@ -49,6 +52,7 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QWheelEvent>
+#include <QWindow>
 #include <algorithm>
 #include <functional>
 
@@ -230,30 +234,58 @@ private:
     int labelWidth_ = 0;
 };
 
-// The script as a comfortable reading column, centred in wide windows.
-class ScriptEditor : public QPlainTextEdit {
-protected:
-    void resizeEvent(QResizeEvent *event) override {
-        QPlainTextEdit::resizeEvent(event);
-        updateColumn();
+// A script in the list: its title, and under it how long it takes to read and when it changed,
+// like notes in a notebook. The style draws the row (selection, hover); the delegate the text.
+class ScriptItemDelegate : public QStyledItemDelegate {
+public:
+    using QStyledItemDelegate::QStyledItemDelegate;
+    static constexpr int MetaRole = Qt::UserRole + 1;
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
+        QStyleOptionViewItem item(option);
+        initStyleOption(&item, index);
+        const QString title = item.text;
+        item.text.clear();
+        const auto *style = item.widget ? item.widget->style() : QApplication::style();
+        style->drawControl(QStyle::CE_ItemViewItem, &item, painter, item.widget);
+        const bool selected = item.state & QStyle::State_Selected;
+        const auto group = !(item.state & QStyle::State_Enabled) ? QPalette::Disabled
+                           : (item.state & QStyle::State_Active) ? QPalette::Active
+                                                                  : QPalette::Inactive;
+        const QColor text = item.palette.color(group, selected ? QPalette::HighlightedText : QPalette::Text);
+        const QColor secondary = selected ? text : Accessibility::muted(item.palette);
+        const QRect area = item.rect.adjusted(Design::Metric::space3, Design::Metric::space2, -Design::Metric::space3,
+                                              -Design::Metric::space2);
+        painter->save();
+        // As the KDE guidelines ask: the selected script in bold.
+        QFont strong = item.font;
+        strong.setWeight(selected ? QFont::DemiBold : QFont::Normal);
+        const QFontMetrics titleMetrics(strong);
+        painter->setFont(strong);
+        painter->setPen(text);
+        painter->drawText(QRect(area.topLeft(), QSize(area.width(), titleMetrics.height())),
+                          Qt::AlignLeft | Qt::AlignVCenter, titleMetrics.elidedText(title, Qt::ElideRight, area.width()));
+        const QFont small = metaFont(item.font);
+        const QFontMetrics metaMetrics(small);
+        painter->setFont(small);
+        painter->setPen(secondary);
+        painter->drawText(QRect(area.left(), area.top() + titleMetrics.height() + Design::Metric::space1 / 2, area.width(),
+                                metaMetrics.height()),
+                          Qt::AlignLeft | Qt::AlignVCenter,
+                          metaMetrics.elidedText(index.data(MetaRole).toString(), Qt::ElideRight, area.width()));
+        painter->restore();
     }
-    void changeEvent(QEvent *event) override {
-        QPlainTextEdit::changeEvent(event);
-        if (event->type() == QEvent::FontChange)
-            updateColumn();
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const override {
+        QFont strong = option.font;
+        strong.setWeight(QFont::DemiBold);
+        return {0, QFontMetrics(strong).height() + Design::Metric::space1 / 2 + QFontMetrics(metaFont(option.font)).height() +
+                       2 * Design::Metric::space2};
     }
 
 private:
-    void updateColumn() {
-        const int column = fontMetrics().averageCharWidth() * 72;
-        const int side = std::max(Design::Metric::space5, (width() - column) / 2);
-        const QMargins margins(side, Design::Metric::space5, side, Design::Metric::space4);
-        if (margins == viewportMargins())
-            return;
-        setViewportMargins(margins);
-        // The text wraps at the viewport width: lay it out again for the new column.
-        QResizeEvent relayout(size(), QSize(-1, -1));
-        QPlainTextEdit::resizeEvent(&relayout);
+    static QFont metaFont(QFont font) {
+        font.setPointSizeF(font.pointSizeF() * 0.9);
+        return font;
     }
 };
 
@@ -350,7 +382,7 @@ ReadingMode modeFromKey(const QString &key) {
 } // namespace
 
 MainWindow::MainWindow(const QString &libraryDirectory)
-    : library_(libraryDirectory), speech_(this), prompter_(new ReaderWindow) {
+    : library_(libraryDirectory), speech_(this), prompter_(new ReaderPage) {
     Accessibility::useInterfaceStyle();
     Accessibility::useInterfaceFont();
     setWindowTitle(tr("Kalipso"));
@@ -372,10 +404,10 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     auto *settingsButton = new AccessibleButton(tr("Settings"));
     settingsButton->setObjectName("settingsButton");
     settingsButton->setProperty("quiet", true);
-    auto *show = new AccessibleButton(tr("Open reader"));
+    auto *show = new AccessibleButton(tr("Read"));
     show->setDefault(true);
     show->setObjectName("primaryAction");
-    show->setToolTip(tr("Open the reader near your camera (Ctrl+Enter)"));
+    show->setToolTip(tr("This window becomes the reader, near your camera (Ctrl+Enter)"));
     barLayout->addTrailing(settingsButton);
     barLayout->addTrailing(show);
     barLayout->addTrailing(more_);
@@ -405,7 +437,6 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     auto editorFont = script_->font();
     editorFont.setPointSizeF(editorFont.pointSizeF() * 1.4);
     script_->setFont(editorFont);
-    editorHighlighter_ = new ScriptHighlighter(script_->document());
     if (Accessibility::native()) {
         // The page is the whole editor, not a box in the middle of the window.
         script_->setFrameShape(QFrame::NoFrame);
@@ -422,7 +453,23 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     scriptList_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scriptList_->setBackgroundRole(QPalette::Window);
     scriptList_->viewport()->setBackgroundRole(QPalette::Window);
-    scriptList_->setSpacing(2);
+    scriptList_->setItemDelegate(new ScriptItemDelegate(scriptList_));
+    scriptList_->setSpacing(1);
+    // The list with its name above it, as in the desktop's sidebars.
+    libraryPanel_ = new QWidget;
+    libraryPanel_->setObjectName("libraryPanel");
+    auto *panel = new QVBoxLayout(libraryPanel_);
+    panel->setContentsMargins(Design::Metric::space2, Design::Metric::space3, Design::Metric::space2, 0);
+    panel->setSpacing(Design::Metric::space2);
+    auto *panelTitle = new QLabel(tr("Scripts"));
+    panelTitle->setObjectName("libraryTitle");
+    panelTitle->setProperty("role", "muted");
+    panelTitle->setContentsMargins(Design::Metric::space2, 0, 0, 0);
+    auto panelFont = panelTitle->font();
+    panelFont.setWeight(QFont::DemiBold);
+    panelTitle->setFont(panelFont);
+    panel->addWidget(panelTitle);
+    panel->addWidget(scriptList_, 1);
     connect(scriptList_, &QListWidget::currentItemChanged, this, [this](QListWidgetItem *item) {
         if (item)
             openScript(item->data(Qt::UserRole).toString());
@@ -434,9 +481,12 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     auto *split = new QSplitter;
     split->setObjectName("librarySplit");
     split->setChildrenCollapsible(false);
-    split->addWidget(scriptList_);
+    split->addWidget(libraryPanel_);
     split->addWidget(editorStack_);
     split->setStretchFactor(1, 1);
+    // It takes the height the window has: its preferred height (long scripts at 200%) must not make
+    // the whole window scroll around the editor, which scrolls by itself.
+    split->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     split->setSizes({fontMetrics().averageCharWidth() * 30, 900});
     layout->addWidget(split, 1);
     separator();
@@ -455,11 +505,11 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     position_->setToolTip(tr("The reading time is estimated at the steady speed. Ctrl+Enter opens the reader. In "
                              "the reader, arrow keys step and Space starts or pauses."));
     position_->setProperty("role", "muted");
-    auto *readHere = new AccessibleButton(tr("Read from cursor"));
+    auto *readHere = new AccessibleButton(tr("Read from here"));
     readHere_ = readHere;
     readHere->setObjectName("readHere");
     readHere->setProperty("quiet", true);
-    readHere->setToolTip(tr("Start reading at the word under the text cursor"));
+    readHere->setToolTip(tr("Read from the word under the text cursor"));
     statusLayout->addWidget(audioStatus_);
     statusLayout->addTrailing(position_);
     statusLayout->addTrailing(readHere);
@@ -469,7 +519,13 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     page->setWidgetResizable(true);
     page->setWidget(central);
     page->setFrameShape(QFrame::NoFrame);
-    setCentralWidget(page);
+    // One window, two views: writing, and reading near the camera.
+    writingView_ = page;
+    views_ = new QStackedWidget;
+    views_->setObjectName("views");
+    views_->addWidget(page);
+    views_->addWidget(prompter_);
+    setCentralWidget(views_);
 
     settings_ = new QDialog(this);
     settings_->setWindowTitle(tr("Kalipso settings"));
@@ -520,9 +576,10 @@ MainWindow::MainWindow(const QString &libraryDirectory)
         tracker_.setScript(script_->toPlainText());
         tracker_.seekCharacter(script_->textCursor().position());
         seekWord(tracker_.position());
+        showPrompter();
     });
 
-    connect(script_, &QPlainTextEdit::textChanged, this, [this] {
+    connect(script_, &QTextEdit::textChanged, this, [this] {
         const auto text = script_->toPlainText();
         if (text == scriptText_)
             return; // Formatting-only document change.
@@ -538,6 +595,9 @@ MainWindow::MainWindow(const QString &libraryDirectory)
         }
         prompter_->setSections(ScriptTracker::sections(text));
         prompter_->setTitle(ScriptLibrary::titleFor(text));
+        updateWindowTitle();
+        if (!loading_)
+            refreshCurrentRow();
         if (!loading_)
             autosave_.start();
         refreshReading();
@@ -549,23 +609,19 @@ MainWindow::MainWindow(const QString &libraryDirectory)
         if (script_->toPlainText() != text)
             replaceText(script_->document(), text);
     });
-    connect(prompter_, &ReaderWindow::step, this, [this](int delta) { seekWord(tracker_.position() + delta); });
-    connect(prompter_, &ReaderWindow::resetRequested, this, [this] { seekWord(-1); });
-    connect(prompter_, &ReaderWindow::jumpRequested, this, [this](int character) {
+    connect(prompter_, &ReaderPage::step, this, [this](int delta) { seekWord(tracker_.position() + delta); });
+    connect(prompter_, &ReaderPage::resetRequested, this, [this] { seekWord(-1); });
+    connect(prompter_, &ReaderPage::jumpRequested, this, [this](int character) {
         tracker_.seekCharacter(character);
         seekWord(tracker_.position());
     });
-    connect(prompter_, &ReaderWindow::toggleRequested, this, &MainWindow::toggleRunning);
-    connect(prompter_, &ReaderWindow::sectionRequested, this, &MainWindow::jumpSection);
-    connect(prompter_, &ReaderWindow::speedRequested, this, &MainWindow::changeSpeed);
-    connect(prompter_, &ReaderWindow::modeRequested, this, &MainWindow::setMode);
-    connect(prompter_, &ReaderWindow::hidden, this, [this] {
-        // Hiding the reader always releases the microphone; showing it never resumes.
-        if (running()) {
-            pauseRunning();
-            audioStatus_->setText(tr("Paused. The reader is hidden and the microphone is off."));
-        }
-    });
+    connect(prompter_, &ReaderPage::toggleRequested, this, &MainWindow::toggleRunning);
+    connect(prompter_, &ReaderPage::sectionRequested, this, &MainWindow::jumpSection);
+    connect(prompter_, &ReaderPage::speedRequested, this, &MainWindow::changeSpeed);
+    connect(prompter_, &ReaderPage::modeRequested, this, &MainWindow::setMode);
+    connect(prompter_, &ReaderPage::writeRequested, this, &MainWindow::showWriting);
+    connect(prompter_, &ReaderPage::settingsRequested, this, [this] { showSettings(); });
+    connect(prompter_, &ReaderPage::blockedRequested, this, [this] { showSettings(voiceLanguage_); });
 
     connect(&speech_, &SpeechService::status, this, [this](const QString &message) {
         speechStatus_ = message;
@@ -651,12 +707,12 @@ MainWindow::MainWindow(const QString &libraryDirectory)
 }
 
 MainWindow::~MainWindow() {
+    dropIfEmpty();
     saveScript();
     saveSettings();
     speech_.stop();
     disconnect(&speech_, nullptr, this, nullptr);
     disconnect(prompter_, nullptr, this, nullptr);
-    delete prompter_;
 }
 
 // --- Script library ---------------------------------------------------------
@@ -782,7 +838,7 @@ void MainWindow::applyTheme() {
         Accessibility::apply(settings_, *tokens);
     }
     const QPalette &used = palette();
-    editorHighlighter_->setColors(Accessibility::muted(used), used.color(QPalette::Text));
+    script_->setColors(Accessibility::muted(used), used.color(QPalette::Text));
     for (const auto &[button, name] : icons_) {
         // The window's new colours: while the desktop's change travels down, a button can still have
         // the old ones. The primary action's colours were just set above.
@@ -810,13 +866,12 @@ void MainWindow::refreshLibrary() {
     const QSignalBlocker blockList(scriptList_);
     scripts_->clear();
     scriptList_->clear();
-    const int rowHeight = fontMetrics().height() + 2 * Design::Metric::space3;
     for (const auto &entry : library_.entries()) {
         scripts_->addItem(entry.title, entry.id);
         auto *item = new QListWidgetItem(entry.title, scriptList_);
         item->setData(Qt::UserRole, entry.id);
+        item->setData(ScriptItemDelegate::MetaRole, scriptMeta(entry));
         item->setToolTip(entry.title);
-        item->setSizeHint({0, rowHeight});
         if (entry.id == currentId_)
             scriptList_->setCurrentItem(item);
     }
@@ -824,9 +879,28 @@ void MainWindow::refreshLibrary() {
     scripts_->updateGeometry();
 }
 
+// "2 min · 14:32": how long the script takes to read at its steady speed, and when it changed.
+QString MainWindow::scriptMeta(const ScriptLibrary::Entry &entry) const {
+    ScriptTracker counter;
+    counter.setScript(entry.id == currentId_ ? script_->toPlainText() : library_.load(entry.id));
+    const int speed = entry.speed > 0 ? entry.speed : wordsPerMinute_;
+    const int words = counter.count();
+    const int minutes = (words + speed - 1) / std::max(1, speed);
+    const auto length = words == 0 ? tr("Empty") : minutes <= 1 ? tr("under 1 min") : tr("%n min", nullptr, minutes);
+    const auto when = entry.modified.toLocalTime();
+    const auto today = QDate::currentDate();
+    const auto date = when.date() == today                ? QLocale().toString(when.time(), QLocale::ShortFormat)
+                      : when.date() == today.addDays(-1) ? tr("yesterday")
+                      : when.date().year() == today.year() ? QLocale().toString(when.date(), QStringLiteral("d MMM"))
+                                                          : QLocale().toString(when.date(), QStringLiteral("d MMM yyyy"));
+    return when.isValid() ? tr("%1 · %2").arg(length, date) : length;
+}
+
 void MainWindow::openScript(const QString &id) {
     if (id == currentId_ && !id.isEmpty())
         return;
+    if (id != currentId_)
+        dropIfEmpty(); // An empty script is not kept, as with notes.
     if (!saveScript()) {
         refreshLibrary(); // Keep the picker on the script that could not be saved.
         return;
@@ -840,6 +914,7 @@ void MainWindow::openScript(const QString &id) {
     QSettings().setValue("library/current", id);
     loading_ = true;
     script_->setPlainText(library_.load(id));
+    script_->spaceLines();
     loading_ = false;
     tracker_.setScript(script_->toPlainText());
     if (character >= 0)
@@ -866,16 +941,37 @@ bool MainWindow::saveScript() {
             audioStatus_->setText(tr("Cannot save the script. Check the available disk space."));
             return false;
         }
-        const int index = scripts_->findData(currentId_);
-        if (index >= 0)
-            scripts_->setItemText(index, ScriptLibrary::titleFor(text));
-        if (auto *item = scriptList_->currentItem(); item && item->data(Qt::UserRole).toString() == currentId_) {
-            item->setText(ScriptLibrary::titleFor(text));
-            item->setToolTip(item->text());
-        }
+        refreshCurrentRow();
     }
     library_.flush();
     return true;
+}
+
+// The current script's title and length in the list and the picker, as you type.
+void MainWindow::refreshCurrentRow() {
+    if (!persist_ || currentId_.isEmpty())
+        return;
+    const auto title = ScriptLibrary::titleFor(script_->toPlainText());
+    if (const int index = scripts_->findData(currentId_); index >= 0 && scripts_->itemText(index) != title)
+        scripts_->setItemText(index, title);
+    auto *item = scriptList_->currentItem();
+    if (!item || item->data(Qt::UserRole).toString() != currentId_)
+        return;
+    item->setText(title);
+    item->setToolTip(title);
+    for (auto entry : library_.entries())
+        if (entry.id == currentId_) {
+            entry.modified = QDateTime::currentDateTime(); // Changed now, saved in a moment.
+            item->setData(ScriptItemDelegate::MetaRole, scriptMeta(entry));
+        }
+}
+
+void MainWindow::dropIfEmpty() {
+    if (!persist_ || currentId_.isEmpty() || !script_->toPlainText().trimmed().isEmpty())
+        return;
+    autosave_.stop();
+    library_.remove(currentId_);
+    currentId_.clear();
 }
 
 void MainWindow::newScript() {
@@ -1000,6 +1096,7 @@ void MainWindow::setDemoScript() {
     persist_ = false;
     loading_ = true;
     script_->setPlainText(sampleScript());
+    script_->spaceLines();
     loading_ = false;
     {
         const QSignalBlocker block(scripts_);
@@ -1019,12 +1116,15 @@ void MainWindow::setDemoScript() {
 
 void MainWindow::loadSample() {
     welcomeDismissed_ = true;
-    script_->setPlainText(sampleScript()); // Saved like any script: it is the person's to change.
+    script_->setPlainText(sampleScript());
+    script_->spaceLines(); // Saved like any script: it is the person's to change.
     refreshWelcome();
     script_->setFocus();
 }
 
 bool MainWindow::voiceReady() const {
+    if (!backend_ || !modelPath_)
+        return false;
     if (backend_->currentData().toString() == QLatin1String("system"))
         return true;
     const auto model = modelPath_->text();
@@ -1121,7 +1221,7 @@ QWidget *MainWindow::makeWelcome() {
     connect(sample, &QPushButton::clicked, this, &MainWindow::loadSample);
     step(3, tr("Write or import your script"),
          new QLabel(tr("Paste your text, or import a document, Markdown or the speaker notes of a presentation. "
-                       "Then open the reader under your camera.")),
+                       "Then press Read: this window becomes the reader, under your camera.")),
          {write, import, sample});
 
     // The column takes the width it has up to a comfortable measure, so the notes wrap at it.
@@ -1132,7 +1232,15 @@ QWidget *MainWindow::makeWelcome() {
     outer->addStretch(1);
     outer->addLayout(centred);
     outer->addStretch(2);
-    return page;
+    // It scrolls by itself when the window is low, rather than making the whole window scroll.
+    auto *scroll = new QScrollArea;
+    scroll->setObjectName("welcomeScroll");
+    scroll->setWidgetResizable(true);
+    scroll->setFrameShape(QFrame::NoFrame);
+    scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scroll->setBackgroundRole(QPalette::Base);
+    scroll->setWidget(page);
+    return scroll;
 }
 
 void MainWindow::refreshWelcome() {
@@ -1153,6 +1261,10 @@ void MainWindow::refreshWelcome() {
     const bool empty = script_->toPlainText().trimmed().isEmpty();
     position_->setVisible(!empty);
     readHere_->setVisible(!empty);
+    // The welcome page has the whole window; the list and the status line come with the first script.
+    if (auto *status = findChild<QWidget *>("statusRow"))
+        status->setVisible(editorStack_->currentWidget() != welcome_);
+    adaptLayout();
 }
 
 void MainWindow::adaptLayout() {
@@ -1160,12 +1272,55 @@ void MainWindow::adaptLayout() {
         return;
     // Beside the editor when the window has room for both; in the app bar otherwise.
     const bool wide = width() >= fontMetrics().averageCharWidth() * 110;
-    scriptList_->setVisible(wide);
+    libraryPanel_->setVisible(wide && editorStack_->currentWidget() != welcome_);
     scripts_->setVisible(!wide);
+    // The app bar stays one row as long as it can: first New and Settings keep only their icons.
+    auto *bar = findChild<QWidget *>("appBar");
+    if (!bar)
+        return;
+    const QList<QPushButton *> quiet{findChild<QPushButton *>("newScript"), findChild<QPushButton *>("settingsButton")};
+    scripts_->setMaximumWidth(QWIDGETSIZE_MAX);
+    for (const bool icons : {false, true}) {
+        for (auto *button : quiet)
+            if (button) {
+                if (!button->property("label").isValid())
+                    button->setProperty("label", button->text());
+                button->setText(icons ? QString() : button->property("label").toString());
+                button->updateGeometry();
+            }
+        const auto margins = bar->layout()->contentsMargins();
+        int need = margins.left() + margins.right(), visible = 0;
+        for (int i = 0; i < bar->layout()->count(); ++i)
+            if (auto *item = bar->layout()->itemAt(i); item->widget() && !item->widget()->isHidden()) {
+                need += item->sizeHint().width();
+                ++visible;
+            }
+        need += std::max(0, visible - 1) * bar->layout()->spacing();
+        if (need <= bar->width())
+            return;
+    }
+    // Still too wide: the script picker gives up width before anything goes to a second row.
+    if (scripts_->isVisible()) {
+        const int over = bar->layout()->sizeHint().width() - bar->width();
+        scripts_->setMaximumWidth(std::max(fontMetrics().averageCharWidth() * 12, scripts_->sizeHint().width() - over));
+    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
     QMainWindow::resizeEvent(event);
+    // KWin answers the change of frame with the old size: the size just chosen wins.
+    if (wantedSize_.isValid() && wanted_.isValid() && wanted_.elapsed() < 1500) {
+        if (event->size() != wantedSize_ && !placing_)
+            QTimer::singleShot(0, this, [this] {
+                if (wantedSize_.isValid())
+                    resizeFor(wantedSize_);
+            });
+        else if (event->size() == wantedSize_ && !placing_)
+            wantedSize_ = QSize();
+        adaptLayout();
+        return;
+    }
+    saveReaderGeometry(true);
     adaptLayout();
 }
 
@@ -1181,13 +1336,158 @@ void MainWindow::startSteadyScrolling() {
 }
 
 void MainWindow::showPrompter() {
-    const auto name = screen_->currentData().toString();
-    QScreen *target = QGuiApplication::primaryScreen();
-    for (auto *screen : QGuiApplication::screens())
-        if (screen->name() == name)
-            target = screen;
-    prompter_->showOn(target);
+    if (!reading_) {
+        saveScript();
+        reading_ = true;
+        views_->setCurrentWidget(prompter_);
+        Motion::fadeIn(prompter_);
+        updateWindowTitle(); // KWin takes the frame off first; then the window takes the reader's size.
+        placeWindow(true);
+    }
     refreshReading();
+    prompter_->revealControls();
+    if (!isVisible())
+        show();
+    raise();
+    activateWindow();
+    prompter_->text->setFocus();
+}
+
+// Leaving the reader always releases the microphone; coming back never resumes. The caret waits
+// where reading stopped, to fix a word there.
+void MainWindow::showWriting() {
+    if (!reading_)
+        return;
+    if (running()) {
+        pauseRunning();
+        audioStatus_->setText(tr("Paused. Back to writing: the microphone is off."));
+    }
+    reading_ = false;
+    views_->setCurrentWidget(writingView_);
+    updateWindowTitle();
+    placeWindow(false);
+    if (editorStack_->currentWidget() == script_) {
+        QTextCursor caret(script_->document());
+        caret.setPosition(std::clamp(tracker_.character(), 0, std::max(0, script_->document()->characterCount() - 1)));
+        script_->setTextCursor(caret);
+        script_->ensureCursorVisible();
+        script_->setFocus();
+    }
+}
+
+namespace {
+bool wayland() { return QGuiApplication::platformName().startsWith(QLatin1String("wayland")); }
+} // namespace
+
+// While reading, the window has no frame, stays above the others and sits at the top of the screen,
+// under the camera, at the reader's size. Kalipso sets the size; with Kalipso's KWin script
+// (Plasma) KWin does the rest when the title says so. Elsewhere the window does what its platform
+// allows: on Wayland it cannot choose its place.
+void MainWindow::placeWindow(bool reading) {
+    prompter_->setResizableEdges(reading);
+    if (isVisible() || reading)
+        CaptureExclusion::apply(this, reading && captureExcluded_);
+    const bool kwin = KWinPlacement::active();
+    constexpr auto readerFlags = Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint;
+    placing_ = true;
+    const bool shown = isVisible();
+    if (reading) {
+        writingGeometry_ = normalGeometry();
+        writingMaximized_ = isMaximized() || isFullScreen();
+        if (writingMaximized_)
+            showNormal(); // A maximized window cannot become the reader.
+    }
+    if (!kwin)
+        setWindowFlags(reading ? windowFlags() | readerFlags : windowFlags() & ~readerFlags);
+    if (reading) {
+        const auto name = screen_->currentData().toString();
+        QScreen *target = QGuiApplication::primaryScreen();
+        for (auto *screen : QGuiApplication::screens())
+            if (screen->name() == name)
+                target = screen;
+        if (target) {
+            winId();
+            windowHandle()->setScreen(target);
+            const auto available = target->availableGeometry();
+            const auto saved = QSettings().value("reader/geometry/" + target->name()).toRect();
+            if (!kwin && saved.isValid() && available.contains(saved.center()) && !wayland()) {
+                setGeometry(saved);
+            } else {
+                // The size the person gave the reader, or about two fifths of the screen: five or six
+                // lines at the default size.
+                const int extra =
+                    std::max(0, qRound((prompter_->font().pointSizeF() - QApplication::font().pointSizeF()) * 12));
+                QSize size(std::clamp(available.width() * 2 / 5, 560, 960),
+                           std::clamp(available.height() * 2 / 5, 360, 600) + extra);
+                if (const auto chosen = QSettings().value("reader/size").toSize(); chosen.isValid())
+                    size = chosen;
+                size = size.boundedTo(available.size() - QSize(32, 32)).expandedTo(minimumSize());
+                resizeFor(size);
+                if (!kwin)
+                    move(available.center().x() - width() / 2, available.top()); // Under the camera.
+            }
+        }
+    } else if (writingGeometry_.isValid()) {
+        if (kwin)
+            resizeFor(writingGeometry_.size()); // KWin puts it back in its place.
+        else
+            setGeometry(writingGeometry_);
+    }
+    placing_ = false;
+    if (!kwin && shown) {
+        show();
+        raise();
+    }
+    if (!reading && writingMaximized_)
+        showMaximized();
+}
+
+void MainWindow::resizeFor(QSize size) {
+    wantedSize_ = size;
+    wanted_.start();
+    const bool was = placing_;
+    placing_ = true;
+    resize(size);
+    placing_ = was;
+}
+
+void MainWindow::saveReaderGeometry(bool resized) {
+    if (!reading_ || placing_ || !isVisible() || !windowHandle())
+        return;
+    if (resized)
+        QSettings().setValue("reader/size", size());
+    if (wayland() || KWinPlacement::active())
+        return; // Only the window manager knows where it is.
+    if (auto *screen = windowHandle()->screen())
+        QSettings().setValue("reader/geometry/" + screen->name(), geometry());
+}
+
+void MainWindow::moveEvent(QMoveEvent *event) {
+    QMainWindow::moveEvent(event);
+    saveReaderGeometry(false);
+}
+
+// "Script — Kalipso", as the desktop's document apps. While reading it starts with the invisible
+// mark that tells Kalipso's KWin script to frame and place the window as the reader.
+void MainWindow::updateWindowTitle() {
+    const auto title = ScriptLibrary::titleFor(script_->toPlainText());
+    auto text = title.isEmpty() ? tr("Kalipso") : tr("%1 — Kalipso").arg(title);
+    if (reading_)
+        text.prepend(QChar(KWinPlacement::readingMark));
+    if (windowTitle() != text)
+        setWindowTitle(text);
+}
+
+void MainWindow::setCaptureExcluded(bool excluded) {
+    captureExcluded_ = excluded;
+    if (reading_)
+        CaptureExclusion::apply(this, excluded);
+    // Said to assistive technology; a tooltip over the whole reader would cover the text whenever the
+    // pointer rests on it.
+    prompter_->setAccessibleDescription(
+        excluded ? tr("Kalipso asked the system to hide this reader from screen sharing. Check the view "
+                      "from another participant.")
+                 : tr("Screen sharing may include this reader."));
 }
 
 void MainWindow::seekWord(int word) {
@@ -1200,7 +1500,10 @@ void MainWindow::seekWord(int word) {
 }
 
 void MainWindow::refreshReading() {
-    // The status depends on the position (time left), so it is refreshed here too.
+    // The status depends on the position (time left), so it is refreshed here too. Without a
+    // language to listen in, the start button opens Settings at the choice.
+    prompter_->setBlocked(mode_ == ReadingMode::Voice && !running() && !voiceReady() &&
+                          SpeechCatalog::downloadsSupported());
     prompter_->setRunning(running(), statusText());
     // Before the first word, the reading line shows where the script starts: after any front
     // matter, which is metadata and never read.
@@ -1227,9 +1530,10 @@ void MainWindow::refreshReading() {
     const auto length = tracker_.count() == 0 ? QString()
                         : minutes <= 1        ? tr("under a minute")
                                               : tr("about %n min", nullptr, minutes);
-    position_->setText(length.isEmpty()
-                           ? tr("Word %1 of %2").arg(tracker_.position() + 1).arg(tracker_.count())
-                           : tr("Word %1 of %2 · %3").arg(tracker_.position() + 1).arg(tracker_.count()).arg(length));
+    // Before reading: how long the script is. Once reading started: where it stopped.
+    const auto where = tracker_.position() < 0 ? tr("%n word(s)", nullptr, tracker_.count())
+                                               : tr("Word %1 of %2").arg(tracker_.position() + 1).arg(tracker_.count());
+    position_->setText(length.isEmpty() ? where : tr("%1 · %2").arg(where, length));
 }
 
 void MainWindow::setMode(ReadingMode mode) {
@@ -1399,14 +1703,13 @@ QString MainWindow::statusText() const {
         const auto left = wordsLeft == 0 ? tr("end of script")
                           : minutes <= 1 ? tr("under a minute left")
                                          : tr("%n min left", nullptr, minutes);
-        status = countdown_.isActive() ? tr("Starting…")
-                 : active              ? tr("Scrolling · %1").arg(left)
-                                       : tr("Paused · %1").arg(left);
+        // Running or paused, the button says it; the status says how long is left.
+        status = countdown_.isActive() ? tr("Starting…") : left;
         break;
     }
     case ReadingMode::Voice:
         status = !active && !speechError_.isEmpty() ? speechError_
-                 : !active && !voiceReady()         ? tr("Choose the language you speak in Settings")
+                 : !active && !voiceReady()         ? tr("Microphone off · no language chosen yet")
                  : !active                          ? tr("Microphone off until you start")
                  : microphoneSilent_                ? speechStatus_
                  : tracker_.lost()                  ? tr("Off script · Kalipso catches up when you return to the text")
@@ -1460,8 +1763,7 @@ void MainWindow::startListening() {
         speechError_ = tr("Choose the language you speak in Settings: Kalipso downloads it once.");
         audioStatus_->setText(speechError_);
         refreshRunning();
-        prompter_->hide(); // It stays above other windows and would cover the choice.
-        showSettings(voiceLanguage_);
+        showSettings(voiceLanguage_); // Over the reader, which stays where it is.
         return;
     }
     speech_.start(request);
@@ -1812,7 +2114,7 @@ QWidget *MainWindow::makeReadingSettings() {
     form->addRow(tr("Reader appearance"), readerTheme);
     auto *colorSource = new StatusLabel(prompter_->colorSource());
     form->addRow(colorSource);
-    connect(prompter_, &ReaderWindow::colorStatus, colorSource, &StatusLabel::setText);
+    connect(prompter_, &ReaderPage::colorStatus, colorSource, &StatusLabel::setText);
     if (prompter_->usesWindowPortal()) {
         form->addRow(note(tr("The reader can take its colors from a window you choose, even while it covers it. "
                              "Nothing is saved or sent.")));
@@ -1822,12 +2124,19 @@ QWidget *MainWindow::makeReadingSettings() {
         stop->setObjectName("stopWindowSharing");
         form->addRow(choose);
         form->addRow(stop);
-        connect(choose, &QPushButton::clicked, this, [this, readerTheme] {
+        stop->hide(); // Offered only once a window is shared.
+        connect(choose, &QPushButton::clicked, this, [this, readerTheme, stop] {
             readerTheme->setCurrentIndex(readerTheme->findData("auto"));
             showPrompter();
             prompter_->chooseBackgroundWindow();
+            stop->show();
         });
-        connect(stop, &QPushButton::clicked, prompter_, &ReaderWindow::stopWindowSharing);
+        connect(stop, &QPushButton::clicked, prompter_, &ReaderPage::stopWindowSharing);
+        connect(stop, &QPushButton::clicked, stop, &QWidget::hide);
+        connect(readerTheme, &QComboBox::currentIndexChanged, stop, [readerTheme, stop] {
+            if (readerTheme->currentData().toString() != QLatin1String("auto"))
+                stop->hide(); // Other colours end the sharing.
+        });
     }
 
     auto *scale = new SettingsComboBox;
@@ -1876,9 +2185,9 @@ QWidget *MainWindow::makeReadingSettings() {
     hidden->setObjectName("excludeFromCapture");
     if (CaptureExclusion::supported()) {
         hidden->setChecked(settings.value("reading/excludeFromCapture", true).toBool());
-        prompter_->setCaptureExcluded(hidden->isChecked());
+        setCaptureExcluded(hidden->isChecked());
         connect(hidden, &QCheckBox::toggled, this, [this](bool checked) {
-            prompter_->setCaptureExcluded(checked);
+            setCaptureExcluded(checked);
             QSettings().setValue("reading/excludeFromCapture", checked);
         });
         group->form->addRow(hiddenRow);
@@ -1917,11 +2226,9 @@ void MainWindow::refreshScreens() {
 }
 
 void MainWindow::applyInterfaceScale(double scale) {
-    // Scales controls in both windows; the script's own size is set separately.
+    // Scales the controls of both views; the script's own size in the reader is set separately.
     auto widgets = findChildren<QWidget *>();
-    for (auto *child : prompter_->findChildren<QWidget *>())
-        if (child != prompter_->text && !prompter_->text->isAncestorOf(child))
-            widgets.append(child);
+    widgets.removeIf([this](QWidget *child) { return child == prompter_->text || prompter_->text->isAncestorOf(child); });
     // Every size at 100% first, before any changes: a control that inherits its parent's font would
     // otherwise take the parent's new size as its own and grow again, level after level. One made
     // since the last change inherits that size, so it is brought back to 100%.
@@ -1938,6 +2245,11 @@ void MainWindow::applyInterfaceScale(double scale) {
         widget->setFont(font);
     }
     interfaceScale_ = scale;
+    // The list of scripts keeps room for about 28 letters of the new size.
+    if (auto *split = findChild<QSplitter *>("librarySplit"); split && libraryPanel_) {
+        const int list = libraryPanel_->fontMetrics().averageCharWidth() * 28;
+        split->setSizes({list, std::max(1, split->width() - list)});
+    }
 }
 
 QWidget *MainWindow::makeSpeechSettings() {
@@ -2421,7 +2733,7 @@ QWidget *MainWindow::makeRemoteSettings() {
     connect(remote_, &RemoteControl::command, this, [this](const QString &name) {
         if (name == QLatin1String("toggle")) {
             // The microphone only ever runs with the reader visible.
-            if (running() || prompter_->isVisible())
+            if (running() || reading_)
                 toggleRunning();
         } else if (name == QLatin1String("next"))
             seekWord(tracker_.position() + 1);
@@ -2603,7 +2915,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         return;
     }
     pauseRunning();
-    prompter_->hide();
     saveSettings();
     event->accept();
 }
