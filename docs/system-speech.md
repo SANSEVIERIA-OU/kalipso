@@ -4,7 +4,7 @@ Kalipso's standalone Qt application can use a local system recognizer, Moonshine
 
 ## System recognition
 
-In Settings, select **System speech**, choose a language and click **Check availability**. Start listening from the editor. Pause stops the helper process and releases its microphone. Script editing and manual navigation remain available. There is no automatic cloud fallback.
+In Settings, select **System speech**, choose a language and click **Check availability**. Press **Start** in the reader. Pause stops the helper process and releases its microphone. Script editing and manual navigation remain available. There is no automatic cloud fallback.
 
 - **macOS:** requires macOS 26+, hardware supported by Apple's SpeechTranscriber, and an available language. Kalipso checks the system's language list. **Install system language** explicitly downloads Apple's speech assets; listening itself does not request a download. Recognition uses SpeechAnalyzer on the device and the default microphone. Allow microphone access when prompted. If access is denied, enable it in System Settings → Privacy & Security → Microphone.
 - **Windows:** uses an installed Microsoft desktop SAPI recognizer in-process. It recognizes short phrases around the current reading position, so add a script before listening. Available languages depend on installed recognizers; Windows display-language support alone is not sufficient. Install a matching speech language through Windows settings and check again. Recognition uses the default microphone. This backend is for following a known script, not general conversation transcription.

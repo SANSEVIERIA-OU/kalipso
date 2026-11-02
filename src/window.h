@@ -84,8 +84,10 @@ private:
     // Frame, size, place and stacking of the window for reading or writing.
     void placeWindow(bool reading);
     void saveReaderGeometry(bool resized);
-    // Resizes, and keeps this size against the window system's answers for a moment.
-    void resizeFor(QSize size);
+    // Resizes, and keeps this size against the window system's answers for a moment (from the first
+    // call: restart = false keeps the moment going).
+    void resizeFor(QSize size, bool restart = true);
+    static constexpr int kSizeSettles = 1500; // ms
     QSize wantedSize_;
     QElapsedTimer wanted_;
     void updateWindowTitle();

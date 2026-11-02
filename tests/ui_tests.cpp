@@ -721,6 +721,28 @@ private slots:
         QCOMPARE(speed->text(), secondSpeed);
     }
 
+    void aRecognizerThatLearntTheScriptNeedsMoreWordsToJump() {
+        MainWindow window(scripts_.path());
+        QString script = "alpha beta gamma delta ";
+        for (int i = 0; i < 40; ++i)
+            script += QString("filler%1 ").arg(i);
+        script += "orange violet copper silver golden";
+        editor(window)->setPlainText(script);
+        auto *speech = window.findChild<SpeechService *>();
+        emit speech->listening();
+        emit speech->transcript("alpha beta", true);
+        const auto before = positionLabel(window)->text();
+        // Three words further on: enough to skip ahead for a recognizer that hears anything (two), not
+        // for one guided by the script (four), which hears script words in what is said off it.
+        emit speech->guidedChanged(true);
+        emit speech->transcript("orange violet copper", true);
+        QCOMPARE(positionLabel(window)->text(), before);
+        emit speech->guidedChanged(false);
+        emit speech->transcript("orange violet copper", true);
+        QVERIFY2(positionLabel(window)->text().startsWith("Word 47 of"), qPrintable(positionLabel(window)->text()));
+        emit speech->stopped();
+    }
+
     void sessionReportCanBeSavedAfterAVoiceSession() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("# Intro\nalpha beta gamma delta epsilon zeta eta\n# Main\niota kappa");
