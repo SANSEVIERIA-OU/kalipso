@@ -19,7 +19,7 @@ In Kalipso, the Plasma widget or the GNOME extension, open **Settings → Langua
 yours. The first time, Kalipso downloads its speech model (40 to 60 MB, with the engine's runtime if it is
 not there yet), shows the progress with **Cancel download**, checks every file against the SHA-256
 fingerprint pinned in [the catalog](../tools/data/speech-catalog.json) and keeps nothing that does not
-match. Then **Follow my voice** and **Start listening**. Choosing a language never opens the microphone,
+match. Then **Follow my voice** and **Start**. Choosing a language never opens the microphone,
 and nothing you say is sent anywhere. Downloads go to `~/.local/share/kalipso`; they use the system proxy
 settings.
 

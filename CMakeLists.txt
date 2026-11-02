@@ -177,9 +177,17 @@ if(BUILD_TESTING)
   add_dependencies(system_speech_tests fake_system_speech)
   add_test(NAME system_speech COMMAND system_speech_tests)
 
-  # Every screen in every combination, checked and photographed (run by hand under each desktop look).
+  if(WIN32)
+    set(KALIPSO_TEST_QPA windows)
+  else()
+    set(KALIPSO_TEST_QPA offscreen)
+  endif()
+  # Every screen in every combination, checked (and, given a directory, photographed). Run by hand
+  # under each desktop look too: Breeze light and dark, the drawn style.
   add_executable(layout_matrix tests/layout_matrix.cpp)
   target_link_libraries(layout_matrix PRIVATE kalipso_app Qt6::Test)
+  add_test(NAME layout_matrix COMMAND layout_matrix)
+  set_tests_properties(layout_matrix PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=${KALIPSO_TEST_QPA}")
   add_executable(ui_tests tests/ui_tests.cpp)
   target_link_libraries(ui_tests PRIVATE kalipso_app Qt6::Test)
   target_compile_definitions(ui_tests PRIVATE FAKE_MOONSHINE_LIBRARY="$<TARGET_FILE:fake_moonshine>")

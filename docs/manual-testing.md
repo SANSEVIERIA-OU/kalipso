@@ -8,11 +8,11 @@ Use a test script with at least two `#` sections, a `[cue]` and a few paragraphs
 
 On each system you test (Linux, Windows, macOS):
 
-1. Choose **Follow my voice** and press **Start listening**. The system should ask for microphone permission the first time.
+1. Choose **Follow my voice** and press **Start**. The system should ask for microphone permission the first time.
 2. **Deny** the permission. The reader should say that the microphone is unavailable. It must not show "Listening".
 3. Allow the permission (system settings), start again and read a few lines. The current word should follow you; the `[cue]` should be skipped.
 4. Pause and resume five times in a row. Each pause should stop the microphone; the system's microphone indicator should turn off.
-5. While listening: hide the reader (Escape), minimize it, and quit Kalipso. Each one should turn the microphone off. Showing the reader again must not resume listening.
+5. While listening: go back to writing (Escape), minimize the window, and quit Kalipso. Each one should turn the microphone off. Reading again must not resume listening.
 6. In **Settings → Voice → Microphone**, every microphone of the system should be listed, the first entry naming the system's one. **Test microphone**: the bar should move when you speak and the note should say that Kalipso hears you; mute the microphone in the system and the note should say that no sound arrives.
 7. Unplug a USB microphone or headset while listening. With that microphone chosen in Settings, the reader should say that no sound arrives from it, by name, and must not freeze or switch to another microphone. With **System microphone**, listening should continue with the system's new microphone.
 
@@ -28,7 +28,7 @@ Always check from a second device what other participants actually see.
 
 With Orca (Linux), NVDA (Windows) or VoiceOver (macOS):
 
-1. Move through the editor window with Tab only. Every control should be reached and announced with a name (for example "Open reader, button").
+1. Move through the editor window with Tab only. Every control should be reached and announced with a name (for example "Read, button").
 2. Open Settings with the keyboard. Each setting should be announced with its label and its current value.
 3. Open the reader (Ctrl+Enter). The reading position and status ("Paused · …", "Scrolling · …") should be announced when they change, without repeating every word while scrolling.
 4. Set system text size to 200%. Nothing should be cut off and no window should need horizontal scrolling.
@@ -44,7 +44,7 @@ With Orca (Linux), NVDA (Windows) or VoiceOver (macOS):
 ## Automatic reader colors (#15)
 
 1. Choose **Reader appearance → Automatic screen colors** (GNOME: **Reader colors → Automatic**), put the reader over a light window, then over a dark one. The reader should switch to light or dark within a few seconds and stay readable.
-2. **KDE (Wayland):** use **Choose background window…** with a GPU-backed session. The system should ask which window to share, and sharing should stop when you choose manual colors or hide the reader.
+2. **KDE (Wayland):** use **Choose background window…** with a GPU-backed session. The system should ask which window to share, and sharing should stop when you choose manual colors or go back to writing.
 3. **macOS:** the system should ask for Screen Recording permission. Denying it should leave readable fixed colors.
 
 ## Pedals, clickers and the phone remote (#28)

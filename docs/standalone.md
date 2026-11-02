@@ -6,7 +6,9 @@ Run `kalipso` after [building or installing it](../README.md#install). `kalipso 
 
 The first time, Kalipso opens on three steps instead of a blank page: choose the language you speak, check that Kalipso hears you, and write, import or try a sample script.
 
-Scripts are saved automatically as you type, together with your reading position, and reopen where you left off. They are listed beside the editor (in a narrow window, in a picker above it). **New** starts one; the **⋯** menu has **Import…**, **Export…**, **Format**, **Present with Impress…**, **Save session report…** and **Delete script…**. See [writing scripts](scripts.md) for cues, sections and the import formats.
+Scripts are saved automatically as you type, together with your reading position, and reopen where you left off. They are listed beside the editor with how long each takes to read and when it changed (in a narrow window, in a picker above it); a script left empty is not kept. **New** starts one; the **⋯** menu has **Import…**, **Export…**, **Format**, **Present with Impress…**, **Save session report…** and **Delete script…**. See [writing scripts](scripts.md) for cues, sections and the import formats.
+
+The editor shows the script as you will read it: a comfortable column (about 66 characters), lines one and a half times the text size apart, and `#` sections as headings, with their `#` in the margin. The caret steps over the marks; Backspace at the start of a heading makes it a line again. Below, the status line says how long the script is; **Read from here** starts reading at the caret.
 
 ## Look
 
@@ -14,17 +16,19 @@ On a Linux desktop with its own style (Breeze on KDE Plasma), Kalipso uses that 
 
 ## The reader
 
-**Open reader** (Ctrl+Enter) shows a frameless reading window that stays on top.
+Kalipso has one window. **Read** (Ctrl+Enter) turns it into the reader: without a frame, above the other windows, at the top of the screen under the camera, at about two fifths of the screen. **Write** (or Escape) turns it back into the editor, where it was and as big as it was, with the caret where reading stopped.
 
-- It opens under the camera at about two fifths of the screen. **Move** it by dragging its title, **resize** it from its edges. Its size and position are remembered for each monitor (on Wayland, the compositor decides the position).
+- **Move** the reader by dragging its title, **resize** it from its edges; its size is remembered, and on X11, macOS and Windows its position for each monitor. On Plasma, Kalipso's KWin script places it and keeps it above other windows (Wayland lets only the compositor do that); on other Wayland desktops the compositor decides.
+- The top bar has **Sections**, **Settings** and **Write**; the bottom bar has the previous and next word, **Start** (the microphone when following your voice, Pause while reading), the reading mode and, in steady speed, the speed. The bars keep one row whatever the mode; in a narrow reader the labels shorten first.
 - The current word is highlighted and already-read words are dimmed. The current line stays at the height chosen in **Settings → Current line position** (top, upper third or centre).
 - **Settings → Font** and **Line spacing** change the reader's typeface and spacing. Any installed font works, including ones designed for easier reading such as Atkinson Hyperlegible or OpenDyslexic. Lines cut by the window's edges fade out rather than ending abruptly.
 - Below the editor, the status shows the reading time of the whole script at the steady speed, as a rehearsal guide.
-- Headings show without their `#`, and `**bold**` and `*italic*` without their stars. **Edit** lets you change the text inside the reader, marks included; changes go straight to the script.
+- Headings show without their `#`, and `**bold**` and `*italic*` without their stars. To change the text, press **Write**: the same script, in the same window.
 - **Sections** jumps to a `#` heading. Clicking a word moves the reading position there.
 - While the reader scrolls or listens, its controls fade out after a moment and the text has the whole window; they come back over the text when you move the mouse, press a key or pause (Settings → Hide the reader's controls while reading). The text never moves when they do.
 - In steady speed, the status shows the time left at the current speed.
-- **Hide** (or Escape) closes the reader and turns the microphone off. Showing it again never restarts the microphone.
+- **Write** (or Escape) turns the microphone off. Reading again never restarts it by itself.
+- Until a voice language is installed, **Start** reads **Choose language** and opens Settings there.
 
 ### Reading modes
 
@@ -53,9 +57,9 @@ With the reader focused:
 | Space, Play/Pause | Start or pause (scrolling or listening) |
 | + and − | Faster / slower steady speed |
 | Home | Back to the start |
-| Escape | Finish editing, or hide the reader |
+| Escape | Back to writing |
 
-**Settings → Keys and pedals** gives any action another key (for example the key a foot pedal sends), adds keys for the previous and next section, or gives a built-in key a different action, such as the arrows changing the speed. A key belongs to one action at a time; clearing it restores the built-in keys. Escape always hides the reader.
+**Settings → Keys and pedals** gives any action another key (for example the key a foot pedal sends), adds keys for the previous and next section, or gives a built-in key a different action, such as the arrows changing the speed. A key belongs to one action at a time; clearing it restores the built-in keys. Escape always goes back to writing.
 
 Most Bluetooth foot pedals and presentation clickers send Page Up/Down or arrow keys, so they work without setup.
 
@@ -98,7 +102,7 @@ Scripts) for anyone who wants it enabled permanently; Kalipso then uses that one
 - **Other model installed by hand…** takes a Moonshine or Vosk model folder and library you installed yourself.
 - **System · on-device** (macOS and Windows): the operating system's recognizer. See [macOS and Windows builds](system-speech.md).
 
-Listening only starts when you press **Start listening**, and stops when you pause, hide the reader or close Kalipso.
+Listening only starts when you press **Start**, and stops when you pause, go back to writing or close Kalipso.
 
 ## Interface
 

@@ -644,6 +644,9 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     });
     connect(&speech_, &SpeechService::listening, this,
             [this] { session_.start(tracker_.position(), QDateTime::currentMSecsSinceEpoch()); });
+    // A recognizer that learnt the script hears its words in anything said off it: the tracker then
+    // asks for more words heard right before it skips or jumps.
+    connect(&speech_, &SpeechService::guidedChanged, this, [this](bool guided) { tracker_.setGuided(guided); });
     connect(&speech_, &SpeechService::stopped, this, [this] {
         microphoneSilent_ = false;
         finishSession();
@@ -1308,15 +1311,14 @@ void MainWindow::adaptLayout() {
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
     QMainWindow::resizeEvent(event);
-    // KWin answers the change of frame with the old size: the size just chosen wins.
-    if (wantedSize_.isValid() && wanted_.isValid() && wanted_.elapsed() < 1500) {
+    // KWin answers the change of frame (and its own moves) with the old size, sometimes more than
+    // once: for a moment the size just chosen wins every time, and nothing is saved.
+    if (wantedSize_.isValid() && wanted_.isValid() && wanted_.elapsed() < kSizeSettles) {
         if (event->size() != wantedSize_ && !placing_)
             QTimer::singleShot(0, this, [this] {
-                if (wantedSize_.isValid())
-                    resizeFor(wantedSize_);
+                if (wantedSize_.isValid() && wanted_.elapsed() < kSizeSettles && size() != wantedSize_)
+                    resizeFor(wantedSize_, false);
             });
-        else if (event->size() == wantedSize_ && !placing_)
-            wantedSize_ = QSize();
         adaptLayout();
         return;
     }
@@ -1442,9 +1444,10 @@ void MainWindow::placeWindow(bool reading) {
         showMaximized();
 }
 
-void MainWindow::resizeFor(QSize size) {
+void MainWindow::resizeFor(QSize size, bool restart) {
     wantedSize_ = size;
-    wanted_.start();
+    if (restart || !wanted_.isValid())
+        wanted_.start();
     const bool was = placing_;
     placing_ = true;
     resize(size);
