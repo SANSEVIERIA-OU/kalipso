@@ -206,6 +206,13 @@ private slots:
         QVERIFY(!editor(window)->isVisible());
         QVERIFY(list->isVisible());
         QVERIFY(!window.findChild<QComboBox *>("scriptPicker")->isVisible()); // The list replaces it.
+        // Steps still to do are rings, not discs: a filled one read as a black blot.
+        const auto steps = window.findChildren<QWidget *>("welcomeStep");
+        QCOMPARE(steps.size(), 3);
+        const QImage ring = steps.last()->grab().toImage();
+        const QColor inside(ring.pixel(ring.width() / 5, ring.height() / 2));
+        QVERIFY2(Accessibility::contrast(inside, steps.last()->palette().color(QPalette::Window)) < 1.2,
+                 qPrintable(inside.name()));
         window.findChild<QPushButton *>("welcomeSample")->click();
         QVERIFY(editor(window)->isVisible());
         QVERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
