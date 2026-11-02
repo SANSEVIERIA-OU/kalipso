@@ -154,9 +154,9 @@ export function same(heard, written) {
 }
 
 // Words heard right before the reader skips more than four words ahead, and before it jumps anywhere
-// in the script: a recognizer that learnt the script hears its words in anything said off it (see
-// kSkipExact in src/tracker.cpp).
-const SKIP_EXACT = 4, RECOVERY_EXACT = 5;
+// in the script. A recognizer that learnt the script (`guided`) hears its words in anything said off
+// it, so it takes more (see Evidence in src/tracker.cpp).
+const OPEN = {skip: 2, recovery: 4}, GUIDED = {skip: 4, recovery: 5};
 
 export class Tracker {
     constructor(text = '') {
@@ -166,10 +166,13 @@ export class Tracker {
         this.last = '';
         this.misses = 0;
         this.occurrences = new Map();
+        this.guided = false; // The recognizer learnt the script (the companion's state says so).
         this.setText(text);
     }
 
     tokenize(text) { return tokenize(text); }
+
+    get evidence() { return this.guided ? GUIDED : OPEN; }
 
     // Several consecutive utterances matched nowhere in the script.
     get lost() { return this.misses >= 2; }
@@ -252,7 +255,7 @@ export class Tracker {
     }
 
     // Bounded search around the reading position: <=1 edit per 3 words, and two words heard right
-    // (SKIP_EXACT to skip ahead).
+    // (more to skip ahead after a guided recognizer).
     localMatch(spoken) {
         const m = spoken.length;
         const first = Math.max(0, this.position - 24), last = Math.min(this.words.length, this.position + 81);
@@ -260,7 +263,7 @@ export class Tracker {
         for (let start = first; start < last; start++)
             this.align(spoken, start, last, (n, edits) => {
                 if (n < Math.max(2, m - 2) || edits > Math.floor(m / 3)) return;
-                if (this.exactMatches(spoken, start, n) < (start > this.position + 4 ? SKIP_EXACT : 2)) return;
+                if (this.exactMatches(spoken, start, n) < (start > this.position + 4 ? this.evidence.skip : 2)) return;
                 const end = start + n - 1, score = edits * 100 + Math.abs(end - this.position) * 0.1;
                 if (score < best) { best = score; bestEnd = end; }
             });
@@ -271,7 +274,7 @@ export class Tracker {
     // A valid match contains one of the (m - minimumExact + 1) rarest spoken
     // words, so only alignments starting just before their occurrences are checked.
     globalMatch(spoken) {
-        const m = spoken.length, minimumExact = Math.max(RECOVERY_EXACT, m - Math.floor(m / 4));
+        const m = spoken.length, minimumExact = Math.max(this.evidence.recovery, m - Math.floor(m / 4));
         const rare = spoken.map(word => this.occurrences.get(word.number || word.folded)).filter(Boolean)
             .sort((a, b) => a.length - b.length);
         if (rare.length < minimumExact) return -1;
@@ -310,7 +313,7 @@ export class Tracker {
         }
         spoken = spoken.slice(-8);
         let end = this.localMatch(spoken);
-        if (end < 0 && spoken.length >= RECOVERY_EXACT) end = this.globalMatch(spoken);
+        if (end < 0 && spoken.length >= this.evidence.recovery) end = this.globalMatch(spoken);
         if (end < 0) {
             if (final && spoken.length >= 3) this.misses++;
             return false;

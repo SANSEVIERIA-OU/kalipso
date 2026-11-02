@@ -37,8 +37,9 @@ unknown. In a room with some echo and noise this keeps it on your words: on Ital
 word error rate fell from 28% to 6%, and the reader was within two words of the speaker at 93% of
 sentence ends instead of 62% (`benchmarks/follow_probe.cpp`, recordings made room-like on purpose;
 not a measurement of your microphone). Because such a recognizer can hear a few of the script's words
-in anything said off the script, the reader moves ahead past nearby words only on four words heard
-right, and jumps elsewhere in the script only on five. The Plasma widget and the GNOME extension
+in anything said off the script, the reader then moves ahead past nearby words only on four words
+heard right, and jumps elsewhere in the script only on five (two and four with Moonshine, which hears
+any words). The Plasma widget and the GNOME extension
 send their script to the companion too; an older companion ignores it.
 
 The same from a terminal, for example over SSH or in a script:

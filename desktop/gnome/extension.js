@@ -154,6 +154,7 @@ export default class Kalipso extends Extension {
             this._active = Boolean(state.active);
             if (state.backend)
                 this._backend = state.backend;
+            this.tracker.guided = state.guided === true;
             for (const event of state.events ?? [state]) {
                 if (Number.isInteger(event.sequence) && event.sequence > this._lastSequence) {
                     this.tracker.follow(event.text, event.final);

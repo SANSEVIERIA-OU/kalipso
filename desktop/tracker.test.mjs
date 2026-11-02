@@ -48,17 +48,25 @@ const styledMarkup = new Tracker('# Intro\nHi <there> [smile] all').readingMarku
 assert(styledMarkup.includes('<b># Intro</b>') && styledMarkup.includes('<i>[smile]</i>') && styledMarkup.includes('&lt;there&gt;'));
 console.log('cues and headings: shown, styled and skipped by voice PASS');
 
-// Long skips and backtracking recover only on an unambiguous strong match of five words.
+// Long skips and backtracking recover only on an unambiguous strong match.
 const filler = Array.from({length: 150}, (_, i) => `parola${i}`).join(' ');
 const jumpy = new Tracker(`inizio del discorso ${filler} la conclusione arriva adesso finalmente`);
 assert(jumpy.follow('inizio del discorso', true));
-assert(!jumpy.follow('la conclusione arriva adesso', true)); // Four: what an off-script sentence can give.
+assert(jumpy.follow('la conclusione arriva adesso', true));
+assert.equal(jumpy.position, jumpy.words.length - 2);
+assert(jumpy.follow('inizio del discorso parola0', true));
+assert.equal(jumpy.position, 3);
+// After a recognizer that learnt the script, five words, and four to skip ahead nearby.
+jumpy.guided = true;
+assert(!jumpy.follow('la conclusione arriva adesso', true));
 assert(jumpy.follow('la conclusione arriva adesso finalmente', true));
 assert.equal(jumpy.position, jumpy.words.length - 1);
-assert(jumpy.follow('inizio del discorso parola0 parola1', true));
-assert.equal(jumpy.position, 4);
-// Skipping ahead nearby takes four words heard right; reading on, or going back, two.
-const nearby = new Tracker('uno due tre quattro cinque sei sette otto nove dieci undici dodici tredici quattordici');
+const nearbyText = 'uno due tre quattro cinque sei sette otto nove dieci undici dodici tredici quattordici';
+const open = new Tracker(nearbyText);
+assert(open.follow('uno due', true) && open.follow('nove dieci', true));
+assert.equal(open.position, 9);
+const nearby = new Tracker(nearbyText);
+nearby.guided = true;
 assert(nearby.follow('uno due', true));
 assert(!nearby.follow('nove dieci undici', true));
 assert(nearby.follow('nove dieci undici dodici', true));

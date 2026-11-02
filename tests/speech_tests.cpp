@@ -66,9 +66,11 @@ private slots:
         auto epoch = std::make_shared<std::atomic<quint64>>(1);
         SpeechWorker worker(epoch);
         QSignalSpy ready(&worker, &SpeechWorker::ready);
+        QSignalSpy guided(&worker, &SpeechWorker::guided);
         worker.setVocabulary(vocabulary);
         worker.load({"vosk", FAKE_VOSK_LIBRARY, QDir::tempPath()}, 1);
         QCOMPARE(ready.size(), 1);
+        QVERIFY(guided.last().first().toBool()); // The tracker then asks for more words heard right.
         const auto phrases = QJsonDocument::fromJson(grammar().toUtf8()).array().toVariantList();
         QCOMPARE(phrases.mid(0, 3), QVariantList({"buongiorno a tutti", "l'incidente è avvenuto nel duemilaventitre",
                                                   "dell' anno"}));
@@ -88,6 +90,7 @@ private slots:
         worker.setVocabulary({});
         QCOMPARE(count("fake_grammar_changes"), 2);
         QCOMPARE(grammar(), QString("[]"));
+        QVERIFY(!guided.last().first().toBool());
         QCOMPARE(count("fake_violations"), 0);
         // Words the model does not know at all leave the model as it is.
         worker.unload();

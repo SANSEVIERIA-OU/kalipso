@@ -9,6 +9,7 @@ Item {
     property bool failed:false
     property bool busy:false
     property string backend:"moonshine"
+    property bool guided:false // The companion's recognizer learnt the script (see Tracker.guided).
     property string language:""
     // The catalog languages ({code, name, backend, ready, bytes}) and the download in progress
     // ({active, stage, language, received, total, error}); see GetLanguages in the companion.
@@ -39,6 +40,7 @@ Item {
         const state=JSON.parse(value);active=state.active
         failed=state.status==="error";status=state.message||state.status
         if(state.backend)backend=state.backend
+        guided=state.guided===true
         const events=state.events||[state]
         for(const event of events){if(Number.isInteger(event.sequence)&&event.sequence>lastSequence){lastSequence=event.sequence;transcript(event)}}
         if(!active)poll.stop()

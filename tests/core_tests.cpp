@@ -197,25 +197,38 @@ private slots:
         tracker.setScript("inizio del discorso " + filler.join(' ') + " la conclusione arriva adesso finalmente");
         QVERIFY(tracker.follow("inizio del discorso", true));
         QCOMPARE(tracker.position(), 2);
-        // Far beyond the local window: five distinctive words in one place. Four are not enough: a
-        // recognizer that learnt the script hears that many of its words in an off-script sentence.
+        // Far beyond the local window: four distinctive words in one place.
+        QVERIFY(tracker.follow("la conclusione arriva adesso", true));
+        QCOMPARE(tracker.position(), tracker.count() - 2);
+        // And back again.
+        QVERIFY(tracker.follow("inizio del discorso parola0", true));
+        QCOMPARE(tracker.position(), 3);
+        // After a recognizer that learnt the script, five: it hears four of its words in a row in
+        // an off-script sentence.
+        tracker.setGuided(true);
         QVERIFY(!tracker.follow("la conclusione arriva adesso", true));
         QVERIFY(tracker.follow("la conclusione arriva adesso finalmente", true));
         QCOMPARE(tracker.position(), tracker.count() - 1);
-        // And back again.
         QVERIFY(tracker.follow("inizio del discorso parola0 parola1", true));
         QCOMPARE(tracker.position(), 4);
     }
-    void skipsAheadOnlyOnFourWordsHeardRight() {
-        ScriptTracker tracker;
-        tracker.setScript("uno due tre quattro cinque sei sette otto nove dieci undici dodici tredici quattordici");
-        QVERIFY(tracker.follow("uno due", true));
-        QVERIFY(!tracker.follow("nove dieci undici", true)); // Off-script speech gives such runs.
-        QVERIFY(tracker.follow("nove dieci undici dodici", true));
-        QCOMPARE(tracker.position(), 11);
-        // Reading a passage again, or on from the position, takes two.
-        QVERIFY(tracker.follow("tre quattro", true));
-        QCOMPARE(tracker.position(), 3);
+    void skipsAheadOnFewerWordsUnlessTheRecognizerLearntTheScript() {
+        const QString script = "uno due tre quattro cinque sei sette otto nove dieci undici dodici tredici quattordici";
+        ScriptTracker open;
+        open.setScript(script);
+        QVERIFY(open.follow("uno due", true));
+        QVERIFY(open.follow("nove dieci", true));
+        QCOMPARE(open.position(), 9);
+        ScriptTracker guided;
+        guided.setGuided(true);
+        guided.setScript(script);
+        QVERIFY(guided.follow("uno due", true));
+        QVERIFY(!guided.follow("nove dieci undici", true)); // What an off-script sentence gives.
+        QVERIFY(guided.follow("nove dieci undici dodici", true));
+        QCOMPARE(guided.position(), 11);
+        // Reading a passage again, or on from the position, takes two either way.
+        QVERIFY(guided.follow("tre quattro", true));
+        QCOMPARE(guided.position(), 3);
     }
     void ambiguousLongJumpsAreRejected() {
         const QString chorus = "we will build it together ";

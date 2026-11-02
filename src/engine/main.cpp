@@ -99,6 +99,12 @@ public:
         connect(&colors_, &PortalColors::colorChanged, this, [this](const QColor &color) { color_ = color.name(); });
 
         state_["backend"] = SpeechConfig::selected();
+        // Frontends give it to their tracker (Tracker.guided): a recognizer that learnt the script
+        // takes more words heard right before the reader moves ahead.
+        connect(&speech_, &SpeechService::guidedChanged, this, [this](bool guided) {
+            state_["guided"] = guided;
+            publish();
+        });
         connect(&speech_, &SpeechService::listening, this, [this] {
             state_["status"] = "listening";
             publish();
