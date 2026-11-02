@@ -31,7 +31,7 @@ Jumping to a section places the reading position just before its first word.
 
 `**bold**`, `*italic*` and `***both***` (Markdown) are shown in bold and italics in the standalone app, with the asterisks dimmed. List markers (`-`, `*`, `+`, `1.`) are dimmed too. Voice following ignores all of them.
 
-In the standalone app, **More → Format** (or Ctrl+B, Ctrl+I, Ctrl+Shift+H for a section heading and Ctrl+Shift+C for a `[cue]`) adds the markers around the selection.
+In the standalone app, **⋯ → Format** (or Ctrl+B, Ctrl+I, Ctrl+Shift+H for a section heading and Ctrl+Shift+C for a `[cue]`) adds the markers around the selection.
 
 ## Front matter
 

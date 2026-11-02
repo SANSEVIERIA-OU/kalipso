@@ -1,4 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
 <TS version="2.1" language="it_IT">
 <context>
     <name>Backdrop</name>
@@ -34,7 +35,7 @@
 <context>
     <name>ImpressFollower</name>
     <message>
-        <source>LibreOffice's Python bridge is missing (on Debian and Ubuntu: python3-uno).</source>
+        <source>LibreOffice&apos;s Python bridge is missing (on Debian and Ubuntu: python3-uno).</source>
         <translation>Manca il collegamento Python di LibreOffice (su Debian e Ubuntu: python3-uno).</translation>
     </message>
     <message>
@@ -232,10 +233,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Avvio…</translation>
     </message>
     <message>
-        <source>Microphone off</source>
-        <translation>Microfono spento</translation>
-    </message>
-    <message>
         <source>Off script · Kalipso catches up when you return to the text</source>
         <translation>Fuori copione · Kalipso si riallinea quando torni al testo</translation>
     </message>
@@ -338,7 +335,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Application appearance</source>
-        <translation>Aspetto dell'applicazione</translation>
+        <translation>Aspetto dell&apos;applicazione</translation>
     </message>
     <message>
         <source>Automatic screen colors</source>
@@ -347,10 +344,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Reader appearance</source>
         <translation>Aspetto del lettore</translation>
-    </message>
-    <message>
-        <source>Follow the colors of a window you select, even while the reader covers it. Sharing stays active while the reader is visible. Images stay in memory and are never saved or sent. You can stop sharing at any time.</source>
-        <translation>Segui i colori di una finestra scelta da te, anche mentre il lettore la copre. La condivisione resta attiva finché il lettore è visibile. Le immagini restano in memoria e non vengono mai salvate né inviate. Puoi interrompere la condivisione in qualsiasi momento.</translation>
     </message>
     <message>
         <source>Choose background window…</source>
@@ -362,7 +355,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Interface text size</source>
-        <translation>Dimensione del testo dell'interfaccia</translation>
+        <translation>Dimensione del testo dell&apos;interfaccia</translation>
     </message>
     <message>
         <source>Hide the reader from screen sharing and recordings</source>
@@ -465,14 +458,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Altro modello installato a mano…</translation>
     </message>
     <message>
-        <source>Remote control</source>
-        <translation>Controllo remoto</translation>
-    </message>
-    <message>
-        <source>Foot pedals and presentation clickers work while the reader is focused: arrow keys and Page Up/Down step, Space starts or pauses, + and − change the steady speed, Home returns to the start.</source>
-        <translation>Pedali e telecomandi per presentazioni funzionano quando il lettore è attivo: frecce e Pag↑/Pag↓ avanzano, Spazio avvia o mette in pausa, + e − cambiano la velocità costante, Home torna all'inizio.</translation>
-    </message>
-    <message>
         <source>Allow a phone on this network to control the reader</source>
         <translation>Consenti a un telefono su questa rete di controllare il lettore</translation>
     </message>
@@ -482,7 +467,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Anyone on this network who has the link can start, pause and step the reader; the script text is never shared. A new link is created each time you turn this on, and it stops when Kalipso closes.</source>
-        <translation>Chiunque su questa rete abbia il collegamento può avviare, mettere in pausa e far avanzare il lettore; il testo del copione non viene mai condiviso. Ogni volta che attivi l'opzione viene creato un nuovo collegamento, che smette di funzionare alla chiusura di Kalipso.</translation>
+        <translation>Chiunque su questa rete abbia il collegamento può avviare, mettere in pausa e far avanzare il lettore; il testo del copione non viene mai condiviso. Ogni volta che attivi l&apos;opzione viene creato un nuovo collegamento, che smette di funzionare alla chiusura di Kalipso.</translation>
     </message>
     <message>
         <source>Remote control could not start on this network.</source>
@@ -498,15 +483,11 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>The interface language changes the next time Kalipso starts.</source>
-        <translation>La lingua dell'interfaccia cambia al prossimo avvio di Kalipso.</translation>
+        <translation>La lingua dell&apos;interfaccia cambia al prossimo avvio di Kalipso.</translation>
     </message>
     <message>
         <source>Interface language</source>
-        <translation>Lingua dell'interfaccia</translation>
-    </message>
-    <message>
-        <source>Screen sharing may include the reader. Share a single window instead of the whole screen, or on KDE Plasma 6.6 or later use Hide from Screencast in the reader's window menu (Alt+F3). Check the view from another participant.</source>
-        <translation>La condivisione dello schermo può includere il lettore. Condividi una singola finestra invece dell'intero schermo, oppure su KDE Plasma 6.6 o successivo usa, nel menu della finestra del lettore (Alt+F3), l'opzione che la nasconde dalle trasmissioni dello schermo. Verifica la vista di un altro partecipante.</translation>
+        <translation>Lingua dell&apos;interfaccia</translation>
     </message>
     <message>
         <source>Close without saving?</source>
@@ -588,7 +569,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>In pausa · %1</translation>
     </message>
     <message>
-        <source>Hide the reader's controls while reading</source>
+        <source>Hide the reader&apos;s controls while reading</source>
         <translation>Nascondi i comandi del lettore durante la lettura</translation>
     </message>
     <message>
@@ -616,7 +597,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Interface font</source>
-        <translation>Carattere dell'interfaccia</translation>
+        <translation>Carattere dell&apos;interfaccia</translation>
     </message>
     <message>
         <source>Any installed font, for example one designed for easier reading such as Atkinson Hyperlegible or OpenDyslexic.</source>
@@ -700,7 +681,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Back to the start</source>
-        <translation>Torna all'inizio</translation>
+        <translation>Torna all&apos;inizio</translation>
     </message>
     <message>
         <source>Press a key</source>
@@ -712,7 +693,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Pedals and clickers usually send the arrows, Page Up/Down or Space, which work without any setup. Choose a key here to add one for an action, or to give a built-in key another action, for example the arrows to change speed. Escape always hides the reader.</source>
-        <translation>Pedali e telecomandi di solito inviano le frecce, Pagina su/giù o Spazio, che funzionano senza configurazione. Scegli qui un tasto per aggiungerlo a un'azione, o per dare a un tasto predefinito un'altra azione, per esempio le frecce per cambiare velocità. Esc nasconde sempre il lettore.</translation>
+        <translation>Pedali e telecomandi di solito inviano le frecce, Pagina su/giù o Spazio, che funzionano senza configurazione. Scegli qui un tasto per aggiungerlo a un&apos;azione, o per dare a un tasto predefinito un&apos;altra azione, per esempio le frecce per cambiare velocità. Esc nasconde sempre il lettore.</translation>
     </message>
     <message>
         <source>Present with Impress…</source>
@@ -776,7 +757,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>back to the start</source>
-        <translation>torna all'inizio</translation>
+        <translation>torna all&apos;inizio</translation>
     </message>
     <message>
         <source>next section</source>
@@ -788,7 +769,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Voice commands: say “go next”, “go back” or “go start” (in Italian “vai avanti”, “torna indietro”, “da capo”) on their own</source>
-        <translation>Comandi vocali: di' da solo «vai avanti», «torna indietro» o «da capo» (in inglese «go next», «go back», «go start»)</translation>
+        <translation>Comandi vocali: di&apos; da solo «vai avanti», «torna indietro» o «da capo» (in inglese «go next», «go back», «go start»)</translation>
     </message>
     <message>
         <source>No network found</source>
@@ -807,10 +788,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Avanzamento dello scaricamento</translation>
     </message>
     <message>
-        <source>Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent.</source>
-        <translation>Quando scegli una lingua, Kalipso ne scarica il modello vocale una volta sola, dal sito di chi lo pubblica, e lo confronta con la sua impronta. Poi il riconoscimento avviene su questo computer: niente di quello che dici viene inviato.</translation>
-    </message>
-    <message>
         <source>Moonshine and Vosk need a runtime and a model installed by hand: choose Other model installed by hand.</source>
         <translation>Moonshine e Vosk richiedono un runtime e un modello installati a mano: scegli Altro modello installato a mano.</translation>
     </message>
@@ -823,10 +800,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Il riconoscimento resta su questo computer e Kalipso non passa mai a un servizio cloud. La voce di sistema usa il microfono predefinito.</translation>
     </message>
     <message>
-        <source>Recognition stays on this computer, and Kalipso never switches to a cloud service.</source>
-        <translation>Il riconoscimento resta su questo computer e Kalipso non passa mai a un servizio cloud.</translation>
-    </message>
-    <message>
         <source>Downloading %1: %2 of %3 MB</source>
         <translation>Scarico %1: %2 di %3 MB</translation>
     </message>
@@ -835,19 +808,19 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Controllo e scompatto %1…</translation>
     </message>
     <message>
-        <source>Couldn't download %1. Check the internet connection and try again.</source>
+        <source>Couldn&apos;t download %1. Check the internet connection and try again.</source>
         <translation>Non sono riuscito a scaricare %1. Controlla la connessione a internet e riprova.</translation>
     </message>
     <message>
-        <source>The %1 download didn't match its fingerprint, so it was deleted. Try again later.</source>
+        <source>The %1 download didn&apos;t match its fingerprint, so it was deleted. Try again later.</source>
         <translation>Il file di %1 non corrispondeva alla sua impronta ed è stato cancellato. Riprova più tardi.</translation>
     </message>
     <message>
-        <source>The %1 model couldn't be unpacked. Try again later.</source>
+        <source>The %1 model couldn&apos;t be unpacked. Try again later.</source>
         <translation>Non sono riuscito a scompattare il modello di %1. Riprova più tardi.</translation>
     </message>
     <message>
-        <source>Couldn't save %1: there isn't enough free space, or the data folder can't be written.</source>
+        <source>Couldn&apos;t save %1: there isn&apos;t enough free space, or the data folder can&apos;t be written.</source>
         <translation>Non sono riuscito a salvare %1: lo spazio libero non basta, oppure la cartella dei dati non è scrivibile.</translation>
     </message>
     <message>
@@ -942,6 +915,138 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <source>The test shows whether Kalipso hears you. Nothing is recorded or sent.</source>
         <translation>La prova mostra se Kalipso ti sente. Niente viene registrato né inviato.</translation>
     </message>
+    <message>
+        <source>German</source>
+        <translation>tedesco</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>inglese</translation>
+    </message>
+    <message>
+        <source>Spanish</source>
+        <translation>spagnolo</translation>
+    </message>
+    <message>
+        <source>French</source>
+        <translation>francese</translation>
+    </message>
+    <message>
+        <source>Italian</source>
+        <translation>italiano</translation>
+    </message>
+    <message>
+        <source>Japanese</source>
+        <translation>giapponese</translation>
+    </message>
+    <message>
+        <source>Chinese</source>
+        <translation>cinese</translation>
+    </message>
+    <message>
+        <source>Scripts</source>
+        <translation>Copioni</translation>
+    </message>
+    <message>
+        <source>Welcome to Kalipso</source>
+        <translation>Benvenuto in Kalipso</translation>
+    </message>
+    <message>
+        <source>A teleprompter that follows your voice and keeps your place. Everything stays on this computer.</source>
+        <translation>Il gobbo che segue la tua voce e non ti fa perdere il segno. Tutto resta su questo computer.</translation>
+    </message>
+    <message>
+        <source>Choose language</source>
+        <translation>Scegli la lingua</translation>
+    </message>
+    <message>
+        <source>Choose the language you speak</source>
+        <translation>Scegli la lingua in cui parli</translation>
+    </message>
+    <message>
+        <source>Test the microphone</source>
+        <translation>Prova il microfono</translation>
+    </message>
+    <message>
+        <source>Check that Kalipso hears you</source>
+        <translation>Controlla che Kalipso ti senta</translation>
+    </message>
+    <message>
+        <source>Speak for a moment: a bar moves with your voice. Nothing is recorded or sent.</source>
+        <translation>Parla per qualche secondo: una barra si muove con la tua voce. Niente viene registrato né inviato.</translation>
+    </message>
+    <message>
+        <source>Write</source>
+        <translation>Scrivi</translation>
+    </message>
+    <message>
+        <source>Try a sample</source>
+        <translation>Prova con un esempio</translation>
+    </message>
+    <message>
+        <source>Write or import your script</source>
+        <translation>Scrivi o importa il copione</translation>
+    </message>
+    <message>
+        <source>Paste your text, or import a document, Markdown or the speaker notes of a presentation. Then open the reader under your camera.</source>
+        <translation>Incolla il testo, oppure importa un documento, un file Markdown o le note di una presentazione. Poi apri il lettore sotto la webcam.</translation>
+    </message>
+    <message>
+        <source>Ready: Kalipso listens in %1, on this computer.</source>
+        <translation>Pronto: Kalipso ascolta in %1, su questo computer.</translation>
+    </message>
+    <message>
+        <source>Kalipso downloads the voice model for it once, about 50 MB.</source>
+        <translation>Kalipso ne scarica il modello vocale una volta sola, circa 50 MB.</translation>
+    </message>
+    <message>
+        <source>Change language</source>
+        <translation>Cambia lingua</translation>
+    </message>
+    <message>
+        <source>Paused · microphone off</source>
+        <translation>In pausa · microfono spento</translation>
+    </message>
+    <message>
+        <source>Choose the language you speak in Settings</source>
+        <translation>Scegli in Impostazioni la lingua in cui parli</translation>
+    </message>
+    <message>
+        <source>Microphone off until you start</source>
+        <translation>Il microfono si accende quando inizi</translation>
+    </message>
+    <message>
+        <source>Voice</source>
+        <translation>Voce</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation>Telefono</translation>
+    </message>
+    <message>
+        <source>Settings pages</source>
+        <translation>Pagine delle impostazioni</translation>
+    </message>
+    <message>
+        <source>Like the system</source>
+        <translation>Come il sistema</translation>
+    </message>
+    <message>
+        <source>The reader can take its colors from a window you choose, even while it covers it. Nothing is saved or sent.</source>
+        <translation>Il lettore può prendere i colori da una finestra che scegli, anche mentre la copre. Niente viene salvato né inviato.</translation>
+    </message>
+    <message>
+        <source>Others may see the reader when you share the whole screen. Share a single window, or on Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).</source>
+        <translation>Chi guarda può vedere il lettore se condividi tutto lo schermo. Condividi una sola finestra, oppure su Plasma 6.6 e successivi nascondi il lettore dalla condivisione nel suo menu della finestra (Alt+F3).</translation>
+    </message>
+    <message>
+        <source>Kalipso downloads the language once and checks it. Then it listens only on this computer: nothing you say is sent.</source>
+        <translation>Kalipso scarica la lingua una volta sola e la verifica. Poi ascolta solo su questo computer: niente di quello che dici viene inviato.</translation>
+    </message>
+    <message>
+        <source>Phone as a remote</source>
+        <translation>Telefono come telecomando</translation>
+    </message>
 </context>
 <context>
     <name>MicrophoneCapture</name>
@@ -979,7 +1084,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Audio capture from %1 stopped. Start listening again; if it stops again, check the microphone in the system sound settings.</source>
-        <translation>La cattura audio da %1 si è fermata. Riavvia l'ascolto; se si ferma di nuovo, controlla il microfono nelle impostazioni audio del sistema.</translation>
+        <translation>La cattura audio da %1 si è fermata. Riavvia l&apos;ascolto; se si ferma di nuovo, controlla il microfono nelle impostazioni audio del sistema.</translation>
     </message>
     <message>
         <source>Audio capture from %1 stopped: %2</source>
@@ -1095,7 +1200,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Add your script in the editor to begin.</source>
-        <translation>Aggiungi il copione nell'editor per iniziare.</translation>
+        <translation>Aggiungi il copione nell&apos;editor per iniziare.</translation>
     </message>
     <message>
         <source>Start listening</source>
@@ -1143,7 +1248,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Pause listening</source>
-        <translation>Metti in pausa l'ascolto</translation>
+        <translation>Metti in pausa l&apos;ascolto</translation>
     </message>
     <message>
         <source>%1 words/min</source>
@@ -1353,7 +1458,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Enable microphone access for Kalipso in System Settings.</source>
-        <translation>Consenti a Kalipso l'accesso al microfono nelle Impostazioni di sistema.</translation>
+        <translation>Consenti a Kalipso l&apos;accesso al microfono nelle Impostazioni di sistema.</translation>
     </message>
     <message>
         <source>Waiting for microphone permission…</source>
@@ -1361,7 +1466,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Microphone access was denied.</source>
-        <translation>L'accesso al microfono è stato negato.</translation>
+        <translation>L&apos;accesso al microfono è stato negato.</translation>
     </message>
     <message>
         <source>Loading the local speech model…</source>
@@ -1400,7 +1505,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>This library does not provide the required Vosk API.</source>
-        <translation>Questa libreria non fornisce l'API Vosk richiesta.</translation>
+        <translation>Questa libreria non fornisce l&apos;API Vosk richiesta.</translation>
     </message>
     <message>
         <source>Cannot open this speech model. Choose the extracted model folder.</source>
@@ -1412,7 +1517,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>The speech recognizer could not process the audio.</source>
-        <translation>Il riconoscitore vocale non è riuscito a elaborare l'audio.</translation>
+        <translation>Il riconoscitore vocale non è riuscito a elaborare l&apos;audio.</translation>
     </message>
 </context>
 <context>
@@ -1423,7 +1528,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>The system speech helper is not installed on this platform.</source>
-        <translation>L'assistente per la voce di sistema non è installato su questa piattaforma.</translation>
+        <translation>L&apos;assistente per la voce di sistema non è installato su questa piattaforma.</translation>
     </message>
     <message>
         <source>Cannot start system speech: %1</source>
@@ -1439,7 +1544,7 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     </message>
     <message>
         <source>Script updates cannot keep up. Restart listening.</source>
-        <translation>Gli aggiornamenti del copione non riescono a stare al passo. Riavvia l'ascolto.</translation>
+        <translation>Gli aggiornamenti del copione non riescono a stare al passo. Riavvia l&apos;ascolto.</translation>
     </message>
     <message>
         <source>Invalid system speech response.</source>

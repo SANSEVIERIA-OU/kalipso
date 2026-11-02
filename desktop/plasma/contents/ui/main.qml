@@ -36,7 +36,7 @@ PlasmoidItem {
     property var windowPalette: new Contrast.PaletteChoice()
     readonly property var n: Design.tokens.native
     readonly property var p: Design.tokens.palette[appearance === "window" ? windowTheme
-        : appearance === "auto" ? Contrast.suggestedTheme(desktopPalette.window.toString()) : appearance]
+        : appearance === "auto" ? (desktopPalette.window.hslLightness < 0.5 ? "dark" : "light") : appearance]
     readonly property var c: ({
         overlay: p.background, overlayText: p.text, overlayMuted: p.muted, overlaySurface: p.surface,
         overlayLine: p.hover, overlayBorder: p.border, focus: p.focus, reading: p.accent})
@@ -54,7 +54,14 @@ PlasmoidItem {
                  "configure": "grow", "dialog-ok": "grow"})[icon] || ""
     }
 
-    property var tracker: new Tracking.Tracker(config.script)
+    // A language named in the desktop's language, so a missing font never shows its name as boxes.
+    function languageName(language) {
+        return ({de: i18n("German"), en: i18n("English"), es: i18n("Spanish"), fr: i18n("French"),
+                 it: i18n("Italian"), ja: i18n("Japanese"), zh: i18n("Chinese")})[language.code] || language.name
+    }
+    // Until the person writes one, the sample script is in the desktop's language.
+    readonly property string sampleScript: i18n("A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you.")
+    property var tracker: new Tracking.Tracker(config.script || sampleScript)
     property string markup: ""
     property int readCount: 0
     property int wordCount: 0
@@ -166,6 +173,9 @@ PlasmoidItem {
     }
 
     onAppearanceChanged: { if (appearance !== "window") windowColors.stop(); refresh() }
+    // The excerpt carries its colours: built again when they change (the desktop turned dark, a
+    // window behind changed), or it keeps the old ones and can vanish on the new background.
+    onCChanged: Qt.callLater(refresh)
     onWindowThemeChanged: refresh()
     onVisibleChanged: if (!visible) { windowColors.stop(); stop() }
     Component.onCompleted: {
@@ -586,7 +596,7 @@ PlasmoidItem {
                         : audio.active ? (root.lost ? i18n("Off script · Kalipso catches up when you return to the text")
                             : i18n("Listening · On this device"))
                         : audio.busy ? i18n("Starting local speech…")
-                        : audio.failed ? i18n("Speech unavailable · Open Settings") : i18n("Paused · Microphone off")
+                        : audio.failed ? i18n("Speech unavailable · Open Settings") : i18n("The microphone turns on when you start")
                 }
 
                 Rectangle { visible: root.pane !== ""; Layout.fillWidth: true; implicitHeight: 1; color: root.c.overlayLine }
@@ -659,8 +669,8 @@ PlasmoidItem {
                             ChoiceButton {
                                 required property var modelData
                                 objectName: "language-" + modelData.code
-                                label: modelData.ready ? modelData.name
-                                    : i18n("%1 · download %2 MB", modelData.name, root.megabytes(modelData.bytes))
+                                label: modelData.ready ? root.languageName(modelData)
+                                    : i18n("%1 · download %2 MB", root.languageName(modelData), root.megabytes(modelData.bytes))
                                 selected: modelData.ready && audio.language === modelData.code
                                 enabled: !audio.active && !audio.busy && !audio.installing
                                 onClicked: {

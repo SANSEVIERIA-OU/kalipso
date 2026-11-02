@@ -7,14 +7,12 @@
   <kcfgfile name=""/>
   <group name="General">
     <entry name="script" type="String">
-      <default>A little preparation makes room for a better conversation. [smile]
-
-Take your time. Leave space for a pause. Your next words will be here when you are ready.</default>
+      <default></default>
     </entry>
     <entry name="position" type="Int"><default>-1</default></entry>
     <entry name="readerSize" type="Int"><default>26</default></entry>
     <entry name="appearance" type="String"><default>auto</default></entry>
-    <entry name="mode" type="String"><default>manual</default></entry>
+    <entry name="mode" type="String"><default>voice</default></entry>
     <entry name="speed" type="Int"><default>140</default></entry>
     <entry name="mirror" type="String"><default>none</default></entry>
     <entry name="countdown" type="Int"><default>3</default></entry>

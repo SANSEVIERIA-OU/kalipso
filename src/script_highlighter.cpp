@@ -34,22 +34,30 @@ void ScriptHighlighter::highlightBlock(const QString &text) {
         return;
     }
     // Cues and headings never span lines, so each block is self-contained.
+    // A mark the reader does not show: transparent and next to no width.
+    QTextCharFormat hidden;
+    hidden.setForeground(Qt::transparent);
+    hidden.setFontPointSize(1);
     if (!ScriptTracker::headings(text).isEmpty()) {
         QTextCharFormat heading;
         heading.setFontWeight(QFont::Bold);
         heading.setForeground(heading_);
         setFormat(0, int(text.size()), heading);
+        static const QRegularExpression mark(QStringLiteral(R"(^\s*#+\s*)"));
+        if (const auto found = mark.match(text); hideMarks_ && found.hasMatch())
+            setFormat(0, int(found.capturedLength()), hidden);
         return;
     }
     // Markdown emphasis: **bold** and *italic*, with the markers dimmed.
     static const QRegularExpression strong(QStringLiteral(R"(\*\*(?=\S)(.+?)(?<=\S)\*\*)"));
     static const QRegularExpression emphasis(QStringLiteral(R"((?<![*\w])\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?![*\w]))"));
-    QTextCharFormat marker;
-    marker.setForeground(cue_);
-    // List markers ("- ", "* ", "+ ", "1. "): dimmed like other Markdown markers.
+    QTextCharFormat dimmed;
+    dimmed.setForeground(cue_);
+    const QTextCharFormat marker = hideMarks_ ? hidden : dimmed;
+    // List markers ("- ", "* ", "+ ", "1. "): dimmed like other Markdown markers, and kept in the reader.
     static const QRegularExpression list(QStringLiteral(R"(^\s*([-*+]|\d{1,3}[.)])(?=\s))"));
     if (const auto item = list.match(text); item.hasMatch()) {
-        QTextCharFormat bullet = marker;
+        QTextCharFormat bullet = dimmed;
         bullet.setFontWeight(QFont::Bold);
         setFormat(item.capturedStart(1), item.capturedLength(1), bullet);
     }

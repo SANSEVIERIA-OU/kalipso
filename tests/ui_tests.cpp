@@ -15,6 +15,7 @@
 #include <QFormLayout>
 #include <QKeySequenceEdit>
 #include <QLineEdit>
+#include <QListWidget>
 #include <QMenu>
 #include <QPlainTextEdit>
 #include <QProcess>
@@ -193,6 +194,62 @@ private slots:
         QVERIFY(positionLabel(reopened)->text().startsWith("Word 3 of 4"));
     }
 
+    void firstRunWelcomesAndTheListFollowsTheLibrary() {
+        QTemporaryDir empty;
+        MainWindow window(empty.path());
+        window.resize(1100, 760);
+        window.show();
+        auto *welcome = window.findChild<QWidget *>("welcome");
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        QVERIFY(welcome && list);
+        QVERIFY(welcome->isVisible()); // An empty library opens on the three steps, not a blank page.
+        QVERIFY(!editor(window)->isVisible());
+        QVERIFY(list->isVisible());
+        QVERIFY(!window.findChild<QComboBox *>("scriptPicker")->isVisible()); // The list replaces it.
+        window.findChild<QPushButton *>("welcomeSample")->click();
+        QVERIFY(editor(window)->isVisible());
+        QVERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
+        QTRY_COMPARE(list->currentItem()->text(), QString("Welcome"));
+        window.findChild<QPushButton *>("newScript")->click();
+        QCOMPARE(list->count(), 2);
+        QVERIFY(editor(window)->isVisible()); // A second script is not a first run.
+        list->setCurrentRow(list->row(list->findItems("Welcome", Qt::MatchExactly).value(0)));
+        QVERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
+        // Narrow: the picker in the bar takes the list's place.
+        window.resize(420, 760);
+        QTRY_VERIFY(!list->isVisible());
+        QVERIFY(window.findChild<QComboBox *>("scriptPicker")->isVisible());
+    }
+
+    void desktopLookMarksOnlyWhatTheStyleCannotKnow() {
+        // Breeze's colours: white on its light blue reads at 2.3:1, so the primary action deepens.
+        QPalette breeze;
+        breeze.setColor(QPalette::Window, QColor("#202326"));
+        breeze.setColor(QPalette::WindowText, QColor("#fcfcfc"));
+        breeze.setColor(QPalette::Base, QColor("#141618"));
+        breeze.setColor(QPalette::Highlight, QColor("#3daee9"));
+        breeze.setColor(QPalette::HighlightedText, QColor("#ffffff"));
+        QWidget host;
+        auto *quiet = new QPushButton("Quiet", &host);
+        quiet->setProperty("quiet", true);
+        auto *primary = new QPushButton("Open", &host);
+        primary->setObjectName("primaryAction");
+        auto *plain = new QPushButton("Plain", &host);
+        Accessibility::applyNative(&host, breeze);
+        QVERIFY(quiet->isFlat());
+        QVERIFY(!plain->isFlat());
+        const auto fill = primary->palette().color(QPalette::Button);
+        QVERIFY(Accessibility::contrast(primary->palette().color(QPalette::ButtonText), fill) >= 4.5);
+        QVERIFY(fill != QColor("#3daee9")); // Negative control: the accent as given fails.
+        QVERIFY(Accessibility::contrast(QColor("#ffffff"), QColor("#3daee9")) < 4.5);
+        QCOMPARE(plain->palette().color(QPalette::Button), host.palette().color(QPalette::Button));
+        // Secondary text keeps 4.5:1 on the window and on fields.
+        const auto muted = Accessibility::muted(breeze);
+        QVERIFY(Accessibility::contrast(muted, breeze.color(QPalette::Window)) >= 4.5);
+        QVERIFY(Accessibility::contrast(muted, breeze.color(QPalette::Base)) >= 4.5);
+        QVERIFY(muted != breeze.color(QPalette::WindowText));
+    }
+
     void libraryCreatesSwitchesAndDeletesScripts() {
         MainWindow window(scripts_.path());
         auto *picker = window.findChild<QComboBox *>("scriptPicker");
@@ -361,10 +418,11 @@ private slots:
             if (action->text() == "Follow my voice")
                 action->trigger();
         auto *status = reader->findChild<QLabel *>("readerListeningStatus");
-        QCOMPARE(status->text(), QString("Microphone off"));
+        // Before a language is chosen, the reader says what to do first.
+        QCOMPARE(status->text(), QString("Choose the language you speak in Settings"));
         reader->findChild<QPushButton *>("readerListeningButton")->click();
-        // The reason, not just "Microphone off".
-        QVERIFY(status->text() != "Microphone off");
+        // The reason, not just the idle status.
+        QVERIFY(status->text() != "Choose the language you speak in Settings");
         QCOMPARE(status->text(), window.findChild<QLabel *>("audioStatus")->text());
         if (SpeechCatalog::downloadsSupported()) {
             // No language yet: Settings opens at the choice.
@@ -379,7 +437,7 @@ private slots:
         for (auto *action : mode->menu()->actions())
             if (action->text() == "Follow my voice")
                 action->trigger();
-        QCOMPARE(status->text(), QString("Microphone off"));
+        QCOMPARE(status->text(), QString("Choose the language you speak in Settings"));
     }
 
 #ifndef KALIPSO_QT_AUDIO
@@ -818,6 +876,15 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QVERIFY(formatAt(4, 13).fontWeight() == QFont::Bold && !formatAt(4, 13).fontItalic());
         QVERIFY(formatAt(4, 21).fontItalic());
         QCOMPARE(formatAt(5, 2).foreground().color(), heading);
+        QVERIFY(formatAt(5, 0).foreground().color() != QColor(Qt::transparent)); // The editor shows "#".
+        // The reader hides the marks for writing: "#" and the emphasis stars, not the list markers.
+        highlighter.setHideMarks(true);
+        QCOMPARE(formatAt(5, 0).foreground().color(), QColor(Qt::transparent));
+        QCOMPARE(formatAt(5, 2).foreground().color(), heading);
+        QCOMPARE(formatAt(4, 17).foreground().color(), QColor(Qt::transparent)); // "**" after bold.
+        QCOMPARE(formatAt(3, 0).foreground().color(), cue);                      // "-" stays.
+        highlighter.setHideMarks(false);
+        QCOMPARE(formatAt(5, 0).foreground().color(), heading);
         // Without the closing "---", the first line is plain text again.
         document.setPlainText("---\ntitle: Launch\n- item");
         QTest::qWait(20);
@@ -914,9 +981,20 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         window.show();
         auto *settings = openSettings(window);
         auto *scale = window.findChild<QComboBox *>("interfaceTextSize");
+        const double base = QApplication::font().pointSizeF();
         scale->setCurrentIndex(2);
         QTest::qWait(80);
         QVERIFY(scale->font().pointSizeF() >= 16);
+        // Twice the size, once: nested controls do not double their parent's doubled size again.
+        // (The desktop's style lets fonts inherit; it took scroll bars to 81920 points.)
+        for (auto *widget : window.findChildren<QWidget *>())
+            QVERIFY2(widget->font().pointSizeF() <= base * 2 * 2,
+                     qPrintable(QString("%1 %2: %3 pt")
+                                    .arg(widget->metaObject()->className(), widget->objectName())
+                                    .arg(widget->font().pointSizeF())));
+        scale->setCurrentIndex(1);
+        scale->setCurrentIndex(2); // Changing again starts from the same sizes.
+        QCOMPARE(scale->font().pointSizeF(), std::max(8.0, base) * 2);
         auto *scroll = qobject_cast<QScrollArea *>(window.centralWidget());
         QVERIFY(scroll);
         QCOMPARE(scroll->horizontalScrollBar()->maximum(), 0);
@@ -953,7 +1031,10 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
                         QVERIFY(label->height() >= label->heightForWidth(label->width()));
                     }
         }
-        auto *settingsScroll = settings->findChild<QScrollArea *>();
+        QScrollArea *settingsScroll = nullptr; // The page on show.
+        for (auto *area : settings->findChildren<QScrollArea *>("settingsScroll"))
+            if (area->isVisible())
+                settingsScroll = area;
         QVERIFY(settingsScroll);
         const int minimum = settingsScroll->widget()->minimumWidth();
         settingsScroll->widget()->setMinimumWidth(900);

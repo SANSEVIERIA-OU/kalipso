@@ -4,19 +4,25 @@ Run `kalipso` after [building or installing it](../README.md#install). `kalipso 
 
 ## Scripts
 
-Scripts are saved automatically as you type, together with your reading position, and reopen where you left off. Use the script picker to switch between them, and **New script**, **Import…**, **Export…** and **Delete** to manage them. See [writing scripts](scripts.md) for cues, sections and the import formats.
+The first time, Kalipso opens on three steps instead of a blank page: choose the language you speak, check that Kalipso hears you, and write, import or try a sample script.
+
+Scripts are saved automatically as you type, together with your reading position, and reopen where you left off. They are listed beside the editor (in a narrow window, in a picker above it). **New** starts one; the **⋯** menu has **Import…**, **Export…**, **Format**, **Present with Impress…**, **Save session report…** and **Delete script…**. See [writing scripts](scripts.md) for cues, sections and the import formats.
+
+## Look
+
+On a Linux desktop with its own style (Breeze on KDE Plasma), Kalipso uses that style and the desktop's colours, light or dark, and changes with them. **Settings → Appearance → Application appearance** can keep it light or dark instead. Elsewhere Kalipso draws its controls itself. The reader keeps its own look everywhere.
 
 ## The reader
 
 **Open reader** (Ctrl+Enter) shows a frameless reading window that stays on top.
 
-- **Move** it by dragging its title, **resize** it from the bottom-right corner. Its size and position are remembered for each monitor (on Wayland, the compositor decides the position).
+- It opens under the camera at about two fifths of the screen. **Move** it by dragging its title, **resize** it from its edges. Its size and position are remembered for each monitor (on Wayland, the compositor decides the position).
 - The current word is highlighted and already-read words are dimmed. The current line stays at the height chosen in **Settings → Current line position** (top, upper third or centre).
 - **Settings → Font** and **Line spacing** change the reader's typeface and spacing. Any installed font works, including ones designed for easier reading such as Atkinson Hyperlegible or OpenDyslexic. Lines cut by the window's edges fade out rather than ending abruptly.
 - Below the editor, the status shows the reading time of the whole script at the steady speed, as a rehearsal guide.
-- **Edit** lets you change the text inside the reader; changes go straight to the script.
+- Headings show without their `#`, and `**bold**` and `*italic*` without their stars. **Edit** lets you change the text inside the reader, marks included; changes go straight to the script.
 - **Sections** jumps to a `#` heading. Clicking a word moves the reading position there.
-- While the reader scrolls or listens, its controls fade out after a moment and come back when you move the mouse, press a key or pause (Settings → Hide the reader's controls while reading). The text never moves when they do.
+- While the reader scrolls or listens, its controls fade out after a moment and the text has the whole window; they come back over the text when you move the mouse, press a key or pause (Settings → Hide the reader's controls while reading). The text never moves when they do.
 - In steady speed, the status shows the time left at the current speed.
 - **Hide** (or Escape) closes the reader and turns the microphone off. Showing it again never restarts the microphone.
 
@@ -30,11 +36,11 @@ Choose the mode in the reader:
 | **Steady speed** | One word at a time at the chosen words per minute. **Slower**/**Faster** change it while scrolling; each script remembers its own speed. An optional 3- or 5-second countdown comes first. |
 | **Follow my voice** | Local speech recognition matches what you say to the script. If you go off script, the reader says so and catches up when you return — even after skipping ahead or going back. |
 
-After a voice session, the status line summarizes it: duration, words read, pace, long pauses and recognized filler words (many recognizers drop fillers, so this is a lower bound). **More → Save session report…** saves the same as a Markdown file, with the time and pace of each section and the words just before each long pause. Nothing is saved unless you choose to. Filler counting can be turned off in **Settings → Speech**.
+After a voice session, the status line summarizes it: duration, words read, pace, long pauses and recognized filler words (many recognizers drop fillers, so this is a lower bound). **⋯ → Save session report…** saves the same as a Markdown file, with the time and pace of each section and the words just before each long pause. Nothing is saved unless you choose to. Filler counting can be turned off in **Settings → Voice**.
 
-**Settings → Speech → Microphone** lists the microphones connected now. **System microphone** names the one the system uses and follows the system's choice when it changes. A microphone you choose stays the one: if it is unplugged, Kalipso says so instead of switching to another. **Test microphone** opens it for up to 30 seconds; a bar moves with your voice and the note says whether Kalipso hears you. Nothing is recorded or sent. While listening, the reader names the microphone and, when no sound arrives from it for a few seconds (muted or unplugged), says so and shows its controls again.
+**Settings → Voice → Microphone** lists the microphones connected now. **System microphone** names the one the system uses and follows the system's choice when it changes. A microphone you choose stays the one: if it is unplugged, Kalipso says so instead of switching to another. **Test microphone** opens it for up to 30 seconds; a bar moves with your voice and the note says whether Kalipso hears you. Nothing is recorded or sent. While listening, the reader names the microphone and, when no sound arrives from it for a few seconds (muted or unplugged), says so and shows its controls again.
 
-**Settings → Speech → Voice commands** (off by default) lets you move without touching anything while Kalipso follows your voice: say "go next" or "go back" for the next or previous section and "go start" to return to the beginning (in Italian "vai avanti", "torna indietro", "da capo"). A command counts only when you say it on its own, and never when the script itself continues with those words, so reading them aloud still follows the script.
+**Settings → Voice → Voice commands** (off by default) lets you move without touching anything while Kalipso follows your voice: say "go next" or "go back" for the next or previous section and "go start" to return to the beginning (in Italian "vai avanti", "torna indietro", "da capo"). A command counts only when you say it on its own, and never when the script itself continues with those words, so reading them aloud still follows the script.
 
 ### Keys, foot pedals and clickers
 
@@ -55,7 +61,7 @@ Most Bluetooth foot pedals and presentation clickers send Page Up/Down or arrow 
 
 ### Presenting with LibreOffice Impress
 
-**More → Present with Impress…** imports the speaker notes of an `.odp` or `.pptx` presentation as a new script, opens the presentation in LibreOffice Impress, and follows the slideshow: when Impress shows a slide, the reader moves to the start of that slide's notes. It matches the notes' first line, not the slide number, so edits to the script and slides without notes are fine. The status line says what is happening ("Following Impress · slide 3", "slide 2 has no notes", "The slideshow ended").
+**⋯ → Present with Impress…** imports the speaker notes of an `.odp` or `.pptx` presentation as a new script, opens the presentation in LibreOffice Impress, and follows the slideshow: when Impress shows a slide, the reader moves to the start of that slide's notes. It matches the notes' first line, not the slide number, so edits to the script and slides without notes are fine. The status line says what is happening ("Following Impress · slide 3", "slide 2 has no notes", "The slideshow ended").
 
 Kalipso talks to LibreOffice only through a local named pipe that it asks LibreOffice to open for this presentation; nothing goes over the network, and the presentation is never changed. **Stop following Impress** (same menu) ends it; LibreOffice stays open. On Linux this needs LibreOffice's Python bridge (`python3-uno` on Debian and Ubuntu). It is tested on Linux with LibreOffice 25.2; Windows and macOS use the Python bundled with LibreOffice but have not been verified yet.
 
@@ -86,7 +92,7 @@ Scripts) for anyone who wants it enabled permanently; Kalipso then uses that one
 
 ## Speech
 
-**Settings → Speech**:
+**Settings → Voice**:
 
 - On Linux, **Language you speak** lists the languages Kalipso can recognise, each marked *ready* or with the size of its download. Choosing one that is not ready downloads its speech model once, with **Cancel download** while it runs; Kalipso picks the engine (Moonshine where it has the language, Vosk otherwise). Arrow keys and typing open the list rather than choosing at once, so nothing downloads by accident. See [voice following on Linux](local-engine.md).
 - **Other model installed by hand…** takes a Moonshine or Vosk model folder and library you installed yourself.

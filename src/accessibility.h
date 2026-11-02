@@ -14,6 +14,7 @@
 #include <QPushButton>
 #include <QStyle>
 #include <QStyleFactory>
+#include <QStyleHints>
 #include <QStyleOptionButton>
 #include <QStylePainter>
 #include <QToolButton>
@@ -68,12 +69,33 @@ inline void useInterfaceFont() {
     font.setFamilies({QStringLiteral("Atkinson Hyperlegible Next")});
     QApplication::setFont(font);
 }
-// Kalipso draws its controls from the design tokens with style sheets, on top of Qt's Fusion style
-// everywhere. A desktop style would size and paint them its own way: under Breeze (KDE) the settings
-// fields stayed at a few letters wide and scroll bars turned black. Safe to call more than once.
+inline bool &nativeLook() {
+    static bool value = false;
+    return value;
+}
+// True when Kalipso's windows use the desktop's own style and colours (Breeze on Plasma), like the
+// other apps on that desktop. The reader keeps its own look either way.
+inline bool native() { return nativeLook(); }
+
+// On Linux desktops with their own style (Breeze on Plasma, or the one the person chose), Kalipso
+// uses it with the desktop's colours, light or dark, and accent. Elsewhere, and where Qt only has its
+// Fusion fallback, Kalipso draws its controls from the design tokens with style sheets on Fusion.
+// KALIPSO_DRAWN_STYLE=1 forces the drawn look. Safe to call more than once.
 inline void useInterfaceStyle() {
-    if (!qobject_cast<QApplication *>(QCoreApplication::instance()) ||
-        QApplication::style()->name().compare(QLatin1String("fusion"), Qt::CaseInsensitive) == 0)
+    static bool decided = false;
+    if (decided || !qobject_cast<QApplication *>(QCoreApplication::instance()))
+        return;
+    decided = true;
+    const auto name = QApplication::style()->name();
+    const bool fallback = name.compare(QLatin1String("fusion"), Qt::CaseInsensitive) == 0 ||
+                          name.compare(QLatin1String("windows"), Qt::CaseInsensitive) == 0;
+#if defined(Q_OS_LINUX) || defined(Q_OS_FREEBSD)
+    if (!fallback && !qEnvironmentVariableIntValue("KALIPSO_DRAWN_STYLE")) {
+        nativeLook() = true;
+        return;
+    }
+#endif
+    if (name.compare(QLatin1String("fusion"), Qt::CaseInsensitive) == 0)
         return;
     if (auto *fusion = QStyleFactory::create(QStringLiteral("Fusion")))
         QApplication::setStyle(fusion);
@@ -204,6 +226,71 @@ inline void apply(QWidget *widget, const Design::Palette &p) {
     widget->setPalette(palette(p));
     widget->setAutoFillBackground(true);
     widget->setStyleSheet(style(p));
+}
+// Secondary text: the text colour moved towards the background while it keeps 4.5:1 on both the
+// window and the fields.
+inline QColor muted(const QPalette &p) {
+    const QColor text = p.color(QPalette::WindowText), back = p.color(QPalette::Window);
+    for (double t = 0.45; t > 0.01; t -= 0.05) {
+        const QColor mix = QColor::fromRgbF(float(text.redF() * (1 - t) + back.redF() * t),
+                                            float(text.greenF() * (1 - t) + back.greenF() * t),
+                                            float(text.blueF() * (1 - t) + back.blueF() * t));
+        if (contrast(mix, back) >= 4.5 && contrast(mix, p.color(QPalette::Base)) >= 4.5)
+            return mix;
+    }
+    return text;
+}
+// The desktop's look (see native()): its style draws every control in its colours, or in `colors`
+// when the person chose light or dark in Kalipso. Kalipso only marks what the style cannot know:
+// quiet buttons are flat, the one primary action takes the accent colour, secondary text is muted.
+// No style sheet: under one, Qt fixes each control's colours when it first polishes it, and they
+// would stay light when the desktop turns dark. Call again when the desktop's colours change.
+inline void applyNative(QWidget *widget, const QPalette &colors) {
+    widget->setStyleSheet(QString());
+    widget->setPalette(colors);
+    const QPalette used = widget->palette();
+    const QColor secondary = muted(used);
+    for (auto *label : widget->findChildren<QLabel *>()) {
+        const auto role = label->property("role").toString();
+        if (role == QLatin1String("muted")) {
+            QPalette own; // Only the text colour is Kalipso's; the rest follows the window.
+            own.setColor(QPalette::WindowText, secondary);
+            label->setPalette(own);
+        } else if (role == QLatin1String("title")) {
+            auto font = label->font();
+            font.setWeight(QFont::DemiBold);
+            label->setFont(font);
+        }
+    }
+    for (auto *button : widget->findChildren<QPushButton *>()) {
+        if (button->property("quiet").toBool())
+            button->setFlat(true);
+        if (button->objectName() == QLatin1String("primaryAction") || button->property("primary").toBool()) {
+            // The accent colour, deepened (or lightened under a dark label) until its label keeps
+            // 4.5:1: Breeze's light blue under white text does not.
+            QColor fill = used.color(QPalette::Active, QPalette::Highlight);
+            const QColor label = used.color(QPalette::Active, QPalette::HighlightedText);
+            for (int step = 0; step < 24 && contrast(label, fill) < 4.5; ++step)
+                fill = label.lightnessF() > 0.5 ? fill.darker(108) : fill.lighter(108);
+            QPalette accent;
+            for (auto group : {QPalette::Active, QPalette::Inactive}) {
+                accent.setColor(group, QPalette::Button, fill);
+                accent.setColor(group, QPalette::ButtonText, label);
+            }
+            button->setPalette(accent);
+        }
+    }
+    for (auto *button : widget->findChildren<QToolButton *>())
+        if (button->property("quiet").toBool())
+            button->setAutoRaise(true);
+}
+// Whether the desktop asks for dark colours.
+inline bool systemIsDark() {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    if (QGuiApplication::styleHints()->colorScheme() != Qt::ColorScheme::Unknown)
+        return QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
+#endif
+    return luminance(QGuiApplication::palette().color(QPalette::Window)) < 0.2;
 }
 } // namespace Accessibility
 

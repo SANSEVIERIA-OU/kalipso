@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 13:24+0000\n"
+"POT-Creation-Date: 2026-11-02 14:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,6 +50,32 @@ msgid "Choose the window behind your reader in the desktop sharing dialog"
 msgstr ""
 
 msgid "Window sharing stopped · Choose a background window to resume"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid ""
+"A little preparation makes room for a better conversation. [smile] Take your "
+"time. Read the first sentence aloud and watch the words follow you."
 msgstr ""
 
 msgid "Add your script to begin."
@@ -178,6 +204,9 @@ msgid "Starting local speech…"
 msgstr ""
 
 msgid "Speech unavailable · Open Settings"
+msgstr ""
+
+msgid "The microphone turns on when you start"
 msgstr ""
 
 msgid "Script"

@@ -67,6 +67,7 @@ ReaderView::ReaderView(QWidget *parent)
       scroll_(new QPropertyAnimation(verticalScrollBar(), "value", this)) {
     setObjectName("readingScript");
     setReadOnly(true);
+    highlighter_->setHideMarks(true);
     setAcceptRichText(false);
     setFrameStyle(QFrame::NoFrame);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -96,12 +97,22 @@ void ReaderView::resizeEvent(QResizeEvent *event) {
     const QSignalBlocker block(this);
     auto format = document()->rootFrame()->frameFormat();
     const double bottom = viewport()->height() * (1.0 - readingLine_);
-    if (std::abs(format.bottomMargin() - bottom) > 1 || format.leftMargin() != kMarkerSpace) {
+    if (std::abs(format.bottomMargin() - bottom) > 1 || format.leftMargin() != kMarkerSpace ||
+        format.topMargin() != topInset_) {
         format.setBottomMargin(bottom);
+        format.setTopMargin(topInset_);
         format.setLeftMargin(kMarkerSpace); // Room for the current-line marker.
         document()->rootFrame()->setFrameFormat(format);
     }
     scrollToCharacter(anchor_, false);
+}
+
+void ReaderView::setTopInset(int pixels) {
+    if (pixels == topInset_)
+        return;
+    topInset_ = pixels;
+    QResizeEvent event(size(), size());
+    resizeEvent(&event);
 }
 
 void ReaderView::setLineSpacing(int percent) {
@@ -274,7 +285,7 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     bar->addTrailing(sections_);
     bar->addTrailing(edit_);
     bar->addTrailing(hide);
-    layout->addWidget(topBar);
+    topBar->setParent(this); // Over the text, placed by placeBars().
 
     progress_ = new QProgressBar;
     progress_->setObjectName("readerProgress");
@@ -355,7 +366,7 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     for (auto *widget : QList<QWidget *>{previous, primary_, next, modes_, speedBox_})
         controls->addWidget(widget);
     controls->addTrailing(status_);
-    layout->addWidget(controlBar);
+    controlBar->setParent(this);
     icons_ = {{previous, "previous"}, {next, "next"}, {sections_, "sections"}, {edit_, "edit"}, {hide, "close"}};
 
     // Clicking a control must not move keyboard focus off the script: pedals and
@@ -392,6 +403,7 @@ ReaderWindow::ReaderWindow(QWidget *parent)
     connect(edit_, &QPushButton::toggled, this, [this](bool enabled) {
         editing_ = enabled;
         text->setReadOnly(!enabled);
+        text->highlighter()->setHideMarks(!enabled); // Editing shows the marks it changes.
         // Scroll bars only while editing; reading follows the current line.
         text->setVerticalScrollBarPolicy(enabled ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff);
         text->style()->unpolish(text); // The style sheet depends on readOnly.
@@ -519,7 +531,32 @@ void ReaderWindow::setControlsVisible(bool visible) {
     }
 }
 
-void ReaderWindow::setStatus(const QString &status) { status_->setText(status); }
+void ReaderWindow::setStatus(const QString &status) {
+    status_->setText(status);
+    placeBars(); // A longer status can wrap to a second line.
+}
+
+void ReaderWindow::placeBars() {
+    if (bars_.size() < 2)
+        return;
+    const auto heightFor = [this](QWidget *bar) {
+        return bar->layout()->hasHeightForWidth() ? bar->layout()->heightForWidth(width()) : bar->sizeHint().height();
+    };
+    auto *top = bars_.first(), *bottom = bars_.last();
+    const int topHeight = heightFor(top), bottomHeight = heightFor(bottom);
+    top->setGeometry(0, progress_->height(), width(), topHeight);
+    bottom->setGeometry(0, height() - bottomHeight, width(), bottomHeight);
+    // The first line starts under the top bar; while reading, the bars fade and the text has the
+    // whole window.
+    text->setTopInset(topHeight);
+    top->raise();
+    bottom->raise();
+    if (auto *grip = findChild<QSizeGrip *>("readerResize")) {
+        grip->adjustSize();
+        grip->move(width() - grip->width() - 2, height() - grip->height() - 2);
+        grip->raise();
+    }
+}
 
 void ReaderWindow::updatePrimary() {
     primary_->setVisible(readingMode_ != ReadingMode::Manual);
@@ -560,9 +597,12 @@ void ReaderWindow::setCaptureExcluded(bool excluded) {
     captureExcluded_ = excluded;
     if (isVisible())
         CaptureExclusion::apply(this, excluded);
-    setToolTip(excluded ? tr("Kalipso asked the system to hide this reader from screen sharing. Check the view "
-                             "from another participant.")
-                        : tr("Screen sharing may include this reader."));
+    // Said to assistive technology; a tooltip over the whole reader would cover the text whenever the
+    // pointer rests on it.
+    setAccessibleDescription(
+        excluded ? tr("Kalipso asked the system to hide this reader from screen sharing. Check the view "
+                      "from another participant.")
+                 : tr("Screen sharing may include this reader."));
 }
 
 void ReaderWindow::showCountdown(int seconds) {
@@ -612,8 +652,9 @@ void ReaderWindow::showOn(QScreen *screen) {
         } else {
             const int extra =
                 std::max(0, qRound((primary_->font().pointSizeF() - QApplication::font().pointSizeF()) * 12));
-            resize(std::min(680, std::max(320, available.width() - 32)),
-                   std::min(available.height() - 32, 360 + extra));
+            // About two fifths of the screen: five or six lines at the default size, under the camera.
+            resize(std::min(std::clamp(available.width() * 2 / 5, 560, 960), std::max(320, available.width() - 32)),
+                   std::min(available.height() - 32, std::clamp(available.height() * 2 / 5, 360, 600) + extra));
             move(available.center().x() - width() / 2, available.top()); // Under the camera.
         }
         placing_ = false;
@@ -658,11 +699,7 @@ void ReaderWindow::resizeEvent(QResizeEvent *event) {
         auto *hide = findChild<QPushButton *>("readerHide");
         hide->setText(compact ? QString() : tr("Hide"));
     }
-    if (auto *grip = findChild<QSizeGrip *>("readerResize")) {
-        grip->adjustSize();
-        grip->move(width() - grip->width() - 2, height() - grip->height() - 2);
-        grip->raise();
-    }
+    placeBars();
     if (countdown_->isVisible())
         showCountdown(countdown_->text().toInt());
     saveGeometry();

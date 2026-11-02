@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kalipso-desktop\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 13:24+0000\n"
+"POT-Creation-Date: 2026-11-02 14:43+0000\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,6 +52,35 @@ msgid "Window sharing stopped · Choose a background window to resume"
 msgstr ""
 "Condivisione della finestra interrotta · Scegli una finestra di sfondo per "
 "riprendere"
+
+msgid "German"
+msgstr "Tedesco"
+
+msgid "English"
+msgstr "Inglese"
+
+msgid "Spanish"
+msgstr "Spagnolo"
+
+msgid "French"
+msgstr "Francese"
+
+msgid "Italian"
+msgstr "Italiano"
+
+msgid "Japanese"
+msgstr "Giapponese"
+
+msgid "Chinese"
+msgstr "Cinese"
+
+msgid ""
+"A little preparation makes room for a better conversation. [smile] Take your "
+"time. Read the first sentence aloud and watch the words follow you."
+msgstr ""
+"Un po' di preparazione fa spazio a una conversazione migliore. [sorridi] "
+"Prenditi il tuo tempo. Leggi ad alta voce la prima frase e guarda le parole "
+"che ti seguono."
 
 msgid "Add your script to begin."
 msgstr "Aggiungi il copione per iniziare."
@@ -189,6 +218,9 @@ msgstr "Avvio della voce locale…"
 
 msgid "Speech unavailable · Open Settings"
 msgstr "Voce non disponibile · Apri le Impostazioni"
+
+msgid "The microphone turns on when you start"
+msgstr "Il microfono si accende quando inizi"
 
 msgid "Script"
 msgstr "Copione"
