@@ -19,7 +19,7 @@ class QListWidget;
 class QPushButton;
 class QStackedWidget;
 class QLineEdit;
-class QPlainTextEdit;
+class ScriptEditor;
 class QProgressBar;
 class QSpinBox;
 class RemoteControl;
@@ -37,25 +37,34 @@ public:
     bool importFile(const QString &path);
     ~MainWindow() override;
 
+    // The window turns into the reader near the camera, and back into the editor. The same
+    // window and the same script: what you write is what you read.
     void showPrompter();
+    void showWriting();
+    bool reading() const { return reading_; }
     void setDemoScript();
     // Starts steady scrolling immediately, without changing the saved mode.
     void startSteadyScrolling();
-    ReaderWindow *prompter() const { return prompter_; }
+    ReaderPage *prompter() const { return prompter_; }
     QString currentScript() const { return currentId_; }
 
 protected:
     void closeEvent(QCloseEvent *event) override;
     void changeEvent(QEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+    void moveEvent(QMoveEvent *event) override;
 
 private:
     // Script library
     void buildLibraryBar(QWidget *bar);
     void refreshLibrary();
+    QString scriptMeta(const ScriptLibrary::Entry &entry) const;
+    void refreshCurrentRow();
     void openScript(const QString &id);
     bool saveScript(); // False when the current script could not be written.
     void newScript();
+    // Removes the current script if it has no text.
+    void dropIfEmpty();
     void importScript();
     void followSlide(int number, const QString &notes);
     void exportScript();
@@ -72,6 +81,15 @@ private:
     void loadSample();
 
     // Reading
+    // Frame, size, place and stacking of the window for reading or writing.
+    void placeWindow(bool reading);
+    void saveReaderGeometry(bool resized);
+    // Resizes, and keeps this size against the window system's answers for a moment.
+    void resizeFor(QSize size);
+    QSize wantedSize_;
+    QElapsedTimer wanted_;
+    void updateWindowTitle();
+    void setCaptureExcluded(bool excluded);
     void refreshReading();
     void seekWord(int word);
     void setMode(ReadingMode mode);
@@ -131,7 +149,14 @@ private:
     QString lastSessionScript_;
     QDateTime lastSessionAt_;
     QAction *reportAction_ = nullptr;
-    ReaderWindow *prompter_;
+    ReaderPage *prompter_;
+    QStackedWidget *views_ = nullptr;
+    QWidget *writingView_ = nullptr;
+    bool reading_ = false;
+    bool placing_ = false;
+    bool captureExcluded_ = false;
+    QRect writingGeometry_;
+    bool writingMaximized_ = false;
     RemoteControl *remote_ = nullptr;
     class ImpressFollower *impress_ = nullptr;
     QAction *impressAction_ = nullptr;
@@ -148,6 +173,7 @@ private:
 
     QComboBox *scripts_;
     QListWidget *scriptList_ = nullptr;
+    QWidget *libraryPanel_ = nullptr;
     class QToolButton *more_ = nullptr;
     QStackedWidget *editorStack_ = nullptr;
     QWidget *welcome_ = nullptr;
@@ -156,14 +182,13 @@ private:
     bool welcomeDismissed_ = false;
     QList<class StepBadge *> steps_;
     QPushButton *readHere_ = nullptr;
-    QPlainTextEdit *script_;
+    ScriptEditor *script_;
     QDialog *settings_ = nullptr;
     QWidget *appearanceSettings_ = nullptr;
     class QFormLayout *readerForm_ = nullptr;
     QListWidget *settingsNav_ = nullptr;
     QStackedWidget *settingsStack_ = nullptr;
     std::function<void(int)> settingsAdapt_;
-    class ScriptHighlighter *editorHighlighter_ = nullptr;
     QList<QPair<QAbstractButton *, QString>> icons_; // Buttons whose icon follows the theme.
     StatusLabel *audioStatus_;
     QLabel *position_;

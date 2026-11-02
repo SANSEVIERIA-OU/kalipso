@@ -36,7 +36,7 @@
 #include <QtTest>
 
 namespace {
-QPlainTextEdit *editor(MainWindow &window) { return window.findChild<QPlainTextEdit *>("scriptEditor"); }
+QTextEdit *editor(MainWindow &window) { return window.findChild<QTextEdit *>("scriptEditor"); }
 QLabel *positionLabel(MainWindow &window) { return window.findChild<QLabel *>("readingPosition"); }
 // The widgets that need the most width in a scroll area, so an overflow seen
 // only on another machine (fonts, Qt version) can be fixed without guessing.
@@ -75,7 +75,7 @@ QDialog *openSettings(MainWindow &window) {
     return window.findChild<QDialog *>("settingsDialog");
 }
 
-void setCursor(QPlainTextEdit *edit, int position) {
+void setCursor(QTextEdit *edit, int position) {
     auto cursor = edit->textCursor();
     cursor.setPosition(position);
     edit->setTextCursor(cursor);
@@ -204,7 +204,8 @@ private slots:
         QVERIFY(welcome && list);
         QVERIFY(welcome->isVisible()); // An empty library opens on the three steps, not a blank page.
         QVERIFY(!editor(window)->isVisible());
-        QVERIFY(list->isVisible());
+        // The welcome has the whole window: nothing to list yet, and the empty script is not listed.
+        QVERIFY(!list->isVisible());
         QVERIFY(!window.findChild<QComboBox *>("scriptPicker")->isVisible()); // The list replaces it.
         // Steps still to do are rings, not discs: a filled one read as a black blot.
         const auto steps = window.findChildren<QWidget *>("welcomeStep");
@@ -215,6 +216,7 @@ private slots:
                  qPrintable(inside.name()));
         window.findChild<QPushButton *>("welcomeSample")->click();
         QVERIFY(editor(window)->isVisible());
+        QVERIFY(list->isVisible()); // The list comes with the first script.
         QVERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
         QTRY_COMPARE(list->currentItem()->text(), QString("Welcome"));
         window.findChild<QPushButton *>("newScript")->click();
@@ -285,7 +287,7 @@ private slots:
                 QVERIFY(Accessibility::contrast(colors.color(group, QPalette::HighlightedText),
                                                 colors.color(group, QPalette::Highlight)) >= 4.5);
             }
-            ReaderWindow reader;
+            ReaderPage reader;
             reader.setReaderTheme(QString(p.background) == Design::light.background ? "light" : "dark");
             reader.text->setPlainText("Read current next");
             reader.highlight(5, 7);
@@ -391,26 +393,81 @@ private slots:
         QCOMPARE(unsafe.currentIndex(), 1); // Counterexample: ordinary combos change while scrolling.
     }
 
-    void hidingTheReaderPausesAndShowingDoesNotResume() {
+    void editorShowsSectionsAsHeadingsWithTheirMarksInTheMargin() {
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        auto *edit = editor(window);
+        edit->setPlainText("# Opening\n\nHello everyone\n\n## Details\n\nMore words");
+        QTest::qWait(30);
+        const auto sizeAt = [edit](int blockNumber, int column) {
+            const auto block = edit->document()->findBlockByNumber(blockNumber);
+            for (const auto &range : block.layout()->formats())
+                if (column >= range.start && column < range.start + range.length && range.format.hasProperty(QTextFormat::FontPointSize))
+                    return range.format.fontPointSize();
+            return edit->font().pointSizeF();
+        };
+        const double text = edit->font().pointSizeF();
+        QCOMPARE(sizeAt(2, 0), text);
+        QVERIFY2(qAbs(sizeAt(0, 4) - text * 1.35) < 0.01, qPrintable(QString::number(sizeAt(0, 4) / text))); // Kirigami level 1.
+        QVERIFY2(qAbs(sizeAt(4, 5) - text * 1.20) < 0.01, qPrintable(QString::number(sizeAt(4, 5) / text))); // Level 2.
+        // Lines one and a half times the text size apart.
+        const auto metrics = QFontMetricsF(edit->font());
+        const double spacing = edit->document()->findBlockByNumber(2).blockFormat().lineHeight() / 100.0 * metrics.lineSpacing();
+        QVERIFY2(qAbs(spacing - 1.5 * QFontInfo(edit->font()).pixelSize()) < 1.0, qPrintable(QString::number(spacing)));
+        // The caret steps over the hidden marks, and Backspace at a heading's start makes it a line again.
+        QTextCursor caret(edit->document());
+        caret.setPosition(0);
+        edit->setTextCursor(caret);
+        QCOMPARE(edit->textCursor().position(), 2); // After "# ".
+        QTest::keyClick(edit, Qt::Key_Backspace);
+        QVERIFY(edit->toPlainText().startsWith("Opening\n"));
+        edit->document()->undo();
+        QVERIFY(edit->toPlainText().startsWith("# Opening\n"));
+    }
+
+    void anEmptyScriptIsNotKept() {
+        QTemporaryDir empty;
+        MainWindow window(empty.path());
+        editor(window)->setPlainText("# Kept\nwords");
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        window.findChild<QPushButton *>("newScript")->click();
+        window.findChild<QPushButton *>("newScript")->click(); // Twice: still one empty script.
+        QTRY_COMPARE(list->count(), 2);
+        list->setCurrentRow(list->row(list->findItems("Kept", Qt::MatchExactly).value(0)));
+        QCOMPARE(list->count(), 1); // Left empty: gone, as with notes.
+        QCOMPARE(window.windowTitle(), QString("Kept — Kalipso"));
+    }
+
+    void backToWritingPausesAndReadingAgainDoesNotResume() {
+        QSettings().setValue("reading/countdown", 0);
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("one two three four five six seven eight");
         window.showPrompter();
+        QVERIFY(window.reading());
         auto *reader = window.prompter();
         auto *mode = reader->findChild<QToolButton *>("readerMode");
         for (auto *action : mode->menu()->actions())
             if (action->text() == "Steady speed")
                 action->trigger();
-        QCOMPARE(mode->text(), QString("Steady speed"));
+        QCOMPARE(mode->accessibleName(), QString("Reading mode: Steady speed"));
         auto *primary = reader->findChild<QPushButton *>("readerListeningButton");
-        auto *status = reader->findChild<QLabel *>("readerListeningStatus");
         primary->click();
-        QCOMPARE(primary->text(), QString("Pause scrolling"));
-        reader->hide();
-        QCOMPARE(primary->text(), QString("Start scrolling"));
-        QVERIFY(status->text().startsWith("Paused"));
+        QCOMPARE(primary->accessibleName(), QString("Pause"));
+        // One window: Write turns it back into the editor, and the reading stops.
+        reader->findChild<QPushButton *>("readerWrite")->click();
+        QVERIFY(!window.reading());
+        QVERIFY(editor(window)->isVisible());
+        QVERIFY(!reader->isVisible());
+        QCOMPARE(primary->accessibleName(), QString("Start"));
+        QVERIFY(window.findChild<QLabel *>("audioStatus")->text().startsWith("Paused"));
         window.showPrompter();
+        QVERIFY(reader->isVisible());
         QTest::qWait(600);
-        QCOMPARE(primary->text(), QString("Start scrolling"));
+        QCOMPARE(primary->accessibleName(), QString("Start"));
+        // Esc in the reader is Write too.
+        QTest::keyClick(reader->text, Qt::Key_Escape);
+        QVERIFY(!window.reading());
     }
 
     void theReaderSaysWhyListeningDidNotStart() {
@@ -426,25 +483,33 @@ private slots:
                 action->trigger();
         auto *status = reader->findChild<QLabel *>("readerListeningStatus");
         // Before a language is chosen, the reader says what to do first.
-        QCOMPARE(status->text(), QString("Choose the language you speak in Settings"));
-        reader->findChild<QPushButton *>("readerListeningButton")->click();
-        // The reason, not just the idle status.
-        QVERIFY(status->text() != "Choose the language you speak in Settings");
-        QCOMPARE(status->text(), window.findChild<QLabel *>("audioStatus")->text());
+        QCOMPARE(status->text(), QString("Microphone off · no language chosen yet"));
+        auto *primary = reader->findChild<QPushButton *>("readerListeningButton");
         if (SpeechCatalog::downloadsSupported()) {
-            // No language yet: Settings opens at the choice.
-            QVERIFY(status->text().startsWith("Choose the language you speak"));
+            // The start button is the way there: Settings opens over the reader, at the choice.
+            QCOMPARE(primary->accessibleName(), QString("Choose language"));
+            primary->click();
             auto *settings = window.findChild<QDialog *>("settingsDialog");
             QVERIFY(settings->isVisible());
-            QVERIFY(!reader->isVisible());
-            window.showPrompter();
+            QVERIFY(window.reading());
             QCOMPARE(settings->focusWidget(), window.findChild<QComboBox *>("voiceLanguage"));
+            settings->close();
+            // Space still tries, and says why it cannot.
+            QTest::keyClick(reader->text, Qt::Key_Space);
+            QVERIFY(status->text().startsWith("Choose the language you speak"));
+            settings->close();
+        } else {
+            QCOMPARE(primary->accessibleName(), QString("Start"));
+            primary->click();
+            // The reason, not just the idle status.
+            QVERIFY(status->text() != "Microphone off · no language chosen yet");
+            QCOMPARE(status->text(), window.findChild<QLabel *>("audioStatus")->text());
         }
         // Choosing a reading mode again starts from a clean status.
         for (auto *action : mode->menu()->actions())
             if (action->text() == "Follow my voice")
                 action->trigger();
-        QCOMPARE(status->text(), QString("Choose the language you speak in Settings"));
+        QCOMPARE(status->text(), QString("Microphone off · no language chosen yet"));
     }
 
 #ifndef KALIPSO_QT_AUDIO
@@ -537,7 +602,8 @@ private slots:
         editor(window)->setPlainText("one two three four");
         window.showPrompter();
         auto *reader = window.prompter();
-        QVERIFY(QTest::qWaitForWindowExposed(reader));
+        QVERIFY(QTest::qWaitForWindowExposed(&window));
+        QVERIFY(window.windowFlags() & Qt::FramelessWindowHint); // Without KWin's script, the window itself.
         // Mouse events straight to the reader, at points of its current size: real pointers differ
         // per platform (Windows moves the system cursor, X11 window managers may resize the window).
         const auto hover = [reader](double x, double y) {
@@ -575,7 +641,7 @@ private slots:
         emit reader->modeRequested(ReadingMode::Steady);
         auto *status = reader->findChild<QLabel *>("readerListeningStatus");
         emit reader->toggleRequested();
-        QVERIFY(status->text().startsWith("Scrolling · 2 min left"));
+        QVERIFY(status->text().startsWith("2 min left"));
         QVERIFY(reader->controlsVisible());
         QTRY_VERIFY_WITH_TIMEOUT(!reader->controlsVisible(), 4000);
         QTest::keyClick(reader->text, Qt::Key_Plus); // Any key brings the controls back.
@@ -583,7 +649,7 @@ private slots:
         emit reader->toggleRequested(); // Paused: controls stay.
         QTest::qWait(3000);
         QVERIFY(reader->controlsVisible());
-        QVERIFY(status->text().startsWith("Paused · "));
+        QCOMPARE(reader->findChild<QPushButton *>("readerListeningButton")->accessibleName(), QString("Start"));
     }
 
     void readerFontAndLineSpacingFollowSettingsAndEdits() {
@@ -631,8 +697,8 @@ private slots:
         QVERIFY(expect("section-next", "Word 4 of 5"));     // Before "epsilon"
         QVERIFY(expect("section-next", "Word 4 of 5"));     // No further section
         QVERIFY(expect("section-previous", "Word 2 of 5")); // Back to Two
-        QVERIFY(expect("section-previous", "Word 0 of 5")); // Back to One
-        QVERIFY(expect("section-previous", "Word 0 of 5")); // Stays on the first
+        QVERIFY(expect("section-previous", "5 word")); // Back to One
+        QVERIFY(expect("section-previous", "5 word")); // Stays on the first
 
         // Each script keeps its own steady speed when switching between them.
         auto *picker = window.findChild<QComboBox *>("scriptPicker");
@@ -643,6 +709,7 @@ private slots:
         window.findChild<QPushButton *>("newScript")->click();
         const auto second = picker->currentData().toString();
         QVERIFY(second != first);
+        editor(window)->setPlainText("A second talk"); // An empty script would not be kept.
         emit window.prompter()->speedRequested(-60);
         const auto secondSpeed = speed->text();
         QVERIFY(secondSpeed != firstSpeed);
@@ -693,7 +760,7 @@ private slots:
         assign(edit("key-faster"), QKeySequence(Qt::Key_Up));
         QTest::keyClick(reader->text, Qt::Key_Up);
         QVERIFY(speed->text() != before);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 0 of 4"));
+        QVERIFY(positionLabel(window)->text().startsWith("4 word"));
         // A pedal key for the next section.
         assign(edit("key-section-next"), QKeySequence(Qt::Key_B));
         QTest::keyClick(reader->text, Qt::Key_B);
@@ -772,7 +839,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         };
         press("F5");
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("Following Impress · slide 1"), 30000);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 0 of"));
+        QVERIFY(positionLabel(window)->text().contains(" word")); // Not started: how long it is.
         // A click advances the full-screen slideshow (keyboard focus is unreliable without a window manager).
         const auto advance = [&xdotool] {
             QTest::qWait(2000); // The slideshow reports a slide before its window takes input.
@@ -829,7 +896,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         auto *enable = window.findChild<QCheckBox *>("voiceCommands");
         QVERIFY(enable && !enable->isChecked()); // Off by default.
         emit speech->transcript("go next", true);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 0 of 8"));
+        QVERIFY(positionLabel(window)->text().startsWith("8 word"));
         enable->setChecked(true);
         emit speech->transcript("Go next.", true);
         QVERIFY(positionLabel(window)->text().startsWith("Word 2 of 8")); // Before "then"
@@ -845,7 +912,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QVERIFY(positionLabel(window)->text().startsWith("Word 6 of 8"));
         QVERIFY(!status->text().startsWith("Voice command"));
         emit speech->transcript("da capo", true);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 0 of 8"));
+        QVERIFY(positionLabel(window)->text().startsWith("8 word"));
         QSettings().remove("speech/voiceCommands");
     }
 
@@ -909,12 +976,12 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QTest::keyClick(view, Qt::Key_Left);
         QVERIFY(positionLabel(window)->text().startsWith("Word 1 of 4"));
         QTest::keyClick(view, Qt::Key_Home);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 0 of 4"));
+        QVERIFY(positionLabel(window)->text().startsWith("4 word"));
     }
 
     void readerControlsKeepKeyboardFocusOnTheScript() {
         // Clicking a control must not let a pedal's Space or arrows activate it or type.
-        ReaderWindow reader;
+        ReaderPage reader;
         for (auto *button : reader.findChildren<QAbstractButton *>())
             QCOMPARE(button->focusPolicy(), Qt::TabFocus);
     }
@@ -922,7 +989,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
     void sectionsJumpAndCuesStayOutOfTheWordCount() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("# Opening\nHello everyone [smile]\n\n# Results\nRevenue grew");
-        QVERIFY(positionLabel(window)->text().contains("of 4"));
+        QVERIFY(positionLabel(window)->text().startsWith("4 word"));
         auto *sections = window.prompter()->findChild<QToolButton *>("readerSections");
         QVERIFY(!sections->isHidden());
         const auto actions = sections->menu()->actions();
@@ -934,7 +1001,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
     }
 
     void mirroringFlipsTheReaderText() {
-        ReaderWindow reader;
+        ReaderPage reader;
         reader.setReaderTheme("light");
         reader.text->setPlainText("Mirror");
         reader.resize(600, 300);
@@ -956,7 +1023,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QVERIFY(!window.findChild<QTabWidget *>());
         auto *settings = openSettings(window);
         QVERIFY(settings && settings->isVisible());
-        QCOMPARE(window.findChild<QPushButton *>("primaryAction")->text(), QString("Open reader"));
+        QCOMPARE(window.findChild<QPushButton *>("primaryAction")->text(), QString("Read"));
         auto *button = window.prompter()->findChild<QPushButton *>("readerListeningButton");
         const double original = button->font().pointSizeF();
         const double scriptSize = window.prompter()->text->font().pointSizeF();
@@ -995,15 +1062,15 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         // Twice the size, once: nested controls do not double their parent's doubled size again.
         // (The desktop's style lets fonts inherit; it took scroll bars to 81920 points.)
         for (auto *widget : window.findChildren<QWidget *>())
-            QVERIFY2(widget->font().pointSizeF() <= base * 2 * 2,
+            QVERIFY2(widget->font().pointSizeF() <= base * 2 * 2 || window.prompter()->text->isAncestorOf(widget),
                      qPrintable(QString("%1 %2: %3 pt")
                                     .arg(widget->metaObject()->className(), widget->objectName())
                                     .arg(widget->font().pointSizeF())));
         scale->setCurrentIndex(1);
         scale->setCurrentIndex(2); // Changing again starts from the same sizes.
         QCOMPARE(scale->font().pointSizeF(), std::max(8.0, base) * 2);
-        auto *scroll = qobject_cast<QScrollArea *>(window.centralWidget());
-        QVERIFY(scroll);
+        auto *scroll = window.findChild<QScrollArea *>(); // The writing view; the reader does not scroll.
+        QVERIFY(scroll && scroll->parentWidget()->objectName() == "views");
         QCOMPARE(scroll->horizontalScrollBar()->maximum(), 0);
         for (const int width : {640, 320}) {
             window.resize(width, 760);

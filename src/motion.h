@@ -6,6 +6,7 @@
 
 class QAbstractButton;
 class QPainter;
+class QWidget;
 
 // Motion follows the website's rules: short, by meaning, and none when the system asks for less motion.
 namespace Motion {
@@ -14,6 +15,8 @@ namespace Motion {
 bool reduced();
 // A press shrinks the control slightly about its centre (instant, like the website's buttons).
 void pressed(QPainter &painter, const QRectF &rect);
+// A view that takes the window's place comes in from transparent (Duration::enter, easing out).
+void fadeIn(QWidget *widget);
 } // namespace Motion
 
 // Moves a button's icon by its meaning while the pointer is over the button or it has keyboard focus,

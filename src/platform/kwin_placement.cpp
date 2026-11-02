@@ -15,7 +15,10 @@ namespace {
 // script named like an installed one that is not enabled in System Settings.
 const char *const kScript = "kalipso-reader";
 bool loadedHere = false;
+bool running = false;
 } // namespace
+
+bool KWinPlacement::active() { return running; }
 
 bool KWinPlacement::load() {
 #ifdef KALIPSO_PORTAL_COLORS
@@ -26,11 +29,11 @@ bool KWinPlacement::load() {
         return false;
     QDBusInterface scripting("org.kde.KWin", "/Scripting", "org.kde.kwin.Scripting", bus);
     for (const auto *name : {"kalipso-companion", kScript}) {
-        const QDBusReply<bool> running = scripting.call("isScriptLoaded", QString::fromLatin1(name));
-        if (!running.isValid())
+        const QDBusReply<bool> loaded = scripting.call("isScriptLoaded", QString::fromLatin1(name));
+        if (!loaded.isValid())
             return false;
-        if (running.value()) // Enabled in System Settings, or loaded by an earlier Kalipso.
-            return true;
+        if (loaded.value()) // Enabled in System Settings, or loaded by an earlier Kalipso.
+            return running = true;
     }
     // KWin reads the script from a file: a copy of the one built into Kalipso, in the user's
     // private runtime directory.
@@ -51,7 +54,7 @@ bool KWinPlacement::load() {
         return false;
     }
     loadedHere = true;
-    return true;
+    return running = true;
 #else
     return false;
 #endif
@@ -62,6 +65,7 @@ void KWinPlacement::unload() {
     if (!loadedHere)
         return;
     loadedHere = false;
+    running = false;
     QDBusInterface("org.kde.KWin", "/Scripting", "org.kde.kwin.Scripting", QDBusConnection::sessionBus())
         .call("unloadScript", QString::fromLatin1(kScript));
 #endif

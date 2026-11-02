@@ -132,7 +132,7 @@ void Backdrop::sample() {
         emit unavailable(source());
         return;
     }
-    const QRect rect = reader_->frameGeometry();
+    const QRect rect = reader_->window()->frameGeometry();
 #ifdef Q_OS_MACOS
     const QJsonObject area{{"x", rect.x()}, {"y", rect.y()}, {"width", rect.width()}, {"height", rect.height()}};
     const auto data = QJsonDocument(area).toJson(QJsonDocument::Compact);
