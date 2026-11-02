@@ -31,7 +31,8 @@ if (Tracking.sections('# A\\nx\\n## B').map(s => s.title).join() !== 'A,B') thro
 const filler = Array.from({length: 150}, (_, i) => 'w' + i).join(' ');
 const jumpy = new Tracking.Tracker('one two three ' + filler + ' the final words arrive now');
 jumpy.follow('one two three', true);
-if (!jumpy.follow('the final words arrive', true) || jumpy.lost) throw Error('No long-jump recovery');
+if (!jumpy.follow('the final words arrive now', true) || jumpy.lost) throw Error('No long-jump recovery');
+if (Tracking.italianNumber('2011') !== 'duemilaundici' || Tracking.fold('PERCHÉ È') !== 'perche e') throw Error('No Italian forms');
 if (!new Tracking.Tracker('a [b] c').readingMarkup('#777777', '#ffffff').includes('<i>[b]</i>')) throw Error('No cue style');
 '''
 

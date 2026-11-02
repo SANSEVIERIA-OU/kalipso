@@ -96,13 +96,17 @@ Item {
                 function(message){languageError=message})
     }
     function cancelInstall() {request('CancelInstall',[],refreshLanguages)}
-    function start() {
+    // The script being read: the companion's Vosk then expects its sentences. Older companions do
+    // not know SetScript; they hear any words, as before.
+    function setScript(script) {if(active&&script)request('SetScript',[script],function(){},function(){})}
+    function start(script) {
         if(active||busy)return
         const epoch=++generation;failed=false;lastSequence=-1;busy=true;status=i18n("Checking local speech components")
         call('GetDependencies',function(value){
             const deps=JSON.parse(value)
             if(!deps.ready){failed=true;status=deps.missing.join(' ');return}
             busy=true
+            if(script)request('SetScript',[script],function(){},function(){})
             call('Start',function(started){active=started;busy=true;call('GetState',receive,epoch);if(started)poll.start()},epoch)
         },epoch)
     }

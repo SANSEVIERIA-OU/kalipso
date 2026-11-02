@@ -22,7 +22,10 @@ export class LocalEngine {
     // Listens in this language from now on, downloading its model first if needed.
     async install(code) {return await this.call('InstallLanguage',true,new GLib.Variant('(s)',[code]));}
     async cancelInstall() {await this.call('CancelInstall',false);}
-    async start() {
+    // The script being read: the companion's Vosk then expects its sentences. Older companions
+    // do not know SetScript; they hear any words, as before.
+    setScript(script) {if(this.owned&&script)this.call('SetScript',false,new GLib.Variant('(s)',[script])).catch(()=>{});}
+    async start(script='') {
         if(this.closed||this.pending||this.owned)return;
         this.pending=true;this.cancelled=false;
         this.update({status:'loading',message:_('Checking local speech components'),text:'',sequence:-1});
@@ -30,6 +33,7 @@ export class LocalEngine {
             const dependencies=JSON.parse(await this.call('GetDependencies'));
             if(this.closed||this.cancelled)return;
             if(!dependencies.ready)throw Error(dependencies.missing.join(' '));
+            if(script)await this.call('SetScript',false,new GLib.Variant('(s)',[script])).catch(()=>{});
             this.owned=await this.call('Start');
             if(this.closed||this.cancelled){if(this.owned)await this.call('Stop',false);this.release();if(!this.closed)this.update(JSON.parse(await this.call('GetState',false)));return;}
             if(this.owned&&!this.signal)this.signal=Gio.DBus.session.signal_subscribe(name,name,'StateChanged',path,null,Gio.DBusSignalFlags.NONE,(_c,_s,_p,_i,_n,args)=>{

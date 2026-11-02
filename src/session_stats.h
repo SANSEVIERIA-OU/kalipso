@@ -11,6 +11,11 @@
 // words. Computed in memory from reading positions and recognized text.
 class SessionStats {
 public:
+    // The hesitation sounds counted, as recognizers write them.
+    static const QSet<QString> &fillerWords() {
+        static const QSet<QString> fillers{"um", "umm", "uh", "uhm", "er", "erm", "ehm", "eh", "ah", "hmm", "mm"};
+        return fillers;
+    }
     struct Pause {
         int position; // Last word read before the pause.
         qint64 ms;
@@ -68,11 +73,10 @@ public:
 
     // Counts hesitation sounds. Many recognizers omit them, so this is a lower bound.
     void transcript(const QString &finalText) {
-        static const QSet<QString> fillers{"um", "umm", "uh", "uhm", "er", "erm", "ehm", "eh", "ah", "hmm", "mm"};
         if (!active_ || !countFillers_)
             return;
         for (const auto &word : ScriptTracker::tokenize(finalText))
-            summary_.fillers += fillers.contains(word.normalized);
+            summary_.fillers += fillerWords().contains(word.normalized);
     }
 
     Summary finish(qint64 now) {

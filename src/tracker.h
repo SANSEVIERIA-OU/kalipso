@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #pragma once
+#include "spoken_words.h"
 #include <QHash>
 #include <QString>
 #include <QVector>
@@ -58,12 +59,13 @@ public:
     bool lost() const { return misses_ >= 2; }
 
 private:
-    int localMatch(const QVector<Word> &spoken) const;
-    int globalMatch(const QVector<Word> &spoken) const;
+    int localMatch(const QVector<SpokenWords::Key> &spoken) const;
+    int globalMatch(const QVector<SpokenWords::Key> &spoken) const;
 
     QString script_, lastHypothesis_;
     QVector<Word> words_;
-    QHash<QString, QVector<int>> occurrences_; // Word -> indexes, for whole-script recovery.
+    QVector<SpokenWords::Key> keys_; // How each word is compared with what is heard.
+    QHash<QString, QVector<int>> occurrences_; // Folded word (or spelt number) -> indexes, for recovery.
     int position_ = -1;
     int misses_ = 0;
 };

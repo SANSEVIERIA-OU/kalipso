@@ -22,6 +22,11 @@ struct SpeechRequest {
 struct VoskModel;
 struct VoskRecognizer;
 
+// What a recognizer that can learn a script (Vosk) expects to hear while it is read: the script's
+// sentences, the voice commands and the hesitation sounds the session summary counts, one phrase
+// each (see SpokenWords::recognizerPhrases). Empty without a script.
+QStringList speechVocabulary(const QString &script, const QString &language, const QStringList &commands = {});
+
 // Runs recognition on a worker thread. Every call carries the generation it was
 // issued for; work from a cancelled generation is dropped.
 // When recognition falls behind (a CPU spike during a video call), the queued audio is
@@ -56,6 +61,9 @@ public slots:
     // Chunks numbered below the skip mark are dropped unheard (see CatchUpPolicy).
     void consume(const QByteArray &pcm, quint64 generation, quint64 sequence = 0);
     void unload();
+    // Vosk expects these phrases (see speechVocabulary) from the end of the current utterance on;
+    // empty expects any words of the language. Other engines ignore it.
+    void setVocabulary(const QStringList &words);
 
 signals:
     void ready(quint64 generation);
@@ -66,6 +74,9 @@ signals:
 private:
     bool current(quint64 generation) const { return epoch_->load() == generation; }
     bool loadVosk(const SpeechRequest &request, quint64 generation);
+    // The phrases as a Vosk grammar, in spellings the model knows, plus "[unk]"; "[]" without.
+    QByteArray grammar() const;
+    void applyVocabulary();
 
     std::shared_ptr<std::atomic<quint64>> epoch_, skipBefore_;
     MoonshineRecognizer moonshine_;
@@ -82,6 +93,14 @@ private:
     int (*accept_)(VoskRecognizer *, const char *, int) = nullptr;
     const char *(*result_)(VoskRecognizer *) = nullptr;
     const char *(*partial_)(VoskRecognizer *) = nullptr;
+    // Optional (Vosk 0.3.42 and later): a language model made from the script.
+    int (*findWord_)(VoskModel *, const char *) = nullptr;
+    VoskRecognizer *(*recognizerNewGrammar_)(VoskModel *, float, const char *) = nullptr;
+    void (*setGrammar_)(VoskRecognizer *, const char *) = nullptr;
+    QStringList vocabulary_, applied_;
+    // Vosk changes its grammar only between utterances: when it has just ended one, or before any
+    // audio. Changing it in the middle of one stops the program.
+    bool betweenUtterances_ = true;
 };
 
 // Owns microphone capture and the recognition thread. Emits transcripts on the
@@ -116,8 +135,10 @@ private:
     QString listeningText() const;
     void fail(const QString &message);
 
+    void updateVocabulary();
+
     SystemSpeechClient system_;
-    QString script_;
+    QString script_, language_;
     QStringList commands_;
     int scriptPosition_ = -1;
     bool systemMode_ = false;

@@ -5,6 +5,14 @@
 #include <limits>
 
 namespace {
+// Words heard right before the reader moves anywhere but on from where it is: to skip ahead more
+// than four words, and to jump anywhere in the script. A recognizer that learnt the script (Vosk,
+// see speechVocabulary) hears its words in anything said off the script, three or four in a row
+// ("di un uomo forte"): with two and four, two sentences of improvisation moved the reader on by
+// 116 to 228 words; with four and five, by at most 7 (benchmarks/follow_probe.cpp, Italian).
+constexpr int kSkipExact = 4;
+constexpr int kRecoveryExact = 5;
+
 // Scripts commonly written without spaces (CJK, Thai, Khmer, Myanmar) are split
 // into base-character units, matching the shell frontends. This is a matching
 // fallback, not linguistic word segmentation.
@@ -58,8 +66,8 @@ QVector<Word> allWords(const QString &text) {
 // Edit distance between the spoken words and script words [start, start+n),
 // for every n up to m+2. Calls accept(n, edits) for each prefix length.
 template <typename Accept>
-void alignAt(const QVector<Word> &spoken, const QVector<Word> &words, int start, int last, QVector<int> &previous,
-             QVector<int> &current, Accept accept) {
+void alignAt(const QVector<SpokenWords::Key> &spoken, const QVector<SpokenWords::Key> &words, int start, int last,
+             QVector<int> &previous, QVector<int> &current, Accept accept) {
     const int m = int(spoken.size());
     for (int i = 0; i <= m; ++i)
         previous[i] = i;
@@ -67,21 +75,29 @@ void alignAt(const QVector<Word> &spoken, const QVector<Word> &words, int start,
         current[0] = n;
         for (int i = 1; i <= m; ++i)
             current[i] = std::min({previous[i] + 1, current[i - 1] + 1,
-                                   previous[i - 1] + (spoken[i - 1].normalized != words[start + n - 1].normalized)});
+                                   previous[i - 1] + !SpokenWords::same(spoken[i - 1], words[start + n - 1])});
         accept(n, current[m]);
         previous.swap(current);
     }
 }
 
-int exactMatches(const QVector<Word> &spoken, const QVector<Word> &words, int start, int n) {
+int exactMatches(const QVector<SpokenWords::Key> &spoken, const QVector<SpokenWords::Key> &words, int start, int n) {
     int exact = 0;
     for (const auto &word : spoken)
         for (int j = start; j < start + n; ++j)
-            if (word.normalized == words[j].normalized) {
+            if (SpokenWords::same(word, words[j])) {
                 ++exact;
                 break;
             }
     return exact;
+}
+
+QVector<SpokenWords::Key> keysOf(const QString &text, const QVector<Word> &words) {
+    QVector<SpokenWords::Key> keys;
+    keys.reserve(words.size());
+    for (const auto &word : words)
+        keys.push_back(SpokenWords::key(text, word.start, word.length, word.normalized));
+    return keys;
 }
 } // namespace
 
@@ -217,9 +233,13 @@ void ScriptTracker::setScript(const QString &text) {
     const bool started = position_ >= 0;
     script_ = text;
     words_ = tokenize(text);
+    keys_ = keysOf(text, words_);
     occurrences_.clear();
-    for (int i = 0; i < words_.size(); ++i)
-        occurrences_[words_[i].normalized].push_back(i);
+    for (int i = 0; i < keys_.size(); ++i) {
+        occurrences_[keys_[i].folded].push_back(i);
+        if (!keys_[i].number.isEmpty())
+            occurrences_[keys_[i].number].push_back(i);
+    }
     lastHypothesis_.clear();
     misses_ = 0;
     position_ = -1;
@@ -263,16 +283,19 @@ int ScriptTracker::length() const { return position_ < 0 ? 0 : words_[position_]
 
 // Bounded local sequence matching around the reading position: no language
 // model and no whole-document scan for each partial transcript. Requires at
-// least two exact words and at most one edit per three spoken words.
-int ScriptTracker::localMatch(const QVector<Word> &spoken) const {
+// most one edit per three spoken words, and two words heard right; four to
+// skip ahead (kSkipExact).
+int ScriptTracker::localMatch(const QVector<SpokenWords::Key> &spoken) const {
     const int m = int(spoken.size());
     const int first = std::max(0, position_ - 24), last = std::min(int(words_.size()), position_ + 81);
     QVector<int> previous(m + 1), current(m + 1);
     double best = std::numeric_limits<double>::max();
     int bestEnd = -1;
     for (int start = first; start < last; ++start)
-        alignAt(spoken, words_, start, last, previous, current, [&](int n, int edits) {
-            if (n < std::max(2, m - 2) || edits > m / 3 || exactMatches(spoken, words_, start, n) < 2)
+        alignAt(spoken, keys_, start, last, previous, current, [&](int n, int edits) {
+            if (n < std::max(2, m - 2) || edits > m / 3)
+                return;
+            if (exactMatches(spoken, keys_, start, n) < (start > position_ + 4 ? kSkipExact : 2))
                 return;
             const int end = start + n - 1;
             const double score = edits * 100.0 + std::abs(end - position_) * 0.1;
@@ -286,15 +309,16 @@ int ScriptTracker::localMatch(const QVector<Word> &spoken) const {
 
 // Recovers after a long skip or backtrack. Only a strong match that occurs in
 // exactly one place in the script moves the reader.
-int ScriptTracker::globalMatch(const QVector<Word> &spoken) const {
+int ScriptTracker::globalMatch(const QVector<SpokenWords::Key> &spoken) const {
     const int m = int(spoken.size());
-    const int minimumExact = std::max(4, m - m / 4);
+    const int minimumExact = std::max(kRecoveryExact, m - m / 4);
     // A valid match contains all but at most m - minimumExact spoken words, so it
     // contains one of the (m - minimumExact + 1) rarest. Only alignments that
     // start shortly before one of their occurrences need to be checked.
     QVector<const QVector<int> *> rare;
     for (const auto &word : spoken)
-        if (const auto found = occurrences_.constFind(word.normalized); found != occurrences_.cend())
+        if (const auto found = occurrences_.constFind(word.number.isEmpty() ? word.folded : word.number);
+            found != occurrences_.cend())
             rare.push_back(&found.value());
     if (rare.size() < minimumExact)
         return -1;
@@ -312,9 +336,9 @@ int ScriptTracker::globalMatch(const QVector<Word> &spoken) const {
     int bestEdits = std::numeric_limits<int>::max();
     QVector<int> ends;
     for (const int start : starts)
-        alignAt(spoken, words_, start, int(words_.size()), previous, current, [&](int n, int edits) {
+        alignAt(spoken, keys_, start, int(keys_.size()), previous, current, [&](int n, int edits) {
             if (n < m - 1 || edits > m / 4 || edits > bestEdits ||
-                exactMatches(spoken, words_, start, n) < minimumExact)
+                exactMatches(spoken, keys_, start, n) < minimumExact)
                 return;
             if (edits < bestEdits) {
                 bestEdits = edits;
@@ -339,12 +363,12 @@ bool ScriptTracker::follow(const QString &hypothesis, bool final) {
     }
     lastHypothesis_ = final ? QString{} : hypothesis;
     // Recognizers may emit bracketed tokens such as "[unk]"; tokenize drops them.
-    auto spoken = tokenize(hypothesis);
+    auto spoken = keysOf(hypothesis, tokenize(hypothesis));
     if (spoken.isEmpty() || words_.isEmpty())
         return false;
     if (spoken.size() == 1) {
         const int next = position_ + 1;
-        if (next < words_.size() && words_[next].normalized == spoken.front().normalized) {
+        if (next < words_.size() && SpokenWords::same(spoken.front(), keys_[next])) {
             position_ = next;
             misses_ = 0;
             return true;
@@ -354,7 +378,7 @@ bool ScriptTracker::follow(const QString &hypothesis, bool final) {
     if (spoken.size() > 8)
         spoken = spoken.sliced(spoken.size() - 8);
     int end = localMatch(spoken);
-    if (end < 0 && spoken.size() >= 4)
+    if (end < 0 && spoken.size() >= kRecoveryExact)
         end = globalMatch(spoken);
     if (end < 0) {
         if (final && spoken.size() >= 3)

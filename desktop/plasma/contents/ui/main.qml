@@ -156,7 +156,7 @@ PlasmoidItem {
         else if (audio.active || audio.busy)
             audio.stop()
         else
-            audio.start()
+            audio.start(tracker.text)
     }
     function startSteady() {
         if (atEnd)
@@ -638,6 +638,7 @@ PlasmoidItem {
                                 if (text === root.tracker.text)
                                     return
                                 root.tracker.setText(text)
+                                audio.setScript(text)
                                 root.sectionList = Tracking.sections(text)
                                 saveScript.restart()
                                 root.refresh()

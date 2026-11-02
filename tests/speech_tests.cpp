@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "fake_pipewire.h"
 #include "speech.h"
+#include <QDir>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QSignalSpy>
 #include <QtTest>
 
@@ -44,6 +47,53 @@ private slots:
         worker.load({"vosk", "/missing/kalipso-test-lib.so", "/missing-model"}, 1);
         QCOMPARE(error.size(), 0);
         QCOMPARE(ready.size(), 0);
+    }
+    void voskLearnsTheScriptBetweenUtterances() {
+        QLibrary library(FAKE_VOSK_LIBRARY);
+        library.setLoadHints(QLibrary::PreventUnloadHint);
+        QVERIFY(library.load());
+        const auto grammar = [&] { return QString::fromUtf8(reinterpret_cast<const char *(*)()>(library.resolve("fake_grammar"))()); };
+        const auto count = [&](const char *symbol) { return reinterpret_cast<int (*)()>(library.resolve(symbol))(); };
+
+        // The script's sentences, numbers in words, in spellings the model knows; the elided word
+        // apart when the model knows only its parts; fillers and "[unk]" as their own phrases.
+        const auto vocabulary = speechVocabulary("# Titolo\nBuongiorno a tutti. [sorridi]\n"
+                                                 "L'incidente è avvenuto nel 2023. Dell'anno",
+                                                 "it");
+        QCOMPARE(vocabulary.mid(0, 3), QStringList({"buongiorno a tutti",
+                                                    "l'incidente è avvenuto nel duemilaventitré|duemilaventitre",
+                                                    "dell'anno"}));
+        auto epoch = std::make_shared<std::atomic<quint64>>(1);
+        SpeechWorker worker(epoch);
+        QSignalSpy ready(&worker, &SpeechWorker::ready);
+        worker.setVocabulary(vocabulary);
+        worker.load({"vosk", FAKE_VOSK_LIBRARY, QDir::tempPath()}, 1);
+        QCOMPARE(ready.size(), 1);
+        const auto phrases = QJsonDocument::fromJson(grammar().toUtf8()).array().toVariantList();
+        QCOMPARE(phrases.mid(0, 3), QVariantList({"buongiorno a tutti", "l'incidente è avvenuto nel duemilaventitre",
+                                                  "dell' anno"}));
+        QVERIFY(phrases.contains("ehm"));
+        QCOMPARE(phrases.last().toString(), QString("[unk]"));
+
+        // The script changes while a sentence is heard: the grammar changes when it ends.
+        worker.consume(QByteArray(6400, 's'), 1);
+        worker.setVocabulary({"a tutti"});
+        QCOMPARE(count("fake_grammar_changes"), 0);
+        worker.consume(QByteArray(6400, 's'), 1);
+        QCOMPARE(count("fake_grammar_changes"), 0);
+        worker.consume(QByteArray(6400, 'E'), 1);
+        QCOMPARE(count("fake_grammar_changes"), 1);
+        QCOMPARE(grammar(), QString(R"(["a tutti","[unk]"])"));
+        // Between sentences it changes at once; without a script, any words again.
+        worker.setVocabulary({});
+        QCOMPARE(count("fake_grammar_changes"), 2);
+        QCOMPARE(grammar(), QString("[]"));
+        QCOMPARE(count("fake_violations"), 0);
+        // Words the model does not know at all leave the model as it is.
+        worker.unload();
+        worker.setVocabulary({"parola sconosciuta"});
+        worker.load({"vosk", FAKE_VOSK_LIBRARY, QDir::tempPath()}, 1);
+        QCOMPARE(grammar(), QString("(none)"));
     }
     void moonshineRotatesHistoryOnlyAfterDrainingAtQuietBoundary() {
         QLibrary library(FAKE_MOONSHINE_LIBRARY);
