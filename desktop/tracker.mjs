@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Shared source-only tracker for the Plasma widget, the GNOME extension and the
 // website. Mirrors src/tracker.cpp; speech comes from the local companion.
-import {tokenize as allWords} from './unicode-tokens.mjs';
+import {characterKind, tokenize as allWords} from './unicode-tokens.mjs';
 
 // [Direction cues] on one line: shown to the reader, never matched to speech.
 export function cues(text) {
@@ -81,6 +81,83 @@ function escape(text) {
     return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// How a heard word is compared with the script's word; mirrors src/spoken_words.cpp.
+// Lower case, without the accents of Latin letters ("È" → "e"): combining diacritics
+// (U+0300–U+036F) after a Latin letter (U+0000–U+024F, U+1E00–U+1EFF) are dropped.
+export function fold(word) {
+    let result = '', latin = false;
+    for (const c of word.toLowerCase().normalize('NFD')) {
+        const code = c.codePointAt(0);
+        if (code >= 0x300 && code <= 0x36f) {
+            if (!latin) result += c;
+            continue;
+        }
+        latin = code < 0x250 || (code >= 0x1e00 && code <= 0x1eff);
+        result += c;
+    }
+    return result.normalize('NFC');
+}
+
+const units = ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove', 'dieci', 'undici',
+    'dodici', 'tredici', 'quattordici', 'quindici', 'sedici', 'diciassette', 'diciotto', 'diciannove'];
+const tens = ['', '', 'venti', 'trenta', 'quaranta', 'cinquanta', 'sessanta', 'settanta', 'ottanta', 'novanta'];
+function below100(n) {
+    if (n < 20) return units[n];
+    const unit = n % 10;
+    let ten = tens[Math.floor(n / 10)];
+    if (!unit) return ten;
+    if (unit === 1 || unit === 8) ten = ten.slice(0, -1); // ventuno, ventotto
+    return ten + (unit === 3 ? 'tré' : units[unit]);
+}
+function below1000(n) {
+    const hundreds = Math.floor(n / 100), rest = n % 100;
+    let words = hundreds === 0 ? '' : hundreds === 1 ? 'cento' : units[hundreds] + 'cento';
+    if (!rest) return words;
+    const tail = rest === 3 && hundreds ? 'tré' : below100(rest);
+    if (hundreds && tail.startsWith('o')) words = words.slice(0, -1); // centotto, centottanta
+    return words + tail;
+}
+// A whole number said as one word, as Italian writes numbers ("2011" → "duemilaundici"); empty
+// for a million and more, or with leading zeros.
+export function italianNumber(digits) {
+    if (!/^(0|[1-9][0-9]{0,5})$/.test(digits)) return '';
+    const n = Number(digits);
+    if (n === 0) return 'zero';
+    if (n < 1000) return below1000(n);
+    const thousands = Math.floor(n / 1000), rest = n % 1000;
+    return (thousands === 1 ? 'mille' : below1000(thousands) + 'mila') + (rest === 3 ? 'tré' : rest ? below1000(rest) : '');
+}
+
+const apostrophes = "'’ʼ";
+// Where the tracker meets a word: folded, the number it spells out, and whether an apostrophe cut
+// it short ("vent'", "dell'").
+export function key(text, word) {
+    const end = word.start + word.length;
+    return {folded: fold(word.word), number: fold(italianNumber(word.word)),
+        elided: end + 1 < text.length && apostrophes.includes(text[end]) && characterKind(text.codePointAt(end + 1)) === 1};
+}
+
+const vowel = c => 'aeiou'.includes(c);
+// Whether a heard word is the script's word: the same once folded; a number and its words; an
+// elided form and its full word ("vent'" and "venti"); or the same long word with another final
+// vowel ("caratterizzata", "caratterizzati").
+export function same(heard, written) {
+    if (heard.folded === written.folded) return true;
+    if ((written.number && heard.folded === written.number) || (heard.number && written.folded === heard.number))
+        return true;
+    const elisionOf = (cut, full) => full.length === cut.length + 1 && full.startsWith(cut) && vowel(full.slice(-1));
+    if (heard.elided && (elisionOf(heard.folded, written.folded) || (written.number && elisionOf(heard.folded, written.number))))
+        return true;
+    if (written.elided && elisionOf(written.folded, heard.folded)) return true;
+    const a = heard.folded, b = written.folded;
+    return a.length >= 6 && a.length === b.length && vowel(a.slice(-1)) && vowel(b.slice(-1)) && a.slice(0, -1) === b.slice(0, -1);
+}
+
+// Words heard right before the reader skips more than four words ahead, and before it jumps anywhere
+// in the script: a recognizer that learnt the script hears its words in anything said off it (see
+// kSkipExact in src/tracker.cpp).
+const SKIP_EXACT = 4, RECOVERY_EXACT = 5;
+
 export class Tracker {
     constructor(text = '') {
         this.text = '';
@@ -109,10 +186,15 @@ export class Tracker {
         const started = this.position >= 0;
         this.text = text;
         this.words = this.tokenize(text);
-        this.occurrences = new Map(); // Word -> indexes, for whole-script recovery.
-        this.words.forEach((word, index) => {
-            if (!this.occurrences.has(word.word)) this.occurrences.set(word.word, []);
-            this.occurrences.get(word.word).push(index);
+        this.keys = this.words.map(word => key(text, word)); // How each word meets what is heard.
+        this.occurrences = new Map(); // Folded word (or spelt number) -> indexes, for whole-script recovery.
+        const note = (name, index) => {
+            if (!this.occurrences.has(name)) this.occurrences.set(name, []);
+            this.occurrences.get(name).push(index);
+        };
+        this.keys.forEach((wordKey, index) => {
+            note(wordKey.folded, index);
+            if (wordKey.number) note(wordKey.number, index);
         });
         this.position = -1;
         this.last = '';
@@ -158,25 +240,27 @@ export class Tracker {
             const current = [n];
             for (let i = 1; i <= m; i++)
                 current[i] = Math.min(previous[i] + 1, current[i - 1] + 1,
-                    previous[i - 1] + Number(spoken[i - 1].word !== this.words[start + n - 1].word));
+                    previous[i - 1] + Number(!same(spoken[i - 1], this.keys[start + n - 1])));
             accept(n, current[m]);
             previous = current;
         }
     }
 
     exactMatches(spoken, start, n) {
-        const window = this.words.slice(start, start + n);
-        return spoken.filter(word => window.some(candidate => candidate.word === word.word)).length;
+        const window = this.keys.slice(start, start + n);
+        return spoken.filter(word => window.some(candidate => same(word, candidate))).length;
     }
 
-    // Bounded search around the reading position: >=2 exact words, <=1 edit per 3.
+    // Bounded search around the reading position: <=1 edit per 3 words, and two words heard right
+    // (SKIP_EXACT to skip ahead).
     localMatch(spoken) {
         const m = spoken.length;
         const first = Math.max(0, this.position - 24), last = Math.min(this.words.length, this.position + 81);
         let best = Infinity, bestEnd = -1;
         for (let start = first; start < last; start++)
             this.align(spoken, start, last, (n, edits) => {
-                if (n < Math.max(2, m - 2) || edits > Math.floor(m / 3) || this.exactMatches(spoken, start, n) < 2) return;
+                if (n < Math.max(2, m - 2) || edits > Math.floor(m / 3)) return;
+                if (this.exactMatches(spoken, start, n) < (start > this.position + 4 ? SKIP_EXACT : 2)) return;
                 const end = start + n - 1, score = edits * 100 + Math.abs(end - this.position) * 0.1;
                 if (score < best) { best = score; bestEnd = end; }
             });
@@ -187,8 +271,8 @@ export class Tracker {
     // A valid match contains one of the (m - minimumExact + 1) rarest spoken
     // words, so only alignments starting just before their occurrences are checked.
     globalMatch(spoken) {
-        const m = spoken.length, minimumExact = Math.max(4, m - Math.floor(m / 4));
-        const rare = spoken.map(word => this.occurrences.get(word.word)).filter(Boolean)
+        const m = spoken.length, minimumExact = Math.max(RECOVERY_EXACT, m - Math.floor(m / 4));
+        const rare = spoken.map(word => this.occurrences.get(word.number || word.folded)).filter(Boolean)
             .sort((a, b) => a.length - b.length);
         if (rare.length < minimumExact) return -1;
         const starts = new Set();
@@ -213,10 +297,11 @@ export class Tracker {
             return false;
         }
         this.last = final ? '' : text;
-        let spoken = this.tokenize(text);
+        let spoken = this.tokenize(text).map(word => key(text, word));
         if (!spoken.length || !this.words.length) return false;
         if (spoken.length === 1) {
-            if (this.words[this.position + 1]?.word === spoken[0].word) {
+            const next = this.keys[this.position + 1];
+            if (next && same(spoken[0], next)) {
                 this.position++;
                 this.misses = 0;
                 return true;
@@ -225,7 +310,7 @@ export class Tracker {
         }
         spoken = spoken.slice(-8);
         let end = this.localMatch(spoken);
-        if (end < 0 && spoken.length >= 4) end = this.globalMatch(spoken);
+        if (end < 0 && spoken.length >= RECOVERY_EXACT) end = this.globalMatch(spoken);
         if (end < 0) {
             if (final && spoken.length >= 3) this.misses++;
             return false;

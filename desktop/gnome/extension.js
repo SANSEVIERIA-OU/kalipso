@@ -349,6 +349,7 @@ export default class Kalipso extends Extension {
             if (text === this.tracker.text)
                 return;
             this.tracker.setText(text);
+            this.local?.setScript(text);
             this.state?.update({script: text});
             this.render();
         });
@@ -1086,7 +1087,7 @@ export default class Kalipso extends Extension {
         if (this.local.pending || this.local.owned)
             return;
         this._lastSequence = -1;
-        this.local.start().finally(() => this.render());
+        this.local.start(this.tracker.text).finally(() => this.render());
         this.render();
     }
 

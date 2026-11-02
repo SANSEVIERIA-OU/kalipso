@@ -13,7 +13,7 @@ find_package(Qt6 QUIET COMPONENTS LinguistTools)
 set(KALIPSO_WARNINGS $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall;-Wextra;-Wpedantic>)
 
 # --- Script tracking: Qt Core only ---------------------------------------------
-add_library(prompter_core STATIC src/tracker.cpp)
+add_library(prompter_core STATIC src/tracker.cpp src/spoken_words.cpp)
 target_include_directories(prompter_core PUBLIC src)
 target_link_libraries(prompter_core PUBLIC Qt6::Core)
 target_compile_options(prompter_core PRIVATE ${KALIPSO_WARNINGS})
@@ -156,14 +156,17 @@ if(BUILD_TESTING)
 
   add_library(fake_moonshine SHARED tests/fake_moonshine.cpp)
   set_target_properties(fake_moonshine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+  add_library(fake_vosk SHARED tests/fake_vosk.cpp)
+  set_target_properties(fake_vosk PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
   add_executable(download_tests tests/download_tests.cpp)
   target_link_libraries(download_tests PRIVATE kalipso_downloads Qt6::Test)
   add_test(NAME downloads COMMAND download_tests)
 
   add_executable(speech_tests tests/speech_tests.cpp)
   target_link_libraries(speech_tests PRIVATE kalipso_speech Qt6::Test)
-  target_compile_definitions(speech_tests PRIVATE FAKE_MOONSHINE_LIBRARY="$<TARGET_FILE:fake_moonshine>")
-  add_dependencies(speech_tests fake_moonshine)
+  target_compile_definitions(speech_tests PRIVATE FAKE_MOONSHINE_LIBRARY="$<TARGET_FILE:fake_moonshine>"
+    FAKE_VOSK_LIBRARY="$<TARGET_FILE:fake_vosk>")
+  add_dependencies(speech_tests fake_moonshine fake_vosk)
   add_test(NAME speech COMMAND speech_tests)
 
   add_executable(fake_system_speech tests/fake_system_speech.cpp)
@@ -211,6 +214,8 @@ if(BUILD_TESTING)
 
   add_executable(speech_probe benchmarks/speech_probe.cpp)
   target_link_libraries(speech_probe PRIVATE kalipso_speech)
+  add_executable(follow_probe benchmarks/follow_probe.cpp)
+  target_link_libraries(follow_probe PRIVATE kalipso_speech prompter_core)
   add_executable(tracker_benchmark benchmarks/tracker_benchmark.cpp)
   target_link_libraries(tracker_benchmark PRIVATE prompter_core)
 

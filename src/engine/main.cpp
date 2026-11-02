@@ -30,6 +30,7 @@ constexpr auto kObjectPath = "/io/github/brianidavide/Kalipso/Engine";
 constexpr qint64 kLeaseMs = 10000; // Clients poll; a silent client loses its session.
 constexpr qint64 kIdleExitMs = 90000;
 constexpr int kMaxEvents = 64;
+constexpr int kMaxScriptCharacters = 1 << 20; // A script of a hundred thousand words or more.
 
 int shutdownWriteFd = -1;
 void requestShutdown(int) {
@@ -349,6 +350,22 @@ public slots:
             return;
         }
         stopSpeech();
+    }
+
+    // The script being read, before Start and whenever it changes: Vosk then expects its sentences
+    // and follows a reading through room noise far better (see speechVocabulary). Frontends that
+    // do not call it, and Moonshine, hear any words of the language.
+    void SetScript(const QString &script) {
+        if (calledFromDBus() && !owner_.isEmpty() && message().service() != owner_) {
+            sendErrorReply(QDBusError::AccessDenied, "Only the listening frontend can set the script.");
+            return;
+        }
+        if (script.size() > kMaxScriptCharacters) {
+            sendErrorReply(QDBusError::InvalidArgs, "The script is too long.");
+            return;
+        }
+        idle_.restart();
+        speech_.setScript(script, -1);
     }
 
 signals:

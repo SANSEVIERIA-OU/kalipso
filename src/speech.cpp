@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "speech.h"
+#include "session_stats.h"
+#include "spoken_words.h"
 #include "system_speech/grammar.h"
 #include <QDateTime>
 #include <QFileInfo>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #ifdef KALIPSO_QT_AUDIO
@@ -16,6 +19,18 @@ constexpr int kChunkBytes = 6400;       // 200 ms of 16-bit mono PCM.
 constexpr int kMaxBacklogBytes = 64000; // 2 s; beyond this the model cannot keep up.
 } // namespace
 
+QStringList speechVocabulary(const QString &script, const QString &language, const QStringList &commands) {
+    auto phrases = SpokenWords::recognizerPhrases(script, language);
+    if (phrases.isEmpty())
+        return {};
+    for (const auto &phrase : commands)
+        phrases << phrase.toLower();
+    for (const auto &filler : SessionStats::fillerWords())
+        phrases << filler;
+    phrases.removeDuplicates();
+    return phrases;
+}
+
 SpeechWorker::~SpeechWorker() { unload(); }
 
 void SpeechWorker::unload() {
@@ -28,6 +43,53 @@ void SpeechWorker::unload() {
     model_ = nullptr;
     vosk_.unload();
     backend_.clear();
+    applied_.clear();
+    betweenUtterances_ = true;
+}
+
+QByteArray SpeechWorker::grammar() const {
+    // Each word in a spelling the model knows: the first of its alternatives ("ventitré|ventitre"),
+    // else, for "dell'anno", its parts. Words the model does not know are left out.
+    const auto known = [this](const QString &word) { return findWord_(model_, word.toUtf8().constData()) >= 0; };
+    QJsonArray phrases;
+    for (const auto &phrase : vocabulary_) {
+        QStringList words;
+        for (const auto &word : phrase.split(u' ', Qt::SkipEmptyParts)) {
+            const auto spellings = word.split(u'|');
+            if (const auto found = std::find_if(spellings.begin(), spellings.end(), known); found != spellings.end()) {
+                words << *found;
+                continue;
+            }
+            if (const int cut = word.indexOf(u'\''); cut > 0) {
+                const auto elided = word.left(cut + 1), bare = word.left(cut), rest = word.mid(cut + 1);
+                if (known(elided))
+                    words << elided;
+                else if (known(bare))
+                    words << bare;
+                if (known(rest))
+                    words << rest;
+            }
+        }
+        if (!words.isEmpty())
+            phrases.append(words.join(u' '));
+    }
+    if (phrases.isEmpty())
+        return "[]";
+    phrases.append(QStringLiteral("[unk]")); // Weighting it more (tried up to 100 times) changes nothing.
+    return QJsonDocument(phrases).toJson(QJsonDocument::Compact);
+}
+
+void SpeechWorker::setVocabulary(const QStringList &words) {
+    vocabulary_ = words;
+    if (recognizer_ && betweenUtterances_)
+        applyVocabulary();
+}
+
+void SpeechWorker::applyVocabulary() {
+    if (!recognizer_ || !setGrammar_ || !findWord_ || vocabulary_ == applied_)
+        return;
+    setGrammar_(recognizer_, grammar().constData());
+    applied_ = vocabulary_;
 }
 
 void SpeechWorker::load(const SpeechRequest &request, quint64 generation) {
@@ -78,6 +140,10 @@ bool SpeechWorker::loadVosk(const SpeechRequest &request, quint64 generation) {
     }
     if (auto setLogLevel = reinterpret_cast<void (*)(int)>(vosk_.resolve("vosk_set_log_level")))
         setLogLevel(-1);
+    // Without these, Vosk hears any word of the language, as before 0.3.42.
+    if (!(resolve(findWord_, "vosk_model_find_word") & resolve(recognizerNewGrammar_, "vosk_recognizer_new_grm") &
+          resolve(setGrammar_, "vosk_recognizer_set_grm")))
+        findWord_ = nullptr;
     model_ = modelNew_(request.model.toUtf8().constData());
     if (!current(generation)) {
         unload();
@@ -88,7 +154,12 @@ bool SpeechWorker::loadVosk(const SpeechRequest &request, quint64 generation) {
         emit error(generation, tr("Cannot open this speech model. Choose the extracted model folder."));
         return false;
     }
-    recognizer_ = recognizerNew_(model_, float(kSampleRate));
+    // Models without runtime graphs (the large ones) ignore a grammar and hear any word.
+    const auto words = findWord_ ? grammar() : QByteArray("[]");
+    recognizer_ = words == "[]" ? recognizerNew_(model_, float(kSampleRate))
+                                : recognizerNewGrammar_(model_, float(kSampleRate), words.constData());
+    applied_ = vocabulary_;
+    betweenUtterances_ = true;
     if (!recognizer_) {
         unload();
         emit error(generation, tr("Not enough resources to start speech recognition."));
@@ -118,7 +189,10 @@ void SpeechWorker::consume(const QByteArray &pcm, quint64 generation, quint64 se
         } else {
             const auto json = result ? result_(recognizer_) : partial_(recognizer_);
             const auto data = QJsonDocument::fromJson(json).object();
+            betweenUtterances_ = result != 0;
             emit transcript(data.value(result ? "text" : "partial").toString(), result != 0, generation);
+            if (betweenUtterances_)
+                applyVocabulary(); // The script changed while this utterance was heard.
         }
     }
     emit consumed(int(pcm.size()), generation, false);
@@ -239,6 +313,10 @@ void SpeechService::start(const SpeechRequest &request) {
 #endif
     active_ = true;
     microphone_ = request.microphone.trimmed();
+    if (language_ != request.language) {
+        language_ = request.language; // Numbers are spelt in the language spoken.
+        updateVocabulary();
+    }
     const auto generation = ++generation_;
     epoch_->store(generation);
     emit status(tr("Loading the local speech model…"));
@@ -249,6 +327,7 @@ void SpeechService::setCommandPhrases(const QStringList &phrases) {
     if (commands_ == phrases)
         return;
     commands_ = phrases;
+    updateVocabulary();
 #ifdef Q_OS_WIN
     if (active_ && systemMode_)
         system_.updateScript(scriptPhrases(script_, scriptPosition_, commands_));
@@ -258,12 +337,22 @@ void SpeechService::setCommandPhrases(const QStringList &phrases) {
 void SpeechService::setScript(const QString &script, int position) {
     if (script_ == script && scriptPosition_ == position)
         return;
+    const bool changed = script_ != script;
     script_ = script;
     scriptPosition_ = position;
+    if (changed)
+        updateVocabulary();
 #ifdef Q_OS_WIN
     if (active_ && systemMode_)
         system_.updateScript(scriptPhrases(script_, scriptPosition_, commands_));
 #endif
+}
+
+// The script goes to the recognizer, which learns its sentences (Vosk). The
+// vocabulary depends on the script and the language, not on the reading position.
+void SpeechService::updateVocabulary() {
+    const auto words = speechVocabulary(script_, language_, commands_);
+    QMetaObject::invokeMethod(worker_, [worker = worker_, words] { worker->setVocabulary(words); });
 }
 
 void SpeechService::captureReady() {

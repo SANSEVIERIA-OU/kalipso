@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 import assert from 'node:assert/strict';
-import {Tracker} from './tracker.mjs';
+import {Tracker, fold, italianNumber, key, same} from './tracker.mjs';
 import {readFileSync} from 'node:fs';
 for(const fixture of JSON.parse(readFileSync(new URL('../tests/multilingual-tracker.json',import.meta.url)))) {
     const tracker=new Tracker(fixture.script);
@@ -48,14 +48,23 @@ const styledMarkup = new Tracker('# Intro\nHi <there> [smile] all').readingMarku
 assert(styledMarkup.includes('<b># Intro</b>') && styledMarkup.includes('<i>[smile]</i>') && styledMarkup.includes('&lt;there&gt;'));
 console.log('cues and headings: shown, styled and skipped by voice PASS');
 
-// Long skips and backtracking recover only on an unambiguous strong match.
+// Long skips and backtracking recover only on an unambiguous strong match of five words.
 const filler = Array.from({length: 150}, (_, i) => `parola${i}`).join(' ');
 const jumpy = new Tracker(`inizio del discorso ${filler} la conclusione arriva adesso finalmente`);
 assert(jumpy.follow('inizio del discorso', true));
-assert(jumpy.follow('la conclusione arriva adesso', true));
-assert.equal(jumpy.position, jumpy.words.length - 2);
-assert(jumpy.follow('inizio del discorso parola0', true));
-assert.equal(jumpy.position, 3);
+assert(!jumpy.follow('la conclusione arriva adesso', true)); // Four: what an off-script sentence can give.
+assert(jumpy.follow('la conclusione arriva adesso finalmente', true));
+assert.equal(jumpy.position, jumpy.words.length - 1);
+assert(jumpy.follow('inizio del discorso parola0 parola1', true));
+assert.equal(jumpy.position, 4);
+// Skipping ahead nearby takes four words heard right; reading on, or going back, two.
+const nearby = new Tracker('uno due tre quattro cinque sei sette otto nove dieci undici dodici tredici quattordici');
+assert(nearby.follow('uno due', true));
+assert(!nearby.follow('nove dieci undici', true));
+assert(nearby.follow('nove dieci undici dodici', true));
+assert.equal(nearby.position, 11);
+assert(nearby.follow('tre quattro', true));
+assert.equal(nearby.position, 3);
 const offScript = new Tracker('today we present the new project plan');
 assert(offScript.follow('today we present', true));
 offScript.follow('by the way the weather is lovely', true);
@@ -106,4 +115,29 @@ console.log('tracker: long-jump recovery, off-script state, character seeking, s
  assert.equal(t.readingMarkup('#7','#f',4),'<span foreground="#7"><b># Slide 3</b>\nThese are</span><span foreground="#f"> the numbers.\n<b># Slide 4</b>\nNext.</span>');
  assert.equal(t.readingMarkup('#7','#f',4,null,true),'<font color="#7"><b># Slide 3</b><br>These are</font><font color="#f"> the numbers.<br><b># Slide 4</b><br>Next.</font>');
  console.log('headings on their own line: Pango and Qt rich text PASS');
+}
+// Heard words meet written ones as the small Italian model writes them (mirrors tests/core_tests.cpp).
+{
+ const numbers={0:'zero',1:'uno',15:'quindici',20:'venti',21:'ventuno',23:'ventitré',28:'ventotto',100:'cento',
+  103:'centotré',108:'centotto',180:'centottanta',999:'novecentonovantanove',1000:'mille',
+  1977:'millenovecentosettantasette',2011:'duemilaundici',2017:'duemiladiciassette',2027:'duemilaventisette',
+  21000:'ventunomila',100003:'centomilatré'};
+ for(const [digits,words] of Object.entries(numbers))assert.equal(italianNumber(digits),words,digits);
+ for(const none of ['','007','1000000','12a','-3'])assert.equal(italianNumber(none),'',none);
+ assert.equal(fold('È PERCHÉ più'),'e perche piu');
+ assert.equal(fold('がっこう'),'がっこう'); // Kana keep their marks.
+ const keyOf=(text,index=0)=>key(text,tokenize(text)[index]);
+ assert(same(keyOf('e'),keyOf('è')));
+ assert(same(keyOf('duemilaundici'),keyOf('2011')));
+ assert(same(keyOf("vent'anni"),keyOf('20 anni')));
+ assert(same(keyOf("dell'anno"),keyOf('della')));
+ assert(same(keyOf('caratterizzata'),keyOf('caratterizzati')));
+ assert(!same(keyOf('vent'),keyOf('venti')));
+ assert(!same(keyOf('casa'),keyOf('case')));
+ assert(!same(keyOf('cantare'),keyOf('cantano')));
+ assert(!same(keyOf('ventuno'),keyOf('20')));
+ const t=new Tracker('Sotto il ponte lo spazio libero è di 15 metri. La costruzione è terminata nel 2011.');
+ assert(t.follow('sotto il ponte lo spazio libero e di quindici metri'));assert.equal(t.position,9);
+ assert(t.follow('la costruzione e terminato nel duemilaundici',true));assert.equal(t.position,t.words.length-1);
+ console.log('Italian as the recognizer writes it: numbers, accents, elisions, endings PASS');
 }

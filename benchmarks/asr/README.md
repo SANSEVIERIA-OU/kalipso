@@ -57,6 +57,44 @@ The parent requests affinity to the first logical CPU of two different physical 
 
 Text scoring uses Unicode NFKC + case folding, keeps letters/marks/numbers, converts punctuation/symbols to separators, and collapses whitespace. Accents are preserved; written numbers and digits are not equated. WER uses whitespace units only for EN/DE/ES. JA/ZH use character error rate; CER excludes spaces for every language. Edit rates may exceed 100% because of insertions. Aggregates divide total edits by total reference units, rather than averaging clip percentages. The runtime's Unicode database version is recorded.
 
+## Following a reading (`follow_probe`)
+
+`benchmarks/follow_probe.cpp` runs recorded speech through the app's own speech worker and tracker, at recording time, and
+measures how closely the reader follows the speaker. The recordings are FLEURS test sentences joined into scripts of
+twelve, plus room-like versions made on purpose (reverberation and steady noise, a quiet microphone): simulations, not a
+microphone in a real room.
+
+```sh
+cmake --build build --target follow_probe
+python3 benchmarks/asr/prepare_follow.py /tmp/kalipso-follow --language it     # needs NumPy for the room versions
+build/kalipso-engine --download --language it                                   # Vosk runtime and model, as the app does
+LIB=~/.local/share/kalipso/runtimes/vosk-0.3.45/vosk/libvosk.so
+MODEL=~/.local/share/kalipso/models/vosk/vosk-model-small-it-0.22
+for condition in clean room noisy; do
+  mkdir -p /tmp/follow-results/$condition
+  for spec in /tmp/kalipso-follow/specs/$condition/*.json; do
+    build/follow_probe $LIB $MODEL $spec > /tmp/follow-results/$condition/$(basename $spec)   # add --bias as the app does
+  done
+done
+python3 benchmarks/asr/follow_summary.py /tmp/follow-results
+```
+
+`--bias` gives the recognizer the script as the app does (`speechVocabulary`); `--backend moonshine` uses a Moonshine
+model instead; `--record` and `--replay` save and replay transcripts, to compare trackers on the same ones. Word timings
+are estimated (letters spread over the speech of each sentence), good to a word or two and the same for every
+configuration. Measured 2026-11-02 on 48 Italian sentences (12 minutes, many speakers) with the Vosk small model:
+
+| Audio | Before: any word, old matching | Script learnt by Vosk, new matching |
+| --- | --- | --- |
+| clean | WER 10.4%, within 2 words at 95% of sentence ends, 90% of words reached within 1.35 s | WER 4.3%, 99%, 0.81 s |
+| room (RT60 0.4 s, 20 dB SNR) | WER 28.2%, 62%, 5.12 s, 26 words never reached | WER 5.8%, 93%, 0.52 s, 7 |
+| noisy (RT60 0.6 s, 10 dB SNR) | WER 79.4%, 11%, 29 s, 296 | WER 34.0%, 56%, 5.3 s, 32 |
+
+Two sentences said off the script moved the reader on by 0 words before and by at most 7 after. With the script learnt
+and the old thresholds (two words heard right to move anywhere nearby, four to jump anywhere) they moved it on by 116 to
+228 words: the recognizer hears runs of the script's words in anything said off the script. Moonshine has no way to learn
+a script; its transcripts differ slightly from run to run, so its numbers vary by a few points between runs.
+
 ## Provenance and rights
 
 [FLEURS](https://huggingface.co/datasets/google/fleurs) by Google, revision `70bb2e84b976b7e960aa89f1c648e09c59f894dd`, is CC BY 4.0. Selection is the first five **distinct reference strings** in official test TSV order per language, fixed before inference. The TSV's first column is a dataset ID, not a speaker ID; speaker diversity is not established here. The WAVs are converted to PCM16, mono, 16 kHz. The manifest records source archive/member, transcript, revision and converted file hash. Reference excerpts remain CC BY 4.0 and are attributed to that dataset; software licensing does not replace their license.
