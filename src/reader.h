@@ -33,6 +33,8 @@ public:
     Mirror mirror() const { return mirror_; }
     // Fraction of the visible height, from the top, where the current line sits.
     void setReadingLine(double fraction);
+    // Room above the first line for the bar that floats over the text.
+    void setTopInset(int pixels);
     void scrollToCharacter(int character, bool animate);
     void setTextColor(const QColor &color) { textColor_ = color; }
     void setFadeColor(const QColor &color) { fadeColor_ = color; }
@@ -62,6 +64,7 @@ private:
     int anchor_ = 0;
     QColor textColor_, markerColor_, fadeColor_;
     ScriptHighlighter *highlighter_;
+    int topInset_ = 0;
     QPropertyAnimation *scroll_;
 };
 
@@ -161,7 +164,8 @@ private:
     bool autoHide_ = true;
     bool controlsVisible_ = true;
     QTimer idle_;
-    QList<QWidget *> bars_;
+    QList<QWidget *> bars_; // Float over the text: hidden, they give it their room.
+    void placeBars();
     QHash<int, ReaderAction> customKeys_;
     bool captureExcluded_ = false;
     bool placing_ = false;

@@ -14,6 +14,10 @@ class QAbstractButton;
 class QCheckBox;
 class QDialog;
 class QComboBox;
+class QLabel;
+class QListWidget;
+class QPushButton;
+class QStackedWidget;
 class QLineEdit;
 class QPlainTextEdit;
 class QProgressBar;
@@ -42,6 +46,8 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event) override;
+    void changeEvent(QEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     // Script library
@@ -56,6 +62,14 @@ private:
     void wrapSelection(const QString &before, const QString &after);
     void toggleHeading();
     void deleteScript();
+    // The first-run page: shown instead of an empty editor until there is a script.
+    QWidget *makeWelcome();
+    void refreshWelcome();
+    // Wide windows list the scripts beside the editor; narrow ones pick them from the app bar.
+    void adaptLayout();
+    // Whether voice following has a model for the chosen language.
+    bool voiceReady() const;
+    void loadSample();
 
     // Reading
     void refreshReading();
@@ -83,6 +97,7 @@ private:
     QWidget *makeRemoteSettings();
     QWidget *makeKeySettings();
     void applyTheme();
+    bool applyingTheme_ = false;
     void refreshScreens();
     void refreshVoiceLanguages();
     // Listens with this model from now on; announce says so under the language list.
@@ -98,6 +113,7 @@ private:
     void saveSpeechProfile();
     void saveSettings();
     void applyInterfaceScale(double scale);
+    double interfaceScale_ = 1.0;
     QString speechLanguage() const;
 
     ScriptLibrary library_;
@@ -131,14 +147,29 @@ private:
     bool waitForNewUtterance_ = false;
 
     QComboBox *scripts_;
+    QListWidget *scriptList_ = nullptr;
+    class QToolButton *more_ = nullptr;
+    QStackedWidget *editorStack_ = nullptr;
+    QWidget *welcome_ = nullptr;
+    QLabel *welcomeVoice_ = nullptr;
+    QPushButton *welcomeVoiceButton_ = nullptr;
+    bool welcomeDismissed_ = false;
+    QList<class StepBadge *> steps_;
+    QPushButton *readHere_ = nullptr;
     QPlainTextEdit *script_;
     QDialog *settings_ = nullptr;
+    QWidget *appearanceSettings_ = nullptr;
+    class QFormLayout *readerForm_ = nullptr;
+    QListWidget *settingsNav_ = nullptr;
+    QStackedWidget *settingsStack_ = nullptr;
+    std::function<void(int)> settingsAdapt_;
     class ScriptHighlighter *editorHighlighter_ = nullptr;
     QList<QPair<QAbstractButton *, QString>> icons_; // Buttons whose icon follows the theme.
     StatusLabel *audioStatus_;
     QLabel *position_;
 
-    QComboBox *screen_, *voiceLanguage_, *backend_, *language_, *architecture_;
+    QComboBox *screen_ = nullptr, *voiceLanguage_ = nullptr, *backend_ = nullptr, *language_ = nullptr,
+              *architecture_ = nullptr;
     QWidget *customSpeech_;
     SpeechDownload *download_;
     QProgressBar *downloadProgress_;
@@ -147,7 +178,7 @@ private:
     QString downloadCode_;
     QElapsedTimer downloadShown_;
     std::function<void()> updateSpeechFields_;
-    QLineEdit *speechLibrary_, *modelPath_;
+    QLineEdit *speechLibrary_ = nullptr, *modelPath_ = nullptr;
     QComboBox *microphone_;
     // Settings → Microphone → Test: a level meter, and whether a voice came through.
     MicrophoneCapture microphoneTest_;
