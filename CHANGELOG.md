@@ -4,6 +4,16 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.6 — 3 November 2026
+
+- **Present with Impress** recognises the presentation however its folder is written. Kalipso compared
+  the file's address letter by letter. When LibreOffice wrote the same file another way, Kalipso waited
+  for the slideshow for ever and never followed it. That happens with `/private/var` for `/var` on
+  macOS, a long Windows folder name for its short form, or a folder reached through a link.
+- While LibreOffice has not opened the presentation yet, Kalipso says it is waiting for it, instead of
+  "Connected to Impress".
+- Following Impress is now checked with a real LibreOffice on Linux, Windows and macOS.
+
 ## 2.5 — 3 November 2026
 
 - On GNOME, **Settings → Appearance → GNOME top bar** says whether Kalipso's top bar reader is on. It

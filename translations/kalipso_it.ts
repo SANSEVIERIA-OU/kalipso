@@ -74,6 +74,10 @@
         <source>Cannot follow Impress: %1</source>
         <translation>Impossibile seguire Impress: %1</translation>
     </message>
+    <message>
+        <source>Waiting for LibreOffice to open the presentation…</source>
+        <translation>In attesa che LibreOffice apra la presentazione…</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

@@ -2,8 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """Run src/impress/impress_follow.py against a real LibreOffice Impress slideshow.
 
-Needs LibreOffice, a Python that can import uno, and a display (xvfb-run is
-fine). Exits 77 (skipped) when any of them is missing.
+Needs LibreOffice, a Python that can import uno (on Windows and macOS,
+LibreOffice's own), and on Linux a display (xvfb-run is fine). Exits 77
+(skipped) when any of them is missing.
 """
 import json
 import os
@@ -17,6 +18,10 @@ import threading
 import time
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+# The Python that runs the helper, as Kalipso starts it (ImpressFollower::findOffice): LibreOffice's own
+# python(.exe) on Windows and macOS. Under LibreOffice's launcher sys.executable is not always a program
+# Windows can start, so CI names it.
+PYTHON = os.environ.get('KALIPSO_IMPRESS_PYTHON') or sys.executable
 HELPER = ROOT / 'src' / 'impress' / 'impress_follow.py'
 FIXTURE = ROOT / 'tests' / 'fixtures' / 'notes.odp'
 SKIP = 77
@@ -28,7 +33,9 @@ class OfficeUnavailable(Exception):
 
 def main():
     office = shutil.which('soffice') or shutil.which('libreoffice')
-    if not office or not os.environ.get('DISPLAY'):
+    # A display: on Linux an X11 or Wayland one; Windows and macOS always have their desktop.
+    display = not sys.platform.startswith('linux') or os.environ.get('DISPLAY') or os.environ.get('WAYLAND_DISPLAY')
+    if not office or not display:
         print('skipped: needs LibreOffice and a display')
         return SKIP
     try:
@@ -38,17 +45,29 @@ def main():
         print('skipped: Python cannot import uno')
         return SKIP
 
-    with tempfile.TemporaryDirectory() as work:
+    # LibreOffice on Windows can hold its profile's files a moment after it quits.
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as work:
         work = pathlib.Path(work)
-        presentation = work / 'talk notes.odp'  # A space, as in real file names.
+        (work / 'real').mkdir()
+        presentation = work / 'real' / 'talk notes.odp'  # A space, as in real file names.
         shutil.copy(FIXTURE, presentation)
+        # The helper is given the same file by another path where the system allows a symbolic link, as
+        # LibreOffice reports /private/var for /var on macOS, or long names for short ones on Windows.
+        try:
+            (work / 'link').symlink_to(work / 'real', target_is_directory=True)
+            given = work / 'link' / presentation.name
+        except OSError:  # Windows without the privilege: its short and long names do the same job.
+            given = presentation
         pipe = f'kalipso-test-{os.getpid()}'
         soffice = subprocess.Popen([office, f'-env:UserInstallation={(work / "profile").as_uri()}', '--norestore',
                                     '--nologo', '--nodefault', f'--accept=pipe,name={pipe};urp;', str(presentation)],
                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        helper = subprocess.Popen([sys.executable, str(HELPER), pipe, str(presentation)], stdout=subprocess.PIPE,
-                                  text=True)
+        errors = open(work / 'helper-errors.txt', 'w+', encoding='utf-8')
+        helper = subprocess.Popen([PYTHON, str(HELPER), pipe, str(given)], stdout=subprocess.PIPE,
+                                  stderr=errors, text=True)
         lines = queue.Queue()
+        seen = []  # Every event, to say what came instead when one does not.
+        diagnosis = []
         threading.Thread(target=lambda: [lines.put(json.loads(line)) for line in helper.stdout], daemon=True).start()
 
         def expect(state, timeout=60, **fields):
@@ -60,17 +79,26 @@ def main():
                     event = lines.get(timeout=1)
                 except queue.Empty:
                     continue
+                seen.append(event)
                 if event.get('state') == state and all(event.get(k) == v for k, v in fields.items()):
                     return event
-            raise AssertionError(f'no {state} {fields} within {timeout} s')
+            errors.seek(0)
+            raise AssertionError(f'no {state} {fields} within {timeout} s; events: {seen}; {"; ".join(diagnosis)}; '
+                                 f'helper errors: {errors.read()[-2000:]!r}')
 
         try:
             expect('connecting', timeout=10)
             expect('waiting', timeout=90)
             desktop = connect(pipe)
-            document = find(desktop, uno.systemPathToFileUrl(str(presentation)))
+            document = find(desktop, presentation)
             show = document.getPresentation()
             show.start()
+            # What LibreOffice itself says, to tell a slideshow that did not start from one not followed.
+            try:
+                started = wait_for(lambda: show.isRunning() and show.getController() is not None, timeout=20)
+            except AssertionError:
+                started = False
+            diagnosis.append(f'LibreOffice says the slideshow is running: {bool(started)}')
             expect('slide', slide=1, notes='Thank everyone for coming.\nMention the  two  spaces.')
             controller = wait_for(lambda: show.getController())
             controller.gotoSlideIndex(2)
@@ -88,6 +116,8 @@ def main():
             return SKIP
         finally:
             helper.kill()
+            helper.wait(timeout=10)
+            errors.close()
             soffice.terminate()
             try:
                 soffice.wait(timeout=30)
@@ -95,7 +125,7 @@ def main():
                 soffice.kill()
 
         # Negative control: a presentation that is not open is never reported as a slide.
-        bad = subprocess.run([sys.executable, str(HELPER), 'kalipso-no-such-pipe', str(presentation)],
+        bad = subprocess.run([PYTHON, str(HELPER), 'kalipso-no-such-pipe', str(presentation)],
                              capture_output=True, text=True, timeout=60,
                              env={**os.environ, 'KALIPSO_IMPRESS_CONNECT_SECONDS': '2'})
         assert '"slide"' not in bad.stdout and '"error"' in bad.stdout, bad.stdout
@@ -111,13 +141,19 @@ def connect(pipe):
     return context.ServiceManager.createInstanceWithContext('com.sun.star.frame.Desktop', context)
 
 
-def find(desktop, url):
+def find(desktop, path):
+    import uno
+
     def lookup():
         components = desktop.getComponents().createEnumeration()
         while components.hasMoreElements():
             component = components.nextElement()
-            if hasattr(component, 'getURL') and component.getURL() == url:
-                return component
+            if hasattr(component, 'getURL') and component.getURL():
+                try:
+                    if os.path.samefile(uno.fileUrlToSystemPath(component.getURL()), path):
+                        return component
+                except (OSError, ValueError):
+                    pass
         return None
     return wait_for(lookup)
 

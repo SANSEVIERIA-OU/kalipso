@@ -45,11 +45,22 @@ def connect(pipe):
             time.sleep(0.5)
 
 
-def find_document(desktop, url):
+def same_file(url, path):
+    """Whether a document's URL names the presentation's file. The same file can be written in more than
+    one way: /var/... and /private/var/... on macOS, short and long names on Windows, any symbolic link.
+    Comparing the text of the URLs missed those, and Kalipso then waited for ever."""
+    try:
+        return os.path.samefile(uno.fileUrlToSystemPath(url), path)
+    except (OSError, ValueError, RuntimeException):  # Not a local file, unsaved, or gone.
+        return False
+
+
+def find_document(desktop, path):
     components = desktop.getComponents().createEnumeration()
     while components.hasMoreElements():
         component = components.nextElement()
-        if hasattr(component, 'getURL') and component.getURL() == url and hasattr(component, 'Presentation'):
+        if hasattr(component, 'getURL') and hasattr(component, 'Presentation') and component.getURL() and \
+                same_file(component.getURL(), path):
             return component
     return None
 
@@ -63,28 +74,30 @@ def notes_of(page):
     return ''
 
 
-def follow(desktop, url):
+def follow(desktop, path):
     seen = False
     last = None
     while True:
-        document = find_document(desktop, url)
+        document = find_document(desktop, path)
         if document is None:
             if seen:
                 emit(state='closed')
                 return
-            state = ('waiting', None)
+            state = ('waiting', 'document')  # Not open (yet) in this LibreOffice.
         else:
             seen = True
             presentation = document.getPresentation()
             controller = presentation.getController() if presentation.isRunning() else None
             if controller is None or controller.getCurrentSlide() is None:
-                state = ('ended' if last and last[0] == 'slide' else 'waiting', None)
+                state = ('ended', None) if last and last[0] == 'slide' else ('waiting', 'slideshow')
             else:
                 page = controller.getCurrentSlide()
                 state = ('slide', (controller.getCurrentSlideIndex() + 1, notes_of(page)))
         if state != last:
             if state[0] == 'slide':
                 emit(state='slide', slide=state[1][0], notes=state[1][1])
+            elif state[0] == 'waiting':
+                emit(state='waiting', waitingFor=state[1])  # The presentation, or its slideshow.
             else:
                 emit(state=state[0])
             last = state
@@ -98,7 +111,7 @@ def main():
     pipe, path = sys.argv[1], sys.argv[2]
     emit(state='connecting')
     try:
-        follow(connect(pipe), uno.systemPathToFileUrl(path))
+        follow(connect(pipe), path)
     except NoConnectException:
         emit(state='error', message='LibreOffice did not open a connection.')
         return 1
