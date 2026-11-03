@@ -4,6 +4,14 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.4 — 3 November 2026
+
+- Windows: upgrading Kalipso with the `.msi` no longer breaks it. On a real Windows, an upgrade removed
+  the earlier version's Qt, C++ runtime and FFmpeg files and did not copy them back. Kalipso then
+  stopped with "Qt6Widgets.dll was not found". If that happened to you, install this version over it,
+  or remove Kalipso in Settings → Apps and install it again; your scripts stay.
+- Each change is now checked by installing, upgrading, starting and removing Kalipso on a real Windows.
+
 ## 2.3 — 3 November 2026
 
 - Debian and Ubuntu: the `.deb` also installs Qt's SVG image plugin (`qt6-svg-plugins` on Debian 13
