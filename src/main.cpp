@@ -6,14 +6,19 @@
 #include "window.h"
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QDialog>
 #include <QDir>
 #include <QLibraryInfo>
+#include <QListWidget>
 #include <QLocale>
 #include <QLockFile>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QTranslator>
+#include <functional>
+#include <memory>
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
@@ -93,7 +98,28 @@ int main(int argc, char **argv) {
             window.placeUnderCamera();
             QTimer::singleShot(300, &window, [&window, directory, &app] {
                 window.prompter()->grab().save(directory + "/prompter.png");
-                app.quit();
+                // Every Settings page, opened from the reader as a person opens it.
+                window.prompter()->findChild<QPushButton *>("readerSettings")->click();
+                auto *dialog = window.findChild<QDialog *>("settingsDialog");
+                auto *pages = window.findChild<QListWidget *>("settingsPages");
+                if (!dialog || !pages) {
+                    app.quit();
+                    return;
+                }
+                auto next = std::make_shared<std::function<void(int)>>();
+                *next = [dialog, pages, directory, &app, next](int page) {
+                    if (page >= pages->count()) {
+                        dialog->close();
+                        app.quit();
+                        return;
+                    }
+                    pages->setCurrentRow(page);
+                    QTimer::singleShot(250, dialog, [dialog, directory, page, next] {
+                        dialog->grab().save(QString("%1/settings-%2.png").arg(directory).arg(page + 1, 2, 10, QChar('0')));
+                        (*next)(page + 1);
+                    });
+                };
+                QTimer::singleShot(300, dialog, [next] { (*next)(0); });
             });
         });
     }
