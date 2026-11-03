@@ -25,6 +25,9 @@
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.3" date="2026-11-03" type="stable">
+      <description><p>On Debian and Ubuntu, check boxes and drop-down lists show their marks again outside KDE.</p></description>
+    </release>
     <release version="2.2" date="2026-11-03" type="stable">
       <description><p>Voice commands are removed: words you say only ever follow the script.</p></description>
     </release>
