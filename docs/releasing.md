@@ -31,8 +31,9 @@ metadata, the Plasma widget, the GNOME extension and the KWin script); CI fails 
    open unsigned packages. A push whose version is already released does nothing; a tag pushed by hand
    (`git tag v2.1 && git push origin v2.1`) releases the same way.
 
-If a job fails (macOS runners are sometimes not available: "not acquired by Runner"), re-run the failed
-jobs of that run: the release is created only when every package is there.
+GitHub sometimes finds no free macOS runner and cancels the job ("not acquired by Runner"). The workflow
+`retry-runners.yml` then runs the failed jobs again, up to three more times. The release is created only
+when every package is there. For any other failure, look at the run and re-run it by hand once fixed.
 
 ## What is in a release
 
