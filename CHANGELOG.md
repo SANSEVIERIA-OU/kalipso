@@ -1,8 +1,16 @@
 # Changes
 
-Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …); only the first version and every
-X.0 are published (see [docs/releasing.md](docs/releasing.md)). This file lists what each published
+Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per update, and each is
+published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
+
+## 2.1 — 3 November 2026
+
+- The selected script in the scripts panel keeps the reader's colours. On a light Windows, macOS or
+  Plasma desktop it showed as a light block on the dark reader; it now looks like the other pressed
+  buttons on the reader.
+- From this version on, every update is a new version, published for Linux, Windows and macOS, and
+  `kalipso-bin` and `kalipso` on AUR follow it.
 
 ## 2.0 — 3 November 2026
 

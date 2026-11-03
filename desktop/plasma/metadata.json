@@ -6,7 +6,7 @@
     "Description": "A teleprompter on your desktop: read Kalipso's scripts, or one written here, near your camera, scroll at a steady speed or follow your voice with local speech recognition. Nothing you say leaves your computer.",
     "Description[it]": "Un gobbo sul desktop: leggi i copioni di Kalipso, o uno scritto qui, vicino alla webcam, a velocità costante o seguendo la tua voce con il riconoscimento vocale locale. Niente di quello che dici lascia il computer.",
     "Icon": "media-record",
-    "Version": "2.0",
+    "Version": "2.1",
     "License": "AGPL-3.0-or-later",
     "Authors": [
       {

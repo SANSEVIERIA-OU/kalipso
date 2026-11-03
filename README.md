@@ -4,7 +4,7 @@ A local-first teleprompter for your desktop. Keep your script next to your camer
 
 [Website](https://sansevieria-ou.github.io/kalipso/) · [Writing scripts](docs/scripts.md) · [Standalone app](docs/standalone.md) · [Plasma and GNOME](desktop/README.md) · [Voice following](docs/local-engine.md)
 
-> **Packages are not signed yet.** Download them from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases) and check them with `SHA256SUMS` or `gh attestation verify <file> -R SANSEVIERIA-OU/kalipso` (2.0, built before Kalipso moved to SANSEVIERIA-OU: `--owner brianidavide`); the release notes say how to open them on Windows and macOS. What changed: [CHANGELOG](CHANGELOG.md).
+> **Packages are not signed yet.** Download them from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases) and check them with `SHA256SUMS` or `gh attestation verify <file> -R SANSEVIERIA-OU/kalipso`; the release notes say how to open them on Windows and macOS. What changed: [CHANGELOG](CHANGELOG.md).
 
 ## What it does
 
@@ -36,7 +36,7 @@ All three work without speech components (manual and steady modes). Voice follow
 | Debian 13, Ubuntu 24.04 or newer | `.deb` | Ubuntu 24.04 in CI and Debian 13: installed, started, upgraded, removed |
 | Fedora (current release) | `.rpm` | Fedora container in CI: installed, started, upgraded, removed |
 | Windows 10 (1809) or 11, x64 | `.msi` installer, portable `.zip` | Windows Server 2022 in CI: built and started; the installer under Wine: installed, upgraded, started, removed |
-| macOS 14.4 or newer, Apple Silicon | `.dmg`, `.tar.gz` | macOS 26 in CI: built and started |
+| macOS 14.4 or newer, Apple Silicon | `.dmg`, `.tar.gz` | macOS 26 in CI: built and started, pictures light and dark |
 | KDE Plasma 6 | Plasma widget (`.plasmoid`) | Plasma 6.3 and 6.8 |
 | GNOME Shell 48 | GNOME extension (`.zip`) | GNOME Shell 48 |
 
@@ -62,8 +62,8 @@ Kalipso downloads that language's speech model once (40 to 60 MB). Without an AU
 Download the `.deb` or the `.rpm` from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases), then:
 
 ```sh
-sudo apt install ./kalipso_2.0_amd64.deb      # Debian 13, Ubuntu 24.04 or newer
-sudo dnf install ./kalipso-2.0-1.x86_64.rpm   # Fedora
+sudo apt install ./kalipso_*_amd64.deb      # Debian 13, Ubuntu 24.04 or newer
+sudo dnf install ./kalipso-*.x86_64.rpm     # Fedora
 ```
 
 The packages pull in Qt and PipeWire from your distribution. Fedora's `rpm -i` refuses packages that are
