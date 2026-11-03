@@ -1302,6 +1302,10 @@ void ReaderPage::resizeEvent(QResizeEvent *event) {
         showCountdown(countdown_->text().toInt());
 }
 
+// The page around the text is the reader's own background, light or dark: the window's style sheet
+// (the app's colours) must not show through at the sides of the text.
+void ReaderPage::paintEvent(QPaintEvent *) { QPainter(this).fillRect(rect(), QColor(colors_.background)); }
+
 void ReaderPage::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     updateEditing();
