@@ -15,6 +15,13 @@ if(pageProgress){
  addEventListener('resize',update);update();
 }
 
+// On a phone the menu keeps one row and scrolls; while more of it is out of sight, its end fades.
+const menu=document.querySelector('.site-header nav');
+if(menu){
+ const more=()=>menu.classList.toggle('more-after',menu.scrollWidth-menu.clientWidth-menu.scrollLeft>2);
+ menu.addEventListener('scroll',more,{passive:true});new ResizeObserver(more).observe(menu);more();
+}
+
 // Entrances: each block rises in once as it comes into view; siblings follow one another.
 for(const group of document.querySelectorAll('[data-reveal-group]'))[...group.querySelectorAll(':scope>[data-reveal]')].forEach((item,index)=>item.style.setProperty('--i',index));
 const revealer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('revealed');revealer.unobserve(entry.target)}},{rootMargin:'0px 0px -8% 0px'});
