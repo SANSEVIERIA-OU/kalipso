@@ -70,6 +70,22 @@ jobs:
           # Right after hdiutil create the image can still be busy ("Resource temporarily unavailable"):
           # verify again for a while before giving up.
           for attempt in 1 2 3 4 5 6; do hdiutil verify artifacts/kalipso-macos.dmg && break; [ "$attempt" = 6 ] && exit 1; sleep 10; done
+      - name: Screens on macOS (light and dark)
+        # What Kalipso looks like on a real Mac, for visual review: its own windows (Qt's grab) and the whole
+        # screen with the system's title bar. A missing picture does not fail the build.
+        if: runner.os == 'macOS'
+        continue-on-error: true
+        run: |
+          for scheme in light dark; do
+            if [ "$scheme" = dark ]; then defaults write -g AppleInterfaceStyle Dark; else defaults delete -g AppleInterfaceStyle 2>/dev/null || true; fi
+            build/kalipso.app/Contents/MacOS/kalipso --screenshot "$PWD/screens/$scheme"
+            build/kalipso.app/Contents/MacOS/kalipso --demo --quit-after 6000 &
+            sleep 4
+            screencapture -x "$PWD/screens/$scheme/screen.png" || echo "::warning::No screen capture on macOS"
+            wait
+          done
+          defaults delete -g AppleInterfaceStyle 2>/dev/null || true
+          ls -R screens
       - name: Windows package
         if: runner.os == 'Windows'
         shell: pwsh
@@ -85,6 +101,36 @@ jobs:
           Copy-Item -Recurse artifacts/runtime-notices artifacts/kalipso/share/licenses/third-party
           $app = Start-Process artifacts/kalipso/bin/kalipso.exe -ArgumentList '--demo', '--quit-after', '1500' -Wait -PassThru
           if ($app.ExitCode -ne 0) { throw "The packaged app exited with code $($app.ExitCode)" }
+      - name: Screens on Windows (light and dark)
+        # What Kalipso looks like on a real Windows, for visual review: its own windows (Qt's grab) and the
+        # whole screen with Windows' title bar. A missing picture does not fail the build.
+        if: runner.os == 'Windows'
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize'
+          New-Item -Path $key -Force | Out-Null
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          foreach ($scheme in 'light', 'dark') {
+            Set-ItemProperty -Path $key -Name AppsUseLightTheme -Value ([int]($scheme -eq 'light')) -Type DWord
+            $folder = Join-Path $PWD "screens\$scheme"
+            Start-Process artifacts/kalipso/bin/kalipso.exe -ArgumentList '--screenshot', $folder -Wait
+            $app = Start-Process artifacts/kalipso/bin/kalipso.exe -ArgumentList '--demo', '--quit-after', '6000' -PassThru
+            Start-Sleep -Seconds 4
+            $bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+            $bitmap = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+            [System.Drawing.Graphics]::FromImage($bitmap).CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size)
+            $bitmap.Save((Join-Path $folder 'screen.png'))
+            $app.WaitForExit()
+          }
+          Get-ChildItem -Recurse screens | Select-Object FullName, Length
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: kalipso-screens-${{ matrix.os }}
+          path: screens
+          retention-days: 14
+          if-no-files-found: warn
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: kalipso-${{ matrix.os }}
