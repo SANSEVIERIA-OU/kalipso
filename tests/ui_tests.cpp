@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+#include "app_bridge.h"
 #include "fake_pipewire.h"
 #include "impress.h"
 #include "remote.h"
@@ -18,6 +19,8 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMenu>
+#include <QMessageBox>
+#include <QNetworkProxy>
 #include <QMimeData>
 #include <QPlainTextEdit>
 #include <QProcess>
@@ -37,6 +40,12 @@
 #include <QToolButton>
 #include <QWheelEvent>
 #include <QtTest>
+#include <atomic>
+#include <thread>
+#ifdef KALIPSO_PORTAL_COLORS
+#include <QDBusInterface>
+#include <QDBusReply>
+#endif
 
 namespace {
 // One window: the reader's text is also where the script is written.
@@ -212,6 +221,14 @@ private slots:
         QVERIFY(!editor(window)->isVisible());
         // The welcome has the whole window: nothing to list yet, and the empty script is not listed.
         QVERIFY(!list->isVisible());
+        // The keys start on the welcome, not on the first button of the top bar (no ring there).
+        window.activateWindow();
+        QVERIFY(QTest::qWaitForWindowActive(&window));
+        auto *scroll = window.findChild<QWidget *>("welcomeScroll");
+        QTRY_VERIFY(scroll->hasFocus() || scroll->isAncestorOf(QApplication::focusWidget()));
+        QVERIFY(!window.prompter()->findChild<QPushButton *>("readerScripts")->hasFocus());
+        // No words yet: the status says what the reader does, not "0 words".
+        QVERIFY2(!statusLine(window)->text().startsWith("0 word"), qPrintable(statusLine(window)->text()));
         // Steps still to do are rings, not discs: a filled one read as a black blot.
         const auto steps = window.findChildren<QWidget *>("welcomeStep");
         QCOMPARE(steps.size(), 3);
@@ -238,9 +255,14 @@ private slots:
         QTest::keyClick(list, Qt::Key_Escape); // Esc closes them, and the keys go back to the text.
         QTRY_VERIFY(!list->isVisible());
         QVERIFY(editor(window)->hasFocus() || !window.isActiveWindow());
-        // Large again: the scripts beside the text, as before.
+        // Closed, no row is current and none has room: a screen reader hears no hidden row.
+        QTRY_VERIFY(!list->currentItem());
+        QVERIFY(list->rect().isEmpty());
+        // Large again: the scripts beside the text, as before, with the open script's row current.
         window.resize(1100, 760);
         QTRY_VERIFY(list->isVisible());
+        QVERIFY(list->currentItem());
+        QCOMPARE(list->currentItem()->data(Qt::UserRole).toString(), window.currentScript());
     }
 
     void desktopLookMarksOnlyWhatTheStyleCannotKnow() {
@@ -675,7 +697,237 @@ private slots:
         QTRY_VERIFY_WITH_TIMEOUT(!status->text().startsWith("No sound"), 3000);
         reader->findChild<QPushButton *>("readerListeningButton")->click();
     }
+
+    void anInstalledLanguageFollowsWithoutTheInternet() {
+        // Every connection would fail: a dead proxy for the application and for the system.
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", 9));
+        qputenv("http_proxy", "http://127.0.0.1:9");
+        qputenv("https_proxy", "http://127.0.0.1:9");
+        const auto restore = qScopeGuard([] {
+            QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+            qunsetenv("http_proxy");
+            qunsetenv("https_proxy");
+        });
+        FakePipeWire pipewire;
+        pipewire.setNodes({{"alsa_input.usb", "Blue Yeti"}}, "alsa_input.usb");
+        pipewire.setSound(FakePipeWire::tone(0.5, 200));
+        QTemporaryDir model;
+        QSettings().setValue("speech/backend", "moonshine");
+        QSettings().setValue("profiles/moonshine/library", FAKE_MOONSHINE_LIBRARY);
+        QSettings().setValue("profiles/moonshine/model", model.path());
+        QSettings().setValue("profiles/moonshine/language", "en");
+        MainWindow window(scripts_.path());
+        editor(window)->setPlainText(QString("completed ").repeated(400)); // What the fake recognizer hears.
+        window.placeUnderCamera();
+        auto *reader = window.prompter();
+        emit reader->modeRequested(ReadingMode::Voice);
+        reader->findChild<QPushButton *>("readerListeningButton")->click();
+        // It listens and the reader follows: nothing needs the network once a language is installed.
+        QTRY_VERIFY_WITH_TIMEOUT(position(window).startsWith("Word ") && !position(window).startsWith("Word 1 "),
+                                 8000);
+        reader->findChild<QPushButton *>("readerListeningButton")->click();
+    }
 #endif
+
+    void aDownloadedLanguageCanBeRemovedOrDownloadedAgain() {
+        if (!SpeechCatalog::downloadsSupported())
+            QSKIP("Kalipso downloads languages on Linux x86_64 only");
+        // The Vosk runtime and the Italian model, where a download leaves them.
+        const auto root = SpeechCatalog::writableRoot();
+        const auto cleanup = qScopeGuard([root] { QDir(root).removeRecursively(); });
+        const auto model = root + "/models/vosk/vosk-model-small-it-0.22";
+        const auto install = [&] {
+            for (const auto &file :
+                 {root + "/runtimes/vosk-0.3.45/vosk/libvosk.so", model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
+                QVERIFY(QDir().mkpath(QFileInfo(file).absolutePath()));
+                QFile touch(file);
+                QVERIFY(touch.open(QIODevice::WriteOnly));
+                touch.write(QByteArray(1024, 'x'));
+            }
+        };
+        install();
+        MainWindow window(scripts_.path());
+        window.show();
+        auto *settings = openSettings(window);
+        auto *languages = window.findChild<QComboBox *>("voiceLanguage");
+        auto *box = window.findChild<QWidget *>("speechInstalledBox");
+        auto *status = window.findChild<QLabel *>("speechInstalledStatus");
+        QCOMPARE(languages->currentText(), QString("Italiano · ready"));
+        // Where it is, how big, and its licence; and the note before any download says where they go.
+        QTRY_VERIFY(box->isVisibleTo(settings));
+        QVERIFY2(status->text().contains(QDir::toNativeSeparators(model)), qPrintable(status->text()));
+        QVERIFY(status->text().contains("Apache-2.0"));
+        auto *note = window.findChild<QLabel *>("speechDownloadNote");
+        QVERIFY(note->text().contains(QDir::toNativeSeparators(root)));
+        QVERIFY(note->text().contains("MIT") && note->text().contains("Apache 2.0"));
+        const auto answer = [](QMessageBox::StandardButton button) {
+            QTimer::singleShot(0, [button] {
+                if (auto *box = qobject_cast<QMessageBox *>(QApplication::activeModalWidget()))
+                    box->button(button)->click();
+            });
+        };
+        // Asked first: Cancel keeps it.
+        answer(QMessageBox::Cancel);
+        window.findChild<QPushButton *>("speechRemoveModel")->click();
+        QVERIFY(QFileInfo::exists(model));
+        // Removed: the files go, the language is no longer in use, and the list offers it again.
+        answer(QMessageBox::Yes);
+        window.findChild<QPushButton *>("speechRemoveModel")->click();
+        QVERIFY(!QFileInfo::exists(model));
+        QVERIFY(QFileInfo::exists(root + "/runtimes/vosk-0.3.45/vosk/libvosk.so")); // Other languages use it.
+        QVERIFY(window.findChild<QLineEdit *>("speechModel")->text().isEmpty());
+        QVERIFY(languages->findText("Italiano · download", Qt::MatchStartsWith) > 0);
+        QVERIFY2(window.findChild<QLabel *>("speechDownloadStatus")->text().startsWith("Removed Italian:"), qPrintable(window.findChild<QLabel *>("speechDownloadStatus")->text()));
+        QTRY_VERIFY(!box->isVisibleTo(settings));
+        // Downloading again removes it and fetches it anew (here the network is dead, so it fails
+        // and says so, with Try again).
+        install();
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", 9));
+        qputenv("https_proxy", "http://127.0.0.1:9");
+        const auto restore = qScopeGuard([] {
+            QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+            qunsetenv("https_proxy");
+        });
+        languages->setCurrentIndex(languages->findText("Italiano", Qt::MatchStartsWith));
+        emit languages->activated(languages->currentIndex());
+        QTRY_VERIFY(box->isVisibleTo(settings));
+        answer(QMessageBox::Yes);
+        window.findChild<QPushButton *>("speechRepairModel")->click();
+        QVERIFY(!QFileInfo::exists(model));
+        auto *downloadStatus = window.findChild<QLabel *>("speechDownloadStatus");
+        QTRY_VERIFY_WITH_TIMEOUT(downloadStatus->text().startsWith("Couldn't download Italian"), 15000);
+        QCOMPARE(window.findChild<QPushButton *>("speechDownloadAction")->text(), QString("Try again"));
+        // A model installed by hand is never offered for removal, nor removed.
+        QTemporaryDir byHand;
+        QVERIFY(!SpeechCatalog::downloaded({"vosk", {}, byHand.path(), "it"}));
+        QVERIFY(!SpeechCatalog::removeDownloaded({"vosk", {}, byHand.path(), "it"}));
+        QVERIFY(QFileInfo::exists(byHand.path()));
+    }
+
+    void minimizingOnWaylandIsToldByKWinAndPauses() {
+        // On Wayland Qt is not told: Kalipso's KWin script calls SetMinimized over D-Bus.
+        QSettings().setValue("reading/countdown", 0);
+        MainWindow window(scripts_.path());
+        AppBridge bridge;
+        window.connectBridge(&bridge);
+        editor(window)->setPlainText("one two three four five six seven eight");
+        auto *reader = window.prompter();
+        emit reader->modeRequested(ReadingMode::Steady);
+        auto *primary = reader->findChild<QPushButton *>("readerListeningButton");
+        primary->click();
+        QCOMPARE(primary->accessibleName(), QString("Pause"));
+        bridge.SetMinimized(false); // Brought back: nothing changes.
+        QCOMPARE(primary->accessibleName(), QString("Pause"));
+        bridge.SetMinimized(true);
+        QCOMPARE(primary->accessibleName(), QString("Start"));
+        QVERIFY(statusLine(window)->text().startsWith("Paused while the window was minimized"));
+        // Through the session bus, as the KWin script calls it, when there is one.
+#ifdef KALIPSO_PORTAL_COLORS
+        primary->click();
+        if (!bridge.registerOnBus())
+            return;
+        QDBusInterface app(AppBridge::kService, AppBridge::kPath, "io.github.brianidavide.Kalipso.App");
+        QVERIFY(app.isValid());
+        QVERIFY(app.call("SetMinimized", true).errorName().isEmpty());
+        QTRY_COMPARE(primary->accessibleName(), QString("Start"));
+        // The place the person gave the reader under the camera is kept for the next start.
+        QVERIFY(app.call("SetReaderPlace", "1500,20").errorName().isEmpty());
+        QCOMPARE(QDBusReply<QString>(app.call("ReaderPlace")).value(), QString("1500,20"));
+        QVERIFY(app.call("SetReaderPlace", "nonsense").errorName().isEmpty());
+        QCOMPARE(QDBusReply<QString>(app.call("ReaderPlace")).value(), QString("1500,20"));
+#endif
+    }
+
+    void aSecondStartBringsTheFirstForward() {
+        MainWindow window(scripts_.path());
+        AppBridge bridge;
+        const auto key = scripts_.path() + "/second-start";
+        QVERIFY(bridge.listen(key));
+        window.connectBridge(&bridge);
+        window.show();
+        window.setWindowState(Qt::WindowMinimized);
+        QTRY_VERIFY(window.isMinimized());
+        // The second Kalipso asks from its own thread and waits for the answer.
+        qputenv("XDG_ACTIVATION_TOKEN", "token-from-the-launcher");
+        std::atomic<int> answered{-1};
+        std::thread second([&] { answered = AppBridge::activateRunning(key) ? 1 : 0; });
+        QTRY_VERIFY(answered >= 0);
+        second.join();
+        qunsetenv("XDG_ACTIVATION_TOKEN");
+        QCOMPARE(answered.load(), 1);
+        QTRY_VERIFY(!window.isMinimized());
+        QVERIFY(window.isVisible());
+        // The launcher's token is handed to the window system with the request.
+        QVERIFY(qgetenv("XDG_ACTIVATION_TOKEN") == "token-from-the-launcher" ||
+                qgetenv("DESKTOP_STARTUP_ID") == "token-from-the-launcher");
+        qunsetenv("DESKTOP_STARTUP_ID");
+        qunsetenv("XDG_ACTIVATION_TOKEN");
+        // No Kalipso under another name: nothing answers.
+        QVERIFY(!AppBridge::activateRunning(key + "-nobody"));
+    }
+
+    void screenSharingFollowsTheChoiceUnderTheCamera() {
+        // The title tells Kalipso's KWin script: a second mark lets screen sharing show the reader.
+        MainWindow window(scripts_.path());
+        editor(window)->setPlainText("Talk");
+        window.placeUnderCamera();
+        const auto title = window.windowTitle();
+        QCOMPARE(title.at(0), QChar(0x2060));
+        auto *exclude = window.findChild<QCheckBox *>("excludeFromCapture");
+        if (!exclude) { // Nothing can hide it here: the reader is shareable.
+            QCOMPARE(title.at(1), QChar(0x2063));
+            return;
+        }
+        exclude->setChecked(true);
+        QVERIFY(window.windowTitle().at(1) != QChar(0x2063));
+        exclude->setChecked(false);
+        QCOMPARE(window.windowTitle().at(1), QChar(0x2063));
+        window.expand();
+        QVERIFY(!window.windowTitle().contains(QChar(0x2063))); // Writing: no marks at all.
+    }
+
+    void tabLeavesTheScriptAndComesBack() {
+        // No keyboard trap: Tab reaches the controls from the script, and Shift+Tab comes back.
+        for (const QSize size : {QSize(1100, 760), QSize(620, 400)}) {
+            MainWindow window(scripts_.path());
+            window.resize(size);
+            window.show();
+            window.activateWindow();
+            QVERIFY(QTest::qWaitForWindowActive(&window));
+            auto *text = editor(window);
+            text->setPlainText("one two three");
+            text->setFocus();
+            QTRY_VERIFY(text->hasFocus());
+            QTest::keyClick(text, Qt::Key_Tab);
+            QVERIFY2(!text->hasFocus(), qPrintable(QString("%1x%2").arg(size.width()).arg(size.height())));
+            QVERIFY(text->toPlainText() == "one two three"); // No tab character typed.
+            auto *focus = QApplication::focusWidget();
+            QVERIFY(qobject_cast<QAbstractButton *>(focus));
+            QVERIFY(window.prompter()->isAncestorOf(focus));
+            QTest::keyClick(focus, Qt::Key_Backtab);
+            QTRY_VERIFY(text->hasFocus());
+        }
+    }
+
+    void menusFromTheReaderUseItsColours() {
+        MainWindow window(scripts_.path());
+        window.prompter()->setReaderTheme("dark");
+        auto *mode = window.prompter()->findChild<QToolButton *>("readerMode");
+        emit mode->menu()->aboutToShow();
+        const QColor menu = mode->menu()->palette().color(QPalette::Window);
+        QCOMPARE(menu, QColor(Design::dark.background));
+        QMenu more;
+        window.prompter()->styleMenu(&more);
+        QCOMPARE(more.palette().color(QPalette::Window), QColor(Design::dark.background));
+        // The scripts' buttons leave the keys, and the pedals, with the script.
+        for (const auto *name : {"newScript", "scriptActions"})
+            QCOMPARE(window.findChild<QAbstractButton *>(name)->focusPolicy(), Qt::TabFocus);
+        // Escape pauses: the note in Keys and pedals says so.
+        bool said = false;
+        for (auto *label : window.findChildren<QLabel *>())
+            said = said || label->text().contains("Escape always pauses");
+        QVERIFY(said);
+    }
 
     void theReaderResizesFromItsEdges() {
         MainWindow window(scripts_.path());

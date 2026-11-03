@@ -1,12 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Kalipso companion for KWin. Kalipso has one window: you write in it, and it turns into the
-// reader. While its title starts with an invisible mark (U+2060) the window is reading: KWin
+// Kalipso companion for KWin. Kalipso has one window: you write in it, and it goes under the camera to
+// read. While its title starts with an invisible mark (U+2060) the window is under the camera: KWin
 // takes its frame off, keeps it above other windows, places it near the camera and, where KWin
-// supports it, leaves it out of screen captures. When the mark goes, the window is put back as it
-// was. Other participants' view is the only proof that a capture excluded it.
-const READING_MARK = '\u2060';
-const states = {}; // By window id: reading, where it was before (writing), and going back there.
-let readerPlace = null; // Where the person last put the reader in this session.
+// supports it and the person did not turn it off (a second mark, U+2063), leaves it out of screen
+// captures. When the mark goes, the window is put back as it was. Other participants' view is the
+// only proof that a capture excluded it.
+//
+// On Wayland Kalipso is not told when its window is minimized, nor where the window is: this script
+// tells it (D-Bus), so reading pauses with the window out of sight, and the place the person gives
+// the reader is kept for the next start.
+const READING_MARK = '⁠';
+const SHAREABLE_MARK = '⁣';
+const APP = ['io.github.brianidavide.Kalipso.App', '/App', 'io.github.brianidavide.Kalipso.App'];
+const states = {}; // By window id: reading, excluded, where it was before (writing), going back there.
+const windows = {}; // By window id: Kalipso's windows.
+let readerPlace = null; // Where the person last put the reader (kept by Kalipso across starts).
 let applying = false; // Geometry changes made here are not the person's.
 
 function isKalipso(window) {
@@ -14,11 +22,31 @@ function isKalipso(window) {
     return identity === 'io.github.brianidavide.kalipso' || identity === 'kalipso';
 }
 
+function tell(method, value) {
+    callDBus(APP[0], APP[1], APP[2], method, value);
+}
+
+// The saved place, only while the whole reader fits on a screen there: a monitor that was
+// unplugged, or a smaller one, puts it back under the camera.
+function placeFits(place, frame) {
+    try {
+        for (const output of workspace.screens) {
+            const area = workspace.clientArea(KWin.PlacementArea, output, workspace.currentDesktop);
+            if (place.x >= area.x && place.y >= area.y && place.x + frame.width <= area.x + area.width &&
+                place.y + frame.height <= area.y + area.height)
+                return true;
+        }
+        return false;
+    } catch (error) {
+        return true; // An older KWin without these: keep the person's place.
+    }
+}
+
 // Kalipso chooses the reader's size; KWin keeps it where the person put it, or at the top of the
 // screen, centred under the camera (or under a top panel).
 function placeReader(window) {
     const frame = window.frameGeometry;
-    if (readerPlace) {
+    if (readerPlace && placeFits(readerPlace, frame)) {
         frame.x = readerPlace.x;
         frame.y = readerPlace.y;
     } else {
@@ -33,8 +61,13 @@ function placeReader(window) {
 
 function update(window) {
     const id = String(window.internalId);
-    const state = states[id] || (states[id] = {reading: false, writing: null, returning: false});
-    const reading = String(window.caption).indexOf(READING_MARK) === 0;
+    const state = states[id] || (states[id] = {reading: false, excluded: false, writing: null, returning: false});
+    const caption = String(window.caption);
+    const reading = caption.indexOf(READING_MARK) === 0;
+    const excluded = reading && caption.charAt(1) !== SHAREABLE_MARK;
+    if (excluded !== state.excluded && 'excludeFromCapture' in window)
+        window.excludeFromCapture = excluded;
+    state.excluded = excluded;
     if (reading === state.reading)
         return;
     state.reading = reading;
@@ -43,16 +76,12 @@ function update(window) {
         state.writing = copy(window.frameGeometry);
         window.noBorder = true;
         window.keepAbove = true;
-        if ('excludeFromCapture' in window)
-            window.excludeFromCapture = true;
         applying = false;
         placeReader(window);
         return;
     }
     window.keepAbove = false;
     window.noBorder = false;
-    if ('excludeFromCapture' in window)
-        window.excludeFromCapture = false;
     applying = false;
     // A move made while the frame and the size change is lost: the window goes back to its place
     // once it has its writing size and frame again.
@@ -66,7 +95,9 @@ function copy(frame) {
 function watch(window) {
     if (!isKalipso(window))
         return;
-    const state = () => states[String(window.internalId)];
+    const id = String(window.internalId);
+    windows[id] = window;
+    const state = () => states[id];
     window.captionChanged.connect(() => update(window));
     // Kalipso resizes the reader: it stays in its place, or centred under the camera.
     window.frameGeometryChanged.connect(() => {
@@ -87,12 +118,30 @@ function watch(window) {
         }
     });
     window.interactiveMoveResizeFinished.connect(() => {
-        if (state() && state().reading)
-            readerPlace = {x: window.frameGeometry.x, y: window.frameGeometry.y};
+        if (!state() || !state().reading)
+            return;
+        readerPlace = {x: window.frameGeometry.x, y: window.frameGeometry.y};
+        tell('SetReaderPlace', readerPlace.x + ',' + readerPlace.y);
     });
-    window.closed.connect(() => delete states[String(window.internalId)]);
+    window.minimizedChanged.connect(() => tell('SetMinimized', window.minimized));
+    window.closed.connect(() => {
+        delete states[id];
+        delete windows[id];
+    });
+    // The place kept from an earlier start, before the reader first goes under the camera.
+    callDBus(APP[0], APP[1], APP[2], 'ReaderPlace', function (place) {
+        const parts = String(place || '').split(',');
+        if (parts.length === 2 && !readerPlace && !isNaN(Number(parts[0])) && !isNaN(Number(parts[1])))
+            readerPlace = {x: Number(parts[0]), y: Number(parts[1])};
+    });
     update(window);
 }
 
+// A monitor added or removed: the reader goes back onto a screen where it fits.
+workspace.screensChanged.connect(() => {
+    for (const id in windows)
+        if (states[id] && states[id].reading)
+            placeReader(windows[id]);
+});
 workspace.windowAdded.connect(watch);
 workspace.windowList().forEach(watch);

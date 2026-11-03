@@ -5,6 +5,7 @@
 #include "import.h"
 #include "impress.h"
 #include "platform/capture_exclusion.h"
+#include "app_bridge.h"
 #include "platform/kwin_placement.h"
 #include "remote.h"
 #include "script_highlighter.h"
@@ -220,7 +221,7 @@ protected:
 private:
     void adaptForm() {
         const int available = std::max(1, contentsRect().width());
-        const bool narrow = available < fontMetrics().horizontalAdvance(QStringLiteral("Application appearance")) + 350;
+        const bool narrow = available < fontMetrics().horizontalAdvance(QStringLiteral("Settings and dialogs")) + 350;
         form->setRowWrapPolicy(narrow ? QFormLayout::WrapAllRows : QFormLayout::WrapLongRows);
         for (int row = 0; row < form->rowCount(); ++row)
             if (auto *item = form->itemAt(row, QFormLayout::LabelRole))
@@ -318,26 +319,6 @@ protected:
         return QWidget::eventFilter(object, event);
     }
 };
-
-// Applies an edit as one contiguous replacement so undo and the reading
-// anchor stay meaningful.
-void replaceText(QTextDocument *document, const QString &value) {
-    const auto old = document->toPlainText();
-    if (old == value)
-        return;
-    int prefix = 0, suffix = 0;
-    while (prefix < std::min(old.size(), value.size()) && old[prefix] == value[prefix])
-        ++prefix;
-    while (suffix < old.size() - prefix && suffix < value.size() - prefix &&
-           old[old.size() - 1 - suffix] == value[value.size() - 1 - suffix])
-        ++suffix;
-    QTextCursor edit(document);
-    edit.setPosition(prefix);
-    edit.setPosition(int(old.size()) - suffix, QTextCursor::KeepAnchor);
-    edit.beginEditBlock();
-    edit.insertText(value.mid(prefix, value.size() - prefix - suffix));
-    edit.endEditBlock();
-}
 
 // A language as the interface names it, so every name can be read and drawn ("Japanese" rather than
 // letters a missing font shows as boxes). In a sentence: "in italiano", "in Italian".
@@ -641,20 +622,17 @@ QWidget *MainWindow::makeDrawer() {
     add->setToolTip(tr("New script (Ctrl+N)"));
     add->setProperty("quiet", true);
     add->setProperty("label", add->text()); // The reader shortens it to its icon in a narrow panel.
+    add->setFocusPolicy(Qt::TabFocus); // A click leaves the keys, and the pedals, with the script.
     // The menu of everything else, at the end of the row like in the desktop's own apps.
     auto *more = new AccessibleButton(QString());
     more->setObjectName("scriptActions");
     more->setToolTip(tr("More"));
     more->setAccessibleName(tr("More script actions"));
     more->setProperty("quiet", true);
+    more->setFocusPolicy(Qt::TabFocus);
     more_ = more;
     auto *menu = new QMenu(this);
-    connect(menu, &QMenu::aboutToShow, this, [this, menu] {
-        // The desktop's menus in the window's colours, as the reader's other menus.
-        menu->setPalette(palette());
-        if (!Accessibility::native())
-            menu->setStyleSheet(styleSheet());
-    });
+    connect(menu, &QMenu::aboutToShow, this, [this, menu] { prompter_->styleMenu(menu); });
     auto *import = menu->addAction(tr("Import…"));
     import->setToolTip(tr("Text, Markdown, Word (.docx) and OpenDocument (.odt) documents, or speaker notes from "
                           "PowerPoint (.pptx) and Impress (.odp)"));
@@ -691,6 +669,22 @@ QWidget *MainWindow::makeDrawer() {
         if (!item)
             return;
         openScript(item->data(Qt::UserRole).toString());
+    });
+    // Closed, no row is current: a screen reader does not hear a hidden row as focused. Open, the
+    // script being read is the current row again.
+    connect(prompter_, &ReaderPage::drawerShown, this, [this](bool shown) {
+        const QSignalBlocker block(scriptList_);
+        if (!shown) {
+            scriptList_->setCurrentItem(nullptr);
+            scriptList_->clearSelection();
+            // Hidden, its layout does not size it; Qt reports rows as on the screen from their rectangles.
+            scriptList_->resize(0, 0);
+            return;
+        }
+        for (int row = 0; row < scriptList_->count(); ++row)
+            if (scriptList_->item(row)->data(Qt::UserRole).toString() == currentId_ ||
+                (!persist_ && row == 0))
+                scriptList_->setCurrentRow(row);
     });
     // Over the text, in a small window, the panel goes once a script is chosen.
     connect(scriptList_, &QListWidget::itemClicked, this, [this] {
@@ -782,10 +776,37 @@ void MainWindow::changeEvent(QEvent *event) {
         applyingTheme_ = false;
     }
     // Out of sight, the reader stops: the microphone is off until Start is pressed again.
-    if (event->type() == QEvent::WindowStateChange && isMinimized() && running()) {
-        pauseRunning();
-        notify(tr("Paused while the window was minimized · microphone off"));
-    }
+    if (event->type() == QEvent::WindowStateChange && isMinimized())
+        pauseOutOfSight();
+}
+
+void MainWindow::pauseOutOfSight() {
+    if (!running())
+        return;
+    pauseRunning();
+    notify(tr("Paused while the window was minimized · microphone off"));
+}
+
+void MainWindow::connectBridge(AppBridge *bridge) {
+    // On Wayland only the compositor knows the window was minimized: Kalipso's KWin script says so.
+    connect(bridge, &AppBridge::minimizedChanged, this, [this](bool minimized) {
+        if (minimized)
+            pauseOutOfSight();
+    });
+    connect(bridge, &AppBridge::activationRequested, this, &MainWindow::comeForward);
+}
+
+void MainWindow::comeForward(const QString &token) {
+    // The desktop lets a window take the focus with the token it gave the start that asked.
+    if (!token.isEmpty())
+        qputenv(QGuiApplication::platformName().startsWith(QLatin1String("wayland")) ? "XDG_ACTIVATION_TOKEN"
+                                                                                       : "DESKTOP_STARTUP_ID",
+                token.toUtf8());
+    if (isMinimized())
+        setWindowState(windowState() & ~Qt::WindowMinimized);
+    show();
+    raise();
+    activateWindow();
 }
 
 void MainWindow::notify(const QString &message) { prompter_->showMessage(message); }
@@ -925,10 +946,13 @@ bool MainWindow::importFile(const QString &path) {
         return false;
     }
     openScript(id);
-    notify(result.sections ? tr("Imported speaker notes from %n slide(s). Use Sections in the reader "
-                                               "to jump between slides.",
-                                               nullptr, result.sections)
-                                          : tr("Script imported."));
+    auto message = result.sections ? tr("Imported speaker notes from %n slide(s). Use Sections in the reader "
+                                        "to jump between slides.",
+                                        nullptr, result.sections)
+                                   : tr("Script imported.");
+    if (result.hidden) // Not in the slideshow, so not in the script either.
+        message += ' ' + tr("%n hidden slide(s) left out.", nullptr, result.hidden);
+    notify(message);
     return true;
 }
 
@@ -1420,10 +1444,14 @@ void MainWindow::placeWindow(bool reading) {
             }
         }
     } else if (writingGeometry_.isValid()) {
-        if (kwin)
+        if (kwin) {
             resizeFor(writingGeometry_.size()); // KWin puts it back in its place.
-        else
+        } else {
+            // The size held for the reader a moment ago must not pull the window back to it.
+            wantedSize_ = writingGeometry_.size();
+            wanted_.start();
             setGeometry(writingGeometry_);
+        }
     } else if (auto *screen = windowHandle() ? windowHandle()->screen() : QGuiApplication::primaryScreen()) {
         // It was small before going under the camera: it gets the room of a writing window, or the
         // whole screen when the screen is small.
@@ -1439,8 +1467,33 @@ void MainWindow::placeWindow(bool reading) {
         show();
         raise();
     }
-    if (!reading && writingMaximized_)
+    if (!reading && writingMaximized_) {
+        wantedSize_ = {}; // Maximized: the screen decides the size.
         showMaximized();
+    }
+}
+
+void MainWindow::keepReaderOnScreen(QScreen *gone) {
+    if (!underCamera_ || KWinPlacement::active())
+        return; // Writing, Qt and the desktop keep the window on a screen; KWin's script does too.
+    // The chosen monitor if it is still there, otherwise the main one, otherwise any other.
+    const auto chosen = screen_ ? screen_->currentData().toString() : QString();
+    QScreen *target = nullptr;
+    for (auto *screen : QGuiApplication::screens())
+        if (screen != gone && (!target || screen->name() == chosen ||
+                               (screen == QGuiApplication::primaryScreen() && target->name() != chosen)))
+            target = screen;
+    if (!target || !windowHandle())
+        return;
+    const auto available = target->availableGeometry();
+    if (windowHandle()->screen() != gone && available.contains(frameGeometry().center()))
+        return;
+    placing_ = true;
+    windowHandle()->setScreen(target);
+    resizeFor(size().boundedTo(available.size() - QSize(32, 32)).expandedTo(minimumSize()));
+    if (!wayland())
+        move(available.center().x() - width() / 2, available.top()); // Under the camera again.
+    placing_ = false;
 }
 
 void MainWindow::resizeFor(QSize size, bool restart) {
@@ -1474,6 +1527,9 @@ void MainWindow::moveEvent(QMoveEvent *event) {
 void MainWindow::updateWindowTitle() {
     const auto title = ScriptLibrary::titleFor(script_->toPlainText());
     auto text = title.isEmpty() ? tr("Kalipso") : tr("%1 — Kalipso").arg(title);
+    // With the second mark, the person lets screen sharing show the reader.
+    if (underCamera_ && !captureExcluded_)
+        text.prepend(QChar(KWinPlacement::shareableMark));
     if (underCamera_)
         text.prepend(QChar(KWinPlacement::readingMark));
     if (windowTitle() != text)
@@ -1484,6 +1540,7 @@ void MainWindow::setCaptureExcluded(bool excluded) {
     captureExcluded_ = excluded;
     if (underCamera_)
         CaptureExclusion::apply(this, excluded);
+    updateWindowTitle(); // Kalipso's KWin script follows the choice too.
     // Said to assistive technology; a tooltip over the whole reader would cover the text whenever the
     // pointer rests on it.
     prompter_->setAccessibleDescription(
@@ -1533,6 +1590,12 @@ void MainWindow::refreshReading() {
     const auto length = tracker_.count() == 0 ? QString()
                         : minutes <= 1        ? tr("under a minute")
                                               : tr("about %n min", nullptr, minutes);
+    // Nothing written yet: the status says what the reader is doing instead.
+    if (tracker_.count() == 0) {
+        positionText_.clear();
+        prompter_->setStatus(statusText());
+        return;
+    }
     // Before reading: how long the script is. Once reading started: where it stopped.
     const auto where = tracker_.position() < 0 ? tr("%n word(s)", nullptr, tracker_.count())
                                                : tr("Word %1 of %2").arg(tracker_.position() + 1).arg(tracker_.count());
@@ -1787,12 +1850,18 @@ void MainWindow::startListening() {
 void MainWindow::finishSession() {
     if (!session_.active())
         return;
-    const auto summary = session_.finish(QDateTime::currentMSecsSinceEpoch());
+    auto summary = session_.finish(QDateTime::currentMSecsSinceEpoch());
     if (summary.words < 5)
         return;
+    summary.plannedWordsPerMinute = wordsPerMinute_; // The steady speed: what the rehearsal aims at.
     QString text = tr("Last session: %1 · %n word(s)", nullptr, summary.words).arg(duration(summary.durationMs));
-    if (summary.wordsPerMinute > 0)
+    if (summary.wordsPerMinute > 0) {
         text += " · " + tr("%1 words/min").arg(qRound(summary.wordsPerMinute));
+        const int difference = SessionStats::paceAgainstPlan(summary);
+        text += " " + (std::abs(difference) < 3 ? tr("(as planned)")
+                       : difference > 0       ? tr("(%1% faster than planned)").arg(difference)
+                                              : tr("(%1% slower than planned)").arg(-difference));
+    }
     text += " · " + tr("%n pause(s) over 3 s", nullptr, summary.longPauses);
     if (summary.longPauses)
         text += " " + tr("(longest %1)").arg(duration(summary.longestPauseMs));
@@ -1838,8 +1907,7 @@ QWidget *MainWindow::makeKeySettings() {
     }
     auto *note = new QLabel(tr("Pedals and clickers usually send the arrows, Page Up/Down or Space, which work without "
                                "any setup. Choose a key here to add one for an action, or to give a built-in key "
-                               "another action, for example the arrows to change speed. Escape always hides the "
-                               "reader."));
+                               "another action, for example the arrows to change speed. Escape always pauses."));
     note->setWordWrap(true);
     note->setProperty("role", "muted");
     group->form->addRow(note);
@@ -2005,6 +2073,7 @@ QWidget *MainWindow::makeReadingSettings() {
     refreshScreens();
     connect(qApp, &QGuiApplication::screenAdded, this, &MainWindow::refreshScreens);
     connect(qApp, &QGuiApplication::screenRemoved, this, &MainWindow::refreshScreens);
+    connect(qApp, &QGuiApplication::screenRemoved, this, &MainWindow::keepReaderOnScreen);
     connect(screen_, &QComboBox::activated, this,
             [this] { QSettings().setValue("reading/screen", screen_->currentData().toString()); });
     form->addRow(tr("Monitor"), screen_);
@@ -2104,7 +2173,8 @@ QWidget *MainWindow::makeReadingSettings() {
         QSettings().setValue("appearance/theme", appearance->currentData().toString());
         applyTheme();
     });
-    form->addRow(tr("Application appearance"), appearance);
+    // The window is the reader, in the reader's colours: this is for Settings and the dialogs.
+    form->addRow(tr("Settings and dialogs"), appearance);
 
     auto *readerTheme = new SettingsComboBox;
     readerTheme->setObjectName("readerTheme");
@@ -2119,7 +2189,7 @@ QWidget *MainWindow::makeReadingSettings() {
         prompter_->setReaderTheme(theme);
         QSettings().setValue("reading/theme", theme);
     });
-    form->addRow(tr("Reader appearance"), readerTheme);
+    form->addRow(tr("Kalipso window"), readerTheme);
     auto *colorSource = new StatusLabel(prompter_->colorSource());
     form->addRow(colorSource);
     connect(prompter_, &ReaderPage::colorStatus, colorSource, &StatusLabel::setText);
@@ -2190,7 +2260,8 @@ QWidget *MainWindow::makeReadingSettings() {
     auto *hiddenRow = new WrappingCheckBox(tr("Hide the reader from screen sharing and recordings"));
     auto *hidden = hiddenRow->box;
     hidden->setObjectName("excludeFromCapture");
-    if (CaptureExclusion::supported()) {
+    // Windows hides the window itself; on Plasma, Kalipso's KWin script asks KWin to, under the camera.
+    if (CaptureExclusion::supported() || KWinPlacement::active()) {
         hidden->setChecked(settings.value("reading/excludeFromCapture", true).toBool());
         setCaptureExcluded(hidden->isChecked());
         connect(hidden, &QCheckBox::toggled, this, [this](bool checked) {
@@ -2198,16 +2269,17 @@ QWidget *MainWindow::makeReadingSettings() {
             QSettings().setValue("reading/excludeFromCapture", checked);
         });
         group->form->addRow(hiddenRow);
-        group->form->addRow(note(tr("Screen sharing apps that use the system capture service leave the reader out. "
-                                    "Check the view from another participant before relying on it.")));
+        group->form->addRow(note(
+            CaptureExclusion::supported()
+                ? tr("Screen sharing apps that use the system capture service leave the reader out. Check the view "
+                     "from another participant before relying on it.")
+                : tr("Under the camera, Plasma 6.6 or later leaves the reader out of screen sharing. Check the view "
+                     "from another participant before relying on it.")));
     } else {
         hiddenRow->deleteLater();
-        group->form->addRow(note(
-            KWinPlacement::active()
-                ? tr("Under the camera, Plasma 6.6 or later leaves the reader out of screen sharing. Check the view "
-                     "from another participant before relying on it.")
-                : tr("Others may see the reader when you share the whole screen. Share a single window, or on "
-                     "Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).")));
+        group->form->addRow(
+            note(tr("Others may see the reader when you share the whole screen. Share a single window, or on "
+                    "Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).")));
     }
     appearanceSettings_ = appearanceGroup; // A page of its own in Settings.
     return group;
@@ -2381,15 +2453,43 @@ QWidget *MainWindow::makeSpeechSettings() {
     downloadLayout->addWidget(downloadProgress_);
     downloadLayout->addWidget(downloadStatus_);
     downloadLayout->addLayout(actionRow);
+    // Before anything is downloaded: where it goes, and under which licence. The size is in the list.
     auto *downloadNote =
-        note(downloads ? tr("Kalipso downloads the language once and checks it. Then it listens only on this "
-                            "computer: nothing you say is sent.")
+        note(downloads ? tr("Kalipso downloads a language once, into %1, and checks it against its pinned "
+                            "fingerprint. The models are free software: Moonshine's under the MIT licence, Vosk's "
+                            "under the Apache 2.0 licence. Then Kalipso listens only on this computer: nothing you "
+                            "say is sent.")
+                             .arg(QDir::toNativeSeparators(SpeechCatalog::writableRoot()))
                        : tr("Moonshine and Vosk need a runtime and a model installed by hand: choose Other model "
                             "installed by hand."));
+    downloadNote->setObjectName("speechDownloadNote");
+    // A downloaded language: what it takes and where, and the way to remove it or download it again.
+    installedBox_ = new QWidget;
+    installedBox_->setObjectName("speechInstalledBox");
+    auto *installedLayout = new QVBoxLayout(installedBox_);
+    installedLayout->setContentsMargins(0, 0, 0, 0);
+    installedLayout->setSpacing(Design::Metric::space2);
+    installedStatus_ = new StatusLabel(QString());
+    installedStatus_->setObjectName("speechInstalledStatus");
+    repairModel_ = new AccessibleButton(tr("Download again"));
+    repairModel_->setObjectName("speechRepairModel");
+    repairModel_->setToolTip(tr("Removes this language and downloads it again, checked against its fingerprint"));
+    removeModel_ = new AccessibleButton(tr("Remove"));
+    removeModel_->setObjectName("speechRemoveModel");
+    auto *installedActions = new QHBoxLayout;
+    installedActions->setContentsMargins(0, 0, 0, 0);
+    installedActions->addWidget(repairModel_);
+    installedActions->addWidget(removeModel_);
+    installedActions->addStretch();
+    installedLayout->addWidget(installedStatus_);
+    installedLayout->addLayout(installedActions);
+    connect(repairModel_, &QPushButton::clicked, this, [this] { removeLanguage(true); });
+    connect(removeModel_, &QPushButton::clicked, this, [this] { removeLanguage(false); });
 
     form->addRow(tr("Speech engine"), backend_);
     form->addRow(tr("Language you speak"), voiceLanguage_);
     form->addRow(downloadBox);
+    form->addRow(installedBox_);
     form->addRow(downloadNote);
     // Library and model paths are only needed for models installed by hand.
     customSpeech_ = new QWidget;
@@ -2460,6 +2560,15 @@ QWidget *MainWindow::makeSpeechSettings() {
         downloadProgress_->setVisible(download_->active());
         downloadAction_->setVisible(!downloadAction_->text().isEmpty());
         form->setRowVisible(downloadBox, !system && (download_->active() || !downloadStatus_->text().isEmpty()));
+        const auto installed = system || download_->active() ? InstalledSpeech() : chosenDownload();
+        if (!installed.backend.isEmpty()) {
+            const auto code = voiceLanguage_->currentData().toMap().value("code").toString();
+            installedStatus_->setText(tr("%1 is installed: %2 MB in %3, %4 licence.")
+                                          .arg(spokenName(code), megabytes(SpeechCatalog::installedBytes(installed.model)),
+                                               QDir::toNativeSeparators(installed.model),
+                                               SpeechCatalog::modelLicense(installed.backend, code)));
+        }
+        form->setRowVisible(installedBox_, !installed.backend.isEmpty());
         form->setRowVisible(downloadNote, !system);
         form->setRowVisible(customSpeech_, !system && custom);
         form->setRowVisible(language_, system || custom);
@@ -2685,6 +2794,61 @@ void MainWindow::useInstalledSpeech(const InstalledSpeech &speech, bool announce
             : QString());
     if (updateSpeechFields_)
         updateSpeechFields_();
+    refreshWelcome();
+}
+
+InstalledSpeech MainWindow::chosenDownload() const {
+    const auto choice = voiceLanguage_ ? voiceLanguage_->currentData().toMap() : QVariantMap();
+    if (choice.value("kind").toString() != QLatin1String("catalog"))
+        return {};
+    const auto found = SpeechCatalog::installedFor(choice.value("code").toString());
+    return !found.backend.isEmpty() && SpeechCatalog::downloaded(found) ? found : InstalledSpeech();
+}
+
+// Removes the chosen language Kalipso downloaded, and downloads it again when repairing. Asks first:
+// without the internet, a removed language cannot come back.
+void MainWindow::removeLanguage(bool downloadAgain) {
+    const auto installed = chosenDownload();
+    if (installed.backend.isEmpty() || download_->active())
+        return;
+    const auto code = voiceLanguage_->currentData().toMap().value("code").toString();
+    const auto name = spokenName(code);
+    const auto size = megabytes(SpeechCatalog::installedBytes(installed.model));
+    const auto question =
+        downloadAgain ? tr("Kalipso removes %1 and downloads it again (%2 MB), checking it against its fingerprint. "
+                           "Until it is done, it cannot follow your voice in this language.")
+                            .arg(name, size)
+                      : tr("Kalipso removes %1 and frees %2 MB. To use it again, choose it here: Kalipso downloads it "
+                           "again, which needs the internet.")
+                            .arg(name, size);
+    if (QMessageBox::question(settings_, downloadAgain ? tr("Download %1 again?").arg(name) : tr("Remove %1?").arg(name),
+                              question, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+        return;
+    const bool inUse = QFileInfo(modelPath_->text()).canonicalFilePath() == QFileInfo(installed.model).canonicalFilePath();
+    if (!SpeechCatalog::removeDownloaded(installed)) {
+        downloadStatus_->setText(tr("Couldn't remove %1: check that its folder can be written.").arg(name));
+        updateSpeechFields_();
+        return;
+    }
+    if (inUse) {
+        modelPath_->clear();
+        saveSettings();
+    }
+    refreshVoiceLanguages();
+    if (downloadAgain) {
+        // Back on the language, so the download that follows is the one shown.
+        for (int i = 0; i < voiceLanguage_->count(); ++i)
+            if (voiceLanguage_->itemData(i).toMap().value("code").toString() == code) {
+                const QSignalBlocker block(voiceLanguage_);
+                voiceLanguage_->setCurrentIndex(i);
+            }
+        downloadLanguage(code);
+    } else {
+        downloadAction_->setText({});
+        downloadStatus_->setText(tr("Removed %1: %2 MB freed.").arg(name, size));
+        updateSpeechFields_();
+    }
+    refreshReading();
     refreshWelcome();
 }
 

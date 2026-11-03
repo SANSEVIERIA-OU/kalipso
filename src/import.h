@@ -12,6 +12,7 @@ struct Result {
     QString text;
     QString error;
     int sections = 0;
+    int hidden = 0; // Presentations: hidden slides, left out.
 };
 
 Result read(const QString &path);

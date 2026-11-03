@@ -11,6 +11,7 @@
 #include <functional>
 
 class QAbstractButton;
+class QScreen;
 class QCheckBox;
 class QDialog;
 class QComboBox;
@@ -22,6 +23,7 @@ class QLineEdit;
 class QProgressBar;
 class QSpinBox;
 class RemoteControl;
+class AppBridge;
 class SpeechDownload;
 struct InstalledSpeech;
 
@@ -40,6 +42,11 @@ public:
     // same window and the same text either way: what you write is what you read.
     void placeUnderCamera();
     void expand();
+    // The desktop's messages: minimized (Kalipso's KWin script on Wayland), a second start asking
+    // for the window.
+    void connectBridge(AppBridge *bridge);
+    // Brings the window forward: from a second start, with the desktop's activation token.
+    void comeForward(const QString &token = {});
     bool underCamera() const { return underCamera_; }
     void setDemoScript();
     // Starts steady scrolling immediately, without changing the saved mode.
@@ -161,6 +168,11 @@ private:
     bool underCamera_ = false;
     bool placing_ = false;
     bool captureExcluded_ = false;
+    // Under the camera when a monitor goes away: back onto one that is left (without Kalipso's KWin
+    // script, which does it itself).
+    void keepReaderOnScreen(QScreen *gone);
+    // The minimized window pauses reading (also when only Kalipso's KWin script can tell).
+    void pauseOutOfSight();
     QRect writingGeometry_;
     bool writingMaximized_ = false;
     RemoteControl *remote_ = nullptr;
@@ -204,6 +216,13 @@ private:
     QProgressBar *downloadProgress_;
     StatusLabel *downloadStatus_;
     QPushButton *downloadAction_;
+    // A language Kalipso downloaded: where it is, how big, its licence; remove or download again.
+    QWidget *installedBox_ = nullptr;
+    StatusLabel *installedStatus_ = nullptr;
+    QPushButton *repairModel_ = nullptr, *removeModel_ = nullptr;
+    // The chosen language's model, when Kalipso downloaded it (else an empty backend).
+    InstalledSpeech chosenDownload() const;
+    void removeLanguage(bool downloadAgain);
     QString downloadCode_;
     QElapsedTimer downloadShown_;
     std::function<void()> updateSpeechFields_;

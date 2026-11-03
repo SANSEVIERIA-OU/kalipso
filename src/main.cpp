@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "accessibility.h"
+#include "app_bridge.h"
 #include "platform/kwin_placement.h"
 #include "settings_migration.h"
 #include "window.h"
@@ -51,16 +52,23 @@ int main(int argc, char **argv) {
     QDir().mkpath(dataDirectory);
     QLockFile lock(dataDirectory + "/kalipso.lock");
     if (!lock.tryLock(200)) {
+        // Kalipso is open: its window comes forward instead.
+        if (AppBridge::activateRunning(dataDirectory))
+            return 0;
         QMessageBox::information(nullptr, QCoreApplication::translate("main", "Kalipso"),
                                  QCoreApplication::translate("main", "Kalipso is already open."));
         return 0;
     }
+    AppBridge bridge;
+    bridge.listen(dataDirectory);
+    bridge.registerOnBus(); // Before the window exists: Kalipso's KWin script asks for it then.
 
     // Plasma on Wayland: KWin places the reader under the camera and keeps it above other windows.
     KWinPlacement::load();
     QObject::connect(&app, &QCoreApplication::aboutToQuit, [] { KWinPlacement::unload(); });
 
     MainWindow window;
+    window.connectBridge(&bridge);
     if (parser.isSet("demo") || parser.isSet("screenshot"))
         window.setDemoScript();
     window.show();

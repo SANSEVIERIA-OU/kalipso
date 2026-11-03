@@ -8,7 +8,8 @@
 // Elsewhere (X11, other desktops, macOS, Windows) the reader places itself and this does nothing.
 namespace KWinPlacement {
 // Loads the script under KWin on Wayland. Returns true when the script runs, also when it was
-// already enabled in System Settings.
+// already enabled in System Settings. A copy left loaded by an earlier Kalipso (one that crashed
+// or was killed) is replaced by this one's.
 bool load();
 // Unloads the script if load() loaded it.
 void unload();
@@ -17,4 +18,6 @@ void unload();
 bool active();
 // Starts the window title while reading. Invisible; the script looks for it.
 inline constexpr char16_t readingMark = u'\u2060';
+// Follows the reading mark when the person lets screen sharing show the reader.
+inline constexpr char16_t shareableMark = u'\u2063';
 } // namespace KWinPlacement

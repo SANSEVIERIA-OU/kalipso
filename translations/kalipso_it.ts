@@ -302,16 +302,8 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Scuro</translation>
     </message>
     <message>
-        <source>Application appearance</source>
-        <translation>Aspetto dell&apos;applicazione</translation>
-    </message>
-    <message>
         <source>Automatic screen colors</source>
         <translation>Colori automatici dallo schermo</translation>
-    </message>
-    <message>
-        <source>Reader appearance</source>
-        <translation>Aspetto del lettore</translation>
     </message>
     <message>
         <source>Choose background window…</source>
@@ -630,10 +622,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Built in: %1</source>
         <translation>Predefiniti: %1</translation>
-    </message>
-    <message>
-        <source>Pedals and clickers usually send the arrows, Page Up/Down or Space, which work without any setup. Choose a key here to add one for an action, or to give a built-in key another action, for example the arrows to change speed. Escape always hides the reader.</source>
-        <translation>Pedali e telecomandi di solito inviano le frecce, Pagina su/giù o Spazio, che funzionano senza configurazione. Scegli qui un tasto per aggiungerlo a un&apos;azione, o per dare a un tasto predefinito un&apos;altra azione, per esempio le frecce per cambiare velocità. Esc nasconde sempre il lettore.</translation>
     </message>
     <message>
         <source>Present with Impress…</source>
@@ -964,10 +952,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Chi guarda può vedere il lettore se condividi tutto lo schermo. Condividi una sola finestra, oppure su Plasma 6.6 e successivi nascondi il lettore dalla condivisione nel suo menu della finestra (Alt+F3).</translation>
     </message>
     <message>
-        <source>Kalipso downloads the language once and checks it. Then it listens only on this computer: nothing you say is sent.</source>
-        <translation>Kalipso scarica la lingua una volta sola e la verifica. Poi ascolta solo su questo computer: niente di quello che dici viene inviato.</translation>
-    </message>
-    <message>
         <source>Phone as a remote</source>
         <translation>Telefono come telecomando</translation>
     </message>
@@ -1052,6 +1036,81 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Under the camera, Plasma 6.6 or later leaves the reader out of screen sharing. Check the view from another participant before relying on it.</source>
         <translation>Sotto la webcam, Plasma 6.6 o successivo esclude il gobbo dalla condivisione dello schermo. Prima di fidarti, controlla la vista di un altro partecipante.</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hidden slide(s) left out.</source>
+        <translation>
+            <numerusform>%n diapositiva nascosta esclusa.</numerusform>
+            <numerusform>%n diapositive nascoste escluse.</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>(as planned)</source>
+        <translation>(come previsto)</translation>
+    </message>
+    <message>
+        <source>(%1% faster than planned)</source>
+        <translation>(%1% più veloce del previsto)</translation>
+    </message>
+    <message>
+        <source>(%1% slower than planned)</source>
+        <translation>(%1% più lento del previsto)</translation>
+    </message>
+    <message>
+        <source>Pedals and clickers usually send the arrows, Page Up/Down or Space, which work without any setup. Choose a key here to add one for an action, or to give a built-in key another action, for example the arrows to change speed. Escape always pauses.</source>
+        <translation>Pedali e telecomandi di solito inviano le frecce, Pagina su/giù o Spazio, che funzionano senza configurazione. Scegli qui un tasto per aggiungerlo a un&apos;azione, o per dare a un tasto predefinito un&apos;altra azione, per esempio le frecce per cambiare velocità. Esc mette sempre in pausa.</translation>
+    </message>
+    <message>
+        <source>Settings and dialogs</source>
+        <translation>Impostazioni e finestre di dialogo</translation>
+    </message>
+    <message>
+        <source>Kalipso window</source>
+        <translation>Finestra di Kalipso</translation>
+    </message>
+    <message>
+        <source>Kalipso downloads a language once, into %1, and checks it against its pinned fingerprint. The models are free software: Moonshine&apos;s under the MIT licence, Vosk&apos;s under the Apache 2.0 licence. Then Kalipso listens only on this computer: nothing you say is sent.</source>
+        <translation>Kalipso scarica una lingua una volta sola, in %1, e la controlla con la sua impronta fissata. I modelli sono software libero: quelli di Moonshine con licenza MIT, quelli di Vosk con licenza Apache 2.0. Poi Kalipso ascolta solo su questo computer: niente di quello che dici viene inviato.</translation>
+    </message>
+    <message>
+        <source>Download again</source>
+        <translation>Scarica di nuovo</translation>
+    </message>
+    <message>
+        <source>Removes this language and downloads it again, checked against its fingerprint</source>
+        <translation>Rimuove questa lingua e la scarica di nuovo, controllandone l&apos;impronta</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <source>%1 is installed: %2 MB in %3, %4 licence.</source>
+        <translation>Lingua installata (%1): %2 MB in %3, licenza %4.</translation>
+    </message>
+    <message>
+        <source>Kalipso removes %1 and downloads it again (%2 MB), checking it against its fingerprint. Until it is done, it cannot follow your voice in this language.</source>
+        <translation>Kalipso rimuove la lingua (%1) e la scarica di nuovo (%2 MB), controllandone l&apos;impronta. Finché non ha finito, non può seguire la tua voce in questa lingua.</translation>
+    </message>
+    <message>
+        <source>Kalipso removes %1 and frees %2 MB. To use it again, choose it here: Kalipso downloads it again, which needs the internet.</source>
+        <translation>Kalipso rimuove la lingua (%1) e libera %2 MB. Per usarla di nuovo, sceglila qui: Kalipso la scarica di nuovo, e serve internet.</translation>
+    </message>
+    <message>
+        <source>Download %1 again?</source>
+        <translation>Scaricare di nuovo la lingua (%1)?</translation>
+    </message>
+    <message>
+        <source>Remove %1?</source>
+        <translation>Rimuovere la lingua (%1)?</translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t remove %1: check that its folder can be written.</source>
+        <translation>Non sono riuscito a rimuovere la lingua (%1): controlla che la sua cartella sia scrivibile.</translation>
+    </message>
+    <message>
+        <source>Removed %1: %2 MB freed.</source>
+        <translation>Lingua rimossa (%1): %2 MB liberati.</translation>
     </message>
 </context>
 <context>
@@ -1422,13 +1481,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <source>- Duration: %1</source>
         <translation>- Durata: %1</translation>
     </message>
-    <message numerus="yes">
-        <source>- Words read: %n</source>
-        <translation>
-            <numerusform>- Parole lette: %n</numerusform>
-            <numerusform>- Parole lette: %n</numerusform>
-        </translation>
-    </message>
     <message>
         <source>- Pace: %1 words/min</source>
         <translation>- Ritmo: %1 parole/min</translation>
@@ -1470,6 +1522,29 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>- %1 after “…%2”</source>
         <translation>- %1 dopo «…%2»</translation>
+    </message>
+    <message numerus="yes">
+        <source>- Words read: %n of %1</source>
+        <translation>
+            <numerusform>- Parole lette: %n su %1</numerusform>
+            <numerusform>- Parole lette: %n su %1</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>as planned</source>
+        <translation>come previsto</translation>
+    </message>
+    <message>
+        <source>%1% faster</source>
+        <translation>%1% più veloce</translation>
+    </message>
+    <message>
+        <source>%1% slower</source>
+        <translation>%1% più lento</translation>
+    </message>
+    <message>
+        <source>- At the planned %1 words/min: %2 expected, %3 taken (%4)</source>
+        <translation>- Alla velocità prevista di %1 parole/min: %2 previsti, %3 impiegati (%4)</translation>
     </message>
 </context>
 <context>
