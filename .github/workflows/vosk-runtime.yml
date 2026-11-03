@@ -27,6 +27,7 @@ jobs:
           cat out/BUILD-INFO.txt
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
+          retention-days: 7 # Intermediate files: releases keep their own copies.
           name: vosk-${{ env.VOSK_VERSION }}-linux-x86_64
           path: |
             out/vosk-*-linux-x86_64.zip
@@ -77,6 +78,7 @@ jobs:
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
+          retention-days: 7 # Intermediate files: releases keep their own copies.
           name: vosk-${{ env.VOSK_VERSION }}-validation
           path: |
             report.json
