@@ -159,7 +159,7 @@ private slots:
         const auto cleanup = qScopeGuard([root] { QDir(root).removeRecursively(); });
         const auto model = root + "/models/vosk/vosk-model-small-it-0.22";
         for (const auto &file :
-             {root + "/runtimes/vosk-0.3.45/vosk/libvosk.so", model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
+             {root + "/runtimes/vosk-0.3.50/vosk/libvosk.so", model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
             QVERIFY(QDir().mkpath(QFileInfo(file).absolutePath()));
             QFile touch(file);
             QVERIFY(touch.open(QIODevice::WriteOnly));
@@ -738,7 +738,7 @@ private slots:
         const auto model = root + "/models/vosk/vosk-model-small-it-0.22";
         const auto install = [&] {
             for (const auto &file :
-                 {root + "/runtimes/vosk-0.3.45/vosk/libvosk.so", model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
+                 {root + "/runtimes/vosk-0.3.50/vosk/libvosk.so", model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
                 QVERIFY(QDir().mkpath(QFileInfo(file).absolutePath()));
                 QFile touch(file);
                 QVERIFY(touch.open(QIODevice::WriteOnly));
@@ -774,7 +774,7 @@ private slots:
         answer(QMessageBox::Yes);
         window.findChild<QPushButton *>("speechRemoveModel")->click();
         QVERIFY(!QFileInfo::exists(model));
-        QVERIFY(QFileInfo::exists(root + "/runtimes/vosk-0.3.45/vosk/libvosk.so")); // Other languages use it.
+        QVERIFY(QFileInfo::exists(root + "/runtimes/vosk-0.3.50/vosk/libvosk.so")); // Other languages use it.
         QVERIFY(window.findChild<QLineEdit *>("speechModel")->text().isEmpty());
         QVERIFY(languages->findText("Italiano · download", Qt::MatchStartsWith) > 0);
         QVERIFY2(window.findChild<QLabel *>("speechDownloadStatus")->text().startsWith("Removed Italian:"), qPrintable(window.findChild<QLabel *>("speechDownloadStatus")->text()));

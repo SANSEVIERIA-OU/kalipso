@@ -205,7 +205,7 @@ private slots:
         QVERIFY(files.contains("runtimes/vosk-9.9/vosk/libvosk.so"));
         QVERIFY(!files.contains("runtimes/vosk-9.9/vosk/__init__.py"));
         QVERIFY(files.contains("runtimes/vosk-9.9/source.json"));
-        QVERIFY(files.contains("runtimes/vosk-9.9/notices/vosk-0.3.45-COPYING"));
+        QVERIFY(files.contains("runtimes/vosk-9.9/notices/vosk-0.3.50-COPYING"));
         QVERIFY(files.contains("models/vosk/vosk-model-small-xx-1/am/final.mdl"));
         QVERIFY(files.contains("models/vosk/vosk-model-small-xx-1/kalipso-source.json"));
         for (const auto &file : files)

@@ -68,7 +68,7 @@ microphone in a real room.
 cmake --build build --target follow_probe
 python3 benchmarks/asr/prepare_follow.py /tmp/kalipso-follow --language it     # needs NumPy for the room versions
 build/kalipso-engine --download --language it                                   # Vosk runtime and model, as the app does
-LIB=~/.local/share/kalipso/runtimes/vosk-0.3.45/vosk/libvosk.so
+LIB=~/.local/share/kalipso/runtimes/vosk-0.3.50/vosk/libvosk.so
 MODEL=~/.local/share/kalipso/models/vosk/vosk-model-small-it-0.22
 for condition in clean room noisy; do
   mkdir -p /tmp/follow-results/$condition

@@ -26,7 +26,7 @@ settings.
 | Engine | Version | Languages | Platform |
 | --- | --- | --- | --- |
 | Moonshine (Tiny streaming) | 0.1.5 | en, de, es, ja, zh | Linux x86_64, glibc 2.34+ |
-| Vosk (small models) | 0.3.45 | en, de, es, ja, zh, it | Linux x86_64 |
+| Vosk (small models) | 0.3.50, built from source | en, de, es, ja, zh, it | Linux x86_64, glibc 2.17+ |
 
 Kalipso picks the engine that follows the language best: Moonshine where it has the language, Vosk
 otherwise (Italian uses Vosk, as there is no Italian Moonshine model).
@@ -173,8 +173,8 @@ The results, on 3 November 2026:
 - **Following a reading** (`benchmarks/follow_probe.cpp`, with the grammar): also the same. Sentence
   ends reached were 98% clean, 90% room-like and 52% noisy for both runtimes.
 
-The catalog still points at 0.3.45: switching needs the archive published where the catalog can
-download it.
+The catalog downloads 0.3.50 from Kalipso's own release `vosk-runtime-0.3.50`, by its SHA-256. A
+runtime 0.3.45 that is already installed keeps working; new downloads get 0.3.50.
 
 ## Remove
 
