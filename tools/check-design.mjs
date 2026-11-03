@@ -15,13 +15,29 @@ for(const engine of ['chromium','firefox','webkit']){
  const external=[];page.on('request',r=>{if(isExternal(r.url()))external.push(r.url())});
  const overflow=()=>page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
  let cases=0;
- for(const [width,height] of sizes)for(const route of ['/']){
+ for(const [width,height] of sizes)for(const route of ['/','/it/']){
   await page.setViewportSize({width,height});await page.goto(base+route);await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(100);
   assert.equal(await overflow(),false,`${engine} ${route} ${width} overflow`);
   assert.equal(await page.locator('h1').count(),1);
   cases++;
-  if(route==='/'&&engine==='chromium')await page.screenshot({path:`${out}/site-${width}x${height}.png`});
+  if(engine==='chromium')await page.screenshot({path:`${out}/site${route==='/'?'':'-it'}-${width}x${height}.png`});
  }
+ // Two languages, one page: the Italian page has every section, control and link of the English one,
+ // the scripts write in its language, each language is named in its own and leads to the same place.
+ const shape=()=>page.evaluate(()=>({ids:[...document.querySelectorAll('[id]')].map(e=>e.id),sections:document.querySelectorAll('section').length,
+  buttons:document.querySelectorAll('button').length,links:[...document.querySelectorAll('a[href]')].filter(a=>!a.hasAttribute('data-language')).map(a=>a.getAttribute('href').replace(/^\.\.\//,'').replace(/^\.\/$/,'')),
+  images:[...document.images].map(i=>i.getAttribute('src').replace(/^\.\.\//,'')),languages:[...document.querySelectorAll('a[data-language]')].map(a=>[a.lang,a.hreflang,a.textContent,a.getAttribute('aria-current')])}));
+ await page.setViewportSize({width:1280,height:900});await page.goto(base);const english=await shape();await page.goto(base+'/it/');const italian=await shape();
+ for(const key of ['ids','sections','buttons','links','images'])assert.deepEqual(italian[key],english[key],`${engine} the Italian page differs in ${key}`);
+ const named={en:'English',it:'Italiano'};
+ for(const [lang,hreflang,name] of [...english.languages,...italian.languages]){assert.equal(lang,hreflang);assert.equal(name,named[lang],`${engine} each language by its own name`)}
+ assert.deepEqual(english.languages.filter(l=>l[3]==='page').map(l=>l[0]),['en']);assert.deepEqual(italian.languages.filter(l=>l[3]==='page').map(l=>l[0]),['it']);
+ assert.equal(await page.evaluate(()=>document.documentElement.lang),'it');assert.equal(await page.locator('[data-live-toggle] span').innerText(),"Ferma l'animazione");
+ await page.locator('#edit-toggle').click();assert.equal(await page.locator('#edit-toggle').innerText(),'Fine modifiche');await page.locator('#script').fill('');assert.match(await page.locator('#reading-text').innerText(),/Scrivi il tuo copione/);
+ await page.goto(base+'/#install');await page.locator('.site-header a[data-language]').click();await page.waitForURL(/\/it\/#install$/);
+ await page.locator('footer a[hreflang=en]').click();await page.waitForURL(u=>new URL(u).pathname==='/'&&new URL(u).hash==='#install');
+ // Negative control: an Italian page that lost a section or a control is caught.
+ await page.goto(base+'/it/');await page.locator('#try').evaluate(e=>e.remove());assert.notDeepEqual((await shape()).ids,english.ids);
  await page.setViewportSize({width:820,height:1000});await page.goto(base);
  // Scenes: four images that load when reached, each with a description.
  const scenes=page.locator('.scenes img');assert.equal(await scenes.count(),4);
@@ -78,6 +94,6 @@ for(const engine of ['chromium','firefox','webkit']){
   await page.setViewportSize({width:390,height:844});for(const id of ['try','in-use','install','questions']){await page.locator('#'+id).scrollIntoViewIfNeeded();await page.waitForTimeout(900);await page.screenshot({path:`${out}/mobile-${id}.png`})}
  }
  assert.deepEqual(errors,[],engine+' page errors');assert.deepEqual(external,[],engine+' external requests');
- report.push({engine,viewportCases:cases,interactionChecks:28,negativeControls:5,errors,externalRequests:external.length});await browser.close();console.log(JSON.stringify(report.at(-1)));
+ report.push({engine,viewportCases:cases,interactionChecks:36,negativeControls:6,errors,externalRequests:external.length});await browser.close();console.log(JSON.stringify(report.at(-1)));
 }
 await writeFile(`${out}/results.json`,JSON.stringify(report,null,2)+'\n');

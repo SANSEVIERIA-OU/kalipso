@@ -2,6 +2,7 @@
 // Motion that shows what Kalipso does. With reduced motion nothing moves on its own. The scenes play once,
 // in under five seconds; the reader in the first screen keeps going, so it has a pause button and stops
 // whenever it is out of sight (WCAG 2.2.2).
+import {t} from './i18n.mjs';
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
 document.documentElement.classList.add('motion');
 
@@ -49,7 +50,7 @@ if(live&&toggle){
   text.style.transform=`translateY(${(1-row)*pitch}px)`;
   bar.style.transform=`scaleX(${Math.max(0,index+1)/words.length})`;
   const seconds=Math.round((words.length-Math.max(0,index)-1)*pace/1000);
-  left.textContent=seconds>0?`${seconds} s left`:'End of script';
+  left.textContent=seconds>0?t.secondsLeft(seconds):t.endOfScript;
   live.dataset.word=index;
  }
  const running=()=>wanted&&visible&&!document.hidden;
@@ -69,7 +70,7 @@ if(live&&toggle){
    if(phase!=='reading'){show(-1);live.classList.remove('rewinding');phase='reading'}
   }
   toggle.dataset.state=wanted?'playing':'paused';
-  toggle.querySelector('span').textContent=wanted?'Pause animation':'Play animation';
+  toggle.querySelector('span').textContent=wanted?t.pauseAnimation:t.playAnimation;
  }
  toggle.addEventListener('click',()=>{wanted=!wanted;update()});
  new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;update()}).observe(live);
