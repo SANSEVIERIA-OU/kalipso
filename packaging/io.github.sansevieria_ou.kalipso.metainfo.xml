@@ -25,6 +25,9 @@
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.6" date="2026-11-03" type="stable">
+      <description><p>Present with Impress finds the presentation however its folder path is written.</p></description>
+    </release>
     <release version="2.5" date="2026-11-03" type="stable">
       <description><p>On GNOME, Settings turns on Kalipso's top bar reader.</p></description>
     </release>

@@ -97,6 +97,9 @@ void ImpressFollower::readLines() {
             emit slideChanged(event.value("slide").toInt(), event.value("notes").toString());
         else if (state == QLatin1String("connecting"))
             emit statusChanged(tr("Connecting to LibreOffice…"));
+        else if (state == QLatin1String("waiting") && event.value("waitingFor").toString() == QLatin1String("document"))
+            // LibreOffice answers, but has not opened this presentation yet: "connected" would promise too much.
+            emit statusChanged(tr("Waiting for LibreOffice to open the presentation…"));
         else if (state == QLatin1String("waiting"))
             emit statusChanged(tr("Connected to Impress. Start the slideshow; Kalipso follows its slides."));
         else if (state == QLatin1String("ended"))

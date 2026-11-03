@@ -1,0 +1,53 @@
+name: Impress on Windows and macOS
+# Kalipso follows a LibreOffice Impress slideshow through UNO (src/impress): on Linux with the system's
+# Python and python3-uno, on Windows and macOS with LibreOffice's own Python (ImpressFollower::findOffice).
+# This runs tests/impress_follow_test.py against a real LibreOffice on all three: start, slide changes,
+# empty notes, end, close, and the negative control. Installing LibreOffice takes minutes, so it runs
+# when the Impress code changes, every week, and by hand.
+on:
+  push:
+    branches: [main, feature/**]
+    paths: [src/impress/**, src/impress.cpp, src/impress.h, tests/impress_follow_test.py, tests/fixtures/notes.odp,
+            .github/workflows/impress.yml]
+  pull_request:
+    paths: [src/impress/**, src/impress.cpp, src/impress.h, tests/impress_follow_test.py, tests/fixtures/notes.odp,
+            .github/workflows/impress.yml]
+  schedule:
+    - cron: '23 4 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  impress:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2022, macos-26]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install LibreOffice
+        shell: bash
+        run: |
+          case "$RUNNER_OS" in
+            Linux) sudo apt-get update -qq && sudo apt-get install -y -qq libreoffice-impress python3-uno xvfb >/dev/null ;;
+            Windows) choco install libreoffice-fresh -y --no-progress >/dev/null ;;
+            macOS) brew install --cask libreoffice >/dev/null ;;
+          esac
+      - name: Follow a real slideshow with LibreOffice's Python
+        shell: bash
+        run: |
+          set -euo pipefail
+          run=()
+          case "$RUNNER_OS" in
+            Linux) python=python3 run=(xvfb-run -a) ;;
+            Windows) export PATH="/c/Program Files/LibreOffice/program:$PATH" python="/c/Program Files/LibreOffice/program/python.exe"
+                     export KALIPSO_IMPRESS_PYTHON='C:\Program Files\LibreOffice\program\python.exe' ;;
+            macOS) export PATH="/Applications/LibreOffice.app/Contents/MacOS:$PATH"
+                   python=/Applications/LibreOffice.app/Contents/Resources/python
+                   export KALIPSO_IMPRESS_PYTHON=$python ;;
+          esac
+          "$python" --version
+          ${run[@]+"${run[@]}"} "$python" tests/impress_follow_test.py | tee impress.log
+          # LibreOffice is installed here: a skip would hide a failure.
+          grep -q PASS impress.log

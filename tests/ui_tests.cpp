@@ -1249,6 +1249,31 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QCOMPARE(window.findChild<QAction *>("presentWithImpress")->text(), QString("Present with Impress…"));
     }
 
+    // "Connected" only once LibreOffice has the presentation open: before, Kalipso waits for it. A helper
+    // that never found the document used to say "Connected… Start the slideshow" and then nothing.
+    void impressSaysWhatItWaitsFor() {
+        auto python = QStandardPaths::findExecutable("python3");
+        if (python.isEmpty())
+            python = QStandardPaths::findExecutable("python");
+        if (python.isEmpty())
+            QSKIP("Needs Python to stand in for LibreOffice");
+        MainWindow window(scripts_.path());
+        auto *impress = window.findChild<ImpressFollower *>();
+        QVERIFY(impress);
+        QSignalSpy said(impress, &ImpressFollower::statusChanged);
+        impress->startHelper(python, {"-c", R"(import json, time
+for event in [{"state": "connecting"}, {"state": "waiting", "waitingFor": "document"},
+              {"state": "waiting", "waitingFor": "slideshow"}]:
+    print(json.dumps(event), flush=True)
+    time.sleep(0.2)
+)"});
+        QTRY_VERIFY_WITH_TIMEOUT(said.count() >= 3, 5000);
+        QCOMPARE(said.at(0).first().toString(), QString("Connecting to LibreOffice…"));
+        QCOMPARE(said.at(1).first().toString(), QString("Waiting for LibreOffice to open the presentation…"));
+        QVERIFY(said.at(2).first().toString().startsWith("Connected to Impress"));
+        impress->stop();
+    }
+
     // Opt-in (KALIPSO_IMPRESS_E2E=1, with LibreOffice, xdotool and an X11 display): opens the
     // fixture in real Impress and presses F5 and the right arrow there, as a presenter would.
     void realImpressSlideshowIsFollowed() {
