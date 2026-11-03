@@ -12,6 +12,7 @@
 #include <QKeyEvent>
 #include <QLinearGradient>
 #include <QMenu>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QProgressBar>
@@ -20,13 +21,16 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QSizeGrip>
+#include <QStackedWidget>
 #include <QTextBlock>
+#include <QTextDocumentFragment>
 #include <QTextFrame>
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QWindow>
 #include <algorithm>
 #include <cmath>
+#include <functional>
 
 namespace {
 bool horizontal(Mirror mirror) { return mirror == Mirror::Horizontal || mirror == Mirror::Both; }
@@ -99,14 +103,29 @@ ReaderView::ReaderView(QWidget *parent)
     setReadOnly(true);
     highlighter_->setHideMarks(true);
     setAcceptRichText(false);
+    setAutoFormatting(QTextEdit::AutoNone);
     setFrameStyle(QFrame::NoFrame);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setAccessibleName(tr("Kalipso script"));
-    // Edits are mirrored into the editor, which owns the undo history.
-    document()->setUndoRedoEnabled(false);
     scroll_->setDuration(Design::Duration::glide / 2);
     scroll_->setEasingCurve(QEasingCurve::OutCubic);
+    // While reading, the first line can come down to the reading line and the last one up to it.
+    connect(verticalScrollBar(), &QScrollBar::rangeChanged, this, &ReaderView::extendScrollRange);
+    // New paragraphs inherit the line height; a text that replaced everything gets it here.
+    connect(document(), &QTextDocument::contentsChange, this, [this](int position, int, int added) {
+        if (spacing_ || spacingQueued_)
+            return;
+        const auto end = document()->findBlock(position + added).next();
+        for (auto block = document()->findBlock(position); block.isValid() && block != end; block = block.next())
+            if (int(block.blockFormat().lineHeight()) != lineSpacing_) {
+                spacingQueued_ = true; // The document cannot be changed while it reports a change.
+                QTimer::singleShot(0, this, &ReaderView::spaceLines);
+                return;
+            }
+    });
+    connect(this, &QTextEdit::cursorPositionChanged, this, &ReaderView::caretChanged);
+    spaceLines();
 }
 
 void ReaderView::setMirror(Mirror mirror) {
@@ -115,58 +134,141 @@ void ReaderView::setMirror(Mirror mirror) {
     viewport()->update();
 }
 
+void ReaderView::setEditable(bool editable) {
+    if (editable == !isReadOnly())
+        return;
+    // The text stays where it is on the screen: the viewport moves under the top bar while writing.
+    const int value = verticalScrollBar()->value();
+    setReadOnly(!editable);
+    const auto caret = textCursor();
+    highlighter_->setReveal(editable && !caret.hasSelection() ? caret.position() : -1);
+    style()->unpolish(this); // Style sheets can tell writing from reading by [readOnly].
+    style()->polish(this);
+    relayout(true);
+    verticalScrollBar()->setValue(value + (editable ? topInset_ : -topInset_));
+    viewport()->update();
+}
+
 void ReaderView::setReadingLine(double fraction) {
     readingLine_ = std::clamp(fraction, 0.0, 0.9);
-    QResizeEvent event(size(), size());
-    resizeEvent(&event);
+    extendScrollRange();
+    scrollToCharacter(anchor_, false);
 }
 
 void ReaderView::resizeEvent(QResizeEvent *event) {
     QTextEdit::resizeEvent(event);
-    // Leave room after the last line so it can reach the reading line.
-    const QSignalBlocker block(this);
-    auto format = document()->rootFrame()->frameFormat();
-    const double bottom = viewport()->height() * (1.0 - readingLine_);
-    if (std::abs(format.bottomMargin() - bottom) > 1 || format.leftMargin() != kMarkerSpace ||
-        format.topMargin() != topInset_) {
-        format.setBottomMargin(bottom);
-        format.setTopMargin(topInset_);
-        format.setLeftMargin(kMarkerSpace); // Room for the current-line marker.
-        document()->rootFrame()->setFrameFormat(format);
+    relayout(false);
+    if (isReadOnly())
+        scrollToCharacter(anchor_, false);
+}
+
+void ReaderView::changeEvent(QEvent *event) {
+    QTextEdit::changeEvent(event);
+    if (event->type() == QEvent::FontChange)
+        relayout(false); // The measure is in characters of the text's size.
+}
+
+// The column takes the width it has up to the measure, in the middle. While writing, the text stays
+// between the bars, so the caret is never under them; while reading they float over it.
+void ReaderView::relayout(bool force) {
+    const int column =
+        fontMetrics().averageCharWidth() * kMeasure + kMarkerSpace + int(2 * document()->documentMargin());
+    const int side = std::max(0, (width() - column) / 2);
+    const QMargins wanted = isReadOnly() ? QMargins(side, 0, side, 0) : QMargins(side, topInset_, side, bottomBar_);
+    if (wanted != viewportMargins() || force) {
+        setViewportMargins(wanted);
+        // The text wraps at the viewport's width, and the scroll range follows the viewport: both
+        // are worked out again by QTextEdit when it is resized.
+        QResizeEvent again(size(), QSize(-1, -1));
+        QTextEdit::resizeEvent(&again);
     }
-    scrollToCharacter(anchor_, false);
+    extendScrollRange();
+}
+
+void ReaderView::extendScrollRange() {
+    if (extending_ || !isReadOnly())
+        return; // Writing: the usual range.
+    auto *bar = verticalScrollBar();
+    const int view = viewport()->height();
+    const int minimum = -topInset_;
+    const int maximum =
+        std::max(minimum, int(std::ceil(document()->size().height())) - view + int(view * (1.0 - readingLine_)));
+    if (bar->minimum() == minimum && bar->maximum() == maximum)
+        return;
+    extending_ = true;
+    bar->setRange(minimum, maximum);
+    extending_ = false;
 }
 
 void ReaderView::setTopInset(int pixels) {
     if (pixels == topInset_)
         return;
     topInset_ = pixels;
-    QResizeEvent event(size(), size());
-    resizeEvent(&event);
+    relayout(false);
+    if (isReadOnly())
+        scrollToCharacter(anchor_, false);
+}
+
+void ReaderView::setBottomBar(int pixels) {
+    if (pixels != bottomBar_) {
+        bottomBar_ = pixels;
+        if (!isReadOnly())
+            relayout(false);
+    }
+    viewport()->update();
 }
 
 void ReaderView::setLineSpacing(int percent) {
-    // New blocks inherit the block format, so the minimal edits of the script
-    // keep this spacing; only the format change itself must not reach the editor.
-    const QSignalBlocker block(this);
+    lineSpacing_ = std::clamp(percent, 100, 200);
+    spaceLines();
+    if (isReadOnly())
+        scrollToCharacter(anchor_, false); // Same reading line, new line positions.
+}
+
+// The line height and the marker's room are formats of the document: right after a new text they are
+// not an undo step; later (a new spacing chosen in Settings) they join the last edit, so undo never
+// stops on them.
+void ReaderView::spaceLines() {
+    spacingQueued_ = false;
+    QTextBlockFormat format;
+    format.setLineHeight(lineSpacing_, QTextBlockFormat::ProportionalHeight);
+    const QSignalBlocker block(this); // Only the layout changes: no text change to report.
+    spacing_ = true;
     QTextCursor all(document());
     all.select(QTextCursor::Document);
-    QTextBlockFormat format;
-    format.setLineHeight(std::clamp(percent, 100, 200), QTextBlockFormat::ProportionalHeight);
+    const bool fresh = document()->availableUndoSteps() == 0 && document()->availableRedoSteps() == 0;
+    if (fresh)
+        document()->setUndoRedoEnabled(false);
+    else if (document()->availableUndoSteps() > 0)
+        all.joinPreviousEditBlock();
+    else
+        all.beginEditBlock();
     all.mergeBlockFormat(format);
-    QResizeEvent event(size(), size()); // Same reading line, new line positions.
-    resizeEvent(&event);
+    auto frame = document()->rootFrame()->frameFormat();
+    if (frame.leftMargin() != kMarkerSpace) {
+        frame.setLeftMargin(kMarkerSpace); // Room for the current-line marker.
+        document()->rootFrame()->setFrameFormat(frame);
+    }
+    if (fresh)
+        document()->setUndoRedoEnabled(true);
+    else
+        all.endEditBlock();
+    spacing_ = false;
 }
 
 void ReaderView::scrollToCharacter(int character, bool animate) {
     anchor_ = character;
+    if (!isReadOnly())
+        return; // While writing, the text stays where the person scrolled it.
     QTextCursor cursor(document());
     cursor.setPosition(std::clamp(character, 0, std::max(0, document()->characterCount() - 1)));
     const QRect line = cursorRect(cursor);
     const int center = line.center().y() + verticalScrollBar()->value();
-    // Through the glass, a mirrored line appears where the unmirrored one would.
-    const int target = std::clamp(center - int(viewport()->height() * readingLine_), verticalScrollBar()->minimum(),
-                                  verticalScrollBar()->maximum());
+    // Through the glass, a mirrored line appears where the unmirrored one would. In a low window the
+    // reading line stays below the top bar, which covers the text until it fades.
+    const int reading = std::max(int(viewport()->height() * readingLine_), topInset_ + line.height() / 2 + 2);
+    const int target =
+        std::clamp(center - reading, verticalScrollBar()->minimum(), verticalScrollBar()->maximum());
     scroll_->stop();
     if (!animate || Motion::reduced() || std::abs(target - verticalScrollBar()->value()) > viewport()->height()) {
         verticalScrollBar()->setValue(target);
@@ -175,6 +277,67 @@ void ReaderView::scrollToCharacter(int character, bool animate) {
     scroll_->setStartValue(verticalScrollBar()->value());
     scroll_->setEndValue(target);
     scroll_->start();
+}
+
+// While writing: the marks around the caret show, and the caret is where reading starts, as the
+// playhead follows the cursor in editors that cut video by its text.
+void ReaderView::caretChanged() {
+    if (isReadOnly())
+        return;
+    const auto caret = textCursor();
+    highlighter_->setReveal(caret.hasSelection() ? -1 : caret.position());
+    if (!caret.hasSelection())
+        emit caretMoved(caret.position());
+}
+
+// Backspace at the start of a heading makes it a line of text again, as in word processors.
+void ReaderView::keyPressEvent(QKeyEvent *event) {
+    auto caret = textCursor();
+    if (!isReadOnly() && event->key() == Qt::Key_Backspace && !caret.hasSelection() &&
+        event->modifiers() == Qt::NoModifier) {
+        const auto block = caret.block();
+        const int marks = highlighter_->headingMarks(block);
+        if (marks > 0 && caret.position() == block.position() + marks) {
+            caret.setPosition(block.position());
+            caret.setPosition(block.position() + marks, QTextCursor::KeepAnchor);
+            caret.removeSelectedText();
+            setTextCursor(caret);
+            return;
+        }
+    }
+    QTextEdit::keyPressEvent(event);
+}
+
+// Ctrl and the wheel change the text size in steps, like the buttons (not QTextEdit's own zoom,
+// which Settings would not know).
+void ReaderView::wheelEvent(QWheelEvent *event) {
+    if (!(event->modifiers() & Qt::ControlModifier)) {
+        QTextEdit::wheelEvent(event);
+        return;
+    }
+    wheel_ += event->angleDelta().y();
+    while (std::abs(wheel_) >= 120) {
+        emit textSizeStep(wheel_ > 0 ? 1 : -1);
+        wheel_ -= wheel_ > 0 ? 120 : -120;
+    }
+    event->accept();
+}
+
+// Pasted and dropped text is plain and takes the paragraphs' spacing.
+void ReaderView::insertFromMimeData(const QMimeData *source) {
+    if (isReadOnly() || !source || !source->hasText())
+        return;
+    auto caret = textCursor();
+    caret.insertText(source->text());
+    setTextCursor(caret);
+    ensureCursorVisible();
+}
+
+// Copied text is the script as written, Markdown marks included: not the hidden formats.
+QMimeData *ReaderView::createMimeDataFromSelection() const {
+    auto *data = new QMimeData;
+    data->setText(textCursor().selection().toPlainText());
+    return data;
 }
 
 QPoint ReaderView::unmirrored(QPoint point) const {
@@ -283,6 +446,13 @@ AccessibleButton *quietButton(const QString &label, const QString &tip) {
     button->setProperty("label", label);
     return button;
 }
+
+// The formats' icons, by the name of the action that applies them.
+QString formatIcon(const QString &action) {
+    static const QHash<QString, QString> icons{
+        {"formatBold", "bold"}, {"formatItalic", "italic"}, {"formatHeading", "heading"}, {"formatCue", "cue"}};
+    return icons.value(action);
+}
 } // namespace
 
 ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
@@ -299,15 +469,31 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
-    // Top bar: what you are reading; sections, settings, and back to writing.
+    // Top bar: the scripts and what you are reading on the left; on the right the formats (while
+    // writing), the text size, sections, settings and where the window goes.
     auto *topBar = new QWidget;
     topBar->setObjectName("readerBar");
     bars_.append(topBar);
     auto *bar = new QHBoxLayout(topBar);
-    bar->setContentsMargins(space3, space1, space2, space1);
+    bar->setContentsMargins(space2, space1, space2, space1);
     bar->setSpacing(space1);
+    drawerButton_ = quietButton(QString(), tr("Your scripts (F9)"));
+    drawerButton_->setObjectName("readerScripts");
+    drawerButton_->setAccessibleName(tr("Scripts"));
+    drawerButton_->setCheckable(true);
     handle_ = new DragHandle;
     handle_->title->setText(tr("Kalipso"));
+    formats_ = new QWidget;
+    formats_->setObjectName("readerFormats");
+    auto *formatRow = new QHBoxLayout(formats_);
+    formatRow->setContentsMargins(0, 0, space2, 0);
+    formatRow->setSpacing(space1);
+    smaller_ = quietButton(QString(), tr("Smaller text (Ctrl+−)"));
+    smaller_->setObjectName("readerTextSmaller");
+    smaller_->setAccessibleName(tr("Smaller text"));
+    larger_ = quietButton(QString(), tr("Larger text (Ctrl++)"));
+    larger_->setObjectName("readerTextLarger");
+    larger_->setAccessibleName(tr("Larger text"));
     sections_ = new MenuButton;
     sections_->setText(tr("Sections"));
     sections_->setProperty("label", sections_->text());
@@ -323,12 +509,16 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     settings_ = quietButton(QString(), tr("Settings"));
     settings_->setObjectName("readerSettings");
     settings_->setAccessibleName(tr("Settings"));
-    write_ = quietButton(tr("Write"), tr("Back to writing (Esc)"));
-    write_->setObjectName("readerWrite");
+    place_ = quietButton(QString(), QString());
+    place_->setObjectName("readerPlace");
+    bar->addWidget(drawerButton_);
     bar->addWidget(handle_, 1);
+    bar->addWidget(formats_);
+    bar->addWidget(smaller_);
+    bar->addWidget(larger_);
     bar->addWidget(sections_);
     bar->addWidget(settings_);
-    bar->addWidget(write_);
+    bar->addWidget(place_);
     topBar->setParent(this); // Over the text, placed by placeBars().
 
     progress_ = new QProgressBar;
@@ -341,12 +531,15 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     layout->addWidget(progress_);
 
     text = new ReaderView;
-    text->setPlaceholderText(tr("Write your script first: press Write."));
+    text->setPlaceholderText(tr("Write or paste your script here."));
     text->installEventFilter(this);
-    auto *page = new QVBoxLayout;
-    page->setContentsMargins(space4, space2, space5, space2);
-    page->addWidget(text);
-    layout->addLayout(page, 1);
+    pages_ = new QStackedWidget;
+    pages_->setObjectName("readerPages");
+    pages_->addWidget(text);
+    pageLayout_ = new QVBoxLayout;
+    pageLayout_->setContentsMargins(space4, space2, space5, space2);
+    pageLayout_->addWidget(pages_);
+    layout->addLayout(pageLayout_, 1);
     countdown_ = new QLabel(text);
     countdown_->setObjectName("readerCountdown");
     countdown_->setAlignment(Qt::AlignCenter);
@@ -413,8 +606,10 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     controls->addStretch(0); // Keeps the controls together on the left when the status is hidden.
     steps_ = {previous, next};
     controlBar->setParent(this);
-    icons_ = {{previous, "previous"}, {next, "next"}, {sections_, "sections"}, {settings_, "settings"},
-              {write_, "edit"}};
+    icons_ = {{previous, "previous"},       {next, "next"},           {sections_, "sections"},
+              {settings_, "settings"},      {drawerButton_, "sidebar"}, {smaller_, "text-smaller"},
+              {larger_, "text-larger"},     {place_, "camera-top"}};
+    setUnderCamera(false);
 
     // The menus are the desktop's own, in the window's colours rather than the reader's: without a
     // parent they keep the desktop's look (rounded, shadowed) instead of the reader's style sheet.
@@ -434,6 +629,9 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     idle_.setSingleShot(true);
     idle_.setInterval(2500);
     connect(&idle_, &QTimer::timeout, this, [this] { setControlsVisible(false); });
+    message_.setSingleShot(true);
+    message_.setInterval(5000);
+    connect(&message_, &QTimer::timeout, this, [this] { status_->setText(statusText_); });
     for (auto *widget : bars_) {
         auto *effect = new QGraphicsOpacityEffect(widget);
         effect->setOpacity(1.0);
@@ -449,8 +647,13 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
 
     connect(previous, &QPushButton::clicked, this, [this] { emit step(-1); });
     connect(next, &QPushButton::clicked, this, [this] { emit step(1); });
-    connect(write_, &QPushButton::clicked, this, &ReaderPage::writeRequested);
     connect(settings_, &QPushButton::clicked, this, &ReaderPage::settingsRequested);
+    connect(place_, &QPushButton::clicked, this, &ReaderPage::placeRequested);
+    connect(drawerButton_, &QPushButton::clicked, this, [this] { setDrawerOpen(!drawerOpen_); });
+    connect(smaller_, &QPushButton::clicked, this, [this] { emit textSizeRequested(-1); });
+    connect(larger_, &QPushButton::clicked, this, [this] { emit textSizeRequested(1); });
+    connect(text, &ReaderView::textSizeStep, this, &ReaderPage::textSizeRequested);
+    connect(text, &ReaderView::caretMoved, this, &ReaderPage::jumpRequested);
     connect(primary_, &QPushButton::clicked, this, [this] {
         if (!blocked_)
             emit toggleRequested();
@@ -476,6 +679,7 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     setReaderTheme("dark");
     setTextSize(28);
     setMode(ReadingMode::Voice);
+    sizeIcons();
 }
 
 ReaderPage::~ReaderPage() {
@@ -500,6 +704,14 @@ void ReaderPage::applyPalette(const Design::Palette &palette) {
     handle_->grip->setPixmap(Icons::icon("grip", QColor(palette.muted)).pixmap(18, 18));
     updatePrimary();
     highlight(position_, length_);
+}
+
+void ReaderPage::addIconButton(QAbstractButton *button, const QString &icon) {
+    icons_.append({button, icon});
+    const int side = std::max(20, qRound(fontMetrics().height() * 1.15));
+    button->setIconSize(QSize(side, side));
+    button->setProperty("motion", Icons::motion(icon));
+    button->setIcon(Icons::icon(icon, QColor(colors_.text), QColor(colors_.muted)));
 }
 
 void ReaderPage::setReaderTheme(const QString &theme) {
@@ -527,6 +739,10 @@ void ReaderPage::setTextSize(int points) {
 
 void ReaderPage::setMode(ReadingMode mode) {
     readingMode_ = mode;
+    if (message_.isActive()) { // A new choice: what happened before is no longer news.
+        message_.stop();
+        status_->setText(statusText_);
+    }
     for (auto *action : modes_->menu()->actions())
         if (action->data().toInt() == int(mode)) {
             action->setChecked(true);
@@ -543,8 +759,10 @@ void ReaderPage::setRunning(bool running, const QString &status) {
     running_ = running;
     updatePrimary();
     setStatus(status);
-    if (changed) // Status updates while reading must not bring the controls back.
+    if (changed) { // Status updates while reading must not bring the controls back.
+        updateEditing();
         revealControls();
+    }
 }
 
 void ReaderPage::setBlocked(bool blocked) {
@@ -590,9 +808,18 @@ void ReaderPage::setControlsVisible(bool visible) {
 }
 
 void ReaderPage::setStatus(const QString &status) {
-    status_->setText(status);
-    status_->setToolTip(status);
+    statusText_ = status;
+    if (!message_.isActive())
+        status_->setText(status);
+    status_->setToolTip(status_->text());
     status_->update();
+}
+
+void ReaderPage::showMessage(const QString &message) {
+    status_->setText(message);
+    status_->setToolTip(message);
+    status_->update();
+    message_.start();
 }
 
 void ReaderPage::placeBars() {
@@ -605,8 +832,10 @@ void ReaderPage::placeBars() {
     // The first line starts under the top bar; while reading, the bars fade and the text has the
     // whole window.
     text->setTopInset(topHeight);
-    overlap_ = std::max(0, text->geometry().bottom() + 1 - (height() - bottomHeight));
+    // The pages are laid out by the page's own layout, before this runs; the text fills them.
+    overlap_ = std::max(0, pages_->geometry().bottom() + 1 - (height() - bottomHeight));
     text->setBottomBar(controlsVisible_ ? overlap_ : 0);
+    placeDrawer();
     top->raise();
     bottom->raise();
 }
@@ -615,7 +844,7 @@ void ReaderPage::placeBars() {
 // bar decides for its widest mode (steady, with the speed), so changing the mode never changes the
 // other controls: the mode takes its short name, then the start button keeps its icon and the speed
 // its number, then the word steps go (keys and pedals still step). The status has the room left;
-// with too little it goes (the editor keeps it, and assistive technology hears it).
+// with too little it goes (assistive technology still hears it).
 void ReaderPage::updateLabels() {
     const auto need = [this](QWidget *bar, const QList<QWidget *> &extra) {
         const auto margins = bar->layout()->contentsMargins();
@@ -632,10 +861,10 @@ void ReaderPage::updateLabels() {
     const int words = fontMetrics().averageCharWidth() * 12;
     // Top bar: labels, or icons.
     for (const bool icons : {false, true}) {
-        for (auto *button : {static_cast<QAbstractButton *>(write_), static_cast<QAbstractButton *>(sections_)})
+        for (auto *button : {static_cast<QAbstractButton *>(place_), static_cast<QAbstractButton *>(sections_)})
             button->setText(icons ? QString() : button->property("label").toString());
         sections_->setToolButtonStyle(icons ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextBesideIcon);
-        write_->updateGeometry();
+        place_->updateGeometry();
         sections_->updateGeometry();
         if (need(bars_.first(), {}) + words <= width())
             break;
@@ -727,6 +956,259 @@ void ReaderPage::setResizableEdges(bool resizable) {
         unsetCursor();
 }
 
+// --- Writing ----------------------------------------------------------------
+
+void ReaderPage::setFormatActions(const QList<QAction *> &actions) {
+    for (auto *action : actions) {
+        auto *button = quietButton(QString(), action->toolTip());
+        button->setObjectName(action->objectName() + "Button");
+        button->setAccessibleName(action->text());
+        button->setCheckable(action->isCheckable());
+        button->setFocusPolicy(Qt::TabFocus); // The text keeps the caret and the selection.
+        connect(button, &QPushButton::clicked, action, [action] { action->trigger(); });
+        const auto follow = [action, button] {
+            const QSignalBlocker block(button);
+            button->setChecked(action->isChecked());
+        };
+        connect(action, &QAction::changed, button, follow);
+        follow();
+        formats_->layout()->addWidget(button);
+        addIconButton(button, formatIcon(action->objectName()));
+    }
+    updateLabels();
+}
+
+bool ReaderPage::isRoomy(const QSize &window, Qt::WindowStates states) {
+    if (states & Qt::WindowFullScreen)
+        return false;
+    return (states & Qt::WindowMaximized) || (window.width() > 960 && window.height() > 600);
+}
+
+// Writing when the window is large and the reader is not reading: the text takes the caret, the
+// formats come into the top bar and the scripts go beside the text.
+void ReaderPage::updateEditing() {
+    const auto *top = window();
+    const bool roomy = isRoomy(top->size(), top->windowState());
+    const bool roomyChanged = roomy != roomy_ || compact_ < 0;
+    roomy_ = roomy;
+    const bool editing = roomy && !running_;
+    formats_->setVisible(roomy);
+    formats_->setEnabled(editing && !welcomeShown());
+    if (roomyChanged && drawer_ && !welcomeShown())
+        setDrawerOpen(drawerWanted_[roomy]);
+    if (editing != editing_) {
+        editing_ = editing;
+        text->setEditable(editing);
+        if (editing)
+            placeCaret(position_); // Where reading stopped, to fix a word there or start again from it.
+        highlight(position_, length_);
+        emit editingChanged(editing);
+    }
+    if (roomyChanged) {
+        updateLabels();
+        placeBars();
+        // The panel that had the focus may have gone: the keys go to the text again.
+        if (auto *focus = QApplication::focusWidget(); !focus || (isAncestorOf(focus) && focus != text))
+            text->setFocus();
+    }
+}
+
+void ReaderPage::sizeIcons() {
+    const int side = std::max(20, qRound(fontMetrics().height() * 1.15));
+    for (const auto &[button, name] : icons_)
+        button->setIconSize(QSize(side, side));
+    primary_->setIconSize(QSize(side, side));
+}
+
+// The text behind the scripts dims, so what is on top is clear; touching it closes them.
+class Scrim : public QWidget {
+public:
+    explicit Scrim(QWidget *parent) : QWidget(parent) {}
+    QColor color;
+    std::function<void()> pressed;
+
+protected:
+    void paintEvent(QPaintEvent *) override { QPainter(this).fillRect(rect(), color); }
+    void mousePressEvent(QMouseEvent *event) override {
+        event->accept();
+        if (pressed)
+            pressed();
+    }
+};
+
+void ReaderPage::setDrawer(QWidget *drawer) {
+    auto *scrim = new Scrim(this);
+    scrim->setObjectName("readerScrim");
+    scrim->pressed = [this] { setDrawerOpen(false); };
+    scrim->hide();
+    scrim_ = scrim;
+    drawer_ = drawer;
+    drawer_->setParent(this);
+    drawer_->hide();
+    drawer_->installEventFilter(this);
+    drawerSlide_ = new QPropertyAnimation(drawer_, "pos", this);
+    connect(drawerSlide_, &QPropertyAnimation::valueChanged, this, [this] {
+        // The scrim follows the panel: fully there when it is all in.
+        auto *scrim = static_cast<Scrim *>(scrim_);
+        const double shown = 1.0 + double(drawer_->x()) / std::max(1, drawer_->width());
+        QColor color(colors_.background);
+        color.setAlphaF(float(0.6 * std::clamp(shown, 0.0, 1.0)));
+        scrim->color = color;
+        scrim->update();
+    });
+    connect(drawerSlide_, &QPropertyAnimation::finished, this, [this] {
+        if (!drawerOpen_) {
+            drawer_->hide();
+            scrim_->hide();
+            placeDrawer(); // The text takes back the panel's room.
+        }
+    });
+    auto *toggle = new QAction(this);
+    toggle->setShortcut(Qt::Key_F9); // Like the panels of the desktop's own apps.
+    toggle->setShortcutContext(Qt::WindowShortcut);
+    connect(toggle, &QAction::triggered, this, [this] { setDrawerOpen(!drawerOpen_); });
+    addAction(toggle);
+    updateEditing();
+}
+
+// About 32 characters: room for a title and its length. Beside the text it takes at most two fifths
+// of the window; over it, all but a strip of the text, which closes it when touched.
+int ReaderPage::drawerWidth() const {
+    const int wanted = fontMetrics().averageCharWidth() * 32;
+    const int limit = roomy_ ? width() * 2 / 5 : width() - Design::Metric::space7;
+    return std::max(std::min(200, width()), std::min(wanted, limit));
+}
+
+// The panel comes in from the left and goes back the same way, a little faster. In a large window it
+// sits beside the text, which makes room for it; in a small one it lies over the text until a script
+// is chosen, the text is touched or Esc is pressed.
+void ReaderPage::setDrawerOpen(bool open) {
+    if (!drawer_)
+        return;
+    drawerWanted_[roomy_] = open;
+    drawerButton_->setChecked(open);
+    if (open == drawerOpen_ && (open == drawer_->isVisible()))
+        return;
+    drawerOpen_ = open;
+    // Keyboard focus never stays in a panel that goes away: it goes back to the text.
+    if (!open && drawer_->isAncestorOf(QApplication::focusWidget()))
+        text->setFocus();
+    placeDrawer();
+    const int width = drawerWidth();
+    const QPoint shown(0, drawer_->y()), hidden(-width, drawer_->y());
+    drawerSlide_->stop();
+    auto *scrim = static_cast<Scrim *>(scrim_);
+    if (open) {
+        if (!drawer_->isVisible())
+            drawer_->move(hidden);
+        scrim->setVisible(!roomy_);
+        scrim->raise();
+        drawer_->show();
+        drawer_->raise();
+        for (auto *bar : bars_)
+            bar->raise();
+    }
+    if (Motion::reduced() || !isVisible()) {
+        drawer_->move(open ? shown : hidden);
+        QColor color(colors_.background);
+        color.setAlphaF(open ? 0.6f : 0.0f);
+        scrim->color = color;
+        scrim->update();
+        if (!open) {
+            drawer_->hide();
+            scrim->hide();
+            placeDrawer();
+        }
+        return;
+    }
+    drawerSlide_->setDuration(open ? Design::Duration::enter : Design::Duration::exit);
+    drawerSlide_->setEasingCurve(open ? QEasingCurve::OutCubic : QEasingCurve::InCubic);
+    drawerSlide_->setStartValue(drawer_->pos());
+    drawerSlide_->setEndValue(open ? shown : hidden);
+    drawerSlide_->start();
+}
+
+void ReaderPage::placeDrawer() {
+    using namespace Design::Metric;
+    const bool docked = drawer_ && roomy_ && drawerOpen_;
+    const int width = drawerWidth();
+    const auto margins = pageLayout_->contentsMargins();
+    const int left = space4 + (docked ? width : 0);
+    if (margins.left() != left)
+        pageLayout_->setContentsMargins(left, margins.top(), margins.right(), margins.bottom());
+    if (!drawer_ || bars_.size() < 2)
+        return;
+    const int top = progress_->height() + bars_.first()->sizeHint().height();
+    const int bottom = height() - bars_.last()->sizeHint().height();
+    const bool sliding = drawerSlide_->state() == QAbstractAnimation::Running;
+    drawer_->setGeometry(sliding || !drawer_->isVisible() ? drawer_->x() : 0, top, width, std::max(0, bottom - top));
+    scrim_->setGeometry(0, top, this->width(), std::max(0, bottom - top));
+    if (roomy_ && scrim_->isVisible())
+        scrim_->hide(); // Beside the text, nothing is behind the scripts.
+    // Its header keeps one row: labels go before anything is cut.
+    if (auto *header = drawer_->findChild<QWidget *>("scriptDrawerHeader"); header && header->layout()) {
+        const auto buttons = header->findChildren<QAbstractButton *>();
+        for (const bool icons : {false, true}) {
+            for (auto *button : buttons)
+                if (button->property("label").isValid())
+                    button->setText(icons ? QString() : button->property("label").toString());
+            header->layout()->activate();
+            if (header->layout()->minimumSize().width() + fontMetrics().averageCharWidth() * 6 <= width)
+                break;
+        }
+    }
+}
+
+void ReaderPage::placeCaret(int character) {
+    if (!editing_)
+        return;
+    QTextCursor caret(text->document());
+    caret.setPosition(std::clamp(character, 0, std::max(0, text->document()->characterCount() - 1)));
+    text->setTextCursor(caret);
+    text->ensureCursorVisible();
+}
+
+void ReaderPage::setWelcome(QWidget *welcome) {
+    welcome_ = welcome;
+    pages_->addWidget(welcome);
+}
+
+void ReaderPage::showWelcome(bool shown) {
+    if (!welcome_ || shown == welcomeShown())
+        return;
+    pages_->setCurrentWidget(shown ? welcome_ : static_cast<QWidget *>(text));
+    formats_->setEnabled(editing_ && !shown);
+    // The welcome has the whole window: there is nothing to list yet. The scripts come with the first.
+    if (drawer_) {
+        const bool wanted = drawerWanted_[roomy_];
+        setDrawerOpen(!shown && wanted);
+        drawerWanted_[roomy_] = wanted;
+    }
+}
+
+bool ReaderPage::welcomeShown() const { return welcome_ && pages_->currentWidget() == welcome_; }
+
+void ReaderPage::setUnderCamera(bool underCamera) {
+    underCamera_ = underCamera;
+    // Under the camera it offers room to write; in a large window, the place under the camera.
+    const auto label = underCamera ? tr("Expand") : tr("Under the camera");
+    place_->setProperty("label", label);
+    place_->setAccessibleName(label);
+    place_->setToolTip(underCamera ? tr("Larger, to write and manage your scripts")
+                                   : tr("Small, at the top of the screen, under the camera"));
+    if (!place_->text().isEmpty())
+        place_->setText(label);
+    const QString icon = underCamera ? QStringLiteral("expand") : QStringLiteral("camera-top");
+    for (auto &[button, name] : icons_)
+        if (button == place_)
+            name = icon;
+    place_->setProperty("motion", Icons::motion(icon));
+    place_->setIcon(Icons::icon(icon, QColor(colors_.text), QColor(colors_.muted)));
+    updateLabels();
+}
+
+// ---------------------------------------------------------------------------
+
 void ReaderPage::showCountdown(int seconds) {
     countdown_->setVisible(seconds > 0);
     if (seconds <= 0)
@@ -742,6 +1224,12 @@ void ReaderPage::showCountdown(int seconds) {
 void ReaderPage::highlight(int position, int length) {
     position_ = position;
     length_ = length;
+    // While writing, the caret is where reading starts: no marks over the text being written.
+    if (editing_) {
+        text->setExtraSelections({});
+        text->scrollToCharacter(position, false);
+        return;
+    }
     const int limit = std::max(0, text->document()->characterCount() - 1);
     QTextEdit::ExtraSelection read;
     read.cursor = QTextCursor(text->document());
@@ -766,8 +1254,14 @@ void ReaderPage::resizeEvent(QResizeEvent *event) {
         return;
     updateLabels();
     placeBars();
+    updateEditing();
     if (countdown_->isVisible())
         showCountdown(countdown_->text().toInt());
+}
+
+void ReaderPage::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
+    updateEditing();
 }
 
 void ReaderPage::changeEvent(QEvent *event) {
@@ -776,6 +1270,7 @@ void ReaderPage::changeEvent(QEvent *event) {
     if (bars_.size() < 2 || !status_)
         return;
     if (event->type() == QEvent::FontChange || event->type() == QEvent::StyleChange) {
+        sizeIcons();
         updateLabels();
         placeBars();
     }
@@ -796,16 +1291,21 @@ void ReaderPage::trigger(ReaderAction action) {
 
 void ReaderPage::keyPressEvent(QKeyEvent *event) {
     revealControls();
-    if (event->key() != Qt::Key_Escape) {
-        const auto custom = customKeys_.constFind(event->keyCombination().toCombined());
-        if (custom != customKeys_.cend()) {
-            trigger(*custom);
-            return;
-        }
+    // Esc closes the scripts over the text, or pauses.
+    if (event->key() == Qt::Key_Escape) {
+        if (drawerOpen_ && !roomy_)
+            setDrawerOpen(false);
+        else if (running_)
+            emit toggleRequested();
+        return;
+    }
+    const auto custom = customKeys_.constFind(event->keyCombination().toCombined());
+    if (custom != customKeys_.cend()) {
+        trigger(*custom);
+        return;
     }
     // Foot pedals and presentation remotes send these keys.
     switch (event->key()) {
-    case Qt::Key_Escape: emit writeRequested(); return;
     case Qt::Key_Space:
     case Qt::Key_MediaPlay:
     case Qt::Key_MediaTogglePlayPause: emit toggleRequested(); return;
@@ -878,10 +1378,22 @@ bool ReaderPage::eventFilter(QObject *object, QEvent *event) {
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::Enter ||
         event->type() == QEvent::MouseButtonPress)
         revealControls();
-    // The text view forwards control keys instead of scrolling.
-    if (object == text && event->type() == QEvent::KeyPress) {
+    // The scripts over the text close when the text is touched.
+    if (object == text->viewport() && event->type() == QEvent::MouseButtonPress && drawerOpen_ && !roomy_) {
+        setDrawerOpen(false);
+        return true;
+    }
+    // While reading, the text view forwards control keys instead of scrolling; while writing it
+    // takes them, except Esc.
+    if (object == text && event->type() == QEvent::KeyPress && text->isReadOnly()) {
         keyPressEvent(static_cast<QKeyEvent *>(event));
         return event->isAccepted();
+    }
+    if (object == drawer_ && event->type() == QEvent::KeyPress &&
+        static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape && !roomy_) {
+        setDrawerOpen(false);
+        text->setFocus();
+        return true;
     }
     return QWidget::eventFilter(object, event);
 }

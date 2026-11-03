@@ -129,6 +129,7 @@ QPushButton:checked { background: @hover; border: 2px solid @accent; padding: 6p
 QPushButton:disabled, QToolButton:disabled { color: @muted; border-style: dashed; }
 QPushButton[quiet="true"], QToolButton[quiet="true"] { background: transparent; border-color: transparent; }
 QPushButton[quiet="true"]:hover, QToolButton[quiet="true"]:hover { background: @hover; }
+QPushButton[quiet="true"]:checked { background: @hover; border: 1px solid @divider; padding: 7px 14px; font-weight: normal; }
 QPushButton#primaryAction, QPushButton[primary="true"] {
     background: @action; color: @actionText; border: 1px solid @action; font-weight: 600;
 }
@@ -163,8 +164,9 @@ QSpinBox::down-arrow { image: url(:/icons/generated/chevron-down-@theme.svg); wi
 QPlainTextEdit, QTextEdit { background: @surface; color: @text; border: none;
     selection-background-color: @selection; selection-color: @selectionText; }
 QPlainTextEdit#scriptEditor { border-top: 1px solid @divider; border-bottom: 1px solid @divider; }
-QTextEdit#readingScript[readOnly="true"] { background: @background; }
-QTextEdit#readingScript[readOnly="false"] { background: @surface; border: 2px solid @focus; border-radius: @radiuspx; }
+QTextEdit#readingScript { background: @background; border: none; }
+QWidget#scriptDrawer { background: @surface; border-right: 1px solid @divider; }
+QListWidget#scriptList { background: transparent; border: none; }
 
 QPushButton:focus, QToolButton:focus, QComboBox:focus, QLineEdit:focus, QSpinBox:focus {
     border: 2px solid @focus; padding: 6px 13px;

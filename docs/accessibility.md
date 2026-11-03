@@ -36,8 +36,8 @@ Runtime requirements: PipeWire, `xdg-desktop-portal`, and a desktop backend with
 
 ## Keyboard and text
 
-- Tab/Shift+Tab move between controls; Enter/Space activate buttons. Escape closes an editor or settings pane, or hides the reader.
-- In the standalone reader and the shell frontends, arrow keys and Page Up/Down step through the script, Space starts or pauses, + and − change the steady speed and Home returns to the start. Ctrl+Enter opens the standalone reader.
+- Tab/Shift+Tab move between controls; Enter/Space activate buttons. Escape closes a settings pane or the scripts panel, and pauses the reader.
+- In the standalone reader and the shell frontends, arrow keys and Page Up/Down step through the script, Space starts or pauses, + and − change the steady speed and Home returns to the start. In the standalone app Ctrl+Enter starts or pauses, Ctrl++ and Ctrl+− change the text size and F9 shows the scripts.
 - Manual and steady modes are full alternatives to speaking. Pause stops voice following without changing the script.
 - Mirroring affects only the script text; the controls stay readable.
 - The browser demonstration has a skip link, labelled fields, status messages, reduced-motion behaviour and forced-colors support.

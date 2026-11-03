@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Every screen in every combination: the window writing and reading, each reading mode idle and
-// running, light and dark, interface text at 100% and 200%, wide and narrow, and every Settings
+// Every screen in every combination: the one window large (writing) and small (the teleprompter),
+// the scripts open and closed, each reading mode idle and running, light and dark, interface text at 100% and 200%, wide and narrow, and every Settings
 // page. Each state is checked for what breaks a layout (controls overlapping or outside their bar,
 // labels cut, bars changing height or moving with the mode, the current line under a bar, anything
 // wider than the window) and, with a directory argument, photographed for a person to look at.
@@ -156,15 +156,19 @@ const char *modeName(ReadingMode mode) {
     return mode == ReadingMode::Manual ? "manual" : mode == ReadingMode::Steady ? "steady" : "voice";
 }
 
+// The one window at every size: large (writing, with the formats and the scripts beside the text)
+// and small (the teleprompter), in each mode, idle and reading.
 void readerStates(MainWindow &window, const QString &prefix) {
     auto *reader = window.prompter();
-    window.showPrompter();
-    settle();
-    for (const QSize size : {QSize(960, 600), QSize(624, 384), QSize(480, 300), QSize(320, 240)}) {
+    for (const QSize size : {QSize(1280, 800), QSize(1100, 760), QSize(960, 600), QSize(624, 384), QSize(480, 300),
+                             QSize(320, 240)}) {
         window.resize(size);
         settle();
         QHash<QString, QList<QRect>> topBar;
         QHash<QString, int> heights;
+        // Large enough to write in: wider than 960 and taller than 600 (written here, not asked of the
+        // window, so a wrong rule in the window is caught).
+        const bool roomy = size.width() > 960 && size.height() > 600;
         for (const auto mode : {ReadingMode::Manual, ReadingMode::Steady, ReadingMode::Voice}) {
             emit reader->modeRequested(mode);
             for (const bool running : {false, true}) {
@@ -176,8 +180,8 @@ void readerStates(MainWindow &window, const QString &prefix) {
                     reader->setRunning(false, reader->findChild<QLabel *>("readerListeningStatus")->text());
                 reader->revealControls();
                 settle();
-                const auto state = QString("%1 reader %2x%3 %4%5")
-                                       .arg(prefix)
+                const auto state = QString("%1 %2 %3x%4 %5%6")
+                                       .arg(prefix, roomy ? "large" : "small")
                                        .arg(size.width())
                                        .arg(size.height())
                                        .arg(modeName(mode), running ? " running" : "");
@@ -185,6 +189,13 @@ void readerStates(MainWindow &window, const QString &prefix) {
                 auto *bottom = reader->findChild<QWidget *>("readerControls");
                 checkBar(state, top);
                 checkBar(state, bottom);
+                // Writing only in a large window that is not reading; the formats only in a large one.
+                if (reader->editing() != (roomy && !running))
+                    problem(state, QString("writing is %1").arg(reader->editing() ? "on" : "off"));
+                if (reader->text->isReadOnly() == reader->editing())
+                    problem(state, "the text's read-only state does not follow writing");
+                if (auto *formats = reader->findChild<QWidget *>("readerFormats"); formats->isVisible() != roomy)
+                    problem(state, QString("the formats are %1").arg(formats->isVisible() ? "shown" : "hidden"));
                 // Nothing in the top bar moves with the mode; neither bar changes height.
                 QList<QRect> places;
                 for (int i = 0; i < top->layout()->count(); ++i)
@@ -202,18 +213,49 @@ void readerStates(MainWindow &window, const QString &prefix) {
                     else if (heights[name] != bar->height())
                         problem(state, QString("%1 changed height: %2 → %3").arg(name).arg(heights[name]).arg(bar->height()));
                 }
-                // The current line between the bars.
-                QTextCursor anchor(reader->text->document());
-                anchor.setPosition(std::clamp(reader->anchor(), 0, reader->text->document()->characterCount() - 1));
-                const QRect line = reader->text->cursorRect(anchor).translated(reader->text->viewport()->mapTo(reader, QPoint()));
-                if (line.top() < top->geometry().bottom() || line.bottom() > bottom->geometry().top())
-                    problem(state, QString("the current line (%1) is under a bar").arg(QDebug::toString(line)));
+                const QRect view = reader->text->viewport()->geometry().translated(
+                    reader->text->mapTo(reader, QPoint()));
+                if (reader->editing()) {
+                    // Writing: the text between the bars, never under them, so the caret is never hidden.
+                    if (view.top() < top->geometry().bottom() || view.bottom() > bottom->geometry().top())
+                        problem(state, QString("the text (%1) goes under a bar while writing").arg(QDebug::toString(view)));
+                } else {
+                    // Reading: the current line between the bars.
+                    QTextCursor anchor(reader->text->document());
+                    anchor.setPosition(std::clamp(reader->anchor(), 0, reader->text->document()->characterCount() - 1));
+                    const QRect line =
+                        reader->text->cursorRect(anchor).translated(reader->text->viewport()->mapTo(reader, QPoint()));
+                    if (line.top() < top->geometry().bottom() || line.bottom() > bottom->geometry().top())
+                        problem(state, QString("the current line (%1) is under a bar").arg(QDebug::toString(line)));
+                }
+                // The scripts beside the text in a large window: the text starts after them.
+                if (auto *drawer = reader->findChild<QWidget *>("scriptDrawer"); drawer && drawer->isVisible()) {
+                    checkBar(state + " scripts", drawer->findChild<QWidget *>("scriptDrawerHeader"));
+                    if (roomy && view.left() < drawer->geometry().right())
+                        problem(state, "the text starts under the scripts");
+                }
                 checkWindow(state, &window);
                 checkWords(state, reader->text);
                 shoot(&window, QString(state).replace(' ', '-'));
             }
         }
         reader->setRunning(false, QString());
+        // The scripts: closed in a small window until asked for, then over the text.
+        if (!roomy) {
+            reader->setDrawerOpen(true);
+            settle();
+            QTest::qWait(300); // The panel slides in.
+            const auto state = QString("%1 small %2x%3 scripts").arg(prefix).arg(size.width()).arg(size.height());
+            auto *drawer = reader->findChild<QWidget *>("scriptDrawer");
+            if (!drawer->isVisible() || drawer->x() != 0)
+                problem(state, "the scripts did not open");
+            checkBar(state, drawer->findChild<QWidget *>("scriptDrawerHeader"));
+            checkWindow(state, &window);
+            shoot(&window, QString(state).replace(' ', '-'));
+            reader->setDrawerOpen(false);
+            QTest::qWait(300);
+            settle();
+        }
     }
     // A long status and an error must not change the bars either.
     window.resize(624, 384);
@@ -223,25 +265,6 @@ void readerStates(MainWindow &window, const QString &prefix) {
     settle();
     checkBar(prefix + " reader long status", reader->findChild<QWidget *>("readerControls"));
     shoot(&window, prefix + "-reader-long-status");
-    window.showWriting();
-    settle();
-}
-
-void writingStates(MainWindow &window, const QString &prefix) {
-    for (const QSize size : {QSize(1100, 760), QSize(760, 560), QSize(480, 600), QSize(360, 640)}) {
-        window.resize(size);
-        settle();
-        const auto state = QString("%1 writing %2x%3").arg(prefix).arg(size.width()).arg(size.height());
-        checkWindow(state, &window);
-        checkScrollBars(state, &window);
-        checkWords(state, window.findChild<QTextEdit *>("scriptEditor"));
-        // The app bar: one row, two at most in a very narrow window.
-        auto *bar = window.findChild<QWidget *>("appBar");
-        auto *primary = window.findChild<QPushButton *>("primaryAction");
-        if (bar && primary && bar->height() > primary->height() * 2 + 40)
-            problem(state, QString("the app bar takes more than two rows (%1 px)").arg(bar->height()));
-        shoot(&window, QString(state).replace(' ', '-'));
-    }
 }
 
 void settingsStates(MainWindow &window, const QString &prefix) {
@@ -299,10 +322,10 @@ int main(int argc, char **argv) {
         const auto prefix = QString("text%1").arg(int(scale * 100));
         if (!QTest::qWaitForWindowExposed(&window))
             problem(prefix, "the window did not appear");
-        auto *editor = window.findChild<QTextEdit *>("scriptEditor");
+        auto *editor = window.prompter()->text;
         editor->setPlainText(script);
+        editor->spaceLines();
         settle();
-        writingStates(window, prefix);
         readerStates(window, prefix);
         settingsStates(window, prefix);
     }
