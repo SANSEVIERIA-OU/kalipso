@@ -226,6 +226,8 @@ private:
     int drawerWidth() const;
     // Icons as large as the text beside them, at any interface size.
     void sizeIcons();
+    // Tab goes the way the eye does: the top bar from left to right, the scripts, the text, the bottom bar.
+    void orderTabs();
 
     StatusLabel *status_ = nullptr;
     QPushButton *primary_;
