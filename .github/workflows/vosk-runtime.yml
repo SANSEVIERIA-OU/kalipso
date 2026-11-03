@@ -1,6 +1,6 @@
 name: Vosk runtime from source
 # Builds libvosk.so for Linux x86_64 from a pinned Vosk tag and pinned dependencies (#26), then checks it
-# against the runtime Kalipso downloads today (the 0.3.45 wheel from PyPI): the functions Kalipso calls,
+# against the 0.3.45 wheel from PyPI, the runtime Kalipso downloaded before: the functions Kalipso calls,
 # the glibc it needs, and recognition, speed and memory on the same Italian recordings. Runs on pushes
 # to vosk-* branches and by hand. The catalog changes only after a person reads the result.
 on:
@@ -47,21 +47,23 @@ jobs:
         run: |
           cd new && sha256sum -c --ignore-missing SHA256SUMS
           unzip -q vosk-*-linux-x86_64.zip && ls -l vosk vosk/licenses
-      - name: The runtime and the model Kalipso downloads today, checked against the catalog
+      - name: The 0.3.45 wheel and the Italian model, checked against their pinned fingerprints
         run: |
           python3 - <<'EOF'
           import hashlib, json, urllib.request, zipfile
-          catalog = json.load(open('tools/data/speech-catalog.json'))['vosk']
           def get(url, sha256, path):
               data = urllib.request.urlopen(url, timeout=300).read()
               assert hashlib.sha256(data).hexdigest() == sha256, url
               open(path, 'wb').write(data)
-          get(catalog['url'], catalog['sha256'], 'old.whl')
-          zipfile.ZipFile('old.whl').extract(catalog['library'], 'old')
-          model = catalog['models']['it']
+          # The runtime to compare with: the PyPI wheel the catalog used before, by its own pin.
+          get('https://files.pythonhosted.org/packages/fc/ca/83398cfcd557360a3d7b2d732aee1c5f6999f68618d1645f38d53e14c9ff/'
+              'vosk-0.3.45-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl',
+              '25e025093c4399d7278f543568ed8cc5460ac3a4bf48c23673ace1e25d26619f', 'old.whl')
+          zipfile.ZipFile('old.whl').extract('vosk/libvosk.so', 'old')
+          model = json.load(open('tools/data/speech-catalog.json'))['vosk']['models']['it']
           get(model['url'], model['sha256'], 'model.zip')
           zipfile.ZipFile('model.zip').extractall('.')
-          print('old runtime', catalog['version'], 'model', model['name'])
+          print('compared with vosk 0.3.45, model', model['name'])
           EOF
       - name: Functions, glibc, recognition, speed and memory
         run: |
