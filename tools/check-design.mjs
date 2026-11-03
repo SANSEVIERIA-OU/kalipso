@@ -38,6 +38,16 @@ for(const engine of ['chromium','firefox','webkit']){
  await page.locator('footer a[hreflang=en]').click();await page.waitForURL(u=>new URL(u).pathname==='/'&&new URL(u).hash==='#install');
  // Negative control: an Italian page that lost a section or a control is caught.
  await page.goto(base+'/it/');await page.locator('#try').evaluate(e=>e.remove());assert.notDeepEqual((await shape()).ids,english.ids);
+ // What reads as one thing stays on one line: no hyphenated word in the text can break at its hyphen.
+ const breakable=()=>page.evaluate(()=>{const found=[],walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  for(let n=walk.nextNode();n;n=walk.nextNode()){if(n.parentElement.closest('code,pre,script,style,svg,.keep,[aria-hidden=true]'))continue;for(const m of n.data.matchAll(/[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)+/gu))found.push(m[0])}return found});
+ for(const route of ['/','/it/']){await page.goto(base+route);assert.deepEqual(await breakable(),[],`${engine} ${route} hyphenated words that can break`)}
+ await page.evaluate(()=>document.querySelector('.fineprint').append(' A well-known case.'));assert.deepEqual(await breakable(),['well-known']); // Negative control.
+ // On a phone the header is the name and one row of menu, also with text at 200%: the menu scrolls, never wraps.
+ const rows=()=>page.evaluate(()=>new Set([...document.querySelectorAll('.site-header .brand,.site-header nav a')].map(e=>Math.round(e.getBoundingClientRect().top/8))).size);
+ await page.setViewportSize({width:360,height:740});
+ for(const route of ['/','/it/'])for(const size of ['100%','200%']){await page.goto(base+route);await page.addStyleTag({content:`html{font-size:${size}!important}`});assert.ok(await rows()<=2,`${engine} ${route} ${size} header rows`)}
+ await page.addStyleTag({content:'.site-header nav{flex-wrap:wrap!important}'});assert.ok(await rows()>2); // Negative control.
  await page.setViewportSize({width:820,height:1000});await page.goto(base);
  // Scenes: four images that load when reached, each with a description.
  const scenes=page.locator('.scenes img');assert.equal(await scenes.count(),4);
@@ -94,6 +104,6 @@ for(const engine of ['chromium','firefox','webkit']){
   await page.setViewportSize({width:390,height:844});for(const id of ['try','in-use','install','questions']){await page.locator('#'+id).scrollIntoViewIfNeeded();await page.waitForTimeout(900);await page.screenshot({path:`${out}/mobile-${id}.png`})}
  }
  assert.deepEqual(errors,[],engine+' page errors');assert.deepEqual(external,[],engine+' external requests');
- report.push({engine,viewportCases:cases,interactionChecks:36,negativeControls:6,errors,externalRequests:external.length});await browser.close();console.log(JSON.stringify(report.at(-1)));
+ report.push({engine,viewportCases:cases,interactionChecks:42,negativeControls:8,errors,externalRequests:external.length});await browser.close();console.log(JSON.stringify(report.at(-1)));
 }
 await writeFile(`${out}/results.json`,JSON.stringify(report,null,2)+'\n');

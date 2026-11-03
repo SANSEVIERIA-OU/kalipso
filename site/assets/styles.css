@@ -11,12 +11,14 @@ img,svg{display:block;max-inline-size:100%}
 :focus-visible{outline:3px solid var(--site-accent);outline-offset:3px;border-radius:4px}
 h1,h2,h3{margin:0;text-wrap:balance}
 h1,h2{font-family:var(--site-font-display);font-weight:700;letter-spacing:-.02em;line-height:1.1}
-h1{font-size:var(--site-h1)}
-h2{font-size:var(--site-h2)}
+h1{font-size:min(var(--site-h1),max(1.75rem,11vw))}
+h2{font-size:min(var(--site-h2),max(1.5rem,9vw))}
 h3{font-size:var(--site-h3);font-weight:700;line-height:1.3}
 p{margin:0;text-wrap:pretty}
 a{color:inherit}
 code,pre{font-family:var(--site-font-mono)}
+/* What reads as one thing stays on one line: a hyphenated word, a file name, a command word. */
+.keep,:not(pre)>code{white-space:nowrap}
 .wrap{inline-size:min(100% - 3rem,var(--site-page));margin-inline:auto}
 
 /* Icons: line icons that move by meaning on hover and focus (never with reduced motion). */
@@ -148,7 +150,7 @@ figcaption{margin-block-start:.875rem;font-size:var(--site-text-small);color:var
 @keyframes v-voice-progress{0%{transform:scaleX(.3)}100%{transform:scaleX(.62)}}
 
 /* Steady pace: a three-second countdown, then the lines pass the marker at one constant speed. */
-.play[data-vignette=pace] .v-count b{animation:v-count .45s calc(.4s + var(--n,0) * 450ms) both var(--site-ease-out)}
+.play[data-vignette=pace] .v-count b{animation:v-count .45s calc(.4s + var(--n,0) * 450ms) backwards var(--site-ease-out)}
 .play[data-vignette=pace] .v-badge svg{animation:v-appear 4.4s .4s both var(--site-ease-out)}
 .play[data-vignette=pace] .v-page{animation:v-pace 4.4s .4s both linear}
 .play[data-vignette=pace] .v-progress i{animation:v-pace-progress 4.4s .4s both linear}
@@ -243,9 +245,10 @@ textarea{display:block;inline-size:100%;min-block-size:9rem;padding:.75rem;borde
 .yours-tag{align-self:flex-start;padding:.125rem .5rem;border-radius:6px;background:var(--site-accent-soft);color:var(--site-accent);font-size:.8125rem;font-weight:700}
 .platforms .command-label{font-size:var(--site-text-small)}
 .platforms .command-label+.command{margin-block-start:-.25rem}
-.command{position:relative;border-radius:12px;background:var(--site-night);color:var(--site-night-text)}
-.command pre{margin:0;padding:1rem 1rem 3.25rem;overflow-x:auto;font-size:.8125rem;line-height:1.7;white-space:pre}
-.command .copy{position:absolute;inset-block-end:.5rem;inset-inline-end:.5rem;min-block-size:2.5rem;background:var(--site-night-raised);border-color:var(--site-night-control);color:var(--site-night-text)}
+/* A one-line command and its Copy button on one row; the button goes under the command when the row is short. */
+.command{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.5rem;padding:.5rem;border-radius:12px;background:var(--site-night);color:var(--site-night-text)}
+.command pre{flex:1 1 12rem;min-inline-size:0;margin:0;padding:.5rem;overflow-x:auto;font-size:.8125rem;line-height:1.7;white-space:pre}
+.command .copy{flex:none;min-block-size:2.5rem;background:var(--site-night-raised);border-color:var(--site-night-control);color:var(--site-night-text)}
 .command .copy:hover{background:var(--site-night-line)}
 .copy .check-shape{opacity:0;stroke-dasharray:20;stroke-dashoffset:20}
 .copy .copy-shape,.copy .check-shape{transition:opacity var(--site-enter) var(--site-ease-out),stroke-dashoffset 320ms var(--site-ease-out)}
@@ -319,7 +322,9 @@ details code{font-size:.9em}
  .header-row{gap:.25rem .75rem}
  .site-header .brand{gap:.5rem;font-size:1.0625rem}
  .site-header .brand img{inline-size:26px;block-size:26px}
- .site-header nav{gap:.25rem .875rem;font-size:.9375rem}
+ .site-header nav{flex:1 1 auto;min-inline-size:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;gap:.25rem .875rem;font-size:.9375rem}
+ .site-header nav a{flex:none;white-space:nowrap}
+ .site-header nav.more-after{mask-image:linear-gradient(to left,transparent,black 2.5rem)}
  .live-window{padding-inline:2.25rem 1rem}
  .live-marker{inset-inline-start:.875rem}
 }
@@ -329,7 +334,10 @@ details code{font-size:.9em}
  .reader .button{flex:1 1 auto}
  .reader-transport output{inline-size:100%;margin-inline-start:0}
  .reading-text{font-size:1.25rem}
+ .platforms article{padding:1.25rem 1rem}
  h1,h2,h3,p,li,figcaption,label,a,summary,.eyebrow,.button{overflow-wrap:anywhere}
+ h2,h3,p,li,figcaption{hyphens:auto} /* Long words break with a hyphen where the browser knows the language. */
+ :not(pre)>code{white-space:normal} /* A file name longer than the column breaks rather than sticking out. */
 }
 
 @media (prefers-reduced-motion:reduce){
