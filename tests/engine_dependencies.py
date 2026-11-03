@@ -74,8 +74,8 @@ with tempfile.TemporaryDirectory(prefix='kalipso-engine-test-') as directory:
         assert restored['library']==directory+'/missing.so'
         # Languages: an installed model is used at once, without downloading.
         data = Path(directory)/'data/kalipso'
-        (data/'runtimes/vosk-0.3.45/vosk').mkdir(parents=True)
-        (data/'runtimes/vosk-0.3.45/vosk/libvosk.so').write_bytes(b'')
+        (data/'runtimes/vosk-0.3.50/vosk').mkdir(parents=True)
+        (data/'runtimes/vosk-0.3.50/vosk/libvosk.so').write_bytes(b'')
         model = data/'models/vosk/vosk-model-small-it-0.22'
         for name in ['am/final.mdl', 'conf/mfcc.conf']:
             (model/name).parent.mkdir(parents=True, exist_ok=True)
