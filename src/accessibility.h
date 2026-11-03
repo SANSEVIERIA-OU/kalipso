@@ -167,6 +167,13 @@ QPlainTextEdit#scriptEditor { border-top: 1px solid @divider; border-bottom: 1px
 QTextEdit#readingScript { background: @background; border: none; }
 QWidget#scriptDrawer { background: @surface; border-right: 1px solid @divider; }
 QListWidget#scriptList { background: transparent; border: none; }
+/* Settings' pages, beside them: like the scripts panel, the current page as a checked quiet button. */
+QListWidget#settingsPages { background: @surface; border: none; padding: 8px 6px; outline: none; }
+QListWidget#settingsPages::item { color: @text; padding: 0 10px; border: 1px solid transparent; border-radius: 6px; }
+QListWidget#settingsPages::item:hover { background: @hover; }
+QListWidget#settingsPages::item:selected { background: @hover; color: @text; border: 1px solid @divider; }
+QListWidget#settingsPages::item:selected:focus { border: 2px solid @focus; }
+QFrame#settingsDivider { color: @divider; } /* Decorative, as the scripts panel's edge. */
 
 QPushButton:focus, QToolButton:focus, QComboBox:focus, QLineEdit:focus, QSpinBox:focus {
     border: 2px solid @focus; padding: 6px 13px;

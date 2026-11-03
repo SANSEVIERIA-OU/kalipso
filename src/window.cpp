@@ -229,7 +229,14 @@ private:
                 if (auto *label = qobject_cast<QLabel *>(item->widget())) {
                     label->setWordWrap(narrow);
                     label->setMaximumWidth(narrow ? available : QWIDGETSIZE_MAX);
-                    label->setMinimumWidth(narrow ? 0 : std::min(labelWidth_, available / 2));
+                    // Above its field, a label takes its text's width on one line, and wraps only when
+                    // the row is narrower: the form would otherwise give it a word-wrapped label's
+                    // narrow width ("Start or" / "pause").
+                    // Room for a vertical scroll bar that may appear: the width it takes must not
+                    // leave the label wider than the page.
+                    const int oneLine = label->fontMetrics().horizontalAdvance(label->text()) + 4;
+                    const int room = std::max(0, available - style()->pixelMetric(QStyle::PM_ScrollBarExtent, nullptr, this));
+                    label->setMinimumWidth(narrow ? std::min(oneLine, room) : std::min(labelWidth_, available / 2));
                 }
     }
     int labelWidth_ = 0;
@@ -2019,6 +2026,7 @@ QWidget *MainWindow::makeSettings() {
     connect(picker, &QComboBox::currentIndexChanged, nav, [nav](int row) { nav->setCurrentRow(row); });
     nav->setCurrentRow(0);
     auto *line = new QFrame;
+    line->setObjectName("settingsDivider");
     line->setFrameShape(QFrame::VLine);
     line->setFrameShadow(QFrame::Plain);
     line->setForegroundRole(QPalette::Mid);
