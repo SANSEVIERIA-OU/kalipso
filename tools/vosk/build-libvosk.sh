@@ -48,7 +48,8 @@ tools=/opt/build/kaldi/tools
 make -s -C "$tools/OpenBLAS" ONLY_CBLAS=1 DYNAMIC_ARCH=1 TARGET=NEHALEM USE_LOCKING=1 USE_THREAD=0 -j "$JOBS" all
 make -s -C "$tools/OpenBLAS" PREFIX="$tools/OpenBLAS/install" install
 mkdir -p "$tools/clapack/BUILD"
-(cd "$tools/clapack/BUILD" && cmake .. >/dev/null && make -s -j "$JOBS")
+# Upstream built it with GCC 8; GCC 10 no longer merges the tentative definitions CLAPACK's tests share.
+(cd "$tools/clapack/BUILD" && cmake -DCMAKE_C_FLAGS=-fcommon .. >/dev/null && make -s -j "$JOBS")
 find "$tools/clapack/BUILD" -name '*.a' -exec cp -t "$tools/OpenBLAS/install/lib" {} +
 
 # OpenFST, static and with the n-gram and look-ahead extensions.
