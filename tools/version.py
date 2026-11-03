@@ -75,7 +75,11 @@ def write(version, stable_date=None):
     entry = f'<release version="{version}" date="{date}" type="{kind}">'
     development = re.compile(r'<release version="[^"]+" date="[^"]+" type="development">\s*'
                              r'<description>.*?</description>', re.S)
-    if development.search(metainfo):
+    same = re.search(rf'<release version="{re.escape(version)}" date="[^"]+" type="[^"]+">', metainfo)
+    if same:
+        # The same version again: its entry is updated and keeps its notes, never repeated.
+        metainfo = metainfo.replace(same.group(0), entry, 1)
+    elif development.search(metainfo):
         # A published version does not keep a development step's description: CHANGELOG.md has what it
         # brings; write a summary of it here before tagging.
         description = (f'<description><p>Kalipso {version}.</p></description>' if stable_date
