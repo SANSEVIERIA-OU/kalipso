@@ -1,12 +1,11 @@
 {
   "uuid": "kalipso@brianidavide.github.io",
   "name": "Kalipso",
-  "description": "A teleprompter in your top bar: edit the script, read near your camera, scroll at a steady speed or follow your voice with local speech recognition (needs the separately installed Kalipso companion). Development preview.",
+  "description": "A teleprompter in your top bar: read the Kalipso app's scripts or write one here, read near your camera, scroll at a steady speed or follow your voice with local speech recognition (needs the separately installed Kalipso companion). Nothing you say leaves your computer.",
   "shell-version": [
     "48"
   ],
   "url": "https://github.com/brianidavide/kalipso",
-  "version": 1,
   "version-name": "0.1",
   "gettext-domain": "kalipso"
 }

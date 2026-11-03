@@ -87,6 +87,10 @@
         <source>Microphone stopped</source>
         <translation>Microfono spento</translation>
     </message>
+    <message>
+        <source>Kalipso could not be started. Is the app installed?</source>
+        <translation>Non riesco ad avviare Kalipso. L’app è installata?</translation>
+    </message>
 </context>
 <context>
     <name>MicrophoneCapture</name>

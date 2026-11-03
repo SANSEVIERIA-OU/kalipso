@@ -400,6 +400,22 @@ public slots:
         return json(script);
     }
 
+    // Opens the standalone app on this script, to change it there.
+    bool OpenInApp(const QString &id) {
+        if (!calledFromDBus())
+            return false;
+        idle_.restart();
+        if (AppScripts::get(id).isEmpty()) {
+            sendErrorReply(QDBusError::InvalidArgs, tr("This script is not in Kalipso's library."));
+            return false;
+        }
+        if (!AppScripts::open(id)) {
+            sendErrorReply(QDBusError::Failed, tr("Kalipso could not be started. Is the app installed?"));
+            return false;
+        }
+        return true;
+    }
+
 signals:
     void StateChanged(const QString &state);
 
