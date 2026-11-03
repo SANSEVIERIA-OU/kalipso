@@ -248,15 +248,15 @@ textarea{display:block;inline-size:100%;min-block-size:9rem;padding:.75rem;borde
 /* A one-line command and its Copy button on one row; the button goes under the command when the row is short. */
 .command{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.5rem;padding:.5rem;border-radius:12px;background:var(--site-night);color:var(--site-night-text)}
 .command pre{flex:1 1 12rem;min-inline-size:0;margin:0;padding:.5rem;overflow-x:auto;font-size:.8125rem;line-height:1.7;white-space:pre}
-.command .copy{flex:none;min-block-size:2.5rem;background:var(--site-night-raised);border-color:var(--site-night-control);color:var(--site-night-text)}
+.command .copy{flex:none;max-inline-size:100%;min-block-size:2.5rem;background:var(--site-night-raised);border-color:var(--site-night-control);color:var(--site-night-text)}
 .command .copy:hover{background:var(--site-night-line)}
 .copy .check-shape{opacity:0;stroke-dasharray:20;stroke-dashoffset:20}
 .copy .copy-shape,.copy .check-shape{transition:opacity var(--site-enter) var(--site-ease-out),stroke-dashoffset 320ms var(--site-ease-out)}
 .copy.done .copy-shape{opacity:0}
 .copy.done .check-shape{opacity:1;stroke-dashoffset:0}
-.text-link{display:inline-flex;align-items:center;gap:.25rem;margin-block-start:auto;padding-block-start:.5rem;font-weight:700;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;transition:text-decoration-thickness var(--site-enter) var(--site-ease-out)}
+.text-link{display:inline-block;align-self:flex-start;margin-block-start:auto;padding-block-start:.5rem;font-weight:700;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em;transition:text-decoration-thickness var(--site-enter) var(--site-ease-out)}
 .text-link:hover{text-decoration-thickness:2px}
-.text-link .icon{inline-size:1rem;block-size:1rem}
+.text-link .icon{display:inline-block;inline-size:1rem;block-size:1rem;margin-inline-start:.25rem;vertical-align:-.125em}
 .copied{min-block-size:1.5rem;margin-block-start:1rem;font-size:var(--site-text-small);color:var(--site-muted)}
 
 /* Questions. */
@@ -325,6 +325,7 @@ details code{font-size:.9em}
  .site-header nav{flex:1 1 auto;min-inline-size:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;gap:.25rem .875rem;font-size:.9375rem}
  .site-header nav a{flex:none;white-space:nowrap}
  .site-header nav.more-after{mask-image:linear-gradient(to left,transparent,black 2.5rem)}
+ .command pre{white-space:pre-wrap;overflow-wrap:anywhere} /* A long command wraps on a phone instead of hiding its end; Copy copies it whole. */
  .live-window{padding-inline:2.25rem 1rem}
  .live-marker{inset-inline-start:.875rem}
 }
