@@ -27,6 +27,8 @@ class AppBridge;
 class SpeechDownload;
 struct InstalledSpeech;
 
+class GnomeExtension;
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
@@ -127,6 +129,7 @@ private:
     QWidget *makeReadingSettings();
     QWidget *makeSpeechSettings();
     QWidget *makeRemoteSettings();
+    QWidget *makeGnomeExtensionSection();
     QWidget *makeKeySettings();
     void applyTheme();
     bool applyingTheme_ = false;
@@ -202,6 +205,7 @@ private:
     QString positionText_; // "120 words · about 1 min", the status while writing.
     QDialog *settings_ = nullptr;
     QWidget *appearanceSettings_ = nullptr;
+    GnomeExtension *gnomeExtension_ = nullptr;
     class QFormLayout *readerForm_ = nullptr;
     QListWidget *settingsNav_ = nullptr;
     QStackedWidget *settingsStack_ = nullptr;

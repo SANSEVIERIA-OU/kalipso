@@ -2,7 +2,8 @@
 
 Kalipso's Linux packages (the `.deb`, the `.rpm`, `kalipso-bin` and `kalipso` on AUR) already install
 both, with the KWin script: on Plasma, add the **Kalipso** widget to the desktop or panel; on GNOME, log
-out and back in, then turn **Kalipso** on in the Extensions app. This page is for using them without
+out and back in, then turn it on in Kalipso's **Settings → Appearance → GNOME top bar** (or in the
+Extensions app). This page is for using them without
 the app's packages.
 
 Their files are on the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases)
