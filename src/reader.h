@@ -123,6 +123,8 @@ public:
     void setTextFont(const QString &family);
     void setLineSpacing(int percent) { text->setLineSpacing(percent); }
     void setReaderTheme(const QString &theme);
+    // The colours the reader draws with now (its theme, or the window behind it).
+    const Design::Palette &colors() const { return colors_; }
     void setMirror(Mirror mirror) { text->setMirror(mirror); }
     void setReadingLine(double fraction) { text->setReadingLine(fraction); }
     void setMode(ReadingMode mode);

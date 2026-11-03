@@ -77,14 +77,20 @@ jobs:
         continue-on-error: true
         run: |
           for scheme in light dark; do
-            if [ "$scheme" = dark ]; then defaults write -g AppleInterfaceStyle Dark; else defaults delete -g AppleInterfaceStyle 2>/dev/null || true; fi
+            # The system's own switch; the preference alone does not reach a running session.
+            dark=$([ "$scheme" = dark ] && echo true || echo false)
+            # At most 20 seconds: a permission prompt nobody answers would wait for ever.
+            perl -e 'alarm 20; exec @ARGV' osascript -e \
+              "tell application \"System Events\" to tell appearance preferences to set dark mode to $dark" \
+              || echo "::warning::Could not switch macOS to $scheme"
             build/kalipso.app/Contents/MacOS/kalipso --screenshot "$PWD/screens/$scheme"
             build/kalipso.app/Contents/MacOS/kalipso --demo --quit-after 6000 &
             sleep 4
             screencapture -x "$PWD/screens/$scheme/screen.png" || echo "::warning::No screen capture on macOS"
             wait
           done
-          defaults delete -g AppleInterfaceStyle 2>/dev/null || true
+          perl -e 'alarm 20; exec @ARGV' osascript -e \
+            'tell application "System Events" to tell appearance preferences to set dark mode to false' || true
           ls -R screens
       - name: Windows package
         if: runner.os == 'Windows'
