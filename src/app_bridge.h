@@ -12,11 +12,11 @@ class QLocalServer;
 //   (D-Bus, on Linux).
 class AppBridge : public QObject {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "io.github.brianidavide.Kalipso.App")
+    Q_CLASSINFO("D-Bus Interface", "io.github.sansevieria_ou.Kalipso.App")
 public:
     explicit AppBridge(QObject *parent = nullptr);
     ~AppBridge() override;
-    static constexpr const char *kService = "io.github.brianidavide.Kalipso.App";
+    static constexpr const char *kService = "io.github.sansevieria_ou.Kalipso.App";
     static constexpr const char *kPath = "/App";
 
     // Offers the D-Bus object to Kalipso's KWin script. False without a session bus.

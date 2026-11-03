@@ -43,7 +43,7 @@ with tempfile.TemporaryDirectory(prefix='kalipso-engine-test-') as directory:
     assert any('model is missing' in item for item in dependencies['missing'])
     child = subprocess.Popen([binary, '--serve'], env=env)
     def call(method,*arguments):
-        result = subprocess.run(['gdbus','call','--session','--dest','io.github.brianidavide.Kalipso.Engine','--object-path','/io/github/brianidavide/Kalipso/Engine','--method','io.github.brianidavide.Kalipso.Engine.'+method,*arguments], env=env, text=True, capture_output=True)
+        result = subprocess.run(['gdbus','call','--session','--dest','io.github.sansevieria_ou.Kalipso.Engine','--object-path','/io/github/sansevieria_ou/Kalipso/Engine','--method','io.github.sansevieria_ou.Kalipso.Engine.'+method,*arguments], env=env, text=True, capture_output=True)
         if result.returncode:raise RuntimeError(result.stderr)
         return result.stdout.strip()
     try:
@@ -103,7 +103,15 @@ with tempfile.TemporaryDirectory(prefix='kalipso-engine-test-') as directory:
         # The app's scripts, read for the widget and the extension. Before the app saved any: none.
         listed = json.loads(ast.literal_eval(call('ListScripts'))[0])
         assert listed == {'available': False, 'current': '', 'scripts': []}, listed
-        library = Path(directory)/'data/brianidavide/kalipso/scripts'
+        # Before the app has started under SANSEVIERIA-OU, its scripts are still under "brianidavide".
+        earlier = Path(directory)/'data/brianidavide/kalipso/scripts'
+        earlier.mkdir(parents=True)
+        (earlier/('e'*32 + '.txt')).write_text('Older talk words', encoding='utf-8')
+        (earlier/'library.json').write_text(json.dumps([
+            {'id': 'e'*32, 'title': 'Older talk', 'modified': '2026-11-02T09:00:00Z', 'position': -1, 'speed': 0}]))
+        listed = json.loads(ast.literal_eval(call('ListScripts'))[0])
+        assert [item['id'] for item in listed['scripts']] == ['e'*32], listed
+        library = Path(directory)/'data/sansevieria-ou/kalipso/scripts'
         library.mkdir(parents=True)
         first, second, empty = 'a'*32, 'b'*32, 'c'*32
         (library/f'{first}.txt').write_text('# Intervento\n\nBuongiorno a tutti.', encoding='utf-8')
@@ -114,7 +122,7 @@ with tempfile.TemporaryDirectory(prefix='kalipso-engine-test-') as directory:
             {'id': second, 'title': 'Second talk', 'modified': '2026-11-03T10:00:00Z', 'position': -1, 'speed': 0},
             {'id': empty, 'title': 'Untitled', 'modified': '2026-11-03T11:00:00Z', 'position': -1, 'speed': 0}]))
         (Path(directory)/'outside.txt').write_text('secret')
-        app_config = Path(directory)/'brianidavide/kalipso.conf'
+        app_config = Path(directory)/'sansevieria-ou/kalipso.conf'
         app_config.parent.mkdir(parents=True, exist_ok=True)
         app_config.write_text(f'[library]\ncurrent={first}\n')
         listed = json.loads(ast.literal_eval(call('ListScripts'))[0])

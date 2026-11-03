@@ -826,7 +826,7 @@ private slots:
         primary->click();
         if (!bridge.registerOnBus())
             return;
-        QDBusInterface app(AppBridge::kService, AppBridge::kPath, "io.github.brianidavide.Kalipso.App");
+        QDBusInterface app(AppBridge::kService, AppBridge::kPath, "io.github.sansevieria_ou.Kalipso.App");
         QVERIFY(app.isValid());
         QVERIFY(app.call("SetMinimized", true).errorName().isEmpty());
         QTRY_COMPARE(primary->accessibleName(), QString("Start"));

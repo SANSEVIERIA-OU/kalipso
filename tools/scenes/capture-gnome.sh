@@ -10,7 +10,7 @@ root=$(cd "$(dirname "$0")/../.." && pwd)
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 python3 "$root/desktop/package.py" >/dev/null
-extension=$work/data/gnome-shell/extensions/kalipso@brianidavide.github.io
+extension=$work/data/gnome-shell/extensions/kalipso@sansevieria-ou.github.io
 mkdir -p "$extension" "$work/data/kalipso" "$work/run"
 chmod 700 "$work/run"
 python3 - "$root/artifacts/packages/kalipso-gnome.zip" "$extension" "$script" "$passage" "$appearance" "$mode" \
@@ -28,7 +28,7 @@ cat >"$work/run.sh" <<EOF
 export HOME=$work XDG_DATA_HOME=$work/data XDG_CONFIG_HOME=$work/config XDG_CACHE_HOME=$work/cache
 export XDG_RUNTIME_DIR=$work/run DBUS_SYSTEM_BUS_ADDRESS=\$DBUS_SESSION_BUS_ADDRESS DISPLAY=:80
 export GSETTINGS_BACKEND=keyfile LIBGL_ALWAYS_SOFTWARE=1 GNOME_SHELL_SESSION_MODE=user
-gsettings set org.gnome.shell enabled-extensions "['kalipso@brianidavide.github.io']"
+gsettings set org.gnome.shell enabled-extensions "['kalipso@sansevieria-ou.github.io']"
 gsettings set org.gnome.shell welcome-dialog-last-shown-version '999'
 Xvfb :80 -screen 0 1440x900x24 -nolisten tcp 2>/dev/null &
 sleep 1

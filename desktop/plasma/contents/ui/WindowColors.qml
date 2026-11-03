@@ -11,13 +11,25 @@ Item {
     property string sample:""
     signal sampled(string color)
     readonly property string clientToken:Date.now().toString(36)+"_"+Math.random().toString(36).slice(2)
-    readonly property string service:"io.github.brianidavide.Kalipso.Engine"
-    function call(method,callback,epoch) {
-        const reply=DBus.SessionBus.asyncCall({service:service,path:"/io/github/brianidavide/Kalipso/Engine",iface:service,member:method,arguments:[clientToken]})
+    // The companion's name, or the one it had before Kalipso moved to SANSEVIERIA-OU (a Kalipso 2.0
+    // companion still answers only to that): the first call that finds no companion tries the other.
+    property string service:"io.github.sansevieria_ou.Kalipso.Engine"
+    readonly property string enginePath:"/" + service.replace(/\./g, "/")
+    function otherEngine(error) {
+        const text = String(error && error.name ? error.name + " " + error.message : error && error.message ? error.message : error)
+        if (!/ServiceUnknown|NameHasNoOwner|UnknownObject|UnknownInterface|not provided by any|No such (object|interface)/.test(text))
+            return false
+        service = service.indexOf("sansevieria_ou") >= 0 ? "io.github.brianidavide.Kalipso.Engine"
+                                                           : "io.github.sansevieria_ou.Kalipso.Engine"
+        return true
+    }
+    function call(method,callback,epoch,retried) {
+        const reply=DBus.SessionBus.asyncCall({service:service,path:enginePath,iface:service,member:method,arguments:[clientToken]})
         const done=function(){
             try {
                 if(epoch!==generation)return
                 busy=false
+                if(reply.isError&&!retried&&otherEngine(reply.error)){call(method,callback,epoch,true);return}
                 if(reply.isError){active=false;poll.stop();status=i18n("Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal.");return}
                 callback(reply.value)
             } finally {reply.destroy()}

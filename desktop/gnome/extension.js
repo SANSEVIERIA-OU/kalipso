@@ -17,7 +17,7 @@ import {tokens as T} from './tokens.js';
 const N = T.native;
 // Translated when used: translations are only available once the extension is loaded.
 const sample = () => _('A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready.');
-const SETUP_URL = 'https://github.com/brianidavide/kalipso/blob/main/docs/local-engine.md';
+const SETUP_URL = 'https://github.com/SANSEVIERIA-OU/kalipso/blob/main/docs/local-engine.md';
 const colorNote = () => _('Automatic samples colors around the reader. No images are saved.');
 const ROLES = {overlay: 'background', overlayText: 'text', overlayMuted: 'muted', overlaySurface: 'surface',
     overlayLine: 'hover', overlayBorder: 'border', focus: 'focus', reading: 'accent', tint: 'tint'};
@@ -645,7 +645,7 @@ export default class Kalipso extends Extension {
     }
 
     _exportTestApi() {
-        const xml = '<node><interface name="io.github.brianidavide.Kalipso.Reader">' +
+        const xml = '<node><interface name="io.github.sansevieria_ou.Kalipso.Reader">' +
             '<method name="GetState"><arg type="s" direction="out"/></method>' +
             '<method name="SetScript"><arg type="s" direction="in"/></method>' +
             '<method name="SetAppearance"><arg type="s" direction="in"/></method>' +
@@ -669,7 +669,7 @@ export default class Kalipso extends Extension {
             Start: () => { this._mode = 'voice'; this.start(); },
             Stop: () => this.stop(),
         });
-        this.testApi.export(Gio.DBus.session, '/io/github/brianidavide/Kalipso/Reader');
+        this.testApi.export(Gio.DBus.session, '/io/github/sansevieria_ou/Kalipso/Reader');
     }
 
     // kind: '' (outlined), 'primary' (the one main action) or 'quiet' (window actions). An optional

@@ -308,8 +308,8 @@ void settingsStates(MainWindow &window, const QString &prefix) {
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     app.setApplicationName("kalipso-layout-matrix");
-    app.setOrganizationName("brianidavide");
-    app.setDesktopFileName("io.github.brianidavide.kalipso");
+    app.setOrganizationName("sansevieria-ou");
+    app.setDesktopFileName("io.github.sansevieria_ou.kalipso");
     QStandardPaths::setTestModeEnabled(true);
     // The interface in the system's language, from the translations built next to this program.
     QTranslator translator;

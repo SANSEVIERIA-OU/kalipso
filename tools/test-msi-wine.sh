@@ -60,7 +60,7 @@ x86_64-w64-mingw32-gcc -shared -O1 -o "$prefix/drive_c/windows/system32/mscms.dl
 
 entries() { wine reg query 'HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall' /s 2>/dev/null |
     tr -d '\r' | grep -A12 -i 'DisplayName.*Kalipso' | grep -i 'DisplayVersion' || true; }
-appdata="$prefix/drive_c/users/$(id -un)/AppData/Roaming/brianidavide"
+appdata="$prefix/drive_c/users/$(id -un)/AppData/Roaming/sansevieria-ou"
 program="$prefix/drive_c/Program Files/Kalipso"
 
 if [ -n "$old" ]; then

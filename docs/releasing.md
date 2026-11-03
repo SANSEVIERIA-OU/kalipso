@@ -34,7 +34,8 @@ metadata, the Plasma widget, the GNOME extension and the KWin script); CI fails 
 
 4. The **Release** workflow builds every package on Linux (Ubuntu, and Arch for `kalipso-bin`), macOS
    and Windows, makes the Windows installer, writes `SHA256SUMS`, attests where each file was built
-   (`gh attestation verify <file> -R brianidavide/kalipso`), and creates the release: published for 0.1
+   (`gh attestation verify <file> -R SANSEVIERIA-OU/kalipso`; 2.0 was built before the move to
+   SANSEVIERIA-OU, so its files verify with `--owner brianidavide`), and creates the release: published for 0.1
    and X.0, a draft otherwise. Its notes list the merged pull requests and explain how to open unsigned
    packages. For a published version it then updates `kalipso`, `kalipso-bin` and `kalipso-git` on AUR.
 
@@ -69,7 +70,7 @@ CI run:
 
 ```sh
 sudo apt install wixl imagemagick                     # wixl-heat comes with wixl
-gh run download <run id> -R brianidavide/kalipso -n kalipso-windows-2022 -D windows
+gh run download <run id> -R SANSEVIERIA-OU/kalipso -n kalipso-windows-2022 -D windows
 tools/make-msi.sh windows/kalipso 2.0 dist            # → dist/kalipso-v2.0-windows-x64.msi
 ```
 

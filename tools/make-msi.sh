@@ -24,7 +24,7 @@ trap 'rm -rf "$work"' EXIT
 
 # The icon for the Start menu and Settings → Apps, from the app's own.
 magick=$(command -v magick || command -v convert)
-"$magick" -background none -density 384 "$here/packaging/io.github.brianidavide.kalipso.svg" \
+"$magick" -background none -density 384 "$here/packaging/io.github.sansevieria_ou.kalipso.svg" \
     -define icon:auto-resize=256,64,48,32,16 "$work/kalipso.ico"
 
 # The licence the welcome page shows, as the RTF that Windows Installer's text box reads (License.rtf:

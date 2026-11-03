@@ -27,8 +27,8 @@ data=${XDG_DATA_HOME:-$HOME/.local/share}
 mkdir -p "$bin" "$data/dbus-1/services" "$data/licenses/kalipso-engine"
 cp "$here/kalipso-engine" "$bin/kalipso-engine.new" && chmod 755 "$bin/kalipso-engine.new"
 mv -f "$bin/kalipso-engine.new" "$bin/kalipso-engine"
-printf '[D-BUS Service]\nName=io.github.brianidavide.Kalipso.Engine\nExec="%s" --serve\n' "$bin/kalipso-engine" \
-    >"$data/dbus-1/services/io.github.brianidavide.Kalipso.Engine.service"
+printf '[D-BUS Service]\nName=io.github.sansevieria_ou.Kalipso.Engine\nExec="%s" --serve\n' "$bin/kalipso-engine" \
+    >"$data/dbus-1/services/io.github.sansevieria_ou.Kalipso.Engine.service"
 cp "$here/LICENSE" "$data/licenses/kalipso-engine/LICENSE"
 echo "Installed the companion in $bin."
 if [ "$#" -gt 0 ]; then

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>io.github.brianidavide.kalipso</id>
+  <id>io.github.sansevieria_ou.kalipso</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>AGPL-3.0-or-later</project_license>
   <name>Kalipso</name>
   <summary>Teleprompter that follows your voice, on your device</summary>
-  <developer id="io.github.brianidavide"><name>Davide Briani and contributors</name></developer>
+  <developer id="io.github.sansevieria_ou"><name>Davide Briani and contributors</name></developer>
   <description>
     <p>Keep your script next to your camera and read naturally. Kalipso is one window: large, you write your script in it with bold, italic, sections and cues; small, under the camera, it shows the next words and dims the ones you have already read.</p>
     <ul>
@@ -17,12 +17,12 @@
     </ul>
     <p>Speech recognition runs on this device. Kalipso downloads the voice model for your language once, from its Settings.</p>
   </description>
-  <launchable type="desktop-id">io.github.brianidavide.kalipso.desktop</launchable>
+  <launchable type="desktop-id">io.github.sansevieria_ou.kalipso.desktop</launchable>
   <provides><binary>kalipso</binary></provides>
   <categories><category>Office</category><category>Presentation</category></categories>
-  <url type="homepage">https://brianidavide.github.io/kalipso/</url>
-  <url type="bugtracker">https://github.com/brianidavide/kalipso/issues</url>
-  <url type="vcs-browser">https://github.com/brianidavide/kalipso</url>
+  <url type="homepage">https://sansevieria-ou.github.io/kalipso/</url>
+  <url type="bugtracker">https://github.com/SANSEVIERIA-OU/kalipso/issues</url>
+  <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1"/>
   <releases>
     <release version="2.0" date="2026-11-03" type="stable">

@@ -21,7 +21,7 @@ SOURCE_SUFFIXES = {'.qml', '.mjs', '.js', '.css', '.json', '.xml'}
 NOTICES = [(ROOT / 'LICENSE', 'LICENSE'), (ROOT / 'LICENSES/Unicode-3.0.txt', 'Unicode-LICENSE.txt'),
            (ROOT / 'THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.md')]
 GNOME_SHARED = ['tracker.mjs', 'contrast.mjs', 'unicode-tokens.mjs']
-PLASMA_DOMAIN = 'plasma_applet_io.github.brianidavide.kalipso'
+PLASMA_DOMAIN = 'plasma_applet_io.github.sansevieria_ou.kalipso'
 GNOME_DOMAIN = 'kalipso'
 
 
@@ -91,7 +91,7 @@ def plasma_files():
     fonts = [(path, 'contents/fonts/' + path.name) for path in sorted((ROOT / 'src/fonts').iterdir())
              if path.suffix in {'.ttf', '.txt'}]
     # Kalipso's icon, shown in a panel: the widget may be installed without the app and its icon.
-    icon = [(ROOT / 'packaging/io.github.brianidavide.kalipso.svg', 'contents/images/kalipso.svg')]
+    icon = [(ROOT / 'packaging/io.github.sansevieria_ou.kalipso.svg', 'contents/images/kalipso.svg')]
     return [(path, path.relative_to(package).as_posix()) for path in sorted(package.rglob('*'))
             if path.is_file() and path.suffix in SOURCE_SUFFIXES] + fonts + icon
 

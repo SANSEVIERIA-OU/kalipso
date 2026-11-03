@@ -3,7 +3,7 @@
 From a clone of the repository, build both archives:
 
 ```sh
-git clone https://github.com/brianidavide/kalipso.git
+git clone https://github.com/SANSEVIERIA-OU/kalipso.git
 cd kalipso
 python3 desktop/package.py
 ```
@@ -21,7 +21,7 @@ kpackagetool6 --type Plasma/Applet --install artifacts/packages/kalipso-plasma.p
 Use `--upgrade` instead of `--install` to update an existing installation. Add **Kalipso** to the desktop or a panel and place it near your webcam. To uninstall:
 
 ```sh
-kpackagetool6 --type Plasma/Applet --remove io.github.brianidavide.kalipso
+kpackagetool6 --type Plasma/Applet --remove io.github.sansevieria_ou.kalipso
 ```
 
 ## GNOME Shell 48 and 51
@@ -33,13 +33,13 @@ gnome-extensions install --force artifacts/packages/kalipso-gnome.zip
 Log out and back in, then enable it:
 
 ```sh
-gnome-extensions enable kalipso@brianidavide.github.io
+gnome-extensions enable kalipso@sansevieria-ou.github.io
 ```
 
 The play icon in the top bar shows or hides the reader. The extension declares GNOME Shell 48 and 51, the versions it is tested with (51 headless, on Arch Linux); GNOME refuses to enable it on other versions, 49 and 50 included until they are tested. To uninstall:
 
 ```sh
-gnome-extensions uninstall kalipso@brianidavide.github.io
+gnome-extensions uninstall kalipso@sansevieria-ou.github.io
 ```
 
 ## Using the reader

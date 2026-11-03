@@ -68,7 +68,7 @@ k = source['site']
     f'<path d="M7.5 11.2 12.6 16l-5.1 4.8z" fill="{k["accentNight"]}"/>'
     f'<path d="M16 16h9" stroke="{k["nightText"]}" stroke-width="3" stroke-linecap="round"/>'
     f'<path d="M16 9.5h7M16 22.5h5" stroke="{k["nightControl"]}" stroke-width="2.4" stroke-linecap="round"/></svg>\n')
-(ROOT / 'packaging/io.github.brianidavide.kalipso.svg').write_bytes((ROOT / 'site/assets/mark.svg').read_bytes())
+(ROOT / 'packaging/io.github.sansevieria_ou.kalipso.svg').write_bytes((ROOT / 'site/assets/mark.svg').read_bytes())
 
 n = source['native']
 rules=[]

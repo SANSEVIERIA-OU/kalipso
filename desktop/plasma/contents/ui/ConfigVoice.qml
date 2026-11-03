@@ -106,7 +106,7 @@ KCM.SimpleKCM {
         Kirigami.UrlButton {
             Kirigami.FormData.label: i18n("Help:")
             text: i18n("Local speech setup")
-            url: "https://github.com/brianidavide/kalipso/blob/main/docs/local-engine.md"
+            url: "https://github.com/SANSEVIERIA-OU/kalipso/blob/main/docs/local-engine.md"
         }
     }
 }

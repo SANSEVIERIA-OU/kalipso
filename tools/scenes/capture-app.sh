@@ -11,12 +11,12 @@ at=$(python3 -c 'import sys; t=open(sys.argv[1],encoding="utf-8").read(); i=t.fi
 id=5ce7e000000000000000000000000001
 work=$(mktemp -d)
 trap 'kill $(jobs -p) 2>/dev/null || true; rm -rf "$work"' EXIT
-mkdir -p "$work/config/brianidavide" "$work/data/brianidavide/kalipso/scripts"
-cp "$script" "$work/data/brianidavide/kalipso/scripts/$id.txt"
+mkdir -p "$work/config/sansevieria-ou" "$work/data/sansevieria-ou/kalipso/scripts"
+cp "$script" "$work/data/sansevieria-ou/kalipso/scripts/$id.txt"
 printf '[{"id":"%s","title":"Scene","modified":"2026-10-30T08:00:00Z","position":%d,"speed":150}]\n' "$id" "$at" \
-    >"$work/data/brianidavide/kalipso/scripts/library.json"
+    >"$work/data/sansevieria-ou/kalipso/scripts/library.json"
 printf '[appearance]\ntheme=light\n[reader]\nsize=@Size(660 350)\n[reading]\nmode=%s\ntheme=%s\nspeed=150\nfontSize=30\ncountdown=0\n[library]\ncurrent=%s\n' \
-    "$mode" "$theme" "$id" >"$work/config/brianidavide/kalipso.conf"
+    "$mode" "$theme" "$id" >"$work/config/sansevieria-ou/kalipso.conf"
 export HOME=$work XDG_CONFIG_HOME=$work/config XDG_DATA_HOME=$work/data XDG_CACHE_HOME=$work/cache
 export QT_QPA_PLATFORM=xcb QT_SCALE_FACTOR=2 DISPLAY=:78
 Xvfb :78 -screen 0 2400x1400x24 -nolisten tcp 2>/dev/null &

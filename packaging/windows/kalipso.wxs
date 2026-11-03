@@ -13,8 +13,8 @@
 
     <Icon Id="kalipso.ico" SourceFile="$(var.Icon)"/>
     <Property Id="ARPPRODUCTICON" Value="kalipso.ico"/>
-    <Property Id="ARPURLINFOABOUT" Value="https://brianidavide.github.io/kalipso/"/>
-    <Property Id="ARPHELPLINK" Value="https://github.com/brianidavide/kalipso/issues"/>
+    <Property Id="ARPURLINFOABOUT" Value="https://sansevieria-ou.github.io/kalipso/"/>
+    <Property Id="ARPHELPLINK" Value="https://github.com/SANSEVIERIA-OU/kalipso/issues"/>
     <Property Id="ARPCOMMENTS" Value="Teleprompter that follows your voice, on your device"/>
 
     <Directory Id="TARGETDIR" Name="SourceDir">

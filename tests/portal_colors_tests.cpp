@@ -203,11 +203,11 @@ private slots:
             engine.terminate();
             engine.waitForFinished(3000);
         });
-        const QString service = "io.github.brianidavide.Kalipso.Engine";
+        const QString service = "io.github.sansevieria_ou.Kalipso.Engine";
         QTRY_VERIFY(QDBusConnection::sessionBus().interface()->isServiceRegistered(service).value());
         auto call = [&](const QDBusConnection &bus, const QString &method, const QString &token) {
             auto message =
-                QDBusMessage::createMethodCall(service, "/io/github/brianidavide/Kalipso/Engine", service, method);
+                QDBusMessage::createMethodCall(service, "/io/github/sansevieria_ou/Kalipso/Engine", service, method);
             message.setArguments({token});
             return bus.call(message);
         };

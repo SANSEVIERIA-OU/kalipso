@@ -2,14 +2,23 @@
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
-const name='io.github.brianidavide.Kalipso.Engine';
-const path='/io/github/brianidavide/Kalipso/Engine';
+// The companion's name, and the one it had before Kalipso moved to SANSEVIERIA-OU: a companion from
+// Kalipso 2.0 still answers only to the earlier name.
+const NAMES=[['io.github.sansevieria_ou.Kalipso.Engine','/io/github/sansevieria_ou/Kalipso/Engine'],
+    ['io.github.brianidavide.Kalipso.Engine','/io/github/brianidavide/Kalipso/Engine']];
+let chosen=0;
+const missing=error=>/ServiceUnknown|NameHasNoOwner|UnknownObject|UnknownInterface/.test(String(error));
 export class LocalEngine {
     constructor(update) {this.update=update;this.closed=false;this.pending=false;this.owned=false;this.timer=0;this.signal=0;}
-    call(method,activate=true,parameters=null) {
+    call(method,activate=true,parameters=null,retry=true) {
+        const [name,path]=NAMES[chosen];
         return new Promise((resolve,reject)=>Gio.DBus.session.call(name,path,name,method,parameters,null,
             activate?Gio.DBusCallFlags.NONE:Gio.DBusCallFlags.NO_AUTO_START,5000,null,(_bus,result)=>{
-                try{resolve(Gio.DBus.session.call_finish(result).deep_unpack()[0]);}catch(error){reject(error);}
+                try{resolve(Gio.DBus.session.call_finish(result).deep_unpack()[0]);}catch(error){
+                    // No companion under this name: try the other one once.
+                    if(retry&&missing(error)){chosen=(chosen+1)%NAMES.length;this.call(method,activate,parameters,false).then(resolve,reject);}
+                    else reject(error);
+                }
             }));
     }
     async settings() {
@@ -46,7 +55,7 @@ export class LocalEngine {
             if(script)await this.call('SetScript',false,new GLib.Variant('(s)',[script])).catch(()=>{});
             this.owned=await this.call('Start');
             if(this.closed||this.cancelled){if(this.owned)await this.call('Stop',false);this.release();if(!this.closed)this.update(JSON.parse(await this.call('GetState',false)));return;}
-            if(this.owned&&!this.signal)this.signal=Gio.DBus.session.signal_subscribe(name,name,'StateChanged',path,null,Gio.DBusSignalFlags.NONE,(_c,_s,_p,_i,_n,args)=>{
+            if(this.owned&&!this.signal)this.signal=Gio.DBus.session.signal_subscribe(NAMES[chosen][0],NAMES[chosen][0],'StateChanged',NAMES[chosen][1],null,Gio.DBusSignalFlags.NONE,(_c,_s,_p,_i,_n,args)=>{
                 if(!this.closed&&!this.cancelled&&this.owned)this.update(JSON.parse(args.deep_unpack()[0]));
             });
             this.update(JSON.parse(await this.call('GetState')));
