@@ -140,6 +140,42 @@ Configure and install with the same prefix: the D-Bus service file records the e
 - Numbers are matched as words: `100%` in the script and "one hundred percent" spoken do not match.
 - The companion also serves **Choose background window…** in the Plasma widget, which needs PipeWire and a window-capable desktop portal (`xdg-desktop-portal-kde` on KDE) but no speech model. See [window colors](accessibility.md#window-colors-on-kdewayland).
 
+## Vosk built from source
+
+PyPI's newest Vosk is 0.3.45, the runtime the catalog downloads. Vosk's newest tag, v0.3.50, comes with
+no built files. `.github/workflows/vosk-runtime.yml` builds it from source (#26):
+- **How:** with `tools/vosk/build-libvosk.sh` in the `manylinux2014_x86_64` image, which is pinned by
+  digest. The script follows upstream's own manylinux build.
+- **Dependencies:** Kaldi (branch `vosk`), OpenFST, OpenBLAS 0.3.20 and CLAPACK, each at the commit
+  upstream's build would have used on the day of the tag. `BUILD-INFO.txt` in the archive records the
+  commits.
+- **What it makes:** `vosk-0.3.50-linux-x86_64.zip`, laid out like the wheel's `vosk/` folder, with
+  the five licences.
+
+`tools/vosk/check-runtime.py` then compares the result with the 0.3.45 wheel:
+- the C functions Kalipso calls;
+- the glibc and libstdc++ versions each library needs;
+- 25 FLEURS Italian sentences (392 s), plain and with the grammar Kalipso builds from a script.
+
+The results, on 3 November 2026:
+- **Functions:** all of Kalipso's are present. The new library exports 41 `vosk_` functions, against 36.
+- **Requirements:** glibc 2.14 and GLIBCXX 3.4.18, against glibc 2.4 and GLIBCXX 3.4.13. That is
+  within the manylinux2014 baseline, glibc 2.17.
+- **Recognition:**
+
+  | Runtime | WER, plain | WER, grammar | Decode time / audio, plain · grammar | Peak memory |
+  | --- | --- | --- | --- | --- |
+  | 0.3.45 (PyPI wheel) | 11.4% | 5.8% | 0.059 · 0.016 | 251 MiB |
+  | 0.3.50 (built here) | 11.4% | 5.8% | 0.061 · 0.014 | 249 MiB |
+
+  The 25 transcripts are word for word the same in both modes. Speed and memory were measured on
+  GitHub's Ubuntu runner.
+- **Following a reading** (`benchmarks/follow_probe.cpp`, with the grammar): also the same. Sentence
+  ends reached were 98% clean, 90% room-like and 52% noisy for both runtimes.
+
+The catalog still points at 0.3.45: switching needs the archive published where the catalog can
+download it.
+
 ## Remove
 
 Stop listening and remove the widget or extension first. Then delete:
