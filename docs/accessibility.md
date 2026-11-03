@@ -2,7 +2,7 @@
 
 Kalipso targets **WCAG 2.2 Level AA**, including applicable Level A criteria, across the website, standalone application, Plasma widget and GNOME extension. For native software, the interpretation follows [WCAG2ICT](https://www.w3.org/TR/wcag2ict-22/). WCAG 3.0 is a draft, not this product's conformance target.
 
-This development preview does **not** claim full AA conformance yet: screen-reader, scaling and multi-monitor testing on real machines is still to be done.
+Kalipso 2.0 does **not** claim full AA conformance yet: screen-reader, scaling and multi-monitor testing on real machines is still to be done.
 
 ## Colors and reading
 

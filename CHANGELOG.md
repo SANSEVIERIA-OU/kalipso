@@ -4,7 +4,7 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …); only th
 X.0 are published (see [docs/releasing.md](docs/releasing.md)). This file lists what each published
 version brings, for the people who use it.
 
-## 2.0 — not released yet
+## 2.0 — 3 November 2026
 
 The first version published since the project started in October 2026: everything below is new.
 
