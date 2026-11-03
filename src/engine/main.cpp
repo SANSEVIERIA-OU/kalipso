@@ -2,6 +2,7 @@
 // Optional session D-Bus companion: local speech recognition, speech model downloads and
 // window-color sampling for the Plasma widget and GNOME extension.
 #include "config.h"
+#include "scripts.h"
 #include "screen_colors/portal.h"
 #include "settings_migration.h"
 #include "speech.h"
@@ -17,6 +18,7 @@
 #include <QElapsedTimer>
 #include <QJsonDocument>
 #include <QSocketNotifier>
+#include <QTranslator>
 #include <QTimer>
 #include <cerrno>
 #include <csignal>
@@ -99,6 +101,7 @@ public:
         connect(&colors_, &PortalColors::colorChanged, this, [this](const QColor &color) { color_ = color.name(); });
 
         state_["backend"] = SpeechConfig::selected();
+        state_["message"] = tr("Local engine ready");
         // Frontends give it to their tracker (Tracker.guided): a recognizer that learnt the script
         // takes more words heard right before the reader moves ahead.
         connect(&speech_, &SpeechService::guidedChanged, this, [this](bool guided) {
@@ -166,12 +169,12 @@ public slots:
         if (!calledFromDBus())
             return false;
         if (clientToken.isEmpty() || clientToken.size() > 128) {
-            sendErrorReply(QDBusError::InvalidArgs, "A widget identifier is required.");
+            sendErrorReply(QDBusError::InvalidArgs, tr("A widget identifier is required."));
             return false;
         }
         const auto caller = message().service();
         if (!colorOwner_.isEmpty() && (caller != colorOwner_ || clientToken != colorToken_)) {
-            sendErrorReply(QDBusError::AccessDenied, "Another widget is sharing a background window.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Another widget is sharing a background window."));
             return false;
         }
         colorOwner_ = caller;
@@ -186,7 +189,7 @@ public slots:
 
     QString GetColorState(const QString &clientToken) {
         if (!ownsColors(clientToken)) {
-            sendErrorReply(QDBusError::AccessDenied, "Only the sharing widget can read its color state.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Only the sharing widget can read its color state."));
             return {};
         }
         colorLease_.restart();
@@ -196,7 +199,7 @@ public slots:
 
     void StopColors(const QString &clientToken) {
         if (!ownsColors(clientToken)) {
-            sendErrorReply(QDBusError::AccessDenied, "Only the sharing widget can stop its session.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Only the sharing widget can stop its session."));
             return;
         }
         stopColors();
@@ -217,24 +220,24 @@ public slots:
         if (!calledFromDBus())
             return false;
         if (speech_.active() || !owner_.isEmpty()) {
-            sendErrorReply(QDBusError::AccessDenied, "Stop listening before changing the speech engine.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Stop listening before changing the speech engine."));
             return false;
         }
         if (!SpeechConfig::supported(backend)) {
-            sendErrorReply(QDBusError::InvalidArgs, "Choose Moonshine or Vosk.");
+            sendErrorReply(QDBusError::InvalidArgs, tr("Choose Moonshine or Vosk."));
             return false;
         }
         QSettings config;
         config.setValue("speech/backend", backend);
         config.sync();
         if (config.status() != QSettings::NoError) {
-            sendErrorReply(QDBusError::Failed, "Cannot save the speech engine selection.");
+            sendErrorReply(QDBusError::Failed, tr("Cannot save the speech engine selection."));
             return false;
         }
         resetTranscript();
         state_["backend"] = backend;
         state_["status"] = "ready";
-        state_["message"] = "Speech engine selected. Start listening when its model is configured.";
+        state_["message"] = tr("Speech engine selected. Start listening when its model is configured.");
         idle_.restart();
         publish();
         return true;
@@ -265,24 +268,24 @@ public slots:
             return false;
         idle_.restart();
         if (speech_.active() || !owner_.isEmpty()) {
-            sendErrorReply(QDBusError::AccessDenied, "Stop listening before changing the language.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Stop listening before changing the language."));
             return false;
         }
         if (!SpeechCatalog::languages().contains(code)) {
-            sendErrorReply(QDBusError::InvalidArgs, "Kalipso has no speech model for this language.");
+            sendErrorReply(QDBusError::InvalidArgs, tr("Kalipso has no speech model for this language."));
             return false;
         }
         if (download_.active()) {
             if (code == download_.language())
                 return true;
-            sendErrorReply(QDBusError::AccessDenied, "Another language is downloading. Cancel it first.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Another language is downloading. Cancel it first."));
             return false;
         }
         install_ = {{"language", code}, {"received", 0}, {"total", 0}, {"error", ""}};
         const auto installed = SpeechCatalog::installedFor(code);
         if (!installed.backend.isEmpty()) {
             if (!useSpeech(installed)) {
-                sendErrorReply(QDBusError::Failed, "Cannot save the language.");
+                sendErrorReply(QDBusError::Failed, tr("Cannot save the language."));
                 return false;
             }
             install_["backend"] = installed.backend;
@@ -320,7 +323,7 @@ public slots:
                 return true;
             }
             sendErrorReply(QDBusError::AccessDenied,
-                           "Another frontend owns the microphone. Stop listening there first.");
+                           tr("Another frontend owns the microphone. Stop listening there first."));
             return false;
         }
         const auto check = SpeechConfig::dependencies(SpeechConfig::selected());
@@ -335,7 +338,7 @@ public slots:
         lease_.start();
         resetTranscript();
         state_["status"] = "loading";
-        state_["message"] = "Loading local speech model";
+        state_["message"] = tr("Loading local speech model");
         state_["backend"] = check.value("backend");
         publish();
 
@@ -352,7 +355,7 @@ public slots:
 
     void Stop() {
         if (calledFromDBus() && !owner_.isEmpty() && message().service() != owner_) {
-            sendErrorReply(QDBusError::AccessDenied, "Only the listening frontend can stop its session.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Only the listening frontend can stop its session."));
             return;
         }
         stopSpeech();
@@ -363,15 +366,38 @@ public slots:
     // do not call it, and Moonshine, hear any words of the language.
     void SetScript(const QString &script) {
         if (calledFromDBus() && !owner_.isEmpty() && message().service() != owner_) {
-            sendErrorReply(QDBusError::AccessDenied, "Only the listening frontend can set the script.");
+            sendErrorReply(QDBusError::AccessDenied, tr("Only the listening frontend can set the script."));
             return;
         }
         if (script.size() > kMaxScriptCharacters) {
-            sendErrorReply(QDBusError::InvalidArgs, "The script is too long.");
+            sendErrorReply(QDBusError::InvalidArgs, tr("The script is too long."));
             return;
         }
         idle_.restart();
         speech_.setScript(script, -1);
+    }
+
+    // --- The app's scripts (read only) ---
+    // The scripts of the standalone app, newest first: {available, current, scripts: [{id, title,
+    // modified, words, speed}]}. The widget and the extension read the same library as the app.
+    QString ListScripts() {
+        idle_.restart();
+        return json(AppScripts::list());
+    }
+
+    // One script of the app's library: {id, title, modified, text, position, speed}.
+    QString GetScript(const QString &id) {
+        idle_.restart();
+        const auto script = AppScripts::get(id);
+        if (script.isEmpty()) {
+            sendErrorReply(QDBusError::InvalidArgs, tr("This script is not in Kalipso's library."));
+            return {};
+        }
+        if (script.value("text").toString().size() > kMaxScriptCharacters) {
+            sendErrorReply(QDBusError::InvalidArgs, tr("The script is too long."));
+            return {};
+        }
+        return json(script);
     }
 
 signals:
@@ -382,7 +408,7 @@ private:
         resetTranscript();
         state_["backend"] = backend;
         state_["status"] = "ready";
-        state_["message"] = "Speech language selected.";
+        state_["message"] = tr("Speech language selected.");
         publish();
     }
     void finishInstall(const QString &stage, const QString &error = {}) {
@@ -415,7 +441,7 @@ private:
         speech_.stop();
         releaseOwner();
         state_["status"] = "stopped";
-        state_["message"] = "Microphone stopped";
+        state_["message"] = tr("Microphone stopped");
         publish();
     }
     void stopColors() {
@@ -464,14 +490,16 @@ int listModels() {
     for (const auto &value : languageChoices()) {
         const auto item = value.toObject();
         const auto state = item.value("ready").toBool()
-                               ? QStringLiteral("installed")
-                               : QString("%1 MB to download").arg((item.value("bytes").toInteger() + 524288) >> 20);
+                               ? QCoreApplication::translate("main", "installed")
+                               : QCoreApplication::translate("main", "%1 MB to download")
+                                     .arg((item.value("bytes").toInteger() + 524288) >> 20);
         std::printf("%s  %s  %s · %s\n", qPrintable(item.value("code").toString()),
                     qPrintable(item.value("name").toString()), qPrintable(item.value("backend").toString()),
                     qPrintable(state));
     }
     if (!SpeechCatalog::downloadsSupported())
-        std::printf("Kalipso downloads speech models on Linux for x86_64 computers only.\n");
+        std::printf("%s\n", qPrintable(QCoreApplication::translate(
+                                 "main", "Kalipso downloads speech models on Linux for x86_64 computers only.")));
     return 0;
 }
 
@@ -507,13 +535,15 @@ int download(const QCommandLineParser &args, QCoreApplication &app) {
             const int now = total > 0 ? int(received * 10 / total) : 10;
             if (now != tenth) {
                 tenth = now;
-                std::printf("Downloading %s: %d%% of %lld MB\n", qPrintable(SpeechCatalog::languageName(code)),
-                            now * 10, (total + 524288) >> 20);
+                std::printf("%s\n", qPrintable(QCoreApplication::translate("main", "Downloading %1: %2% of %3 MB")
+                                                     .arg(SpeechCatalog::languageName(code))
+                                                     .arg(now * 10)
+                                                     .arg((total + 524288) >> 20)));
                 std::fflush(stdout);
             }
         });
         QObject::connect(&download, &SpeechDownload::unpackingStarted, &app, [] {
-            std::printf("Unpacking and checking\n");
+            std::printf("%s\n", qPrintable(QCoreApplication::translate("main", "Unpacking and checking")));
             std::fflush(stdout);
         });
         QObject::connect(&download, &SpeechDownload::finished, &app, [&](const InstalledSpeech &speech) {
@@ -536,11 +566,14 @@ int download(const QCommandLineParser &args, QCoreApplication &app) {
         std::fprintf(stderr, "Cannot write configuration\n");
         return 1;
     }
-    std::printf("%s is ready, with %s (%s). No microphone was opened.\n"
-                "In Kalipso, the Plasma widget or the GNOME extension choose Follow my voice, then Start "
-                "listening.\n",
-                qPrintable(SpeechCatalog::languageName(code)),
-                installed.backend == QLatin1String("moonshine") ? "Moonshine" : "Vosk", qPrintable(installed.model));
+    std::printf("%s\n",
+                qPrintable(QCoreApplication::translate(
+                               "main", "%1 is ready, with %2 (%3). No microphone was opened.\nIn Kalipso, the Plasma "
+                                       "widget or the GNOME extension choose Follow my voice, then Start.")
+                               .arg(SpeechCatalog::languageName(code),
+                                    installed.backend == QLatin1String("moonshine") ? QStringLiteral("Moonshine")
+                                                                                    : QStringLiteral("Vosk"),
+                                    installed.model)));
     return 0;
 }
 
@@ -587,6 +620,10 @@ int main(int argc, char **argv) {
     QCoreApplication::setOrganizationName("Kalipso");
     QCoreApplication::setApplicationName("engine");
     importLegacySettings("Teleprompter", "engine");
+    // Messages in the session's language: frontends show the companion's words as they are.
+    QTranslator translator;
+    if (translator.load(QLocale(), QStringLiteral("kalipso-engine"), QStringLiteral("_"), QStringLiteral(":/i18n")))
+        app.installTranslator(&translator);
 
     QCommandLineParser args;
     args.setApplicationDescription("Local speech companion for the Plasma widget and GNOME extension.");

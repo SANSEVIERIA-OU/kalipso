@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #pragma once
+#include <QCoreApplication>
 #include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -76,9 +77,10 @@ inline QJsonObject dependencies(const QString &backend) {
     const auto lib = library(backend);
     QJsonArray missing;
     if (!supported(backend))
-        missing.append("Unsupported speech engine. Choose Moonshine or Vosk.");
+        missing.append(QCoreApplication::translate("SpeechConfig", "Unsupported speech engine. Choose Moonshine or Vosk."));
     if (QStandardPaths::findExecutable("pw-record").isEmpty())
-        missing.append("PipeWire capture is missing: install pipewire-audio on Arch or pipewire-bin on Debian.");
+        missing.append(QCoreApplication::translate(
+            "SpeechConfig", "PipeWire capture is missing: install pipewire-audio on Arch or pipewire-bin on Debian."));
 
     QLibrary runtime(lib);
     bool api = supported(backend) && runtime.load();
@@ -87,15 +89,20 @@ inline QJsonObject dependencies(const QString &backend) {
     runtime.unload();
     if (!api)
         missing.append(backend == QLatin1String("moonshine")
-                           ? "Moonshine library or its ONNX Runtime dependency is missing or incompatible. "
-                             "Install/configure the Moonshine runtime."
-                           : "Vosk library is missing or incompatible. Install/configure the Vosk runtime.");
+                           ? QCoreApplication::translate("SpeechConfig",
+                                                         "Moonshine library or its ONNX Runtime dependency is missing "
+                                                         "or incompatible. Install/configure the Moonshine runtime.")
+                           : QCoreApplication::translate(
+                                 "SpeechConfig", "Vosk library is missing or incompatible. Install/configure the Vosk "
+                                                 "runtime."));
     if (!modelComplete(backend, model))
         missing.append(backend == QLatin1String("moonshine")
-                           ? "Moonshine streaming model is missing. Install a language model and configure its "
-                             "extracted folder."
-                           : "Extracted Vosk model is missing. Install a language model and configure its "
-                             "extracted folder.");
+                           ? QCoreApplication::translate("SpeechConfig",
+                                                         "Moonshine streaming model is missing. Install a language "
+                                                         "model and configure its extracted folder.")
+                           : QCoreApplication::translate("SpeechConfig",
+                                                         "Extracted Vosk model is missing. Install a language model "
+                                                         "and configure its extracted folder."));
     return {{"ready", missing.isEmpty()},
             {"backend", backend},
             {"missing", missing},

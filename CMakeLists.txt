@@ -54,9 +54,20 @@ if(UNIX AND NOT APPLE)
   target_link_libraries(kalipso_colors PUBLIC Qt6::Gui Qt6::DBus PRIVATE PkgConfig::PIPEWIRE)
   target_compile_definitions(kalipso_colors PUBLIC KALIPSO_PORTAL_COLORS=1)
 
-  add_executable(kalipso-engine src/engine/main.cpp)
-  target_link_libraries(kalipso-engine PRIVATE kalipso_downloads kalipso_colors Qt6::DBus)
+  # The companion reads the app's script library (src/library.cpp) for the widget and the extension.
+  add_executable(kalipso-engine src/engine/main.cpp src/library.cpp)
+  target_link_libraries(kalipso-engine PRIVATE kalipso_downloads kalipso_colors prompter_core Qt6::DBus)
   target_compile_options(kalipso-engine PRIVATE ${KALIPSO_WARNINGS})
+  # Its messages in the session's language: the frontends show them as they are.
+  file(GLOB KALIPSO_ENGINE_TRANSLATIONS CONFIGURE_DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/kalipso-engine_*.ts)
+  if(Qt6LinguistTools_FOUND AND KALIPSO_ENGINE_TRANSLATIONS)
+    # The .ts file also covers the speech, download and color sources the companion links. Refresh it with
+    # lupdate -no-obsolete -locations none src/engine src/library.cpp src/speech.cpp src/speech_download.cpp
+    #   src/microphone.cpp src/moonshine.cpp src/system_speech/client.cpp src/screen_colors/portal.cpp
+    #   -ts translations/kalipso-engine_it.ts
+    qt_add_translations(kalipso-engine TS_FILES ${KALIPSO_ENGINE_TRANSLATIONS} RESOURCE_PREFIX /i18n)
+  endif()
   install(TARGETS kalipso-engine RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Engine)
   configure_file(packaging/io.github.brianidavide.Kalipso.Engine.service.in
     io.github.brianidavide.Kalipso.Engine.service @ONLY)
