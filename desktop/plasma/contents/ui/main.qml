@@ -83,7 +83,11 @@ PlasmoidItem {
     }
     function refreshLibrary() {
         audio.listScripts(function(info) {
-            libraryScripts = info.available ? info.scripts : []
+            if (info.failed)
+                return   // The companion stopped or is restarting: keep what is being read.
+            const listed = info.available ? info.scripts : []
+            if (JSON.stringify(listed) !== JSON.stringify(libraryScripts))
+                libraryScripts = listed
             const ids = libraryScripts.map(item => item.id)
             if (fromLibrary) {
                 const entry = libraryScripts.find(item => item.id === config.scriptId)
@@ -313,7 +317,7 @@ PlasmoidItem {
         scale: down ? 0.97 : 1
         implicitHeight: Math.max(root.n.controlHeight, contentItem.implicitHeight + 16)
         implicitWidth: Math.max(contentItem.implicitWidth + 24,
-            primary ? Math.max(root.n.primaryWidth, metrics.advanceWidth(i18n("Start listening")) + 48) : 0)
+            primary ? Math.max(root.n.primaryWidth, metrics.advanceWidth(i18n("Next words")) + 48) : 0)
         FontMetrics { id: metrics; font: control.font }
         width: Math.min(implicitWidth, parent ? parent.width : implicitWidth)
         padding: 8; leftPadding: 12; rightPadding: 12
@@ -656,11 +660,13 @@ PlasmoidItem {
                     ReaderButton {
                         objectName: "readAction"
                         primary: true
+                        // As in the app: the microphone and Start when following the voice, Pause while reading.
                         iconName: root.mode === "manual" ? "go-next"
-                            : (steady.running || countdown.running || audio.active) ? "media-playback-pause" : "media-playback-start"
+                            : (steady.running || countdown.running || audio.active) ? "media-playback-pause"
+                            : root.mode === "voice" ? "audio-input-microphone" : "media-playback-start"
                         text: root.mode === "manual" ? i18n("Next words")
-                            : root.mode === "steady" ? ((steady.running || countdown.running) ? i18n("Pause") : i18n("Start scrolling"))
-                            : audio.active ? i18n("Pause") : audio.busy ? i18n("Cancel") : i18n("Start listening")
+                            : root.mode === "steady" ? ((steady.running || countdown.running) ? i18n("Pause") : i18n("Start"))
+                            : audio.active ? i18n("Pause") : audio.busy ? i18n("Cancel") : i18n("Start")
                         enabled: root.wordCount > 0 && (root.mode !== "manual" || !root.atEnd)
                         onClicked: root.toggle()
                     }

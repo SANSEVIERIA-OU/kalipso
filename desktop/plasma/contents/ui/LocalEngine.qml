@@ -139,7 +139,7 @@ Item {
     // or none at all gives {available: false}.
     function listScripts(callback) {
         request('ListScripts',[],function(value){callback(JSON.parse(value))},
-                function(){callback({available:false,current:"",scripts:[]})})
+                function(){callback({available:false,failed:true,current:"",scripts:[]})})
     }
     // callback({id, title, modified, text, position, speed}), or failed(message) when it is gone.
     function getScript(id,callback,failed) {
