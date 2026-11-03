@@ -19,6 +19,8 @@ The first version published since the project started in October 2026: everythin
 - The scripts are saved as you type, with your reading position. Kalipso imports text, Markdown, Word
   and OpenDocument documents, and the speaker notes of PowerPoint and Impress presentations.
 - On the first start, three steps: choose your language, test the microphone, write or import a script.
+- Starting Kalipso again brings the open window forward. Kalipso remembers where you put it under the
+  camera; if that monitor is unplugged, the window comes back onto one that is left.
 
 ### Reading
 
@@ -32,15 +34,25 @@ The first version published since the project started in October 2026: everythin
 - Foot pedals, presentation clickers and keys you choose; a phone remote over your network; optional
   voice commands to jump between sections.
 - **Present with Impress** follows a LibreOffice Impress slideshow and jumps to each slide's notes.
-- After a voice session: your pace, long pauses and filler words, and a report you can save.
+- After a voice session: your pace against the time you planned, long pauses and filler words, and a
+  report you can save.
+- Pausing, Esc or minimizing the window turns the microphone off. On Plasma, also on Wayland, where
+  Kalipso's KWin script tells the app.
+- A downloaded voice language can be removed or downloaded again from Settings. Before downloading,
+  Settings says where the files go and what licence they have.
+- Hidden slides stay out when you import a presentation's speaker notes.
 - Under the camera, Plasma 6.6 and later and Windows leave the reader out of screen sharing.
 
 ### Everywhere
 
 - A Plasma widget and a GNOME Shell extension with the same reader, voice following through the
-  companion `kalipso-engine`.
-- The interface in English and Italian. Atkinson Hyperlegible Next throughout, contrast checked to
-  WCAG 2.2 AA levels, text up to twice as large, reduced motion respected.
+  companion `kalipso-engine`. Both open the app's scripts, and **Edit in Kalipso** takes you to the
+  script in the app. The widget's settings are in Plasma's own settings window. The extension runs on
+  GNOME Shell 48 and 51.
+- The interface in English and Italian, the companion's messages too. Atkinson Hyperlegible Next
+  throughout, contrast checked to WCAG 2.2 AA levels, text up to twice as large, reduced motion
+  respected. Every control has a name for screen readers, and Tab goes the way the window reads
+  ([the audit](docs/accessibility.md#wcag-22-aa-audit-of-the-standalone-app)).
 - On Plasma, Kalipso looks like a Plasma app (Breeze, the desktop's colours, light and dark).
 
 ### Downloads
