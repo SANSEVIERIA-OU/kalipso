@@ -978,6 +978,34 @@ void ReaderPage::setFormatActions(const QList<QAction *> &actions) {
         addIconButton(button, formatIcon(action->objectName()));
     }
     updateLabels();
+    orderTabs();
+}
+
+void ReaderPage::orderTabs() {
+    QList<QWidget *> chain;
+    const auto takes = [](QWidget *widget) { return bool(widget->focusPolicy() & Qt::TabFocus); };
+    const auto bar = [&](QWidget *row) {
+        for (int i = 0; i < row->layout()->count(); ++i) {
+            auto *widget = row->layout()->itemAt(i)->widget();
+            if (!widget)
+                continue;
+            if (takes(widget))
+                chain << widget;
+            else // A group (the formats, the speed): its buttons in their order.
+                for (auto *button : widget->findChildren<QAbstractButton *>(Qt::FindDirectChildrenOnly))
+                    if (takes(button))
+                        chain << button;
+        }
+    };
+    bar(bars_.first());
+    if (drawer_)
+        for (auto *widget : drawer_->findChildren<QWidget *>())
+            if (takes(widget) && !qobject_cast<QAbstractScrollArea *>(widget->parentWidget()))
+                chain << widget;
+    chain << text;
+    bar(bars_.last());
+    for (int i = 1; i < chain.size(); ++i)
+        QWidget::setTabOrder(chain[i - 1], chain[i]);
 }
 
 bool ReaderPage::isRoomy(const QSize &window, Qt::WindowStates states) {
@@ -1072,6 +1100,7 @@ void ReaderPage::setDrawer(QWidget *drawer) {
     connect(toggle, &QAction::triggered, this, [this] { setDrawerOpen(!drawerOpen_); });
     addAction(toggle);
     updateEditing();
+    orderTabs();
 }
 
 // About 32 characters: room for a title and its length. Beside the text it takes at most two fifths

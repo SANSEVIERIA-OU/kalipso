@@ -909,6 +909,32 @@ private slots:
         }
     }
 
+    void tabGoesTheWayTheScreenReads() {
+        // Top bar from left to right, the scripts beside the text, the text, then the bottom bar.
+        MainWindow window(scripts_.path());
+        editor(window)->setPlainText("A script, so the welcome page does not take the window");
+        window.resize(1100, 760);
+        window.show();
+        window.activateWindow();
+        QVERIFY(QTest::qWaitForWindowActive(&window));
+        QTRY_VERIFY(window.findChild<QListWidget *>("scriptList")->isVisible());
+        auto *reader = window.prompter();
+        reader->findChild<QPushButton *>("readerScripts")->setFocus(Qt::TabFocusReason);
+        QStringList order;
+        for (int i = 0; i < 18; ++i) {
+            auto *focus = QApplication::focusWidget();
+            order << (focus ? focus->objectName() : QString("(none)"));
+            QTest::keyClick(focus, Qt::Key_Tab);
+        }
+        const QStringList expected{"readerScripts", "formatBoldButton", "formatItalicButton", "formatHeadingButton",
+                                   "formatCueButton", "readerTextSmaller", "readerTextLarger"};
+        QCOMPARE(order.mid(0, expected.size()), expected);
+        const auto at = [&order](const char *name) { return order.indexOf(QString::fromLatin1(name)); };
+        QVERIFY2(at("readerPlace") < at("newScript") && at("newScript") < at("scriptList") &&
+                     at("scriptList") < at("readingScript") && at("readingScript") < at("readerListeningButton"),
+                 qPrintable(order.join(", ")));
+    }
+
     void menusFromTheReaderUseItsColours() {
         MainWindow window(scripts_.path());
         window.prompter()->setReaderTheme("dark");
