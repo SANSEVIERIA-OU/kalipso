@@ -112,6 +112,18 @@ Updating keeps your scripts, your reading positions and your settings; so does u
 | Windows | run the new `.msi`: it replaces the old version | Settings → Apps → Installed apps → Kalipso → Uninstall |
 | macOS | drag the new Kalipso to Applications, replacing the old one | move Kalipso from Applications to the Bin |
 
+To go back to an earlier version, install its package from the [releases page](https://github.com/brianidavide/kalipso/releases) over the new one; your scripts and settings stay:
+
+| System | Back to an earlier version |
+| --- | --- |
+| Arch | `sudo pacman -U ~/.cache/yay/kalipso-bin/kalipso-bin-<old>-1-x86_64.pkg.tar.zst` (yay keeps the packages it installed there) |
+| Debian, Ubuntu | `sudo apt install --allow-downgrades ./kalipso_<old>_amd64.deb` |
+| Fedora | `sudo dnf downgrade ./kalipso-<old>-1.x86_64.rpm` |
+| Windows | the installer never replaces a newer version: uninstall Kalipso, then run the older `.msi` |
+| macOS | drag the older Kalipso to Applications, replacing the newer one |
+
+A script saved by a newer Kalipso opens in an older one: scripts are plain text.
+
 To remove your scripts, settings and downloaded voice models too, delete:
 - Linux: `~/.local/share/brianidavide/kalipso`, `~/.local/share/kalipso` and `~/.config/brianidavide/kalipso.conf`;
 - Windows: the folder `%APPDATA%\brianidavide\kalipso` and the registry key `HKEY_CURRENT_USER\Software\brianidavide\kalipso`;
