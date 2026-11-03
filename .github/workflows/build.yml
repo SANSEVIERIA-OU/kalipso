@@ -60,6 +60,10 @@ jobs:
           appstreamcli validate --no-net packaging/*.metainfo.xml
       - name: Smoke test
         run: QT_QPA_PLATFORM=offscreen build/kalipso --demo --prompter --quit-after 1000
+      - name: Startup time within budget
+        # About three times the p95 measured on a developer machine (docs/performance.md): it catches a
+        # startup that waits on something new (a network call, a model load), not runner noise.
+        run: python3 tools/measure-startup.py build/kalipso --runs 15 --budget-p95 2000
       - name: Verify design token generation
         run: |
           python3 tools/generate-design-tokens.py
