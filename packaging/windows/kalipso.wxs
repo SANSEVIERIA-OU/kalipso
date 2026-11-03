@@ -10,6 +10,11 @@
              Description="Kalipso $(var.Version)" Comments="Teleprompter that follows your voice, on your device"/>
     <Media Id="1" Cabinet="kalipso.cab" EmbedCab="yes"/>
     <MajorUpgrade DowngradeErrorMessage="A newer version of Kalipso is already installed."/>
+    <!-- Copy every file, whatever its version. An upgrade removes the older Kalipso first, but Windows has
+         already decided not to copy the files whose version did not change (Qt, the C++ runtime, FFmpeg),
+         so on a real Windows they went missing and Kalipso no longer started ("Qt6Widgets.dll was not
+         found"). Wine does not do this. All the files are Kalipso's own, in its folder. -->
+    <Property Id="REINSTALLMODE" Value="amus"/>
 
     <Icon Id="kalipso.ico" SourceFile="$(var.Icon)"/>
     <Property Id="ARPPRODUCTICON" Value="kalipso.ico"/>
