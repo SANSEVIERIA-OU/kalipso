@@ -1,0 +1,81 @@
+name: Vosk runtime from source
+# Builds libvosk.so for Linux x86_64 from a pinned Vosk tag and pinned dependencies (#26), then checks it
+# against the runtime Kalipso downloads today (the 0.3.45 wheel from PyPI): the functions Kalipso calls,
+# the glibc it needs, and recognition, speed and memory on the same Italian recordings. Runs on pushes
+# to vosk-* branches and by hand. The catalog changes only after a person reads the result.
+on:
+  push:
+    branches: ['vosk-*']
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  VOSK_VERSION: '0.3.50'
+  # quay.io/pypa/manylinux2014_x86_64 (glibc 2.17), by digest so the build environment does not move.
+  IMAGE: quay.io/pypa/manylinux2014_x86_64@sha256:dc58399aca4cfb0de257f92e2de71b4f8421e60cce8542fcd5e28df0c0760942
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Build Kaldi, OpenFST, OpenBLAS, CLAPACK and libvosk in manylinux2014
+        run: |
+          docker run --rm -v "$PWD:/io" -e OUT=/io/out -e IMAGE="$IMAGE" -e VOSK_VERSION="$VOSK_VERSION" \
+            "$IMAGE" bash /io/tools/vosk/build-libvosk.sh
+          sudo chown -R "$(id -u):$(id -g)" out
+          cat out/BUILD-INFO.txt
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: vosk-${{ env.VOSK_VERSION }}-linux-x86_64
+          path: |
+            out/vosk-*-linux-x86_64.zip
+            out/SHA256SUMS
+            out/BUILD-INFO.txt
+          if-no-files-found: error
+  validate:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: vosk-${{ env.VOSK_VERSION }}-linux-x86_64
+          path: new
+      - name: The built archive matches its checksums
+        run: |
+          cd new && sha256sum -c --ignore-missing SHA256SUMS
+          unzip -q vosk-*-linux-x86_64.zip && ls -l vosk vosk/licenses
+      - name: The runtime and the model Kalipso downloads today, checked against the catalog
+        run: |
+          python3 - <<'EOF'
+          import hashlib, json, urllib.request, zipfile
+          catalog = json.load(open('tools/data/speech-catalog.json'))['vosk']
+          def get(url, sha256, path):
+              data = urllib.request.urlopen(url, timeout=300).read()
+              assert hashlib.sha256(data).hexdigest() == sha256, url
+              open(path, 'wb').write(data)
+          get(catalog['url'], catalog['sha256'], 'old.whl')
+          zipfile.ZipFile('old.whl').extract(catalog['library'], 'old')
+          model = catalog['models']['it']
+          get(model['url'], model['sha256'], 'model.zip')
+          zipfile.ZipFile('model.zip').extractall('.')
+          print('old runtime', catalog['version'], 'model', model['name'])
+          EOF
+      - name: Functions, glibc, recognition, speed and memory
+        run: |
+          python3 tools/vosk/check-runtime.py --new new/vosk/libvosk.so --old old/vosk/libvosk.so \
+            --model vosk-model-small-it-0.22 --data fleurs-it --clips 25 --max-glibc 2.17 \
+            --report report.json | tee summary.txt
+      - name: Summary
+        if: always()
+        run: |
+          { echo '```'; cat new/BUILD-INFO.txt summary.txt 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: vosk-${{ env.VOSK_VERSION }}-validation
+          path: |
+            report.json
+            summary.txt
