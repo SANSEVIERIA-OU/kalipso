@@ -4,9 +4,9 @@
 #include <QStringList>
 #include <algorithm>
 
-// Phrases the Windows recognizer may hear: the script around the reading position, plus any
-// extra phrases (voice commands). Windows accepts at most 256 per update.
-inline QStringList scriptPhrases(const QString &script, int position, const QStringList &extra = {}) {
+// Phrases the Windows recognizer may hear: the script around the reading position. Windows accepts
+// at most 256 per update.
+inline QStringList scriptPhrases(const QString &script, int position) {
     const auto words = ScriptTracker::tokenize(script);
     QStringList phrases;
     const int first = std::max(0, position - 2);
@@ -22,9 +22,5 @@ inline QStringList scriptPhrases(const QString &script, int position, const QStr
         }
     }
     phrases.removeDuplicates();
-    phrases = phrases.mid(0, 256 - int(extra.size()));
-    for (const auto &phrase : extra)
-        if (!phrases.contains(phrase))
-            phrases.append(phrase);
-    return phrases;
+    return phrases.mid(0, 256);
 }

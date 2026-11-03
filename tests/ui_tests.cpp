@@ -1339,33 +1339,25 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QCOMPARE(text->toPlainText(), QString("# Say ***hello*** world now[smile]"));
     }
 
-    void voiceCommandsMoveOnlyWhenEnabledAndNotInTheScript() {
+    // Voice commands were removed (owner, 3 November 2026): a script containing their words could move
+    // the reader. Saying those words is now just reading, and an old saved setting has no effect.
+    void spokenCommandWordsNeverMoveTheReader() {
+        QSettings().setValue("speech/voiceCommands", true); // As an earlier version that had them enabled left it.
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("# One\nalpha beta\n# Two\nthen we go back home\n# Three\nend");
         auto *speech = window.findChild<SpeechService *>();
         auto *status = statusLine(window);
         openSettings(window);
-        auto *enable = window.findChild<QCheckBox *>("voiceCommands");
-        QVERIFY(enable && !enable->isChecked()); // Off by default.
-        emit speech->transcript("go next", true);
-        QVERIFY(position(window).startsWith("8 word"));
-        enable->setChecked(true);
-        emit speech->transcript("Go next.", true);
-        QVERIFY(position(window).startsWith("Word 2 of 8")); // Before "then"
-        QCOMPARE(status->text(), QString("Voice command: next section"));
-        // "then we go back home": when the script itself says "go back", it is read, not obeyed.
-        emit speech->transcript("then we", true);
-        QVERIFY(position(window).startsWith("Word 4 of 8"));
-        emit speech->transcript("go back", true);
+        QVERIFY(!window.findChild<QCheckBox *>("voiceCommands"));
+        QVERIFY(!QSettings().contains("speech/voiceCommands"));
+        for (const auto *said : {"go next", "Go next.", "vai avanti", "torna indietro", "da capo", "go start"}) {
+            emit speech->transcript(QString::fromUtf8(said), true);
+            QVERIFY2(position(window).startsWith("8 word"), qPrintable(QString::fromUtf8(said) + ": " + position(window)));
+            QVERIFY(!status->text().startsWith("Voice command"));
+        }
+        // The script's own "go back" is read like any other words.
+        emit speech->transcript("then we go back", true);
         QVERIFY2(position(window).startsWith("Word 6 of 8"), qPrintable(position(window)));
-        // Inside a longer sentence it is ordinary speech; on its own it is a command.
-        status->clear();
-        emit speech->transcript("so we go next week", true);
-        QVERIFY(position(window).startsWith("Word 6 of 8"));
-        QVERIFY(!status->text().startsWith("Voice command"));
-        emit speech->transcript("da capo", true);
-        QVERIFY(position(window).startsWith("8 word"));
-        QSettings().remove("speech/voiceCommands");
     }
 
     void readingStartsAfterFrontMatter() {

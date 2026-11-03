@@ -117,7 +117,6 @@ private:
     void steadyTick();
     void changeSpeed(int delta);
     void jumpSection(int direction);
-    bool voiceCommand(const QString &utterance);
     void startListening();
     // Opens Settings; with a field, scrolled to it and focused.
     void showSettings(QWidget *field = nullptr);
@@ -180,7 +179,6 @@ private:
     class ImpressFollower *impress_ = nullptr;
     QAction *impressAction_ = nullptr;
     QList<QAction *> formatActions_;
-    bool voiceCommands_ = false;
     ReadingMode mode_ = ReadingMode::Voice;
     QTimer steady_, countdown_;
     int countdownLeft_ = 0;

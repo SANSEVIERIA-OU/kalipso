@@ -23,9 +23,9 @@ struct VoskModel;
 struct VoskRecognizer;
 
 // What a recognizer that can learn a script (Vosk) expects to hear while it is read: the script's
-// sentences, the voice commands and the hesitation sounds the session summary counts, one phrase
+// sentences and the hesitation sounds the session summary counts, one phrase
 // each (see SpokenWords::recognizerPhrases). Empty without a script.
-QStringList speechVocabulary(const QString &script, const QString &language, const QStringList &commands = {});
+QStringList speechVocabulary(const QString &script, const QString &language);
 
 // Runs recognition on a worker thread. Every call carries the generation it was
 // issued for; work from a cancelled generation is dropped.
@@ -117,9 +117,6 @@ public:
     void stop();
     // Script phrases constrain system recognizers that support it (Windows).
     void setScript(const QString &script, int position);
-    // Phrases the recognizer must also accept (voice commands); only Windows system speech
-    // restricts recognition to known phrases.
-    void setCommandPhrases(const QStringList &phrases);
     bool active() const { return active_; }
     // The recognizer learnt the script (Vosk with the script's sentences, Windows with its phrases):
     // it hears the script's words even in what is said off it. Give it to ScriptTracker::setGuided.
@@ -146,7 +143,6 @@ private:
 
     SystemSpeechClient system_;
     QString script_, language_;
-    QStringList commands_;
     int scriptPosition_ = -1;
     bool systemMode_ = false;
     MicrophoneCapture capture_;

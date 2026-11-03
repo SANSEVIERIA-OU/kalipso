@@ -4,6 +4,12 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.2 — 3 November 2026
+
+- Voice commands are gone. Saying "go next", "vai avanti" and the like moved the reader, and a script
+  containing those words could set them off while you read. Words you say now only ever follow the
+  script. Move with keys, a pedal, a clicker or the phone remote.
+
 ## 2.1 — 3 November 2026
 
 - The selected script in the scripts panel keeps the reader's colours. On a light Windows, macOS or
