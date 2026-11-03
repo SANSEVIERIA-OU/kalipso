@@ -864,6 +864,18 @@ private slots:
         qunsetenv("XDG_ACTIVATION_TOKEN");
         // No Kalipso under another name: nothing answers.
         QVERIFY(!AppBridge::activateRunning(key + "-nobody"));
+        // "Edit in Kalipso" from the widget: the companion chose a script, then started Kalipso again.
+        editor(window)->setPlainText("The first talk");
+        const auto first = window.currentScript();
+        window.findChild<QPushButton *>("newScript")->click();
+        editor(window)->setPlainText("The second talk");
+        QTRY_VERIFY(ScriptLibrary(scripts_.path()).contains(first));
+        QSettings().setValue("library/current", first);
+        QSettings().sync();
+        std::thread again([&] { AppBridge::activateRunning(key); });
+        QTRY_COMPARE(window.currentScript(), first);
+        again.join();
+        QCOMPARE(editor(window)->toPlainText(), QString("The first talk"));
     }
 
     void screenSharingFollowsTheChoiceUnderTheCamera() {
