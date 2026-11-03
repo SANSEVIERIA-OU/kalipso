@@ -77,6 +77,7 @@ jobs:
           packaging/companion/make-archive.sh build/kalipso-engine "${TAG#v}" build
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
+          retention-days: 7 # Intermediate files: releases keep their own copies.
           name: kalipso-linux
           path: |
             build/kalipso_*.deb
@@ -102,6 +103,7 @@ jobs:
           ls -l out
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
+          retention-days: 7 # Intermediate files: releases keep their own copies.
           name: kalipso-arch
           path: out/kalipso-*-archlinux-x86_64.tar.zst
   platforms:

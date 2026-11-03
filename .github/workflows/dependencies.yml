@@ -22,5 +22,6 @@ jobs:
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
+          retention-days: 7 # Intermediate files: releases keep their own copies.
           name: dependency-status
           path: artifacts/dependency-status.json
