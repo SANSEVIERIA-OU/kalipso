@@ -63,13 +63,14 @@ msgmerge --update po/it.po po/kalipso-desktop.pot
 
 ## Dependencies and CI
 
-Build-tool versions are pinned in `tools/dependency-versions.json` (Qt, Node, Python, CMake, aqt) and GitHub Actions are pinned to commits. `python3 tools/check-dependencies.py` and a weekly workflow report newer stable releases without changing anything. Linux CI builds against both the distribution's Qt and the latest stable Qt; macOS and Windows CI build, test and package the standalone app. Windows temporarily installs aqt from an upstream commit because aqt 3.3.0 cannot locate the Qt 6.11+ Windows repositories (#1).
+Build-tool versions are pinned in `tools/dependency-versions.json` (Qt, Node LTS, Python, CMake, aqt) and GitHub Actions are pinned to commits. `python3 tools/check-dependencies.py` and a weekly workflow report newer stable releases without changing anything, also of the speech runtimes the voice download installs (Vosk and Moonshine, pinned with their fingerprints in `tools/data/speech-catalog.json`). Linux CI builds against both the distribution's Qt and the latest stable Qt; macOS and Windows CI build, test and package the standalone app. Windows temporarily installs aqt from an upstream commit because aqt 3.3.0 cannot locate the Qt 6.11+ Windows repositories (#1).
 
 ## Releases
 
-1. Update `project(Kalipso VERSION …)` in `CMakeLists.txt`, the AppStream `<release>` entry and the Plasma/GNOME `metadata.json` versions.
-2. Push a tag `vX.Y.Z` matching that version. The release workflow builds the Linux `.deb` and tarball, the macOS and Windows archives and the Plasma/GNOME packages, and creates a **draft** release with `SHA256SUMS`.
-3. Check the draft and publish it. Packages are not yet signed or notarized.
+Versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …); 0.1 and every X.0 are published, the steps in
+between stay draft releases for maintainers. `tools/version.py set` writes a version everywhere, and
+pushing the tag `vX.Y` builds every package and creates the release. The whole procedure, what each
+release contains and how the Windows installer and the AUR packages are made: [docs/releasing.md](docs/releasing.md).
 
 ## Reporting problems
 

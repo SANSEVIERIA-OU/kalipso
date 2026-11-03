@@ -73,8 +73,14 @@ def write(version, stable_date=None):
     kind = 'stable' if stable_date else 'development'
     date = stable_date or re.search(r'<release version="[^"]+" date="([^"]+)"', metainfo).group(1)
     entry = f'<release version="{version}" date="{date}" type="{kind}">'
-    if re.search(r'<release version="[^"]+" date="[^"]+" type="development">', metainfo):
-        metainfo = re.sub(r'<release version="[^"]+" date="[^"]+" type="development">', entry, metainfo, count=1)
+    development = re.compile(r'<release version="[^"]+" date="[^"]+" type="development">\s*'
+                             r'<description>.*?</description>', re.S)
+    if development.search(metainfo):
+        # A published version does not keep a development step's description: CHANGELOG.md has what it
+        # brings; write a summary of it here before tagging.
+        description = (f'<description><p>Kalipso {version}.</p></description>' if stable_date
+                       else re.search(r'<description>.*?</description>', development.search(metainfo).group(0), re.S).group(0))
+        metainfo = development.sub(lambda _: f'{entry}\n      {description}', metainfo, count=1)
     else:
         metainfo = metainfo.replace('<releases>\n    <release ', f'<releases>\n    {entry}\n      <description><p>Kalipso {version}.</p></description>\n    </release>\n    <release ', 1)
     METAINFO.write_text(metainfo)
