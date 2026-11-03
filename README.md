@@ -32,7 +32,7 @@ All three work without speech components (manual and steady modes). Voice follow
 
 | System | Download | Checked on |
 | --- | --- | --- |
-| Arch Linux, EndeavourOS | AUR: `kalipso-bin` (ready to run), `kalipso` (built on your computer), `kalipso-git` (development) | Arch with Plasma 6.8 and Qt 6.12: packages built, installed and started |
+| Arch Linux, EndeavourOS | AUR: `kalipso-bin` (ready to run), `kalipso` (built on your computer) | Arch with Plasma 6.8 and Qt 6.12: packages built, installed and started |
 | Debian 13, Ubuntu 24.04 or newer | `.deb` | Ubuntu 24.04 in CI and Debian 13: installed, started, upgraded, removed |
 | Fedora (current release) | `.rpm` | Fedora container in CI: installed, started, upgraded, removed |
 | Windows 10 (1809) or 11, x64 | `.msi` installer, portable `.zip` | Windows Server 2022 in CI: built and started; the installer under Wine: installed, upgraded, started, removed |
@@ -46,8 +46,7 @@ Not yet tried on real Windows and Mac computers, only on the build machines.
 
 [`kalipso-bin`](https://aur.archlinux.org/packages/kalipso-bin) installs the app, the voice companion, the
 Plasma widget, the GNOME Shell extension and the KWin script, built on Arch for each published version.
-[`kalipso`](https://aur.archlinux.org/packages/kalipso) builds the same on your computer, and
-[`kalipso-git`](https://aur.archlinux.org/packages/kalipso-git) builds the latest development:
+[`kalipso`](https://aur.archlinux.org/packages/kalipso) builds the same on your computer:
 
 ```sh
 yay -S kalipso-bin
@@ -71,6 +70,10 @@ The packages pull in Qt and PipeWire from your distribution. Fedora's `rpm -i` r
 not signed; `dnf install` installs them after a warning. Run `kalipso`, or try it with a sample script:
 `kalipso --demo --prompter`. For voice following, choose **Settings → Language you speak**.
 
+Like the Arch packages, they also install the Plasma widget, the GNOME Shell extension and the KWin
+script. On Plasma, add the **Kalipso** widget to the desktop or panel. On GNOME, log out and back in,
+then turn **Kalipso** on in the Extensions app.
+
 To build from source instead (Debian, Ubuntu):
 
 ```sh
@@ -93,8 +96,9 @@ see [macOS and Windows builds](docs/system-speech.md), also for building them yo
 
 ### Plasma widget and GNOME extension only
 
-Install the widget from the KDE Store or the extension from extensions.gnome.org (when listed), or build
-them: `python3 desktop/package.py`, then follow [installing the widget or extension](desktop/README.md).
+Download the widget (`kalipso-plasma.plasmoid`) or the extension (`kalipso-gnome.zip`) from the
+[releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases), or build them with
+`python3 desktop/package.py`, then follow [installing the widget or extension](desktop/README.md).
 For voice following they need the **companion**: download `kalipso-companion` from the
 [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases), unpack it and run `./install`, then
 choose **Settings → Language you speak** in the widget or extension. See

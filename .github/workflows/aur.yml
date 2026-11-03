@@ -1,15 +1,16 @@
 name: AUR
-# Publishes Kalipso's Arch packages to AUR: `kalipso` (built from the source) and `kalipso-bin` (the files
-# the release built on Arch) at a published version (called by the release workflow for 0.1 and every
-# X.0), and `kalipso-git`, which builds the latest main (run by hand, or with each published version). Needs the secret AUR_SSH_KEY: the private SSH key of the AUR account that
-# maintains the packages. Without it the job warns and stops; nothing else depends on it.
+# Publishes Kalipso's Arch packages to AUR at a published version: `kalipso-bin` (the files the release
+# built on Arch) and `kalipso` (built from the source). The release workflow calls it for 0.1 and every
+# X.0; it can also be run by hand for a published version. `kalipso-git` is no longer published: AUR
+# carries published versions only. Needs the secret AUR_SSH_KEY: the private SSH key of the AUR account
+# that maintains the packages. Without it the job warns and stops; nothing else depends on it.
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: Published version to publish (2.0 or v2.0); empty updates kalipso-git only
+        description: Published version to publish (2.0 or v2.0)
         type: string
-        required: false
+        required: true
   workflow_call:
     inputs:
       version:
@@ -35,23 +36,29 @@ jobs:
           set -euo pipefail
           # The release passes its tag (v2.0); the URLs and pkgver want the version alone.
           VERSION="${VERSION#v}"
-          mkdir -p aur/kalipso-git
-          git_version="$(sed -n 's/^project(Kalipso VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt).r$(git rev-list --count HEAD).g$(git rev-parse --short=7 HEAD)"
-          sed "s/^pkgver=.*/pkgver=$git_version/" packaging/arch/kalipso-git/PKGBUILD > aur/kalipso-git/PKGBUILD
-          if [ -n "$VERSION" ]; then
-            mkdir -p aur/kalipso aur/kalipso-bin
-            curl -fsSL -o source.tar.gz "https://github.com/$GITHUB_REPOSITORY/archive/refs/tags/v$VERSION.tar.gz"
-            sum=$(sha256sum source.tar.gz | cut -d' ' -f1)
-            sed -e "s/^pkgver=.*/pkgver=$VERSION/" -e "s/^pkgrel=.*/pkgrel=1/" -e "s/^sha256sums=.*/sha256sums=('$sum')/" \
-              packaging/arch/kalipso/PKGBUILD > aur/kalipso/PKGBUILD
-            # kalipso-bin: the files the release built on Arch, attached to the release.
-            curl -fsSL -o binary.tar.zst \
-              "https://github.com/$GITHUB_REPOSITORY/releases/download/v$VERSION/kalipso-$VERSION-archlinux-x86_64.tar.zst"
-            sum=$(sha256sum binary.tar.zst | cut -d' ' -f1)
-            sed -e "s/^pkgver=.*/pkgver=$VERSION/" -e "s/^pkgrel=.*/pkgrel=1/" -e "s/^sha256sums=.*/sha256sums=('$sum')/" \
-              packaging/arch/kalipso-bin/PKGBUILD > aur/kalipso-bin/PKGBUILD
-          fi
-          grep -H "^pkgver=\|^sha256sums=" aur/*/PKGBUILD
+          test -n "$VERSION"
+          # pkgrel: 1 for a new version. When a published version is built again (other files, the same
+          # number), one more than on AUR, so that pacman offers it to whoever has the earlier build.
+          pkgrel_for() { # <package> <sha256 of its new source>
+            rm -rf "current-$1"
+            git clone -q --depth 1 "https://aur.archlinux.org/$1.git" "current-$1" 2>/dev/null || true
+            local current="current-$1/PKGBUILD"
+            if [ ! -f "$current" ] || [ "$(sed -n 's/^pkgver=//p' "$current")" != "$VERSION" ]; then echo 1; return; fi
+            local rel; rel=$(sed -n 's/^pkgrel=//p' "$current")
+            if grep -q "^sha256sums=('$2')" "$current"; then echo "$rel"; else echo $((rel + 1)); fi
+          }
+          write() { # <package> <sha256>
+            mkdir -p "aur/$1"
+            sed -e "s/^pkgver=.*/pkgver=$VERSION/" -e "s/^pkgrel=.*/pkgrel=$(pkgrel_for "$1" "$2")/" \
+              -e "s/^sha256sums=.*/sha256sums=('$2')/" "packaging/arch/$1/PKGBUILD" > "aur/$1/PKGBUILD"
+          }
+          curl -fsSL -o source.tar.gz "https://github.com/$GITHUB_REPOSITORY/archive/refs/tags/v$VERSION.tar.gz"
+          write kalipso "$(sha256sum source.tar.gz | cut -d' ' -f1)"
+          # kalipso-bin: the files the release built on Arch, attached to the release.
+          curl -fsSL -o binary.tar.zst \
+            "https://github.com/$GITHUB_REPOSITORY/releases/download/v$VERSION/kalipso-$VERSION-archlinux-x86_64.tar.zst"
+          write kalipso-bin "$(sha256sum binary.tar.zst | cut -d' ' -f1)"
+          grep -H "^pkgver=\|^pkgrel=\|^sha256sums=" aur/*/PKGBUILD
       - name: Write .SRCINFO (makepkg in an Arch container)
         run: |
           docker run --rm -v "$PWD/aur:/aur" archlinux:base-devel bash -c \
@@ -85,7 +92,7 @@ jobs:
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git add PKGBUILD .SRCINFO
               if git diff --cached --quiet; then echo "$package is already up to date"; exit 0; fi
-              git commit -m "$(grep '^pkgver=' PKGBUILD | cut -d= -f2)"
+              git commit -m "$(sed -n 's/^pkgver=//p' PKGBUILD)-$(sed -n 's/^pkgrel=//p' PKGBUILD)"
               git push origin HEAD:master
             )
           done

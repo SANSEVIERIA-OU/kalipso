@@ -1,7 +1,7 @@
 name: Linux packages
 # The .deb and the .rpm the release workflow publishes, built from this commit and taken through what
 # someone installing them does: install, start, upgrade to a newer version, remove. The .deb on Ubuntu,
-# the .rpm in a Fedora container.
+# the .rpm in a Fedora container. Both carry the Plasma widget, the GNOME extension and the KWin script.
 on:
   push:
     branches: [main, feature/**]
@@ -33,6 +33,12 @@ jobs:
           QT_QPA_PLATFORM=offscreen kalipso --version
           QT_QPA_PLATFORM=offscreen kalipso --demo --quit-after 1000
           test -x /usr/bin/kalipso-engine
+          for file in /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso/metadata.json \
+            /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso/contents/fonts/AtkinsonHyperlegibleNext-Regular.ttf \
+            /usr/share/gnome-shell/extensions/kalipso@sansevieria-ou.github.io/metadata.json \
+            /usr/share/kwin/scripts/kalipso-companion/metadata.json; do
+            test -f "$file"
+          done
           desktop-file-validate /usr/share/applications/io.github.sansevieria_ou.kalipso.desktop || true
           sudo apt-get install -y ./pkg/next/kalipso_*.deb
           dpkg-query -W -f='${Version}\n' kalipso | grep -q '\.1$'
@@ -40,14 +46,24 @@ jobs:
           sudo apt-get remove -y kalipso
           test ! -e /usr/bin/kalipso
           test ! -e /usr/share/applications/io.github.sansevieria_ou.kalipso.desktop
+          test ! -e /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso
+          test ! -e /usr/share/gnome-shell/extensions/kalipso@sansevieria-ou.github.io
       - name: The .rpm in Fedora
         run: |
           docker run --rm -v "$PWD/pkg:/pkg:ro" fedora:latest bash -euxo pipefail -c '
             dnf install -y /pkg/first/kalipso-*.rpm
             QT_QPA_PLATFORM=offscreen kalipso --version
             QT_QPA_PLATFORM=offscreen kalipso --demo --quit-after 1000
+            for file in /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso/metadata.json \
+              /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso/contents/fonts/AtkinsonHyperlegibleNext-Regular.ttf \
+              /usr/share/gnome-shell/extensions/kalipso@sansevieria-ou.github.io/metadata.json \
+              /usr/share/kwin/scripts/kalipso-companion/metadata.json; do
+              test -f "$file"
+            done
             dnf install -y /pkg/next/kalipso-*.rpm
             rpm -q --qf "%{VERSION}\n" kalipso | grep -q "\.1$"
             dnf remove -y kalipso
             test ! -e /usr/bin/kalipso
+            test ! -e /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso
+            test ! -e /usr/share/gnome-shell/extensions/kalipso@sansevieria-ou.github.io
           '

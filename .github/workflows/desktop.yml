@@ -45,8 +45,8 @@ jobs:
             artifacts/packages/*.zip
             artifacts/packages/*.kwinscript
   arch:
-    # The Arch package (packaging/arch/kalipso-git) built from this commit and installed in a clean
-    # Arch Linux container: what someone on Arch or EndeavourOS gets.
+    # The Arch package (packaging/arch/kalipso-git, which cmake --install fills, add-ons included) built
+    # from this commit and installed in a clean Arch Linux container: what someone on Arch or EndeavourOS gets.
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

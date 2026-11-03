@@ -76,6 +76,32 @@ if(UNIX AND NOT APPLE)
   install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso-engine COMPONENT Engine)
   # kalipso-voice-setup: downloads one language from a terminal, as Settings does.
   install(PROGRAMS packaging/kalipso-voice-setup DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Engine)
+
+  # The Plasma widget, the GNOME Shell extension and the KWin script, installed where each desktop looks
+  # for add-ons installed system-wide: every Linux package (.deb, .rpm, Arch) carries them with the app.
+  # desktop/package.py writes the same files as its archives, unpacked.
+  option(KALIPSO_DESKTOP_ADDONS "Install the Plasma widget, the GNOME Shell extension and the KWin script" ON)
+  if(KALIPSO_DESKTOP_ADDONS)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    set(addons ${CMAKE_CURRENT_BINARY_DIR}/desktop-addons)
+    file(GLOB_RECURSE addon_sources CONFIGURE_DEPENDS
+      ${CMAKE_CURRENT_SOURCE_DIR}/desktop/plasma/* ${CMAKE_CURRENT_SOURCE_DIR}/desktop/gnome/*
+      ${CMAKE_CURRENT_SOURCE_DIR}/desktop/*.mjs ${CMAKE_CURRENT_SOURCE_DIR}/desktop/po/*.po
+      ${CMAKE_CURRENT_SOURCE_DIR}/packaging/kwin/* ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts/*)
+    add_custom_command(OUTPUT ${addons}/stamp
+      COMMAND ${CMAKE_COMMAND} -E rm -rf ${addons}/plasma ${addons}/gnome ${addons}/kwin
+      COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/desktop/package.py --tree ${addons}
+      COMMAND ${CMAKE_COMMAND} -E touch ${addons}/stamp
+      DEPENDS ${addon_sources} ${CMAKE_CURRENT_SOURCE_DIR}/desktop/package.py
+        ${CMAKE_CURRENT_SOURCE_DIR}/packaging/io.github.sansevieria_ou.kalipso.svg
+      COMMENT "Preparing the Plasma widget, the GNOME Shell extension and the KWin script" VERBATIM)
+    add_custom_target(desktop_addons ALL DEPENDS ${addons}/stamp)
+    install(DIRECTORY ${addons}/plasma/
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/plasma/plasmoids/io.github.sansevieria_ou.kalipso)
+    install(DIRECTORY ${addons}/gnome/
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/gnome-shell/extensions/kalipso@sansevieria-ou.github.io)
+    install(DIRECTORY ${addons}/kwin/ DESTINATION ${CMAKE_INSTALL_DATADIR}/kwin/scripts/kalipso-companion)
+  endif()
 endif()
 
 # --- Standalone application -----------------------------------------------------
@@ -335,7 +361,8 @@ set(CPACK_RPM_PACKAGE_REQUIRES "/usr/bin/pw-record")
 # Directories the system already owns.
 set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION /usr/share/applications /usr/share/dbus-1 /usr/share/dbus-1/services
   /usr/share/icons /usr/share/icons/hicolor /usr/share/icons/hicolor/scalable /usr/share/icons/hicolor/scalable/apps
-  /usr/share/licenses /usr/share/metainfo)
+  /usr/share/licenses /usr/share/metainfo /usr/share/plasma /usr/share/plasma/plasmoids /usr/share/gnome-shell
+  /usr/share/gnome-shell/extensions /usr/share/kwin /usr/share/kwin/scripts)
 set(CPACK_RPM_PACKAGE_DESCRIPTION "A teleprompter that follows your voice with speech recognition on your device, \
 scrolls at a steady pace or waits for your foot pedal.")
 if(APPLE)
