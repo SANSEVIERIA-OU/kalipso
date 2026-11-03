@@ -1,0 +1,53 @@
+name: Linux packages
+# The .deb and the .rpm the release workflow publishes, built from this commit and taken through what
+# someone installing them does: install, start, upgrade to a newer version, remove. The .deb on Ubuntu,
+# the .rpm in a Fedora container.
+on:
+  push:
+    branches: [main, feature/**]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  packages:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build qt6-base-dev qt6-svg-dev qt6-l10n-tools qt6-tools-dev libpipewire-0.3-dev pkg-config dpkg-dev rpm
+      - name: Build
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=/usr
+          cmake --build build --parallel 2
+      - name: Package this version and a newer one
+        run: |
+          version=$(sed -n 's/^project(Kalipso VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)
+          (cd build && cpack -G "DEB;RPM" -B "$PWD/../pkg/first")
+          (cd build && cpack -G "DEB;RPM" -B "$PWD/../pkg/next" -D CPACK_PACKAGE_VERSION="$version.1")
+          ls -l pkg/first pkg/next
+      - name: The .deb on Ubuntu
+        run: |
+          set -euxo pipefail
+          sudo apt-get install -y ./pkg/first/kalipso_*.deb
+          QT_QPA_PLATFORM=offscreen kalipso --version
+          QT_QPA_PLATFORM=offscreen kalipso --demo --quit-after 1000
+          test -x /usr/bin/kalipso-engine
+          desktop-file-validate /usr/share/applications/io.github.brianidavide.kalipso.desktop || true
+          sudo apt-get install -y ./pkg/next/kalipso_*.deb
+          dpkg-query -W -f='${Version}\n' kalipso | grep -q '\.1$'
+          QT_QPA_PLATFORM=offscreen kalipso --version
+          sudo apt-get remove -y kalipso
+          test ! -e /usr/bin/kalipso
+          test ! -e /usr/share/applications/io.github.brianidavide.kalipso.desktop
+      - name: The .rpm in Fedora
+        run: |
+          docker run --rm -v "$PWD/pkg:/pkg:ro" fedora:latest bash -euxo pipefail -c '
+            dnf install -y /pkg/first/kalipso-*.rpm
+            QT_QPA_PLATFORM=offscreen kalipso --version
+            QT_QPA_PLATFORM=offscreen kalipso --demo --quit-after 1000
+            dnf install -y /pkg/next/kalipso-*.rpm
+            rpm -q --qf "%{VERSION}\n" kalipso | grep -q "\.1$"
+            dnf remove -y kalipso
+            test ! -e /usr/bin/kalipso
+          '

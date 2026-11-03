@@ -1,7 +1,7 @@
 name: AUR
-# Publishes Kalipso's Arch packages to AUR: `kalipso` at a published version (called by the release
-# workflow for 0.1 and every X.0), and `kalipso-git`, which builds the latest main (run by hand, or with
-# each published version). Needs the secret AUR_SSH_KEY: the private SSH key of the AUR account that
+# Publishes Kalipso's Arch packages to AUR: `kalipso` (built from the source) and `kalipso-bin` (the files
+# the release built on Arch) at a published version (called by the release workflow for 0.1 and every
+# X.0), and `kalipso-git`, which builds the latest main (run by hand, or with each published version). Needs the secret AUR_SSH_KEY: the private SSH key of the AUR account that
 # maintains the packages. Without it the job warns and stops; nothing else depends on it.
 on:
   workflow_dispatch:
@@ -32,11 +32,17 @@ jobs:
           git_version="$(sed -n 's/^project(Kalipso VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt).r$(git rev-list --count HEAD).g$(git rev-parse --short=7 HEAD)"
           sed "s/^pkgver=.*/pkgver=$git_version/" packaging/arch/kalipso-git/PKGBUILD > aur/kalipso-git/PKGBUILD
           if [ -n "$VERSION" ]; then
-            mkdir -p aur/kalipso
+            mkdir -p aur/kalipso aur/kalipso-bin
             curl -fsSL -o source.tar.gz "https://github.com/$GITHUB_REPOSITORY/archive/refs/tags/v$VERSION.tar.gz"
             sum=$(sha256sum source.tar.gz | cut -d' ' -f1)
             sed -e "s/^pkgver=.*/pkgver=$VERSION/" -e "s/^pkgrel=.*/pkgrel=1/" -e "s/^sha256sums=.*/sha256sums=('$sum')/" \
               packaging/arch/kalipso/PKGBUILD > aur/kalipso/PKGBUILD
+            # kalipso-bin: the files the release built on Arch, attached to the release.
+            curl -fsSL -o binary.tar.zst \
+              "https://github.com/$GITHUB_REPOSITORY/releases/download/v$VERSION/kalipso-$VERSION-archlinux-x86_64.tar.zst"
+            sum=$(sha256sum binary.tar.zst | cut -d' ' -f1)
+            sed -e "s/^pkgver=.*/pkgver=$VERSION/" -e "s/^pkgrel=.*/pkgrel=1/" -e "s/^sha256sums=.*/sha256sums=('$sum')/" \
+              packaging/arch/kalipso-bin/PKGBUILD > aur/kalipso-bin/PKGBUILD
           fi
           grep -H "^pkgver=\|^sha256sums=" aur/*/PKGBUILD
       - name: Write .SRCINFO (makepkg in an Arch container)

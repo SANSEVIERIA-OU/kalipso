@@ -300,7 +300,7 @@ if(BUILD_RENDER_BENCHMARKS)
   target_link_libraries(render_probe PRIVATE Qt6::Widgets Qt6::Quick)
 endif()
 
-# --- Packages: cpack -G DEB|TGZ (Linux), ZIP (Windows), DragNDrop (macOS) -----------
+# --- Packages: cpack -G DEB|RPM|TGZ (Linux), ZIP (Windows), DragNDrop (macOS) -------
 set(CPACK_PACKAGE_NAME kalipso)
 set(CPACK_PACKAGE_VENDOR "Kalipso contributors")
 set(CPACK_PACKAGE_CONTACT "Kalipso contributors <https://github.com/brianidavide/kalipso/issues>")
@@ -313,11 +313,26 @@ set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_SECTION utils)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "pipewire-bin, xdg-desktop-portal")
+# Fedora and openSUSE: rpmbuild finds the libraries the binaries need; PipeWire's tools are named, since
+# the microphone is recorded with pw-record.
+set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
+set(CPACK_RPM_PACKAGE_LICENSE "AGPL-3.0-or-later")
+set(CPACK_RPM_PACKAGE_GROUP "Applications/Multimedia")
+set(CPACK_RPM_PACKAGE_URL "https://brianidavide.github.io/kalipso/")
+set(CPACK_RPM_PACKAGE_AUTOREQ ON)
+set(CPACK_RPM_PACKAGE_SUGGESTS "xdg-desktop-portal")
+set(CPACK_RPM_PACKAGE_REQUIRES "/usr/bin/pw-record")
+# Directories the system already owns.
+set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST_ADDITION /usr/share/applications /usr/share/dbus-1 /usr/share/dbus-1/services
+  /usr/share/icons /usr/share/icons/hicolor /usr/share/icons/hicolor/scalable /usr/share/icons/hicolor/scalable/apps
+  /usr/share/licenses /usr/share/metainfo)
+set(CPACK_RPM_PACKAGE_DESCRIPTION "A teleprompter that follows your voice with speech recognition on your device, \
+scrolls at a steady pace or waits for your foot pedal.")
 if(APPLE)
   set(CPACK_GENERATOR DragNDrop)
 elseif(WIN32)
   set(CPACK_GENERATOR ZIP)
 else()
-  set(CPACK_GENERATOR "DEB;TGZ")
+  set(CPACK_GENERATOR "DEB;TGZ") # RPM too with -G "DEB;RPM;TGZ" where rpmbuild is installed.
 endif()
 include(CPack)
