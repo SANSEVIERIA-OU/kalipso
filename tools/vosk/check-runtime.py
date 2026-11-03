@@ -40,6 +40,9 @@ REQUIRED = ['vosk_model_new', 'vosk_model_free', 'vosk_recognizer_new', 'vosk_re
 REVISION = '70bb2e84b976b7e960aa89f1c648e09c59f894dd'
 FLEURS = 'https://huggingface.co/datasets/google/fleurs/resolve/{revision}/data/it_it/{path}'
 RATE = 16000
+# FLEURS clips are float32 WAV: the benchmark's converter makes them 16-bit, as a microphone gives.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'benchmarks/asr'))
+from prepare_audio import write_pcm16_mono_16k  # noqa: E402
 
 
 def symbol_versions(library):
@@ -81,7 +84,7 @@ def fetch_clips(data, count):
         for member in tar:
             name = Path(member.name).name
             if name in wanted and member.isfile():
-                (data / name).write_bytes(tar.extractfile(member).read())
+                write_pcm16_mono_16k(tar.extractfile(member).read(), data / name)
                 wanted.pop(name)
                 if not wanted:
                     break
