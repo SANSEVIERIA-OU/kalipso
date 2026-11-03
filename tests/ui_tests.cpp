@@ -311,6 +311,38 @@ private slots:
         QCOMPARE(list->currentItem()->text(), QString("First talk"));
     }
 
+    // The scripts panel lies on the reader, which stays dark on a light desktop: the selected script is
+    // drawn in the reader's colours (its hover colour, as a checked quiet button), not as a block of the
+    // desktop's light selection colour.
+    void selectedScriptTakesTheReadersColoursOnALightDesktop() {
+        const QPalette before = QApplication::palette();
+        QPalette desktop = before;
+        desktop.setColor(QPalette::Highlight, QColor("#F0F0F0")); // Windows and macOS, light.
+        desktop.setColor(QPalette::HighlightedText, QColor("#000000"));
+        QApplication::setPalette(desktop);
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        QVERIFY(QTest::qWaitForWindowExposed(&window));
+        window.prompter()->setReaderTheme("dark");
+        editor(window)->setPlainText("# First talk\nHello");
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        QTRY_VERIFY(list->isVisible() && list->count() == 1);
+        list->setCurrentRow(0);
+        const QRect row = list->visualItemRect(list->item(0));
+        QVERIFY(!row.isEmpty());
+        const QImage shot = list->viewport()->grab().toImage();
+        // Inside the row, left of the text and away from the rounded corners and the border (in device
+        // pixels, for screens that draw two per point).
+        const qreal ratio = shot.devicePixelRatio();
+        const QColor seen = shot.pixelColor(qRound((row.left() + 4) * ratio), qRound(row.center().y() * ratio));
+        QApplication::setPalette(before);
+        const QColor expected(Design::dark.hover);
+        QVERIFY2(std::abs(seen.red() - expected.red()) + std::abs(seen.green() - expected.green()) +
+                         std::abs(seen.blue() - expected.blue()) <= 12,
+                 qPrintable(QString("selected row %1, reader hover %2").arg(seen.name(), expected.name())));
+    }
+
     void accessiblePalettesKeepReadTextAndSelectionLegible() {
         for (const auto &p : {Design::light, Design::dark}) {
             const auto colors = Accessibility::palette(p);

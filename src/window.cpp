@@ -235,7 +235,10 @@ private:
 };
 
 // A script in the list: its title, and under it how long it takes to read and when it changed,
-// like notes in a notebook. The style draws the row (selection, hover); the delegate the text.
+// like notes in a notebook. On the reader, whose colours stay its own whatever the desktop's, the row
+// is drawn in the reader's colours, as a quiet button that is checked: the desktop's selection colour
+// (light on a light desktop) would show as a bright block on a dark reader. Elsewhere the style draws
+// the row (selection, hover) and the delegate the text.
 class ScriptItemDelegate : public QStyledItemDelegate {
 public:
     using QStyledItemDelegate::QStyledItemDelegate;
@@ -246,14 +249,36 @@ public:
         initStyleOption(&item, index);
         const QString title = item.text;
         item.text.clear();
-        const auto *style = item.widget ? item.widget->style() : QApplication::style();
-        style->drawControl(QStyle::CE_ItemViewItem, &item, painter, item.widget);
         const bool selected = item.state & QStyle::State_Selected;
-        const auto group = !(item.state & QStyle::State_Enabled) ? QPalette::Disabled
-                           : (item.state & QStyle::State_Active) ? QPalette::Active
-                                                                  : QPalette::Inactive;
-        const QColor text = item.palette.color(group, selected ? QPalette::HighlightedText : QPalette::Text);
-        const QColor secondary = selected ? text : Accessibility::muted(item.palette);
+        QColor text, secondary;
+        if (const auto *reader = readerOf(item.widget)) {
+            const auto &colors = reader->colors();
+            painter->save();
+            painter->setRenderHint(QPainter::Antialiasing);
+            const QRectF row = QRectF(item.rect).adjusted(0.5, 0.5, -0.5, -0.5);
+            constexpr qreal corner = 6; // As the menus' rows.
+            if (selected || item.state & QStyle::State_MouseOver) {
+                painter->setPen(selected ? QPen(QColor(colors.divider), 1) : QPen(Qt::NoPen));
+                painter->setBrush(QColor(colors.hover));
+                painter->drawRoundedRect(row, corner, corner);
+            }
+            if (item.state & QStyle::State_HasFocus && item.widget && item.widget->hasFocus()) {
+                painter->setPen(QPen(QColor(colors.focus), 2));
+                painter->setBrush(Qt::NoBrush);
+                painter->drawRoundedRect(QRectF(item.rect).adjusted(1, 1, -1, -1), corner, corner);
+            }
+            painter->restore();
+            text = QColor(colors.text);
+            secondary = QColor(colors.muted);
+        } else {
+            const auto *style = item.widget ? item.widget->style() : QApplication::style();
+            style->drawControl(QStyle::CE_ItemViewItem, &item, painter, item.widget);
+            const auto group = !(item.state & QStyle::State_Enabled) ? QPalette::Disabled
+                               : (item.state & QStyle::State_Active) ? QPalette::Active
+                                                                      : QPalette::Inactive;
+            text = item.palette.color(group, selected ? QPalette::HighlightedText : QPalette::Text);
+            secondary = selected ? text : Accessibility::muted(item.palette);
+        }
         const QRect area = item.rect.adjusted(Design::Metric::space3, Design::Metric::space2, -Design::Metric::space3,
                                               -Design::Metric::space2);
         painter->save();
@@ -286,6 +311,12 @@ private:
     static QFont metaFont(QFont font) {
         font.setPointSizeF(font.pointSizeF() * 0.9);
         return font;
+    }
+    static const ReaderPage *readerOf(const QWidget *widget) {
+        for (; widget; widget = widget->parentWidget())
+            if (const auto *reader = qobject_cast<const ReaderPage *>(widget))
+                return reader;
+        return nullptr;
     }
 };
 
