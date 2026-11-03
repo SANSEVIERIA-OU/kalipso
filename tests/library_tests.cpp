@@ -104,6 +104,50 @@ QByteArray presentation(const QString &slideTarget, const QString &notesTarget, 
                       {"ppt/slides/_rels/slide1.xml.rels", relationships("rId2", "notesSlide", notesTarget)},
                       {"ppt/notesSlides/notesSlide1.xml", notes}});
 }
+
+QByteArray notesPart(const QString &text) {
+    return QString(R"(<p:notes xmlns:p="p" xmlns:a="a"><p:cSld><p:spTree><p:sp><p:nvSpPr><p:nvPr><p:ph type="body"/>)"
+                   R"(</p:nvPr></p:nvSpPr><p:txBody><a:p><a:r><a:t>%1</a:t></a:r></a:p></p:txBody></p:sp></p:spTree>)"
+                   R"(</p:cSld></p:notes>)")
+        .arg(text)
+        .toUtf8();
+}
+
+// Two slides with notes; the second one hidden in the slideshow (show="0") when `hide`.
+QByteArray twoSlides(bool hide) {
+    const QByteArray rels = R"(<Relationships><Relationship Id="rId1" Type="http://x/relationships/slide" )"
+                            R"(Target="slides/slide1.xml"/><Relationship Id="rId2" )"
+                            R"(Type="http://x/relationships/slide" Target="slides/slide2.xml"/></Relationships>)";
+    return storedZip({{"ppt/presentation.xml", R"(<p:presentation xmlns:p="p" xmlns:r="r"><p:sldIdLst>)"
+                                               R"(<p:sldId id="256" r:id="rId1"/><p:sldId id="257" r:id="rId2"/>)"
+                                               R"(</p:sldIdLst></p:presentation>)"},
+                      {"ppt/_rels/presentation.xml.rels", rels},
+                      {"ppt/slides/slide1.xml", "<p:sld xmlns:p=\"p\"/>"},
+                      {"ppt/slides/slide2.xml", hide ? "<p:sld xmlns:p=\"p\" show=\"0\"/>" : "<p:sld xmlns:p=\"p\"/>"},
+                      {"ppt/slides/_rels/slide1.xml.rels",
+                       relationships("rId3", "notesSlide", "../notesSlides/notesSlide1.xml")},
+                      {"ppt/slides/_rels/slide2.xml.rels",
+                       relationships("rId4", "notesSlide", "../notesSlides/notesSlide2.xml")},
+                      {"ppt/notesSlides/notesSlide1.xml", notesPart("Shown slide notes")},
+                      {"ppt/notesSlides/notesSlide2.xml", notesPart("Hidden slide notes")}});
+}
+
+// Two Impress pages with notes; the second one's drawing-page style hidden when `hide`.
+QByteArray twoPages(bool hide) {
+    const auto content =
+        QString(R"(<office:document-content xmlns:office="o" xmlns:style="s" xmlns:draw="d" xmlns:presentation="p" )"
+                R"(xmlns:text="t"><office:automatic-styles><style:style style:name="dp1" style:family="drawing-page">)"
+                R"(<style:drawing-page-properties presentation:visibility="visible"/></style:style>)"
+                R"(<style:style style:name="dp2" style:family="drawing-page"><style:drawing-page-properties )"
+                R"(presentation:visibility="%1"/></style:style></office:automatic-styles><office:body>)"
+                R"(<office:presentation><draw:page draw:style-name="dp1"><presentation:notes><draw:frame>)"
+                R"(<draw:text-box><text:p>Shown page notes</text:p></draw:text-box></draw:frame></presentation:notes>)"
+                R"(</draw:page><draw:page draw:style-name="dp2"><presentation:notes><draw:frame><draw:text-box>)"
+                R"(<text:p>Hidden page notes</text:p></draw:text-box></draw:frame></presentation:notes></draw:page>)"
+                R"(</office:presentation></office:body></office:document-content>)")
+            .arg(hide ? "hidden" : "visible");
+    return storedZip({{"content.xml", content.toUtf8()}});
+}
 } // namespace
 
 class LibraryTests : public QObject {
@@ -291,6 +335,29 @@ private slots:
         QVERIFY(result.text.size() < 1000);
     }
 
+    void hiddenSlidesAreLeftOut() {
+        // PowerPoint: a hidden slide's notes are not read in the slideshow, so they are not imported.
+        auto result = ScriptImport::fromPptx(twoSlides(true));
+        QVERIFY2(result.error.isEmpty(), qPrintable(result.error));
+        QCOMPARE(result.sections, 1);
+        QCOMPARE(result.hidden, 1);
+        QVERIFY(result.text.contains("Shown slide notes"));
+        QVERIFY(!result.text.contains("Hidden slide notes"));
+        result = ScriptImport::fromPptx(twoSlides(false)); // Counter-test: both shown, both imported.
+        QCOMPARE(result.sections, 2);
+        QCOMPARE(result.hidden, 0);
+        // Impress: the same, by the page's style.
+        result = ScriptImport::fromOdp(twoPages(true));
+        QVERIFY2(result.error.isEmpty(), qPrintable(result.error));
+        QCOMPARE(result.sections, 1);
+        QCOMPARE(result.hidden, 1);
+        QVERIFY(!result.text.contains("Hidden page notes"));
+        result = ScriptImport::fromOdp(twoPages(false));
+        QCOMPARE(result.sections, 2);
+        QCOMPARE(result.hidden, 0);
+        QVERIFY2(result.text.contains("# Slide 2\n\nHidden page notes"), qPrintable(result.text));
+    }
+
     void rejectsDamagedPresentations() {
         QVERIFY(!ScriptImport::fromPptx("not a zip").error.isEmpty());
         QVERIFY(!ScriptImport::fromOdp(QByteArray(100, 'x')).error.isEmpty());
@@ -381,9 +448,16 @@ private slots:
         stats.start(-1, 0);
         stats.advance(9, 2000);  // Intro read in 2 s.
         stats.advance(19, 9000); // Main after a 7 s pause.
-        const auto report = SessionStats::report(stats.finish(9000), script, "Launch", QDateTime::currentDateTime());
+        auto summary = stats.finish(9000);
+        summary.plannedWordsPerMinute = 150; // 20 words: 0:08 at the planned speed, 0:09 taken.
+        const auto report = SessionStats::report(summary, script, "Launch", QDateTime::currentDateTime());
         QVERIFY2(report.startsWith("# Session report: Launch\n"), qPrintable(report));
-        QVERIFY(report.contains("- Words read: 20"));
+        QVERIFY2(report.contains("- Words read: 20 of 20"), qPrintable(report));
+        QVERIFY2(report.contains("- At the planned 150 words/min: 0:08 expected, 0:09 taken (11% slower)"),
+                 qPrintable(report));
+        QCOMPARE(SessionStats::paceAgainstPlan(summary), -11); // 133 words/min against 150.
+        summary.plannedWordsPerMinute = 0; // No plan: no comparison.
+        QVERIFY(!SessionStats::report(summary, script, "Launch", QDateTime::currentDateTime()).contains("planned"));
         QVERIFY(report.contains("- Pauses over 3 s: 1 (longest 0:07)"));
         QVERIFY2(report.contains("| Intro | 0:02 | 10 | 300 |"), qPrintable(report));
         QVERIFY2(report.contains("| Main / part | 0:07 | 10 | 86 |"), qPrintable(report)); // "|" kept out of cells.
@@ -396,9 +470,9 @@ private slots:
         quiet.start(-1, 0);
         quiet.transcript("um so uh we start");
         quiet.advance(9, 2000);
-        const auto summary = quiet.finish(4000);
-        QCOMPARE(summary.fillers, 0);
-        QVERIFY(!SessionStats::report(summary, script, "Launch", QDateTime::currentDateTime()).contains("Filler"));
+        const auto silent = quiet.finish(4000);
+        QCOMPARE(silent.fillers, 0);
+        QVERIFY(!SessionStats::report(silent, script, "Launch", QDateTime::currentDateTime()).contains("Filler"));
     }
 };
 

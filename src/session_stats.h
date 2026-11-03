@@ -5,6 +5,7 @@
 #include <QSet>
 #include <QString>
 #include <QVector>
+#include <QtMath>
 #include <algorithm>
 
 // Delivery summary for one voice-following session: pace, pauses and filler
@@ -32,6 +33,7 @@ public:
         qint64 longestPauseMs = 0;
         int fillers = 0;
         bool fillersCounted = true; // Off in Settings: the summary and report leave fillers out.
+        int plannedWordsPerMinute = 0; // The steady speed, to compare the pace with; 0: none.
         QVector<Pause> pauses;
         QVector<Reached> reached;
     };
@@ -86,6 +88,14 @@ public:
         const double minutes = summary_.durationMs / 60000.0;
         summary_.wordsPerMinute = minutes > 0.05 ? summary_.words / minutes : 0;
         return summary_;
+    }
+
+    // How much faster (positive) or slower (negative) than the planned speed the words were read,
+    // in percent of the planned time; 0 without a plan or a measured pace.
+    static int paceAgainstPlan(const Summary &summary) {
+        if (summary.plannedWordsPerMinute <= 0 || summary.wordsPerMinute <= 0)
+            return 0;
+        return qRound((summary.wordsPerMinute / summary.plannedWordsPerMinute - 1.0) * 100);
     }
 
     // A Markdown report of a finished session: totals, time per section and where the

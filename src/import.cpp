@@ -269,6 +269,17 @@ Result read(const QString &path) {
     return {normalized, {}, 0};
 }
 
+// <p:sld show="0">: the slide is hidden in the slideshow.
+bool hiddenSlide(const QByteArray &part) {
+    QXmlStreamReader xml(part);
+    while (!xml.atEnd()) {
+        xml.readNext();
+        if (xml.isStartElement())
+            return xml.name() == QLatin1String("sld") && attribute(xml, u"show") == QLatin1String("0");
+    }
+    return false;
+}
+
 Result fromPptx(const QByteArray &archive) {
     const ZipArchive zip(archive, {kMaxEntry, kMaxInflated});
     const QString presentation = "ppt/presentation.xml";
@@ -288,6 +299,11 @@ Result fromPptx(const QByteArray &archive) {
         if (order[i].isEmpty() || seen.contains(order[i]))
             continue;
         seen.insert(order[i]);
+        // A hidden slide is not shown in the slideshow, so its notes are not read either.
+        if (hiddenSlide(zip.file(order[i]))) {
+            ++result.hidden;
+            continue;
+        }
         const auto notesPart = relationships(zip, order[i], "/notesSlide");
         if (notesPart.isEmpty())
             continue;
@@ -314,13 +330,18 @@ Result fromOdp(const QByteArray &archive) {
     QXmlStreamReader xml(zip.file("content.xml"));
     Result result;
     int page = 0;
-    QString title;
+    QString title, style;
     QStringList notes;
-    bool inNotes = false, inTitle = false;
+    QSet<QString> hiddenStyles; // Drawing-page styles with presentation:visibility="hidden".
+    bool inNotes = false, inTitle = false, pageHidden = false;
     const auto finishPage = [&] {
         while (!notes.isEmpty() && notes.last().trimmed().isEmpty())
             notes.removeLast();
         const auto text = notes.join(u'\n').trimmed();
+        if (hiddenStyles.contains(style) || pageHidden) {
+            ++result.hidden; // Not shown in the slideshow: its notes are not read either.
+            return;
+        }
         if (!text.isEmpty()) {
             result.text += (result.text.isEmpty() ? QString() : QStringLiteral("\n")) + section(page, title, text);
             ++result.sections;
@@ -331,10 +352,17 @@ Result fromOdp(const QByteArray &archive) {
         xml.readNext();
         const auto name = xml.name();
         if (xml.isStartElement()) {
-            if (name == QLatin1String("page") && !inNotes) {
+            if (name == QLatin1String("style") && attribute(xml, u"family", true) == QLatin1String("drawing-page")) {
+                style = attribute(xml, u"name", true);
+            } else if (name == QLatin1String("drawing-page-properties") &&
+                       attribute(xml, u"visibility", true) == QLatin1String("hidden")) {
+                hiddenStyles.insert(style);
+            } else if (name == QLatin1String("page") && !inNotes) {
                 ++page;
                 title.clear();
                 notes.clear();
+                style = attribute(xml, u"style-name", true);
+                pageHidden = attribute(xml, u"visibility", true) == QLatin1String("hidden");
             } else if (name == QLatin1String("notes")) {
                 inNotes = true;
             } else if (name == QLatin1String("frame") && !inNotes) {

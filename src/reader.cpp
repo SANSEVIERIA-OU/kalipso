@@ -531,6 +531,7 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     layout->addWidget(progress_);
 
     text = new ReaderView;
+    text->setTabChangesFocus(true); // Tab reaches the controls; a script has no use for tab characters.
     text->setPlaceholderText(tr("Write or paste your script here."));
     text->installEventFilter(this);
     pages_ = new QStackedWidget;
@@ -611,14 +612,10 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
               {larger_, "text-larger"},     {place_, "camera-top"}};
     setUnderCamera(false);
 
-    // The menus are the desktop's own, in the window's colours rather than the reader's: without a
-    // parent they keep the desktop's look (rounded, shadowed) instead of the reader's style sheet.
+    // The menus are the desktop's own, in the reader's colours: without a parent they keep the
+    // desktop's look (rounded, shadowed) instead of the reader's style sheet.
     for (auto *menu : {sections_->menu(), modeMenu})
-        connect(menu, &QMenu::aboutToShow, this, [this, menu] {
-            menu->setPalette(window()->palette());
-            if (!Accessibility::native())
-                menu->setStyleSheet(window()->styleSheet());
-        });
+        connect(menu, &QMenu::aboutToShow, this, [this, menu] { styleMenu(menu); });
 
     // Clicking a control must not move keyboard focus off the script: pedals and
     // clickers send Space and arrows, which would otherwise activate or edit.
@@ -704,6 +701,11 @@ void ReaderPage::applyPalette(const Design::Palette &palette) {
     handle_->grip->setPixmap(Icons::icon("grip", QColor(palette.muted)).pixmap(18, 18));
     updatePrimary();
     highlight(position_, length_);
+}
+
+void ReaderPage::styleMenu(QMenu *menu) const {
+    menu->setPalette(Accessibility::palette(colors_));
+    menu->setStyleSheet(Accessibility::native() ? QString() : Accessibility::style(colors_));
 }
 
 void ReaderPage::addIconButton(QAbstractButton *button, const QString &icon) {
@@ -1061,6 +1063,7 @@ void ReaderPage::setDrawer(QWidget *drawer) {
             drawer_->hide();
             scrim_->hide();
             placeDrawer(); // The text takes back the panel's room.
+            emit drawerShown(false);
         }
     });
     auto *toggle = new QAction(this);
@@ -1107,6 +1110,7 @@ void ReaderPage::setDrawerOpen(bool open) {
         drawer_->raise();
         for (auto *bar : bars_)
             bar->raise();
+        emit drawerShown(true);
     }
     if (Motion::reduced() || !isVisible()) {
         drawer_->move(open ? shown : hidden);
@@ -1118,6 +1122,7 @@ void ReaderPage::setDrawerOpen(bool open) {
             drawer_->hide();
             scrim->hide();
             placeDrawer();
+            emit drawerShown(false);
         }
         return;
     }
@@ -1141,7 +1146,11 @@ void ReaderPage::placeDrawer() {
     const int top = progress_->height() + bars_.first()->sizeHint().height();
     const int bottom = height() - bars_.last()->sizeHint().height();
     const bool sliding = drawerSlide_->state() == QAbstractAnimation::Running;
-    drawer_->setGeometry(sliding || !drawer_->isVisible() ? drawer_->x() : 0, top, width, std::max(0, bottom - top));
+    // Closed, the panel takes no room at all: assistive technology does not report its rows as on
+    // the screen (Qt decides that from their rectangles, not from the panel being hidden).
+    const bool closed = !drawer_->isVisible() && !drawerOpen_;
+    drawer_->setGeometry(sliding || !drawer_->isVisible() ? drawer_->x() : 0, top, closed ? 0 : width,
+                         std::max(0, bottom - top));
     scrim_->setGeometry(0, top, this->width(), std::max(0, bottom - top));
     if (roomy_ && scrim_->isVisible())
         scrim_->hide(); // Beside the text, nothing is behind the scripts.
@@ -1178,6 +1187,11 @@ void ReaderPage::showWelcome(bool shown) {
         return;
     pages_->setCurrentWidget(shown ? welcome_ : static_cast<QWidget *>(text));
     formats_->setEnabled(editing_ && !shown);
+    // The keys start on the page that is shown: the welcome's steps, or the script.
+    if (shown)
+        welcome_->setFocus(Qt::OtherFocusReason);
+    else if (!text->hasFocus() && isAncestorOf(QApplication::focusWidget()))
+        text->setFocus(Qt::OtherFocusReason);
     // The welcome has the whole window: there is nothing to list yet. The scripts come with the first.
     if (drawer_) {
         const bool wanted = drawerWanted_[roomy_];
@@ -1262,6 +1276,11 @@ void ReaderPage::resizeEvent(QResizeEvent *event) {
 void ReaderPage::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     updateEditing();
+    // The keys start on the page that is shown, not on the first button of the top bar.
+    if (welcomeShown())
+        welcome_->setFocus(Qt::OtherFocusReason);
+    else if (!isAncestorOf(QApplication::focusWidget()) || bars_.first()->isAncestorOf(QApplication::focusWidget()))
+        text->setFocus(Qt::OtherFocusReason);
 }
 
 void ReaderPage::changeEvent(QEvent *event) {
@@ -1385,7 +1404,9 @@ bool ReaderPage::eventFilter(QObject *object, QEvent *event) {
     }
     // While reading, the text view forwards control keys instead of scrolling; while writing it
     // takes them, except Esc.
-    if (object == text && event->type() == QEvent::KeyPress && text->isReadOnly()) {
+    if (object == text && event->type() == QEvent::KeyPress && text->isReadOnly() &&
+        static_cast<QKeyEvent *>(event)->key() != Qt::Key_Tab &&
+        static_cast<QKeyEvent *>(event)->key() != Qt::Key_Backtab) { // Tab and Shift+Tab move the focus.
         keyPressEvent(static_cast<QKeyEvent *>(event));
         return event->isAccepted();
     }

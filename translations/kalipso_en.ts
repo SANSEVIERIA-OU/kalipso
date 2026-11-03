@@ -59,16 +59,16 @@
             <numerusform>%n filler words recognized</numerusform>
         </translation>
     </message>
+    <message numerus="yes">
+        <source>%n hidden slide(s) left out.</source>
+        <translation>
+            <numerusform>%n hidden slide left out.</numerusform>
+            <numerusform>%n hidden slides left out.</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>SessionStats</name>
-    <message numerus="yes">
-        <source>- Words read: %n</source>
-        <translation>
-            <numerusform>- Words read: %n</numerusform>
-            <numerusform>- Words read: %n</numerusform>
-        </translation>
-    </message>
     <message numerus="yes">
         <source>- Pauses over 3 s: %n</source>
         <translation>
@@ -81,6 +81,13 @@
         <translation>
             <numerusform>- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)</numerusform>
             <numerusform>- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>- Words read: %n of %1</source>
+        <translation>
+            <numerusform>- Words read: %n of %1</numerusform>
+            <numerusform>- Words read: %n of %1</numerusform>
         </translation>
     </message>
 </context>

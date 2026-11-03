@@ -10,6 +10,7 @@
 #include <QTimer>
 
 class QComboBox;
+class QMenu;
 class QProgressBar;
 class QPropertyAnimation;
 class QToolButton;
@@ -162,6 +163,9 @@ public:
     bool welcomeShown() const;
     // A button drawn in the reader's colours, with an icon that follows them.
     void addIconButton(QAbstractButton *button, const QString &icon);
+    // A menu opened from the reader, in the reader's colours: the desktop's own menu with them, or
+    // the drawn one.
+    void styleMenu(QMenu *menu) const;
     // Whether the window sits under the camera (the place button then says it makes it larger).
     void setUnderCamera(bool underCamera);
     // Large enough to write in: wider than 960 and taller than 600, the largest reader Kalipso
@@ -196,6 +200,8 @@ signals:
     void placeRequested();
     // Writing started or ended (the window's size, or reading).
     void editingChanged(bool editing);
+    // The scripts panel opened (true) or is closed and out of sight (false).
+    void drawerShown(bool shown);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

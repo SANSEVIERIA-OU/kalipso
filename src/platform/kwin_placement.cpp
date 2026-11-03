@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QGuiApplication>
 #include <QStandardPaths>
+#include <QThread>
 #endif
 
 namespace {
@@ -28,13 +29,16 @@ bool KWinPlacement::load() {
     if (!bus.isConnected() || !bus.interface()->isServiceRegistered(QStringLiteral("org.kde.KWin")))
         return false;
     QDBusInterface scripting("org.kde.KWin", "/Scripting", "org.kde.kwin.Scripting", bus);
-    for (const auto *name : {"kalipso-companion", kScript}) {
-        const QDBusReply<bool> loaded = scripting.call("isScriptLoaded", QString::fromLatin1(name));
-        if (!loaded.isValid())
-            return false;
-        if (loaded.value()) // Enabled in System Settings, or loaded by an earlier Kalipso.
-            return running = true;
-    }
+    const QDBusReply<bool> companion = scripting.call("isScriptLoaded", QStringLiteral("kalipso-companion"));
+    if (!companion.isValid())
+        return false;
+    if (companion.value()) // Enabled in System Settings: installed with this Kalipso.
+        return running = true;
+    // A copy left by an earlier Kalipso that crashed or was killed may be an older script: this
+    // Kalipso's own replaces it.
+    const QDBusReply<bool> stale = scripting.call("isScriptLoaded", QString::fromLatin1(kScript));
+    if (stale.isValid() && stale.value())
+        scripting.call("unloadScript", QString::fromLatin1(kScript));
     // KWin reads the script from a file: a copy of the one built into Kalipso, in the user's
     // private runtime directory.
     const auto directory = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
@@ -44,7 +48,14 @@ bool KWinPlacement::load() {
         copy.write(source.readAll()) < 0)
         return false;
     copy.close();
-    const QDBusReply<int> id = scripting.call("loadScript", copy.fileName(), QString::fromLatin1(kScript));
+    // KWin deletes an unloaded script on its next turn: until then the name is taken.
+    QDBusReply<int> id;
+    for (int attempt = 0; attempt < 20; ++attempt) {
+        id = scripting.call("loadScript", copy.fileName(), QString::fromLatin1(kScript));
+        if (!id.isValid() || id.value() >= 0)
+            break;
+        QThread::msleep(25);
+    }
     if (!id.isValid() || id.value() < 0)
         return false;
     // start() runs the loaded scripts that are not running yet. The object path of the new script

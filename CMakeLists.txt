@@ -70,7 +70,7 @@ endif()
 # --- Standalone application -----------------------------------------------------
 add_library(kalipso_app STATIC
   src/window.cpp src/reader.cpp src/backdrop.cpp src/library.cpp src/import.cpp src/remote.cpp
-  src/script_highlighter.cpp src/session_stats.cpp src/impress.cpp src/icons.cpp src/motion.cpp
+  src/app_bridge.cpp src/script_highlighter.cpp src/session_stats.cpp src/impress.cpp src/icons.cpp src/motion.cpp
   src/platform/capture_exclusion.cpp src/platform/kwin_placement.cpp)
 target_link_libraries(kalipso_app PUBLIC kalipso_downloads Qt6::Widgets Qt6::Network Qt6::Svg PRIVATE kalipso_vendor)
 file(GLOB KALIPSO_ICONS CONFIGURE_DEPENDS
@@ -193,6 +193,15 @@ if(BUILD_TESTING)
   target_compile_definitions(ui_tests PRIVATE FAKE_MOONSHINE_LIBRARY="$<TARGET_FILE:fake_moonshine>")
   add_dependencies(ui_tests fake_moonshine)
   add_test(NAME ui COMMAND ui_tests -o ui-results.txt,txt -o -,txt)
+  # Two monitors, one of which goes away (the offscreen platform with a configuration file; its
+  # option syntax takes no drive letters, so not on Windows).
+  if(NOT WIN32)
+    add_executable(screens_tests tests/screens_tests.cpp)
+    target_link_libraries(screens_tests PRIVATE kalipso_app Qt6::Test)
+    add_test(NAME screens COMMAND screens_tests)
+    set_tests_properties(screens PROPERTIES ENVIRONMENT
+      "QT_QPA_PLATFORM=offscreen:configfile=${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/two-screens.json")
+  endif()
   # The same check of icon motion with the system asking for reduced motion.
   add_test(NAME ui_reduced_motion COMMAND ui_tests iconMotionFollowsTheSystemChoice)
   if(WIN32)
@@ -208,6 +217,7 @@ if(BUILD_TESTING)
   if(NODE_EXECUTABLE)
     add_test(NAME tracker_js COMMAND ${NODE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/desktop/tracker.test.mjs)
     add_test(NAME contrast_js COMMAND ${NODE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/contrast.test.mjs)
+    add_test(NAME kwin_script_js COMMAND ${NODE_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/kwin_script.test.mjs)
   endif()
   find_program(QMLTESTRUNNER qmltestrunner
     HINTS "${QT6_INSTALL_PREFIX}/${QT6_INSTALL_BINS}" "${QT6_INSTALL_PREFIX}/${QT6_INSTALL_LIBEXECS}" /usr/lib/qt6/bin)

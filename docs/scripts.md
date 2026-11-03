@@ -56,8 +56,8 @@ The standalone app imports:
 | --- | --- |
 | `.txt`, `.md` | The text as is (UTF-8). |
 | `.docx` (Word), `.odt` (LibreOffice Writer) | The document as Markdown: headings become `#` sections (`##` and deeper for lower levels), list items start with `-`, bold and italic words keep their emphasis. Comments, footnotes, deleted tracked changes and tables of contents are left out. |
-| `.pptx` (PowerPoint) | The speaker notes of each slide, under a `# Slide N: Title` heading. Slides without notes are skipped. |
-| `.odp` (LibreOffice Impress) | The same, from Impress speaker notes. |
+| `.pptx` (PowerPoint) | The speaker notes of each slide, under a `# Slide N: Title` heading. Slides without notes are skipped, and so are hidden slides: they are not shown in the slideshow. After importing, the status says how many slides were imported and how many hidden ones were left out. |
+| `.odp` (LibreOffice Impress) | The same, from Impress speaker notes, hidden slides left out too. |
 
 Slide text itself is not imported, only the notes you wrote for yourself. **Export…** saves the current script as `.txt` or `.md`.
 

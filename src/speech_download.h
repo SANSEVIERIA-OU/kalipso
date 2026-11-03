@@ -53,6 +53,15 @@ struct Plan {
     qint64 bytes() const;
 };
 Plan plan(const QString &backend, const QString &code, const QString &root, const QJsonObject &catalog = builtIn());
+// The licence of the engine's model for the language, as the catalog names it ("Apache-2.0").
+QString modelLicense(const QString &backend, const QString &code, const QJsonObject &catalog = builtIn());
+// Bytes taken by an installed model's folder.
+qint64 installedBytes(const QString &directory);
+// Whether Kalipso downloaded this model (it is in its own folder), so it may remove it again.
+bool downloaded(const InstalledSpeech &speech, const QString &root = writableRoot());
+// Removes a model Kalipso downloaded; the engine's runtime stays for the other languages. Models
+// installed by hand are never touched.
+bool removeDownloaded(const InstalledSpeech &speech, const QString &root = writableRoot());
 } // namespace SpeechCatalog
 
 // Downloads one engine's runtime (when missing) and one language model, then reports where they

@@ -132,6 +132,30 @@ bool downloadsSupported() {
 
 QString writableRoot() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kalipso"; }
 
+QString modelLicense(const QString &backend, const QString &code, const QJsonObject &catalog) {
+    return catalog.value(backend).toObject().value("models").toObject().value(code).toObject().value("license").toString();
+}
+
+qint64 installedBytes(const QString &directory) {
+    qint64 bytes = 0;
+    QDirIterator files(directory, QDir::Files | QDir::Hidden | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    while (files.hasNext())
+        bytes += files.nextFileInfo().size();
+    return bytes;
+}
+
+bool downloaded(const InstalledSpeech &speech, const QString &root) {
+    const auto models = QFileInfo(root + "/models").canonicalFilePath();
+    const auto model = QFileInfo(speech.model).canonicalFilePath();
+    return !models.isEmpty() && !model.isEmpty() && model.startsWith(models + u'/') && model != models;
+}
+
+bool removeDownloaded(const InstalledSpeech &speech, const QString &root) {
+    if (!downloaded(speech, root))
+        return false;
+    return QDir(QFileInfo(speech.model).canonicalFilePath()).removeRecursively();
+}
+
 QStringList languages(const QJsonObject &catalog) {
     QStringList codes;
     for (const QString backend : {"moonshine", "vosk"})
