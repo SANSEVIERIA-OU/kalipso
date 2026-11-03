@@ -29,6 +29,7 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSettings>
+#include <QElapsedTimer>
 #include <QSignalSpy>
 #include <QSpinBox>
 #include <QStandardPaths>
@@ -1231,12 +1232,31 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QVERIFY(window.importFile(path));
         auto *impress = window.findChild<ImpressFollower *>();
         auto *status = statusLine(window);
+        QSignalSpy said(impress, &ImpressFollower::statusChanged);
+        const auto messages = [&said] {
+            QStringList all;
+            for (const auto &arguments : said)
+                all << arguments.first().toString();
+            return all.join(" | ");
+        };
         QVERIFY(impress->start(path));
-        QTRY_VERIFY_WITH_TIMEOUT(status->text().startsWith("Connected to Impress"), 90000);
+        QTRY_VERIFY2_WITH_TIMEOUT(status->text().startsWith("Connected to Impress"), qPrintable(messages()), 90000);
         const auto press = [&xdotool](const QString &key) {
+            // windowactivate with a window manager; windowfocus also without one, where nothing has focus.
             QProcess::execute(xdotool, {"search", "--sync", "--name", "talk notes", "windowactivate", "--sync"});
+            QProcess::execute(xdotool, {"search", "--name", "talk notes", "windowfocus", "--sync"});
             QProcess::execute(xdotool, {"key", key});
         };
+        // LibreOffice's first start opens "Welcome to LibreOffice!" over the presentation, and it takes the
+        // keys; close it as a presenter would. Later starts do not show it. windowfocus, not windowactivate,
+        // which needs a window manager.
+        for (QElapsedTimer waited; !waited.isValid() || waited.elapsed() < 8000; QTest::qWait(250)) {
+            if (!waited.isValid())
+                waited.start();
+            if (QProcess::execute(xdotool, {"search", "--name", "Welcome to LibreOffice", "windowfocus", "--sync",
+                                            "key", "Escape"}) == 0)
+                break;
+        }
         press("F5");
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("Following Impress · slide 1"), 30000);
         QVERIFY(position(window).contains(" word")); // Not started: how long it is.
