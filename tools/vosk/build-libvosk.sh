@@ -40,7 +40,7 @@ mkdir -p /opt/build && cd /opt/build
 fetch https://github.com/alphacep/kaldi "$KALDI_COMMIT" kaldi
 fetch https://github.com/OpenMathLib/OpenBLAS "$OPENBLAS_COMMIT" kaldi/tools/OpenBLAS
 fetch https://github.com/alphacep/clapack "$CLAPACK_COMMIT" kaldi/tools/clapack
-fetch https://github.com/alphacep/openfst "$OPENFST_COMMIT" kaldi/tools/openfst-src
+fetch https://github.com/alphacep/openfst "$OPENFST_COMMIT" kaldi/tools/openfst
 fetch https://github.com/alphacep/vosk-api "$VOSK_COMMIT" vosk-api
 
 # OpenBLAS (CBLAS only) and CLAPACK, as upstream builds them.
@@ -52,8 +52,9 @@ mkdir -p "$tools/clapack/BUILD"
 (cd "$tools/clapack/BUILD" && cmake -DCMAKE_C_FLAGS=-fcommon .. >/dev/null && make -s -j "$JOBS")
 find "$tools/clapack/BUILD" -name '*.a' -exec cp -t "$tools/OpenBLAS/install/lib" {} +
 
-# OpenFST, static and with the n-gram and look-ahead extensions.
-(cd "$tools/openfst-src" && autoreconf -i >/dev/null 2>&1 &&
+# OpenFST, static and with the n-gram and look-ahead extensions, installed into its own source folder as
+# upstream does: Kaldi's configure reads the version from its Makefile.
+(cd "$tools/openfst" && autoreconf -i >/dev/null 2>&1 &&
     CFLAGS="-g -O3" ./configure -q --prefix="$tools/openfst" --enable-static --enable-shared --enable-far \
         --enable-ngram-fsts --enable-lookahead-fsts --with-pic --disable-bin && make -s -j "$JOBS" && make -s install)
 
@@ -73,7 +74,7 @@ mkdir -p "$stage/licenses"
 cp libvosk.so vosk_api.h "$stage/"
 cp /opt/build/vosk-api/COPYING "$stage/licenses/vosk-COPYING"
 cp /opt/build/kaldi/COPYING "$stage/licenses/kaldi-COPYING"
-cp "$tools/openfst-src/COPYING" "$stage/licenses/openfst-COPYING"
+cp "$tools/openfst/COPYING" "$stage/licenses/openfst-COPYING"
 cp "$tools/OpenBLAS/LICENSE" "$stage/licenses/openblas-LICENSE"
 cp "$tools/clapack/COPYING" "$stage/licenses/clapack-COPYING" 2>/dev/null ||
     cp "$tools/clapack/LICENSE" "$stage/licenses/clapack-LICENSE"
