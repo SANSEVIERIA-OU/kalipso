@@ -145,3 +145,82 @@ jobs:
             artifacts/kalipso-macos.tar.gz
             artifacts/kalipso-macos.dmg
             artifacts/kalipso
+  installers:
+    # The Windows installer, made on Linux with wixl as the release makes it (tools/make-msi.sh), from
+    # the folder the Windows build tested: this version, and a fake previous one to upgrade from.
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: kalipso-windows-2022
+          path: windows
+      - name: Make this version's installer and the previous one's
+        run: |
+          version=$(sed -n 's/^project(Kalipso VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)
+          major=${version%.*} step=${version#*.}
+          if [ "$step" -gt 0 ]; then previous="$major.$((step - 1))"; else previous="$((major - 1)).9"; fi
+          docker run --rm -v "$PWD:/w" -w /w debian:trixie bash -euo pipefail -c '
+            apt-get update -qq && apt-get install -y -qq wixl imagemagick python3 >/dev/null
+            tools/make-msi.sh windows/kalipso "$0" installers/new
+            tools/make-msi.sh windows/kalipso "$1" installers/old' "$version" "$previous"
+          sudo chown -R "$(id -u):$(id -g)" installers
+          echo "$version" > installers/version
+          ls -lR installers
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          retention-days: 7 # Intermediate files: releases keep their own copies.
+          name: kalipso-installers
+          path: installers
+  installer-on-windows:
+    # What someone on Windows does: install an older Kalipso, upgrade it with this installer, start it,
+    # remove it. The same checks as tools/test-msi-wine.sh, on a real Windows.
+    needs: installers
+    runs-on: windows-2022
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: kalipso-installers
+          path: installers
+      - name: Install, upgrade, start and remove
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = (Get-Content installers/version).Trim()
+          $new = (Get-ChildItem installers/new/*.msi).FullName
+          $old = (Get-ChildItem installers/old/*.msi).FullName
+          function Msi($action, $file, $log) {
+            $run = Start-Process msiexec.exe -ArgumentList $action, "`"$file`"", '/qn', '/l*v', $log -Wait -PassThru
+            if ($run.ExitCode -notin 0, 3010) { Get-Content $log -Tail 40; throw "msiexec $action ended with $($run.ExitCode)" }
+          }
+          function Entries {
+            @(Get-ItemProperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' -ErrorAction SilentlyContinue |
+              Where-Object { $_.DisplayName -like 'Kalipso*' })
+          }
+          function Shortcuts {
+            @(Get-ChildItem "$env:ProgramData\Microsoft\Windows\Start Menu", "$env:APPDATA\Microsoft\Windows\Start Menu" `
+              -Recurse -Filter 'Kalipso.lnk' -ErrorAction SilentlyContinue)
+          }
+          $program = Join-Path $env:ProgramFiles 'Kalipso'
+          $kept = Join-Path $env:APPDATA 'sansevieria-ou\kept.txt'
+          Msi '/i' $old old.log
+          "older: $((Entries).DisplayVersion -join ', ')"
+          New-Item -ItemType Directory -Force (Split-Path $kept) | Out-Null
+          Set-Content $kept 'my script'
+          Msi '/i' $new new.log
+          $entries = Entries
+          "installed: $($entries.DisplayVersion -join ', ')"
+          if ($entries.Count -ne 1) { throw "Expected one Kalipso entry, found $($entries.Count)" }
+          if (-not $entries[0].DisplayVersion.StartsWith($version)) { throw "Installed $($entries[0].DisplayVersion), expected $version" }
+          if (-not (Test-Path "$program\bin\kalipso.exe")) { throw 'No kalipso.exe in Program Files' }
+          if ((Shortcuts).Count -eq 0) { throw 'No Start menu item' }
+          $app = Start-Process "$program\bin\kalipso.exe" -ArgumentList '--demo', '--quit-after', '1500' -Wait -PassThru
+          if ($app.ExitCode -ne 0) { throw "The installed app exited with $($app.ExitCode)" }
+          'app: started and quit'
+          Msi '/x' $new remove.log
+          if ((Entries).Count -ne 0) { throw 'Still in the installed programs' }
+          if (Test-Path "$program\bin\kalipso.exe") { throw 'Program files left behind' }
+          if ((Shortcuts).Count -ne 0) { throw 'Start menu item left behind' }
+          if ((Get-Content $kept) -ne 'my script') { throw "The user's files were removed" }
+          "removed; the user's files are still there"

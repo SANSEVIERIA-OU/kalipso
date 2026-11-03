@@ -79,7 +79,13 @@ What the installer does (`packaging/windows/kalipso.wxs`):
   to replace a newer version;
 - scripts and settings live in the user's AppData and registry, and are never touched.
 
-`tools/test-msi-wine.sh` checks an installer under Wine. In a new Wine prefix it:
+On every change the "macOS and Windows" workflow checks the installer on a real Windows (Windows
+Server 2022): the job `installers` makes this version's installer and a previous version's from the
+tested build, as the release does, and `installer-on-windows` installs the older one, upgrades it (one
+entry in Settings → Apps, the new version), starts the installed app, removes it (no program files, no
+entry, no Start menu item) and checks that a file in the user's AppData is still there.
+
+`tools/test-msi-wine.sh` runs the same checks under Wine, without Windows. In a new Wine prefix it:
 1. installs an older one;
 2. upgrades it with the new one;
 3. starts the installed app;

@@ -6,7 +6,7 @@
 #   3. the installed app starts and quits by itself;
 #   4. a file in the user's AppData survives the upgrade and the removal;
 #   5. removing it leaves no program files, no entry, no Start menu item.
-# The app itself is also started on real Windows by the "macOS and Windows" workflow.
+# The "macOS and Windows" workflow runs the same checks on a real Windows (job installer-on-windows).
 #
 # Usage: xvfb-run -a tools/test-msi-wine.sh <new.msi> [<older.msi>]
 # Needs: wine (64-bit), x86_64-w64-mingw32-gcc (Debian/Ubuntu: gcc-mingw-w64-x86-64).
