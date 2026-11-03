@@ -143,6 +143,6 @@ To try `kalipso-bin` before a release, on Arch:
   Developer ID signing and notarization need the Apple Developer Program (99 USD a year). The `.rpm` is
   not signed either: Fedora's `rpm -i` refuses it, and `dnf install` accepts it after a warning.
 - **Microsoft Store**: an MSIX package, which the Store signs, so people who install from it see no
-  SmartScreen warning. It needs a company Partner Center account for SANSEVIERIA OÜ (see its issue).
+  SmartScreen warning. It needs a company Partner Center account for SANSEVIERIA OÜ (#68).
 - The Plasma widget and the GNOME extension are not listed on the KDE Store or extensions.gnome.org:
   every Linux package installs them with the app (decided on 3 November 2026).
