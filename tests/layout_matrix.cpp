@@ -111,6 +111,19 @@ void checkWindow(const QString &state, QWidget *root) {
         if (auto *label = qobject_cast<QLabel *>(widget);
             label && label->wordWrap() && !label->text().isEmpty() && label->heightForWidth(label->width()) > label->height() + 1)
             problem(state, describe(label) + " cut at the bottom");
+        // A field's label ("Start or" / "pause") that breaks over lines although its row has room for
+        // it on one: it reads as two things.
+        if (auto *label = qobject_cast<QLabel *>(widget); label && label->buddy() && !label->text().isEmpty()) {
+            const int oneLine = label->fontMetrics().horizontalAdvance(label->text());
+            const int room = label->parentWidget()->contentsRect().right() - label->geometry().left();
+            const int textHeight = label->wordWrap() ? label->heightForWidth(label->width()) : label->fontMetrics().height();
+            if (textHeight > label->fontMetrics().lineSpacing() * 3 / 2 && oneLine + 4 <= room)
+                problem(state, QString("%1 breaks over lines (needs %2 on one, has %3 in its row, is %4 wide)")
+                                   .arg(describe(label))
+                                   .arg(oneLine)
+                                   .arg(room)
+                                   .arg(label->width()));
+        }
         // A button cut: too narrow for its one-line label, or (buttons whose label wraps) too low.
         if (auto *button = qobject_cast<QPushButton *>(widget); button && !button->text().isEmpty()) {
             const bool wraps = button->sizePolicy().hasHeightForWidth();
