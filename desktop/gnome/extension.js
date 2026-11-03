@@ -28,7 +28,8 @@ const C = paletteColors('dark');
 // ease() follows the animation setting: with animations off nothing moves.
 const MOTIONS = {'go-next-symbolic': 'forward', 'go-previous-symbolic': 'back', 'go-first-symbolic': 'back',
     'media-playback-start-symbolic': 'grow', 'media-playback-pause-symbolic': 'grow', 'document-edit-symbolic': 'tilt',
-    'applications-system-symbolic': 'turn', 'window-close-symbolic': 'shrink', 'object-select-symbolic': 'grow'};
+    'applications-system-symbolic': 'turn', 'window-close-symbolic': 'shrink', 'object-select-symbolic': 'grow',
+    'document-open-symbolic': 'down'};
 const ENTER = parseInt(T.site.enter), EXIT = parseInt(T.site.exit), PRESS = parseInt(T.site.press);
 
 // Script, reading position and preferences, saved as JSON in the user data folder.
@@ -132,6 +133,13 @@ export default class Kalipso extends Extension {
         this._countdownLeft = 0;
         this._countdownTimer = 0;
         this._pane = '';
+        // The app's scripts, read through the companion; _scriptId is the one read ('' is the script
+        // written here). Positions of the app's scripts are kept here, by id.
+        this._library = [];
+        this._scriptId = '';
+        this._positions = {};
+        this._loadedModified = '';
+        this._libraryTimer = 0;
         this._status = _('Choose the language you speak.');
         this._languages = [];
         this._languageCodes = '';
@@ -177,6 +185,9 @@ export default class Kalipso extends Extension {
 
     disable() {
         this.stopSteady();
+        if (this._libraryTimer)
+            GLib.source_remove(this._libraryTimer);
+        this._libraryTimer = 0;
         this.stopColorSampling();
         this.stopLanguagePoll();
         this.state?.flush();
@@ -205,8 +216,14 @@ export default class Kalipso extends Extension {
             this.editor.set_text(values.script); // Updates the tracker through text-changed.
         if (Number.isInteger(values.position) && values.position >= 0)
             this.tracker.seekCharacter(values.position);
+        if (values.positions && typeof values.positions === 'object')
+            this._positions = {...values.positions};
+        if (typeof values.scriptId === 'string')
+            this._scriptId = values.scriptId;
         if (['manual', 'steady', 'voice'].includes(values.mode))
             this._mode = values.mode;
+        else
+            this._chooseDefaultMode();
         if (Number.isInteger(values.speed))
             this._speed = Math.max(40, Math.min(400, values.speed));
         if (['none', 'horizontal', 'vertical'].includes(values.mirror))
@@ -224,6 +241,147 @@ export default class Kalipso extends Extension {
         if (['auto', 'dark', 'light'].includes(values.appearance))
             this.appearance(values.appearance);
         this.render();
+        this.refreshLibrary();
+    }
+
+    // As in the app: follow the voice when a language is installed, otherwise scroll at a steady speed.
+    async _chooseDefaultMode() {
+        this._mode = 'steady';
+        try {
+            const settings = await this.local.settings();
+            if (this.actor && settings.dependencies?.ready && !this.state?.values.mode)
+                this._mode = 'voice';
+        } catch {
+            // No companion: steady speed.
+        }
+        this.render();
+    }
+
+    // --- The app's scripts ---
+    get fromLibrary() {
+        return this._scriptId !== '';
+    }
+
+    _positionNow() {
+        return this.tracker.position >= 0 ? this.tracker.words[this.tracker.position].start : -1;
+    }
+
+    _rememberPosition() {
+        if (!this.fromLibrary) {
+            this.state?.update({position: this._positionNow()});
+            return;
+        }
+        if (this._positions[this._scriptId] === this._positionNow())
+            return;
+        this._positions = {...this._positions, [this._scriptId]: this._positionNow()};
+        this.state?.update({positions: this._positions});
+    }
+
+    async refreshLibrary() {
+        const info = await this.local.scripts();
+        if (!this.actor)
+            return;
+        this._library = info.available ? info.scripts : [];
+        this._buildScriptButtons();
+        const ids = this._library.map(item => item.id);
+        if (this.fromLibrary) {
+            const entry = this._library.find(item => item.id === this._scriptId);
+            if (!entry)
+                this.useOwnScript(); // Deleted in the app, or the companion is gone.
+            else if (entry.modified !== this._loadedModified)
+                await this._loadScript(entry.id, this._loadedModified === '');
+        } else if (!this.state?.values.script && ids.length) {
+            // Nothing written here yet: the script open in the app, or the newest.
+            await this.chooseScript(ids.includes(info.current) ? info.current : ids[0]);
+        }
+        this.render();
+    }
+
+    async chooseScript(id) {
+        if (id === this._scriptId && this._loadedModified)
+            return;
+        this.stop();
+        this._rememberPosition();
+        this._scriptId = id;
+        this._loadedModified = '';
+        this.state?.update({scriptId: id});
+        await this._loadScript(id, true);
+    }
+
+    // `fresh` restores where reading was (here, or else in the app); a script changed in the app keeps
+    // the reading place through the change.
+    async _loadScript(id, fresh) {
+        let script;
+        try {
+            script = await this.local.script(id);
+        } catch {
+            this.useOwnScript();
+            return;
+        }
+        if (!this.actor || script.id !== this._scriptId)
+            return;
+        this._loadedModified = script.modified;
+        this.tracker.setText(script.text);
+        if (fresh) {
+            const saved = this._positions[id];
+            const character = saved !== undefined ? saved : script.position;
+            if (character >= 0)
+                this.tracker.seekCharacter(character);
+            else
+                this.tracker.seek(-1);
+        }
+        this.local?.setScript(script.text);
+        this.render();
+    }
+
+    useOwnScript() {
+        if (this.fromLibrary)
+            this._rememberPosition();
+        this.stop();
+        this._scriptId = '';
+        this._loadedModified = '';
+        this.state?.update({scriptId: ''});
+        this.tracker.setText(this.editor.get_text() || sample());
+        const position = this.state?.values.position;
+        if (Number.isInteger(position) && position >= 0)
+            this.tracker.seekCharacter(position);
+        else
+            this.tracker.seek(-1);
+        this.render();
+    }
+
+    _minutes(script) {
+        return Math.max(1, Math.ceil(script.words / (script.speed > 0 ? script.speed : this._speed)));
+    }
+
+    _buildScriptButtons() {
+        this.scriptsBox.destroy_all_children();
+        this.scriptButtons = [];
+        for (const script of this._library) {
+            const button = this.button(_('%s · %d min').format(script.title, this._minutes(script)), () => {
+                this.chooseScript(script.id);
+                this.showPane('');
+            });
+            this.scriptButtons.push([script.id, script.title, button]);
+            this.scriptsBox.add_child(button);
+        }
+        const own = this.button(_('A script written here'), () => {
+            this.useOwnScript();
+            this.showPane('');
+        });
+        this.scriptButtons.push(['', _('A script written here'), own]);
+        this.scriptsBox.add_child(own);
+    }
+
+    editAction() {
+        if (!this.fromLibrary) {
+            this.showPane(this._pane === 'edit' ? '' : 'edit');
+            return;
+        }
+        this.local.openInApp(this._scriptId).catch(error => {
+            this._status = String(error.message);
+            this.render();
+        });
     }
 
     _buildIndicator() {
@@ -276,11 +434,13 @@ export default class Kalipso extends Extension {
         this.previousSection.accessible_name = _('Previous section');
         this.nextSection = this.button(_('Section ›'), () => this.jumpSection(1), 'quiet');
         this.nextSection.accessible_name = _('Next section');
-        this.editButton = this.button(_('Edit script'), () => this.showPane(this._pane === 'edit' ? '' : 'edit'), 'quiet',
-            'document-edit-symbolic');
+        this.scriptsButton = this.button(_('Scripts'), () => this.showPane(this._pane === 'scripts' ? '' : 'scripts'),
+            'quiet', 'document-open-symbolic');
+        this.scriptsButton.accessible_name = _("Choose one of Kalipso's scripts");
+        this.editButton = this.button(_('Edit script'), () => this.editAction(), 'quiet', 'document-edit-symbolic');
         this.settingsButton = this.button(_('Settings'), () => this.showPane(this._pane === 'settings' ? '' : 'settings'), 'quiet',
             'applications-system-symbolic');
-        for (const child of [this.previousSection, this.nextSection, this.editButton, this.settingsButton,
+        for (const child of [this.scriptsButton, this.previousSection, this.nextSection, this.editButton, this.settingsButton,
             this.button(_('Hide'), () => this.hide(), 'quiet', 'window-close-symbolic')])
             header.add_child(child);
 
@@ -319,7 +479,17 @@ export default class Kalipso extends Extension {
 
         this._buildEditPane();
         this._buildSettingsPane();
+        // Kalipso's scripts, the same as in the app, and the one written here.
+        this.scriptsPane = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, style_class: 'tp-pane',
+            style: `spacing:${N.gap}px;padding-top:${N.gap}px;`});
+        this.scriptsPane.add_child(this._group(_('Scripts')));
+        this.scriptsBox = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, x_expand: true,
+            style: `spacing:${T.space[2]};`});
+        this.scriptsPane.add_child(this.scriptsBox);
+        this.scriptsPane.add_child(this._note(_('Scripts are written and changed in the Kalipso app; here they are read.')));
+        this.scriptButtons = [];
         this.secondaryContent = new St.BoxLayout({orientation: Clutter.Orientation.VERTICAL, x_expand: true});
+        this.secondaryContent.add_child(this.scriptsPane);
         this.secondaryContent.add_child(this.editPane);
         this.secondaryContent.add_child(this.settingsPane);
         this.secondaryScroll = new St.ScrollView({x_expand: true});
@@ -347,7 +517,7 @@ export default class Kalipso extends Extension {
         this.editor.clutter_text.connect('key-focus-in', () => this.reveal(this.editor));
         this.editor.clutter_text.connect('text-changed', () => {
             const text = this.editor.get_text();
-            if (text === this.tracker.text)
+            if (text === this.tracker.text || this.fromLibrary)
                 return;
             this.tracker.setText(text);
             this.local?.setScript(text);
@@ -825,7 +995,8 @@ export default class Kalipso extends Extension {
         if (pane === 'edit')
             this.editor.grab_key_focus();
         if (!pane)
-            (previous === 'edit' ? this.editButton : this.settingsButton).grab_key_focus();
+            (previous === 'edit' ? this.editButton : previous === 'scripts' ? this.scriptsButton
+                : this.settingsButton).grab_key_focus();
     }
 
     toggle() {
@@ -838,6 +1009,17 @@ export default class Kalipso extends Extension {
         if (this._appearance === 'auto')
             this.appearance('auto');
         this.primary.grab_key_focus();
+        // The app may change a script or add one: the list follows while the reader is on screen.
+        this.refreshLibrary();
+        if (!this._libraryTimer)
+            this._libraryTimer = GLib.timeout_add_seconds(GLib.PRIORITY_LOW, 10, () => {
+                if (!this.actor?.visible) {
+                    this._libraryTimer = 0;
+                    return GLib.SOURCE_REMOVE;
+                }
+                this.refreshLibrary();
+                return GLib.SOURCE_CONTINUE;
+            });
     }
 
     hide() {
@@ -1007,7 +1189,7 @@ export default class Kalipso extends Extension {
         this.reader.set_markup(this.tracker.words.length
             ? this.tracker.readingMarkup(C.overlayMuted, C.overlayText, scale >= 1.8 ? -1 : scale >= 1.5 ? 0 : 4,
                 {text: C.overlayText, tint: C.tint, line: C.reading})
-            : `<span foreground="${C.overlayMuted}">Add your script to begin.</span>`);
+            : `<span foreground="${C.overlayMuted}">${GLib.markup_escape_text(_('Add your script to begin.'), -1)}</span>`);
         this.counter.set_text(`${this.tracker.position + 1} / ${this.tracker.words.length}`);
         const words = this.tracker.words.length;
         this.progressFill.width = Math.round(this.mainContent.width * (words ? (this.tracker.position + 1) / words : 0));
@@ -1034,10 +1216,13 @@ export default class Kalipso extends Extension {
         this.speedRow.visible = this._mode === 'steady';
         this.speedLabel.set_text(_('%d words/min').format(this._speed));
         this.stateLabel.set_text(this._stateText(listening, pending));
-        this.editPane.visible = this._pane === 'edit';
+        this.scriptsButton.visible = this._library.length > 0;
+        this.scriptsPane.visible = this._pane === 'scripts';
+        this.editPane.visible = this._pane === 'edit' && !this.fromLibrary;
         this.settingsPane.visible = this._pane === 'settings';
         this.secondaryScroll.visible = Boolean(this._pane);
-        this.editButton.label = this._pane === 'edit' ? _('Done editing') : _('Edit script');
+        this.editButton.label = this.fromLibrary ? _('Edit in Kalipso')
+            : this._pane === 'edit' ? _('Done editing') : _('Edit script');
         this.editButton._glyph.icon_name = this._pane === 'edit' ? 'object-select-symbolic' : 'document-edit-symbolic';
         this.settingsButton.label = this._pane === 'settings' ? _('Done') : _('Settings');
         this.settingsButton._glyph.icon_name = this._pane === 'settings' ? 'object-select-symbolic' : 'applications-system-symbolic';
@@ -1056,6 +1241,7 @@ export default class Kalipso extends Extension {
         mark(this.fontButtons, this._fontFamily);
         mark(this.spacingButtons, this._lineSpacing);
         mark(this.countdownButtons, this._countdown);
+        mark(this.scriptButtons, this._scriptId);
         this.countdownLabel.visible = this._countdownTimer !== 0;
         this.countdownLabel.text = String(this._countdownLeft);
         const installing = Boolean(this._install.active);
@@ -1078,7 +1264,7 @@ export default class Kalipso extends Extension {
         this.languageNote.set_text(this._downloads
             ? _("Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent.")
             : _('Kalipso downloads speech models on Linux for x86_64 computers.'));
-        this.state?.update({position: this.tracker.position >= 0 ? this.tracker.words[this.tracker.position].start : -1});
+        this._rememberPosition();
         this.place();
         if (this.diagnostics)
             console.log('KALIPSO_TEST_STATE ' + JSON.stringify({position: this.tracker.position, status: this._status}));

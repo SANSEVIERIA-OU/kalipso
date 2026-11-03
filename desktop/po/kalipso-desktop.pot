@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 14:43+0000\n"
+"POT-Creation-Date: 2026-11-03 10:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,306 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-msgid "Choose the language you speak."
-msgstr ""
-
-msgid ""
-"Local speech is unavailable. Open Local speech setup to install the "
-"companion and a language model."
-msgstr ""
-
-msgid "your language"
-msgstr ""
-
-msgid "Ready to listen in %1, with %2."
-msgstr ""
-
-msgid "Checking local speech components"
-msgstr ""
-
-msgid "Microphone stopped"
-msgstr ""
-
-msgid "Choose the window behind the reader. Desktop permission is required."
-msgstr ""
-
-msgid ""
-"Window colors unavailable. Install or update the Kalipso companion and the "
-"desktop sharing portal."
-msgstr ""
-
-msgid "Choose the window behind your reader in the desktop sharing dialog"
-msgstr ""
-
-msgid "Window sharing stopped · Choose a background window to resume"
-msgstr ""
-
-msgid "German"
-msgstr ""
-
-msgid "English"
-msgstr ""
-
-msgid "Spanish"
-msgstr ""
-
-msgid "French"
-msgstr ""
-
-msgid "Italian"
-msgstr ""
-
-msgid "Japanese"
-msgstr ""
-
-msgid "Chinese"
-msgstr ""
-
-msgid ""
-"A little preparation makes room for a better conversation. [smile] Take your "
-"time. Read the first sentence aloud and watch the words follow you."
-msgstr ""
-
-msgid "Add your script to begin."
-msgstr ""
-
-msgid "Kalipso"
-msgstr ""
-
-msgid ""
-"This Kalipso companion cannot download languages. Install or update it, then "
-"log out and back in."
-msgstr ""
-
-msgid "Checking and unpacking %1…"
-msgstr ""
-
-msgid "Downloading %1: %2 of %3 MB"
-msgstr ""
-
-msgid "Ready to listen in %1. Choose Follow my voice and start listening."
-msgstr ""
-
-msgid "Download cancelled. Nothing was changed."
-msgstr ""
-
-msgid "Couldn't download %1. Check the internet connection and try again."
-msgstr ""
-
-msgid ""
-"The %1 download didn't match its fingerprint, so it was deleted. Try again "
-"later."
-msgstr ""
-
-msgid "The %1 model couldn't be unpacked. Try again later."
-msgstr ""
-
-msgid ""
-"Couldn't save %1: there isn't enough free space, or the data folder can't be "
-"written."
-msgstr ""
-
 msgid "%1 is downloaded. Choose it again when you stop listening."
-msgstr ""
-
-msgid "Kalipso downloads speech models on Linux for x86_64 computers."
-msgstr ""
-
-msgid "Start listening"
-msgstr ""
-
-msgid "Sections"
-msgstr ""
-
-msgid "Done editing"
-msgstr ""
-
-msgid "Edit script"
-msgstr ""
-
-msgid "Done"
-msgstr ""
-
-msgid "Settings"
-msgstr ""
-
-msgid "Reading progress"
-msgstr ""
-
-msgid "Reading excerpt"
-msgstr ""
-
-msgid "Open Edit script to read or change the complete script."
-msgstr ""
-
-msgid "Next words"
-msgstr ""
-
-msgid "Pause"
-msgstr ""
-
-msgid "Start scrolling"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "Previous"
-msgstr ""
-
-msgid "Reset"
-msgstr ""
-
-msgid "Slower"
-msgstr ""
-
-msgid "%1 words/min"
-msgstr ""
-
-msgid "Faster"
-msgstr ""
-
-msgid "End of script · Microphone off"
-msgstr ""
-
-msgid "Manual · Microphone off"
-msgstr ""
-
-msgid "Starting in %1 second…"
-msgid_plural "Starting in %1 seconds…"
-msgstr[0] ""
-msgstr[1] ""
-
-msgid "Scrolling · Microphone off"
-msgstr ""
-
-msgid "Paused · Microphone off"
-msgstr ""
-
-msgid "Off script · Kalipso catches up when you return to the text"
-msgstr ""
-
-msgid "Listening · On this device"
-msgstr ""
-
-msgid "Starting local speech…"
-msgstr ""
-
-msgid "Speech unavailable · Open Settings"
-msgstr ""
-
-msgid "The microphone turns on when you start"
-msgstr ""
-
-msgid "Script"
-msgstr ""
-
-msgid ""
-"Saved automatically. [Bracketed cues] are shown but not read aloud. Lines "
-"starting with # are sections."
-msgstr ""
-
-msgid "Reading mode"
-msgstr ""
-
-msgid "Manual"
-msgstr ""
-
-msgid "Steady speed"
-msgstr ""
-
-msgid "Follow my voice"
-msgstr ""
-
-msgid "Language you speak"
-msgstr ""
-
-msgid "%1 · download %2 MB"
-msgstr ""
-
-msgid "Download progress"
-msgstr ""
-
-msgid "Cancel download"
-msgstr ""
-
-msgid "Try again"
-msgstr ""
-
-msgid ""
-"Choosing a language downloads its speech model once, from the model's "
-"publisher, and checks it against a fingerprint. Recognition then runs on "
-"this computer: nothing you say is sent."
-msgstr ""
-
-msgid "Reader colors"
-msgstr ""
-
-msgid "Desktop theme"
-msgstr ""
-
-msgid "Dark"
-msgstr ""
-
-msgid "Light"
-msgstr ""
-
-msgid "Choose background window…"
-msgstr ""
-
-msgid "Stop window sharing"
-msgstr ""
-
-msgid ""
-"Window colors follow the window you select while this reader is visible. "
-"Images stay in memory and are never saved or sent. Requires the Kalipso "
-"companion, PipeWire and the desktop sharing portal. Every color mode keeps "
-"an opaque reading background."
-msgstr ""
-
-msgid "Mirror"
-msgstr ""
-
-msgid "Off"
-msgstr ""
-
-msgid "Horizontal"
-msgstr ""
-
-msgid "Vertical"
-msgstr ""
-
-msgid "Reading size"
-msgstr ""
-
-msgid "Smaller"
-msgstr ""
-
-msgid "Larger"
-msgstr ""
-
-msgid "Reader font"
-msgstr ""
-
-msgid "Interface font"
-msgstr ""
-
-msgid "Serif"
-msgstr ""
-
-msgid "Line spacing"
-msgstr ""
-
-msgid "Normal"
-msgstr ""
-
-msgid "Relaxed"
-msgstr ""
-
-msgid "Wide"
-msgstr ""
-
-msgid "Countdown before steady scrolling"
 msgstr ""
 
 msgid "%1 second"
@@ -325,16 +26,29 @@ msgid_plural "%1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Local speech setup ↗"
+msgid "%1 words/min"
 msgstr ""
 
-msgid "Local speech setup, opens in your browser"
+msgid "%1 · %2 min"
 msgstr ""
 
-msgid ""
-"Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change "
-"the steady speed. Screen sharing may include this widget; check what other "
-"participants see."
+msgid "%1 · download %2 MB"
+msgstr ""
+
+#, javascript-format
+msgid "%d words/min"
+msgstr ""
+
+#, javascript-format
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr ""
+
+#, javascript-format
+msgid "%s · %d min"
+msgstr ""
+
+#, javascript-format
+msgid "%s · download %d MB"
 msgstr ""
 
 msgid ""
@@ -344,28 +58,179 @@ msgid ""
 "you are ready."
 msgstr ""
 
+msgid ""
+"A little preparation makes room for a better conversation. [smile] Take your "
+"time. Read the first sentence aloud and watch the words follow you."
+msgstr ""
+
+msgid "A script written here"
+msgstr ""
+
+msgid "Add your script to begin."
+msgstr ""
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Automatic"
+msgstr ""
+
 msgid "Automatic samples colors around the reader. No images are saved."
 msgstr ""
 
-msgid "‹ Section"
+msgid "Cancel"
 msgstr ""
 
-msgid "Previous section"
+msgid "Cancel download"
 msgstr ""
 
-msgid "Section ›"
+msgid "Checking and unpacking %1…"
 msgstr ""
 
-msgid "Next section"
+#, javascript-format
+msgid "Checking and unpacking %s…"
+msgstr ""
+
+msgid "Checking local speech components"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Choose one of Kalipso's scripts"
+msgstr ""
+
+msgid "Choose the language you speak."
+msgstr ""
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr ""
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr ""
+
+msgid ""
+"Choosing a language downloads its speech model once, from the model's "
+"publisher, and checks it against a fingerprint. Recognition then runs on "
+"this computer: nothing you say is sent."
+msgstr ""
+
+msgid "Configure Kalipso…"
+msgstr ""
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr ""
+
+#, javascript-format
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr ""
+
+msgid ""
+"Couldn't save %1: there isn't enough free space, or the data folder can't be "
+"written."
+msgstr ""
+
+#, javascript-format
+msgid ""
+"Couldn't save %s: there isn't enough free space, or the data folder can't be "
+"written."
+msgstr ""
+
+msgid "Countdown before steady scrolling"
+msgstr ""
+
+msgid "Countdown before steady scrolling:"
+msgstr ""
+
+msgid "Dark"
+msgstr ""
+
+msgid "Desktop theme"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Done editing"
+msgstr ""
+
+msgid "Download and use"
+msgstr ""
+
+msgid "Download cancelled. Nothing was changed."
+msgstr ""
+
+msgid "Download progress"
+msgstr ""
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr ""
+
+#, javascript-format
+msgid "Downloading %s: %d of %d MB"
+msgstr ""
+
+msgid "Edit in Kalipso"
+msgstr ""
+
+msgid "Edit script"
+msgstr ""
+
+msgid "End of script · Microphone off"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Faster"
+msgstr ""
+
+msgid "Follow a window's colors…"
+msgstr ""
+
+msgid "Follow my voice"
+msgstr ""
+
+msgid "Font:"
+msgstr ""
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Help:"
 msgstr ""
 
 msgid "Hide"
 msgstr ""
 
-msgid "SCRIPT"
+msgid "Horizontal"
 msgstr ""
 
-msgid "Automatic"
+msgid "Interface font"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "Kalipso"
+msgstr ""
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr ""
+
+msgid ""
+"Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change "
+"the steady speed. Screen sharing may include this widget; check what other "
+"participants see."
 msgstr ""
 
 msgid ""
@@ -374,7 +239,25 @@ msgid ""
 "participants see."
 msgstr ""
 
-msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgid "Language you speak"
+msgstr ""
+
+msgid "Language you speak:"
+msgstr ""
+
+msgid "Larger"
+msgstr ""
+
+msgid "Light"
+msgstr ""
+
+msgid "Line spacing"
+msgstr ""
+
+msgid "Line spacing:"
+msgstr ""
+
+msgid "Listening · On this device"
 msgstr ""
 
 msgid ""
@@ -382,24 +265,207 @@ msgid ""
 "companion and language model."
 msgstr ""
 
+msgid ""
+"Local speech is unavailable. Open Local speech setup to install the "
+"companion and a language model."
+msgstr ""
+
+msgid "Local speech recognition follows what you say."
+msgstr ""
+
+msgid "Local speech setup"
+msgstr ""
+
+msgid "Local speech setup ↗"
+msgstr ""
+
+#, javascript-format
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr ""
+
+msgid "Manual"
+msgstr ""
+
+msgid "Manual · Microphone off"
+msgstr ""
+
+msgid "Microphone stopped"
+msgstr ""
+
+msgid "Mirror"
+msgstr ""
+
+msgid "Mirror:"
+msgstr ""
+
+msgid "More"
+msgstr ""
+
+msgid "Next section"
+msgstr ""
+
+msgid "Next words"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr ""
+
+msgid "Open Edit script to read or change the complete script."
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "Paused · Microphone off"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Previous section"
+msgstr ""
+
+msgid "Reader colors"
+msgstr ""
+
+msgid "Reader colors:"
+msgstr ""
+
+msgid "Reader font"
+msgstr ""
+
+msgid "Reading"
+msgstr ""
+
+msgid "Reading excerpt"
+msgstr ""
+
+msgid "Reading mode"
+msgstr ""
+
+msgid "Reading mode:"
+msgstr ""
+
+msgid "Reading mode: %1"
+msgstr ""
+
+msgid "Reading progress"
+msgstr ""
+
+msgid "Reading size"
+msgstr ""
+
+msgid "Ready to listen in %1, with %2."
+msgstr ""
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr ""
+
 #, javascript-format
 msgid "Ready to listen in %s, with %s."
-msgstr ""
-
-#, javascript-format
-msgid "Checking and unpacking %s…"
-msgstr ""
-
-#, javascript-format
-msgid "Downloading %s: %d of %d MB"
 msgstr ""
 
 #, javascript-format
 msgid "Ready to listen in %s. Choose Follow my voice and start listening."
 msgstr ""
 
-#, javascript-format
-msgid "Couldn't download %s. Check the internet connection and try again."
+msgid "Relaxed"
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "SCRIPT"
+msgstr ""
+
+msgid ""
+"Saved automatically. [Bracketed cues] are shown but not read aloud. Lines "
+"starting with # are sections."
+msgstr ""
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr ""
+
+msgid "Script"
+msgstr ""
+
+msgid "Script: %1"
+msgstr ""
+
+msgid "Scripts"
+msgstr ""
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr ""
+
+msgid "Scrolling · Microphone off"
+msgstr ""
+
+msgid "Section ›"
+msgstr ""
+
+msgid "Sections"
+msgstr ""
+
+msgid "Serif"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Slower"
+msgstr ""
+
+msgid "Smaller"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr ""
+
+msgid "Speech unavailable · Open Settings"
+msgstr ""
+
+msgid "Start listening"
+msgstr ""
+
+msgid "Start scrolling"
+msgstr ""
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Starting local speech…"
+msgstr ""
+
+msgid "Steady speed"
+msgstr ""
+
+msgid "Steady speed:"
+msgstr ""
+
+msgid "Stop following the window"
+msgstr ""
+
+msgid "Text size:"
+msgstr ""
+
+msgid ""
+"The %1 download didn't match its fingerprint, so it was deleted. Try again "
+"later."
+msgstr ""
+
+msgid "The %1 model couldn't be unpacked. Try again later."
 msgstr ""
 
 #, javascript-format
@@ -412,24 +478,50 @@ msgstr ""
 msgid "The %s model couldn't be unpacked. Try again later."
 msgstr ""
 
-#, javascript-format
+msgid "The microphone turns on when you start"
+msgstr ""
+
+msgid "The words advance at the speed below."
+msgstr ""
+
 msgid ""
-"Couldn't save %s: there isn't enough free space, or the data folder can't be "
-"written."
+"This Kalipso companion cannot download languages. Install or update it, then "
+"log out and back in."
 msgstr ""
 
-#, javascript-format
-msgid "%s is downloaded. Choose it again when you stop listening."
+msgid ""
+"To take the colors of a window behind the reader, choose Follow a window's "
+"colors… in the reader's ⋯ menu."
 msgstr ""
 
-#, javascript-format
-msgid "%d words/min"
+msgid "Try again"
 msgstr ""
 
-#, javascript-format
-msgid "%s · download %d MB"
+msgid "Use this language"
 msgstr ""
 
-#, javascript-format
-msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgid "Vertical"
+msgstr ""
+
+msgid "Voice"
+msgstr ""
+
+msgid "Wide"
+msgstr ""
+
+msgid ""
+"Window colors unavailable. Install or update the Kalipso companion and the "
+"desktop sharing portal."
+msgstr ""
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr ""
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr ""
+
+msgid "your language"
+msgstr ""
+
+msgid "‹ Section"
 msgstr ""

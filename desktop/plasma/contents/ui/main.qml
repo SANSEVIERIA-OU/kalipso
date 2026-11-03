@@ -51,17 +51,96 @@ PlasmoidItem {
     function motionOf(icon) {
         return ({"go-next": "forward", "go-previous": "back", "go-first": "back", "media-playback-start": "grow",
                  "media-playback-pause": "grow", "view-list-details": "down", "document-edit": "tilt",
-                 "configure": "grow", "dialog-ok": "grow"})[icon] || ""
+                 "configure": "grow", "dialog-ok": "grow", "document-open": "down", "overflow-menu": "down"})[icon] || ""
     }
 
-    // A language named in the desktop's language, so a missing font never shows its name as boxes.
-    function languageName(language) {
-        return ({de: i18n("German"), en: i18n("English"), es: i18n("Spanish"), fr: i18n("French"),
-                 it: i18n("Italian"), ja: i18n("Japanese"), zh: i18n("Chinese")})[language.code] || language.name
-    }
     // Until the person writes one, the sample script is in the desktop's language.
     readonly property string sampleScript: i18n("A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you.")
     property var tracker: new Tracking.Tracker(config.script || sampleScript)
+
+    // The app's scripts, through the companion: the widget reads the same library as Kalipso.
+    // config.scriptId is the script read from it; "" is the widget's own script (config.script).
+    property var libraryScripts: []
+    readonly property bool libraryAvailable: libraryScripts.length > 0
+    readonly property bool fromLibrary: config.scriptId !== ""
+    property string loadedModified: ""   // The library script's change time, to reload it when the app saves.
+    function positions() {
+        try { return JSON.parse(config.positions || "{}") } catch (error) { return {} }
+    }
+    function rememberPosition() {
+        const character = tracker.position >= 0 ? tracker.words[tracker.position].start : -1
+        if (!fromLibrary) {
+            config.position = character
+            return
+        }
+        const saved = positions()
+        saved[config.scriptId] = character
+        config.positions = JSON.stringify(saved)
+    }
+    function minutesOf(script) {
+        const wordsPerMinute = script.speed > 0 ? script.speed : speed
+        return Math.max(1, Math.ceil(script.words / wordsPerMinute))
+    }
+    function refreshLibrary() {
+        audio.listScripts(function(info) {
+            libraryScripts = info.available ? info.scripts : []
+            const ids = libraryScripts.map(item => item.id)
+            if (fromLibrary) {
+                const entry = libraryScripts.find(item => item.id === config.scriptId)
+                if (!entry)
+                    useOwnScript()               // Deleted in the app, or the companion is gone.
+                else if (entry.modified !== loadedModified)
+                    loadScript(entry.id, loadedModified === "")
+            } else if (!config.script && ids.length) {
+                // Nothing written here yet: the script open in the app, or the newest.
+                chooseScript(ids.indexOf(info.current) >= 0 ? info.current : ids[0])
+            }
+        })
+    }
+    function chooseScript(id) {
+        if (id === config.scriptId && loadedModified !== "")
+            return
+        stop()
+        rememberPosition()
+        config.scriptId = id
+        loadedModified = ""
+        loadScript(id, true)
+    }
+    // Loads a library script; `fresh` restores where reading was (here, or else in the app). A script
+    // changed in the app keeps the reading place through the change.
+    function loadScript(id, fresh) {
+        audio.getScript(id, function(script) {
+            if (script.id !== config.scriptId)
+                return
+            loadedModified = script.modified
+            tracker.setText(script.text)
+            if (fresh) {
+                const saved = positions()[id]
+                const character = saved !== undefined ? saved : script.position
+                if (character >= 0)
+                    tracker.seekCharacter(character)
+                else
+                    tracker.seek(-1)
+            }
+            sectionList = Tracking.sections(tracker.text)
+            audio.setScript(tracker.text)
+            refresh()
+        }, useOwnScript)
+    }
+    function useOwnScript() {
+        if (fromLibrary)
+            rememberPosition()
+        stop()
+        config.scriptId = ""
+        loadedModified = ""
+        tracker.setText(config.script || sampleScript)
+        if (config.position >= 0)
+            tracker.seekCharacter(config.position)
+        else
+            tracker.seek(-1)
+        sectionList = Tracking.sections(tracker.text)
+        refresh()
+    }
     property string markup: ""
     property int readCount: 0
     property int wordCount: 0
@@ -99,53 +178,17 @@ PlasmoidItem {
     }
     function seek(index) { tracker.seek(index); refresh() }
     function jumpTo(character) { tracker.seekCharacter(character); refresh() }
-    function showPane(next) {
-        pane = pane === next ? "" : next
-        if (pane === "settings") {
-            audio.settings()
-            audio.refreshLanguages()
-        }
-    }
+    function showPane(next) { pane = pane === next ? "" : next }
     function setMode(next) {
+        config.mode = next   // onModeChanged stops what was running.
+    }
+    onModeChanged: {
         stop()
-        config.mode = next
-        if (next === "voice")
+        if (mode === "voice")
             audio.settings()
     }
-    function megabytes(bytes) { return Math.round(bytes / 1048576) }
-    // What the language download is doing, in words; empty when there is nothing to say.
-    readonly property string languageStatus: {
-        const job = audio.install
-        const name = audio.nameOf(job.language || "")
-        if (audio.languagesUnavailable)
-            return i18n("This Kalipso companion cannot download languages. Install or update it, then log out and back in.")
-        if (audio.languageError !== "")
-            return audio.languageError
-        if (job.active)
-            return job.stage === "unpacking" ? i18n("Checking and unpacking %1…", name)
-                : i18n("Downloading %1: %2 of %3 MB", name, megabytes(job.received), megabytes(job.total))
-        if (job.stage === "done")
-            return i18n("Ready to listen in %1. Choose Follow my voice and start listening.", name)
-        if (job.stage === "cancelled")
-            return i18n("Download cancelled. Nothing was changed.")
-        if (job.stage !== "failed")
-            return ""
-        switch (job.error) {
-        case "network": return i18n("Couldn't download %1. Check the internet connection and try again.", name)
-        case "fingerprint": return i18n("The %1 download didn't match its fingerprint, so it was deleted. Try again later.", name)
-        case "archive": return i18n("The %1 model couldn't be unpacked. Try again later.", name)
-        case "disk": return i18n("Couldn't save %1: there isn't enough free space, or the data folder can't be written.", name)
-        case "busy": return i18n("%1 is downloaded. Choose it again when you stop listening.", name)
-        default: return i18n("Kalipso downloads speech models on Linux for x86_64 computers.")
-        }
-    }
-    readonly property bool languageRetry: audio.install.stage === "failed"
-        && ["network", "fingerprint", "archive", "disk", "busy"].indexOf(audio.install.error) >= 0
-    property bool focusLanguageAction: false
-    function chooseAppearance(name) {
-        followWindow = false
-        config.appearance = name
-    }
+    readonly property var modeNames: ({manual: i18n("Manual"), steady: i18n("Steady speed"), voice: i18n("Follow my voice")})
+    property string openMessage: ""   // Why the app could not be opened, in the companion's words.
     function changeSpeed(delta) { config.speed = Math.max(40, Math.min(400, speed + delta)) }
     // The primary action for the current mode.
     function toggle() {
@@ -179,10 +222,19 @@ PlasmoidItem {
     onWindowThemeChanged: refresh()
     onVisibleChanged: if (!visible) { windowColors.stop(); stop() }
     Component.onCompleted: {
-        if (config.position >= 0)
+        if (!fromLibrary && config.position >= 0)
             tracker.seekCharacter(config.position)
         sectionList = Tracking.sections(tracker.text)
         refresh()
+        refreshLibrary()
+    }
+    // The app may change a script or add one: the list follows while the reader is on screen.
+    Timer {
+        interval: 10000
+        repeat: true
+        running: root.expanded || !root.inPanel
+        triggeredOnStart: true
+        onTriggered: root.refreshLibrary()
     }
 
     Connections {
@@ -199,7 +251,7 @@ PlasmoidItem {
     Timer {
         id: savePosition
         interval: 1000
-        onTriggered: root.config.position = root.tracker.position >= 0 ? root.tracker.words[root.tracker.position].start : -1
+        onTriggered: root.rememberPosition()
     }
     Timer {
         id: countdown
@@ -331,26 +383,6 @@ PlasmoidItem {
             }
         }
     }
-    // One of several options. The chosen one has an accent border and bold label;
-    // assistive technology hears it as checked.
-    component ChoiceButton: ReaderButton {
-        property bool selected: false
-        property string label
-        chosen: selected
-        text: label
-        Accessible.name: label
-        Accessible.checkable: true
-        Accessible.checked: selected
-    }
-    // A small heading above a group of settings.
-    component GroupLabel: Label {
-        font.family: root.uiFont
-        color: root.c.overlayMuted
-        font.pointSize: Qt.application.font.pointSize * 0.9
-        font.bold: true
-        topPadding: 4
-        Layout.fillWidth: true
-    }
     component ReaderScrollBar: ScrollBar {
         orientation: Qt.Vertical
         policy: ScrollBar.AsNeeded
@@ -439,17 +471,57 @@ PlasmoidItem {
                 width: outerScroll.availableWidth
                 spacing: root.n.gap
 
+                // The script and what to do with it; the settings are in Plasma's dialog (Configure Kalipso…).
                 Flow {
                     Layout.fillWidth: true
                     spacing: 8
                     Label {
                         font.family: root.uiFont
+                        visible: !root.libraryAvailable
                         text: root.scriptTitle
                         color: root.c.overlayMuted
                         elide: Text.ElideRight
                         width: Math.min(implicitWidth, 220)
                         height: root.n.controlHeight
                         verticalAlignment: Text.AlignVCenter
+                    }
+                    // Kalipso's scripts, the same as in the app, and the one written here.
+                    ReaderButton {
+                        objectName: "scriptsButton"
+                        visible: root.libraryAvailable
+                        quiet: true
+                        iconName: "document-open"
+                        text: root.scriptTitle
+                        Accessible.name: i18n("Script: %1", root.scriptTitle)
+                        Accessible.description: i18n("Choose one of Kalipso's scripts")
+                        onClicked: scriptMenu.popup(this, 0, height)
+                        Menu {
+                            id: scriptMenu
+                            Instantiator {
+                                model: root.libraryScripts
+                                delegate: MenuItem {
+                                    required property var modelData
+                                    font.family: root.uiFont
+                                    checkable: true
+                                    autoExclusive: true
+                                    checked: root.config.scriptId === modelData.id
+                                    text: i18n("%1 · %2 min", modelData.title, root.minutesOf(modelData))
+                                    onTriggered: root.chooseScript(modelData.id)
+                                }
+                                onObjectAdded: (index, object) => scriptMenu.insertItem(index, object)
+                                onObjectRemoved: (index, object) => scriptMenu.removeItem(object)
+                            }
+                            MenuSeparator {}
+                            MenuItem {
+                                objectName: "ownScript"
+                                font.family: root.uiFont
+                                checkable: true
+                                autoExclusive: true
+                                checked: !root.fromLibrary
+                                text: i18n("A script written here")
+                                onTriggered: root.useOwnScript()
+                            }
+                        }
                     }
                     ReaderButton {
                         objectName: "sectionsButton"
@@ -473,20 +545,55 @@ PlasmoidItem {
                             }
                         }
                     }
+                    // A script of the app is changed in the app; one written here, here.
                     ReaderButton {
                         id: editToggle
                         objectName: "editToggle"
                         quiet: true
                         iconName: root.pane === "edit" ? "dialog-ok" : "document-edit"
-                        text: root.pane === "edit" ? i18n("Done editing") : i18n("Edit script")
-                        onClicked: root.showPane("edit")
+                        text: root.fromLibrary ? i18n("Edit in Kalipso")
+                            : root.pane === "edit" ? i18n("Done editing") : i18n("Edit script")
+                        onClicked: {
+                            if (!root.fromLibrary) {
+                                root.showPane("edit")
+                                return
+                            }
+                            root.openMessage = ""
+                            audio.openInApp(root.config.scriptId, function(message) { root.openMessage = message })
+                        }
                     }
+                    // Everything else, as in the desktop's own apps: colors from a window, and Configure.
                     ReaderButton {
-                        objectName: "settingsToggle"
+                        objectName: "moreActions"
                         quiet: true
-                        iconName: root.pane === "settings" ? "dialog-ok" : "configure"
-                        text: root.pane === "settings" ? i18n("Done") : i18n("Settings")
-                        onClicked: root.showPane("settings")
+                        iconName: "overflow-menu"
+                        Accessible.name: i18n("More")
+                        onClicked: moreMenu.popup(this, 0, height)
+                        Menu {
+                            id: moreMenu
+                            MenuItem {
+                                objectName: "chooseBackgroundWindow"
+                                font.family: root.uiFont
+                                text: i18n("Follow a window's colors…")
+                                enabled: !windowColors.active && !windowColors.busy
+                                onTriggered: { root.followWindow = true; windowColors.start() }
+                            }
+                            MenuItem {
+                                objectName: "stopWindowSharing"
+                                font.family: root.uiFont
+                                text: i18n("Stop following the window")
+                                enabled: windowColors.active || windowColors.busy
+                                onTriggered: { windowColors.stop(); root.followWindow = false }
+                            }
+                            MenuSeparator {}
+                            MenuItem {
+                                objectName: "configure"
+                                font.family: root.uiFont
+                                text: i18n("Configure Kalipso…")
+                                icon.name: "configure"
+                                onTriggered: Plasmoid.internalAction("configure").trigger()
+                            }
+                        }
                     }
                 }
 
@@ -566,6 +673,31 @@ PlasmoidItem {
                         enabled: root.readCount > 0
                         onClicked: root.seek(-1)
                     }
+                    // How the reader advances, in reach while reading, as in the app's bottom bar.
+                    ReaderButton {
+                        objectName: "readingMode"
+                        quiet: true
+                        iconName: root.mode === "voice" ? "audio-input-microphone" : root.mode === "steady" ? "chronometer" : "go-next"
+                        text: root.modeNames[root.mode] || root.modeNames.manual
+                        Accessible.name: i18n("Reading mode: %1", text)
+                        onClicked: modeMenu.popup(this, 0, height)
+                        Menu {
+                            id: modeMenu
+                            Repeater {
+                                model: ["manual", "steady", "voice"]
+                                MenuItem {
+                                    required property string modelData
+                                    objectName: modelData + "Mode"
+                                    font.family: root.uiFont
+                                    checkable: true
+                                    autoExclusive: true
+                                    checked: root.mode === modelData
+                                    text: root.modeNames[modelData]
+                                    onTriggered: root.setMode(modelData)
+                                }
+                            }
+                        }
+                    }
                     Label {
                         font.family: root.uiFont
                         text: root.readCount + " / " + root.wordCount
@@ -597,13 +729,27 @@ PlasmoidItem {
                         : audio.active ? (root.lost ? i18n("Off script · Kalipso catches up when you return to the text")
                             : i18n("Listening · On this device"))
                         : audio.busy ? i18n("Starting local speech…")
-                        : audio.failed ? i18n("Speech unavailable · Open Settings") : i18n("The microphone turns on when you start")
+                        : audio.failed ? i18n("Speech unavailable · Configure Kalipso → Voice") : i18n("The microphone turns on when you start")
+                }
+                Note {
+                    objectName: "windowColorsStatus"
+                    visible: (root.followWindow || windowColors.active || windowColors.busy) && text !== ""
+                    text: windowColors.status
+                    Accessible.role: Accessible.StaticText
+                    Accessible.name: text
+                }
+                Note {
+                    objectName: "openMessage"
+                    visible: text !== ""
+                    text: root.openMessage
+                    Accessible.role: Accessible.StaticText
+                    Accessible.name: text
                 }
 
                 Rectangle { visible: root.pane !== ""; Layout.fillWidth: true; implicitHeight: 1; color: root.c.overlayLine }
 
                 ColumnLayout {
-                    visible: root.pane === "edit"
+                    visible: root.pane === "edit" && !root.fromLibrary
                     Layout.fillWidth: true
                     spacing: root.n.gap
                     Label { font.family: root.uiFont; text: i18n("Script"); font.capitalization: Font.AllUppercase; color: root.c.overlayMuted }
@@ -636,7 +782,7 @@ PlasmoidItem {
                                 function onPaneChanged() { if (root.pane === "edit") Qt.callLater(function() { editor.forceActiveFocus() }) }
                             }
                             onTextChanged: {
-                                if (text === root.tracker.text)
+                                if (text === root.tracker.text || root.fromLibrary)
                                     return
                                 root.tracker.setText(text)
                                 audio.setScript(text)
@@ -649,173 +795,6 @@ PlasmoidItem {
                     Note { text: i18n("Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections.") }
                 }
 
-                ColumnLayout {
-                    visible: root.pane === "settings"
-                    Layout.fillWidth: true
-                    spacing: root.n.gap
-                    GroupLabel { text: i18n("Reading mode") }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        ChoiceButton { objectName: "manualMode"; label: i18n("Manual"); selected: root.mode === "manual"; onClicked: root.setMode("manual") }
-                        ChoiceButton { objectName: "steadyMode"; label: i18n("Steady speed"); selected: root.mode === "steady"; onClicked: root.setMode("steady") }
-                        ChoiceButton { objectName: "voiceMode"; label: i18n("Follow my voice"); selected: root.mode === "voice"; onClicked: root.setMode("voice") }
-                    }
-                    GroupLabel { text: i18n("Language you speak") }
-                    Flow {
-                        objectName: "languageChoices"
-                        Layout.fillWidth: true
-                        spacing: 8
-                        Repeater {
-                            model: audio.languages
-                            ChoiceButton {
-                                required property var modelData
-                                objectName: "language-" + modelData.code
-                                label: modelData.ready ? root.languageName(modelData)
-                                    : i18n("%1 · download %2 MB", root.languageName(modelData), root.megabytes(modelData.bytes))
-                                selected: modelData.ready && audio.language === modelData.code
-                                enabled: !audio.active && !audio.busy && !audio.installing
-                                onClicked: {
-                                    root.focusLanguageAction = visualFocus
-                                    audio.chooseLanguage(modelData.code)
-                                }
-                            }
-                        }
-                    }
-                    Rectangle {
-                        objectName: "languageProgress"
-                        visible: audio.installing
-                        Layout.fillWidth: true
-                        implicitHeight: 3
-                        color: root.c.overlayLine
-                        Accessible.role: Accessible.ProgressBar
-                        Accessible.name: i18n("Download progress")
-                        Rectangle {
-                            width: parent.width * (audio.install.total ? Math.min(1, audio.install.received / audio.install.total) : 0)
-                            height: parent.height
-                            color: root.c.reading
-                        }
-                    }
-                    Note {
-                        objectName: "speechDetails"
-                        text: root.languageStatus !== "" ? root.languageStatus : audio.status
-                        Accessible.role: Accessible.StaticText
-                        Accessible.name: text
-                    }
-                    ReaderButton {
-                        objectName: "languageAction"
-                        visible: audio.installing || root.languageRetry
-                        text: audio.installing ? i18n("Cancel download") : i18n("Try again")
-                        onClicked: audio.installing ? audio.cancelInstall() : audio.chooseLanguage(audio.install.language)
-                        // Choosing from the keyboard disables the language buttons: Cancel takes the focus.
-                        onVisibleChanged: if (visible && root.focusLanguageAction) {
-                            root.focusLanguageAction = false
-                            forceActiveFocus(Qt.TabFocusReason)
-                        }
-                    }
-                    Note {
-                        text: audio.downloads
-                            ? i18n("Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent.")
-                            : i18n("Kalipso downloads speech models on Linux for x86_64 computers.")
-                    }
-                    GroupLabel { text: i18n("Reader colors") }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        ChoiceButton { objectName: "autoAppearance"; label: i18n("Desktop theme"); selected: root.appearance === "auto"; onClicked: root.chooseAppearance("auto") }
-                        ChoiceButton { objectName: "darkAppearance"; label: i18n("Dark"); selected: root.appearance === "dark"; onClicked: root.chooseAppearance("dark") }
-                        ChoiceButton { objectName: "lightAppearance"; label: i18n("Light"); selected: root.appearance === "light"; onClicked: root.chooseAppearance("light") }
-                    }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        ReaderButton {
-                            objectName: "chooseBackgroundWindow"
-                            text: i18n("Choose background window…")
-                            enabled: !windowColors.active && !windowColors.busy
-                            onClicked: { root.followWindow = true; windowColors.start() }
-                        }
-                        ReaderButton {
-                            objectName: "stopWindowSharing"
-                            text: i18n("Stop window sharing")
-                            enabled: windowColors.active || windowColors.busy
-                            onClicked: { windowColors.stop(); root.followWindow = false }
-                        }
-                    }
-                    Note {
-                        objectName: "windowColorsStatus"
-                        text: windowColors.status
-                        Accessible.role: Accessible.StaticText
-                        Accessible.name: text
-                    }
-                    Note { text: i18n("Window colors follow the window you select while this reader is visible. Images stay in memory and are never saved or sent. Requires the Kalipso companion, PipeWire and the desktop sharing portal. Every color mode keeps an opaque reading background.") }
-                    GroupLabel { text: i18n("Mirror") }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        ChoiceButton { label: i18n("Off"); selected: root.mirror === "none"; onClicked: root.config.mirror = "none" }
-                        ChoiceButton { objectName: "mirrorHorizontal"; label: i18n("Horizontal"); selected: root.mirror === "horizontal"; onClicked: root.config.mirror = "horizontal" }
-                        ChoiceButton { label: i18n("Vertical"); selected: root.mirror === "vertical"; onClicked: root.config.mirror = "vertical" }
-                    }
-                    GroupLabel { text: i18n("Reading size") }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        ReaderButton { text: i18n("Smaller"); onClicked: root.config.readerSize = Math.max(18, root.readerSize - 2) }
-                        ReaderButton { text: i18n("Larger"); onClicked: root.config.readerSize = Math.min(64, root.readerSize + 2) }
-                    }
-                    GroupLabel { text: i18n("Reader font") }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        ChoiceButton { objectName: "interfaceFont"; label: i18n("Interface font"); selected: root.readerFont === ""; onClicked: root.config.readerFont = "" }
-                        Repeater {
-                            model: root.fontChoices
-                            ChoiceButton {
-                                required property string modelData
-                                label: modelData === "Serif" ? i18n("Serif") : modelData
-                                selected: root.readerFont === modelData
-                                onClicked: root.config.readerFont = modelData
-                            }
-                        }
-                    }
-                    GroupLabel { text: i18n("Line spacing") }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        Repeater {
-                            model: [[100, i18n("Normal")], [125, i18n("Relaxed")], [150, i18n("Wide")]]
-                            ChoiceButton {
-                                required property var modelData
-                                objectName: "lineSpacing" + modelData[0]
-                                label: modelData[1]
-                                selected: root.lineSpacing === modelData[0]
-                                onClicked: root.config.lineSpacing = modelData[0]
-                            }
-                        }
-                    }
-                    GroupLabel { text: i18n("Countdown before steady scrolling") }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: 8
-                        Repeater {
-                            model: [0, 3, 5]
-                            ChoiceButton {
-                                required property int modelData
-                                objectName: "countdown" + modelData
-                                label: modelData === 0 ? i18n("Off") : i18np("%1 second", "%1 seconds", modelData)
-                                selected: root.config.countdown === modelData
-                                onClicked: root.config.countdown = modelData
-                            }
-                        }
-                    }
-                    ReaderButton {
-                        text: i18n("Local speech setup ↗")
-                        Accessible.name: i18n("Local speech setup, opens in your browser")
-                        onClicked: Qt.openUrlExternally("https://github.com/brianidavide/kalipso/blob/main/docs/local-engine.md")
-                    }
-                    Note { text: i18n("Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see.") }
-                }
                 Item { Layout.fillHeight: true }
             }
         }

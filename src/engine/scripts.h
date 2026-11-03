@@ -2,15 +2,18 @@
 #pragma once
 #include "library.h"
 #include "tracker.h"
+#include <QCoreApplication>
 #include <QDir>
+#include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QProcess>
 #include <QSettings>
 #include <QStandardPaths>
 
 // The standalone app's scripts, for the Plasma widget and the GNOME extension. The companion only
 // reads them: the scripts are written in the app, and the frontends read them, so one library
-// serves the three.
+// serves the three. The one thing it writes is which script the app opens next (open()).
 namespace AppScripts {
 // Where the app keeps them (its data folder: organization "brianidavide", application "kalipso").
 inline QString directory() {
@@ -62,5 +65,20 @@ inline QJsonObject get(const QString &id) {
                     {"position", entry.position},
                     {"speed", entry.speed}};
     return {};
+}
+
+// Opens the app on a script of its library: the script becomes the app's current one, then the app
+// starts. The companion and the app are installed side by side; KALIPSO_APP names another program
+// (tests). False when the app cannot be started.
+inline bool open(const QString &id) {
+    QSettings app(QStringLiteral("brianidavide"), QStringLiteral("kalipso"));
+    app.setValue("library/current", id);
+    app.sync();
+    auto program = qEnvironmentVariable("KALIPSO_APP");
+    if (program.isEmpty()) {
+        const auto beside = QCoreApplication::applicationDirPath() + "/kalipso";
+        program = QFileInfo(beside).isExecutable() ? beside : QStandardPaths::findExecutable("kalipso");
+    }
+    return !program.isEmpty() && QProcess::startDetached(program, {});
 }
 } // namespace AppScripts

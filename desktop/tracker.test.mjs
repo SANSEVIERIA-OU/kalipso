@@ -45,8 +45,12 @@ assert(cueTracker.follow('welcome everyone today', true));
 assert.equal(cueTracker.position, 2);
 assert(!cueTracker.follow('[unk]', true));
 const styledMarkup = new Tracker('# Intro\nHi <there> [smile] all').readingMarkup('#777777', '#ffffff');
-assert(styledMarkup.includes('<b># Intro</b>') && styledMarkup.includes('<i>[smile]</i>') && styledMarkup.includes('&lt;there&gt;'));
-console.log('cues and headings: shown, styled and skipped by voice PASS');
+// Headings without their # marks and emphasis without its stars, as in the app's reader.
+assert(styledMarkup.includes('<b>Intro</b>') && !styledMarkup.includes('# Intro') && styledMarkup.includes('<i>[smile]</i>') && styledMarkup.includes('&lt;there&gt;'));
+const emphasized = new Tracker('## Next\nSay **this** and *that* or ***both***, 2 * 3 = 6').readingMarkup('#777777', '#ffffff');
+assert(emphasized.includes('<b>Next</b>') && emphasized.includes('<b>this</b>') && emphasized.includes('<i>that</i>'), emphasized);
+assert(emphasized.includes('<b><i>both</i></b>') && emphasized.includes('2 * 3 = 6') && !emphasized.includes('**'), emphasized);
+console.log('cues, headings and emphasis: shown without marks, styled and skipped by voice PASS');
 
 // Long skips and backtracking recover only on an unambiguous strong match.
 const filler = Array.from({length: 150}, (_, i) => `parola${i}`).join(' ');
@@ -120,8 +124,8 @@ console.log('tracker: long-jump recovery, off-script state, character seeking, s
 // Section headings keep their own line in the excerpt, before and after.
 {
  const t=new Tracker('# Slide 3\nThese are the numbers.\n\n# Slide 4\nNext.');t.seek(1);
- assert.equal(t.readingMarkup('#7','#f',4),'<span foreground="#7"><b># Slide 3</b>\nThese are</span><span foreground="#f"> the numbers.\n<b># Slide 4</b>\nNext.</span>');
- assert.equal(t.readingMarkup('#7','#f',4,null,true),'<font color="#7"><b># Slide 3</b><br>These are</font><font color="#f"> the numbers.<br><b># Slide 4</b><br>Next.</font>');
+ assert.equal(t.readingMarkup('#7','#f',4),'<span foreground="#7"><b>Slide 3</b>\nThese are</span><span foreground="#f"> the numbers.\n<b>Slide 4</b>\nNext.</span>');
+ assert.equal(t.readingMarkup('#7','#f',4,null,true),'<font color="#7"><b>Slide 3</b><br>These are</font><font color="#f"> the numbers.<br><b>Slide 4</b><br>Next.</font>');
  console.log('headings on their own line: Pango and Qt rich text PASS');
 }
 // Heard words meet written ones as the small Italian model writes them (mirrors tests/core_tests.cpp).

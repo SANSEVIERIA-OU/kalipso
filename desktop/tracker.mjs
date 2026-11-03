@@ -331,11 +331,16 @@ export class Tracker {
     // which keeps its own line as in the app (`html`: a <br> for Qt rich text, otherwise a line break).
     styled(from, to, collapse = true, html = false) {
         let out = '', at = from, afterHeading = false;
+        // Markdown emphasis shows as bold and italic, without its stars, as in the app's reader.
+        const emphasis = value => value
+            .replace(/\*\*\*(?=\S)(.+?)(?<=\S)\*\*\*/g, '<b><i>$1</i></b>')
+            .replace(/\*\*(?=\S)(.+?)(?<=\S)\*\*/g, '<b>$1</b>')
+            .replace(/(?<![*\w])\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?![*\w])/g, '<i>$1</i>');
         const plain = value => {
             if (!collapse)
-                return escape(value);
+                return emphasis(escape(value));
             const text = value.replace(/\s+/g, ' ');
-            return escape(afterHeading ? text.replace(/^ /, '') : text);
+            return emphasis(escape(afterHeading ? text.replace(/^ /, '') : text));
         };
         for (const range of silentRanges(this.text)) {
             const start = Math.max(range.start, from), end = Math.min(range.start + range.length, to);
@@ -348,8 +353,10 @@ export class Tracker {
             const before = plain(this.text.slice(at, start));
             // A heading that follows text in the excerpt starts its own line too.
             const heading = collapse && tag === 'b' && start === range.start && (out || before.trim());
+            // A heading shows without its # marks, as in the app's reader.
+            const body = this.text.slice(start, end);
             out += (heading ? before.replace(/ $/, '') + (html ? '<br>' : '\n') : before) +
-                `<${tag}>${plain(this.text.slice(start, end))}</${tag}>`;
+                `<${tag}>${plain(tag === 'b' && start === range.start ? body.replace(/^\s*#{1,6}\s*/, '') : body)}</${tag}>`;
             afterHeading = collapse && tag === 'b' && end === range.start + range.length && end < to;
             if (afterHeading)
                 out += html ? '<br>' : '\n';

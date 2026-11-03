@@ -31,7 +31,10 @@ with tempfile.TemporaryDirectory(prefix='kalipso-migration-test-') as directory:
     print('PASS: legacy profiles imported once without overwriting Kalipso settings')
 
 with tempfile.TemporaryDirectory(prefix='kalipso-engine-test-') as directory:
-    env = dict(os.environ, XDG_CONFIG_HOME=directory, XDG_DATA_HOME=directory+'/data')
+    fake_app = Path(directory)/'fake-kalipso'
+    fake_app.write_text(f'#!/bin/sh\ntouch {directory}/app-started\n')
+    fake_app.chmod(0o755)
+    env = dict(os.environ, XDG_CONFIG_HOME=directory, XDG_DATA_HOME=directory+'/data', KALIPSO_APP=str(fake_app))
     check = subprocess.run([binary, '--configure', '--backend', 'vosk', '--library', directory+'/missing.so', '--model', directory+'/missing-model'], env=env, text=True, capture_output=True)
     assert check.returncode == 1, check
     dependencies = json.loads(check.stdout)
@@ -129,6 +132,17 @@ with tempfile.TemporaryDirectory(prefix='kalipso-engine-test-') as directory:
             else:raise AssertionError('GetScript returned a file outside the library: ' + wrong)
         # The companion only reads: the library is untouched.
         assert json.loads((library/'library.json').read_text())[0]['position'] == 12
+        # Edit in Kalipso: the script becomes the app's current one, and the app starts (here a stand-in
+        # that writes where it was started).
+        assert call('OpenInApp', second) == '(true,)'
+        for attempt in range(50):
+            if (Path(directory)/'app-started').exists():break
+            time.sleep(.1)
+        else:raise AssertionError('OpenInApp did not start the app')
+        assert f'current={second}' in app_config.read_text(), app_config.read_text()
+        try:call('OpenInApp', '../../outside')
+        except RuntimeError as error:assert 'InvalidArgs' in str(error)
+        else:raise AssertionError('OpenInApp accepted a script outside the library')
         print('PASS: the app\'s scripts are listed and read, newest first; nothing outside the library is reachable')
     finally:
         child.terminate();child.wait(timeout=10)

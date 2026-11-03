@@ -10,6 +10,10 @@
       <default></default>
     </entry>
     <entry name="position" type="Int"><default>-1</default></entry>
+    <!-- The app's script being read (an id of its library, through the companion); empty for the
+         script written in the widget. Reading positions of the app's scripts, as JSON id → character. -->
+    <entry name="scriptId" type="String"><default></default></entry>
+    <entry name="positions" type="String"><default>{}</default></entry>
     <entry name="readerSize" type="Int"><default>26</default></entry>
     <entry name="appearance" type="String"><default>auto</default></entry>
     <entry name="mode" type="String"><default>voice</default></entry>

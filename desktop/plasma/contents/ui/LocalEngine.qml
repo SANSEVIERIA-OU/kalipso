@@ -11,6 +11,7 @@ Item {
     property string backend:"moonshine"
     property bool guided:false // The companion's recognizer learnt the script (see Tracker.guided).
     property string language:""
+    property bool ready:false  // A language model is installed and the companion can listen.
     // The catalog languages ({code, name, backend, ready, bytes}) and the download in progress
     // ({active, stage, language, received, total, error}); see GetLanguages in the companion.
     property var languages:[]
@@ -49,7 +50,7 @@ Item {
         if(active||busy)return
         busy=true
         call('GetDependencies',function(value){
-            const deps=JSON.parse(value);backend=deps.backend;language=deps.language||""
+            const deps=JSON.parse(value);backend=deps.backend;language=deps.language||"";ready=deps.ready
             const engineName=backend==="moonshine"?"Moonshine":"Vosk"
             status=deps.ready?i18n("Ready to listen in %1, with %2.",nameOf(language)||i18n("your language"),engineName)
                 :!deps.model?i18n("Choose the language you speak.")
@@ -57,9 +58,43 @@ Item {
         },generation)
     }
     function nameOf(code) {
-        for(const item of languages)if(item.code===code)return item.name
+        for(const item of languages)if(item.code===code)return languageName(item)
         return code
     }
+    // A language named in the desktop's language, so a missing font never shows its name as boxes.
+    function languageName(language) {
+        return ({de: i18n("German"), en: i18n("English"), es: i18n("Spanish"), fr: i18n("French"),
+                 it: i18n("Italian"), ja: i18n("Japanese"), zh: i18n("Chinese")})[language.code] || language.name
+    }
+    function megabytes(bytes) { return Math.round(bytes / 1048576) }
+    // What the language download is doing, in words; empty when there is nothing to say.
+    readonly property string languageStatus: {
+        const job = install
+        const name = nameOf(job.language || "")
+        if (languagesUnavailable)
+            return i18n("This Kalipso companion cannot download languages. Install or update it, then log out and back in.")
+        if (languageError !== "")
+            return languageError
+        if (job.active)
+            return job.stage === "unpacking" ? i18n("Checking and unpacking %1…", name)
+                : i18n("Downloading %1: %2 of %3 MB", name, megabytes(job.received), megabytes(job.total))
+        if (job.stage === "done")
+            return i18n("Ready to listen in %1. Choose Follow my voice and start listening.", name)
+        if (job.stage === "cancelled")
+            return i18n("Download cancelled. Nothing was changed.")
+        if (job.stage !== "failed")
+            return ""
+        switch (job.error) {
+        case "network": return i18n("Couldn't download %1. Check the internet connection and try again.", name)
+        case "fingerprint": return i18n("The %1 download didn't match its fingerprint, so it was deleted. Try again later.", name)
+        case "archive": return i18n("The %1 model couldn't be unpacked. Try again later.", name)
+        case "disk": return i18n("Couldn't save %1: there isn't enough free space, or the data folder can't be written.", name)
+        case "busy": return i18n("%1 is downloaded. Choose it again when you stop listening.", name)
+        default: return i18n("Kalipso downloads speech models on Linux for x86_64 computers.")
+        }
+    }
+    readonly property bool languageRetry: install.stage === "failed"
+        && ["network", "fingerprint", "archive", "disk", "busy"].indexOf(install.error) >= 0
     // Language calls never touch the listening state: they have their own replies and errors.
     // Without `failed`, an error means the companion is missing or too old to download languages.
     function request(method,args,callback,failed) {
@@ -67,7 +102,7 @@ Item {
         const done=function(){
             try {
                 if(reply.isError){
-                    console.warn("Speech languages: "+reply.error.message)
+                    console.warn("Kalipso companion: "+reply.error.message)
                     if(failed){failed(reply.error.message);return}
                     languagesUnavailable=true;languagePoll.stop();return
                 }
@@ -98,6 +133,21 @@ Item {
                 function(message){languageError=message})
     }
     function cancelInstall() {request('CancelInstall',[],refreshLanguages)}
+
+    // --- The app's scripts (the companion reads them; the app writes them) ---
+    // callback({available, current, scripts:[{id, title, modified, words, speed}]}); an older companion
+    // or none at all gives {available: false}.
+    function listScripts(callback) {
+        request('ListScripts',[],function(value){callback(JSON.parse(value))},
+                function(){callback({available:false,current:"",scripts:[]})})
+    }
+    // callback({id, title, modified, text, position, speed}), or failed(message) when it is gone.
+    function getScript(id,callback,failed) {
+        request('GetScript',[id],function(value){callback(JSON.parse(value))},failed||function(){})
+    }
+    // Opens the app on this script, to change it there.
+    function openInApp(id,failed) {request('OpenInApp',[id],function(){},failed||function(){})}
+
     // The script being read: the companion's Vosk then expects its sentences. Older companions do
     // not know SetScript; they hear any words, as before.
     function setScript(script) {if(active&&script)request('SetScript',[script],function(){},function(){})}

@@ -22,6 +22,16 @@ export class LocalEngine {
     // Listens in this language from now on, downloading its model first if needed.
     async install(code) {return await this.call('InstallLanguage',true,new GLib.Variant('(s)',[code]));}
     async cancelInstall() {await this.call('CancelInstall',false);}
+    // The app's scripts, read through the companion: {available, current, scripts:[{id, title,
+    // modified, words, speed}]}. An older companion, or none, gives an empty library.
+    async scripts() {
+        try {return JSON.parse(await this.call('ListScripts'));}
+        catch(_error){return {available:false,current:'',scripts:[]};}
+    }
+    // One script with its text ({id, title, modified, text, position, speed}).
+    async script(id) {return JSON.parse(await this.call('GetScript',true,new GLib.Variant('(s)',[id])));}
+    // Opens the app on this script, to change it there.
+    async openInApp(id) {return await this.call('OpenInApp',true,new GLib.Variant('(s)',[id]));}
     // The script being read: the companion's Vosk then expects its sentences. Older companions
     // do not know SetScript; they hear any words, as before.
     setScript(script) {if(this.owned&&script)this.call('SetScript',false,new GLib.Variant('(s)',[script])).catch(()=>{});}
