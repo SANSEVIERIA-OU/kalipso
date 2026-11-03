@@ -557,10 +557,6 @@ MainWindow::MainWindow(const QString &libraryDirectory)
             }
             return;
         }
-        if (final && voiceCommands_ && voiceCommand(text)) {
-            speech_.setScript(script_->toPlainText(), tracker_.position());
-            return;
-        }
         const bool wasLost = tracker_.lost();
         const int before = tracker_.position();
         if (tracker_.follow(text, final)) {
@@ -1740,55 +1736,6 @@ void MainWindow::followSlide(int number, const QString &notes) {
     notify(tr("Following Impress · slide %1").arg(number));
 }
 
-namespace {
-enum class VoiceCommand { NextSection, PreviousSection, Start };
-const QList<QPair<QStringList, VoiceCommand>> &voiceCommands() {
-    static const QList<QPair<QStringList, VoiceCommand>> commands{
-        {{"go", "next"}, VoiceCommand::NextSection},
-        {{"go", "back"}, VoiceCommand::PreviousSection},
-        {{"go", "start"}, VoiceCommand::Start},
-        {{"vai", "avanti"}, VoiceCommand::NextSection},
-        {{"torna", "indietro"}, VoiceCommand::PreviousSection},
-        {{"da", "capo"}, VoiceCommand::Start}};
-    return commands;
-}
-// For recognizers limited to known phrases (Windows system speech).
-QStringList voiceCommandPhrases() {
-    QStringList phrases;
-    for (const auto &command : voiceCommands())
-        phrases << command.first.join(u' ');
-    return phrases;
-}
-} // namespace
-
-// Spoken commands, when enabled: a whole utterance that is exactly one of these
-// phrases, and not the words the script continues with. Two-word phrases make
-// accidental matches with ordinary speech unlikely.
-bool MainWindow::voiceCommand(const QString &utterance) {
-    QStringList spoken;
-    for (const auto &word : ScriptTracker::tokenize(utterance))
-        spoken << word.normalized;
-    for (const auto &[phrase, command] : voiceCommands()) {
-        if (spoken != phrase)
-            continue;
-        QStringList next; // The script's own next words win: then this is reading, not a command.
-        for (int i = tracker_.position() + 1; i < tracker_.count() && next.size() < phrase.size(); ++i)
-            next << tracker_.words()[i].normalized;
-        if (next == phrase)
-            return false;
-        if (command == VoiceCommand::Start)
-            seekWord(-1);
-        else
-            jumpSection(command == VoiceCommand::NextSection ? 1 : -1);
-        notify(tr("Voice command: %1")
-                                  .arg(command == VoiceCommand::Start         ? tr("back to the start")
-                                       : command == VoiceCommand::NextSection ? tr("next section")
-                                                                              : tr("previous section")));
-        return true;
-    }
-    return false;
-}
-
 void MainWindow::jumpSection(int direction) {
     if (const int target = tracker_.sectionTarget(direction); target >= 0) {
         tracker_.seekCharacter(target);
@@ -2577,18 +2524,8 @@ QWidget *MainWindow::makeSpeechSettings() {
     form->addRow(systemStatus_);
     form->addRow(tr("Microphone"), microphone_);
     form->addRow(microphoneBox);
-    auto *commands = new WrappingCheckBox(tr("Voice commands: say “go next”, “go back” or “go start” (in Italian "
-                                             "“vai avanti”, “torna indietro”, “da capo”) on their own"));
-    commands->box->setObjectName("voiceCommands");
-    commands->box->setChecked(settings.value("speech/voiceCommands", false).toBool());
-    voiceCommands_ = commands->box->isChecked();
-    speech_.setCommandPhrases(voiceCommands_ ? voiceCommandPhrases() : QStringList());
-    connect(commands->box, &QCheckBox::toggled, this, [this](bool checked) {
-        voiceCommands_ = checked;
-        speech_.setCommandPhrases(checked ? voiceCommandPhrases() : QStringList());
-        QSettings().setValue("speech/voiceCommands", checked);
-    });
-    form->addRow(commands);
+    // Voice commands were removed in 2.2: a script that contained their words could move the reader.
+    QSettings().remove("speech/voiceCommands");
     auto *fillers = new WrappingCheckBox(tr("Count filler words (um, uh) in the session summary"));
     fillers->box->setObjectName("countFillers");
     fillers->box->setChecked(settings.value("speech/countFillers", true).toBool());

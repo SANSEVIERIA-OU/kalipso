@@ -19,12 +19,10 @@ constexpr int kChunkBytes = 6400;       // 200 ms of 16-bit mono PCM.
 constexpr int kMaxBacklogBytes = 64000; // 2 s; beyond this the model cannot keep up.
 } // namespace
 
-QStringList speechVocabulary(const QString &script, const QString &language, const QStringList &commands) {
+QStringList speechVocabulary(const QString &script, const QString &language) {
     auto phrases = SpokenWords::recognizerPhrases(script, language);
     if (phrases.isEmpty())
         return {};
-    for (const auto &phrase : commands)
-        phrases << phrase.toLower();
     for (const auto &filler : SessionStats::fillerWords())
         phrases << filler;
     phrases.removeDuplicates();
@@ -280,7 +278,7 @@ void SpeechService::start(const SpeechRequest &request) {
         setGuided(true); // Windows recognizes only the script's phrases near the reading position.
 #endif
         emit status(tr("Starting on-device system speech…"));
-        system_.start(request.language, scriptPhrases(script_, scriptPosition_, commands_));
+        system_.start(request.language, scriptPhrases(script_, scriptPosition_));
         return;
     }
     if (request.backend != QLatin1String("moonshine") && request.backend != QLatin1String("vosk")) {
@@ -334,17 +332,6 @@ void SpeechService::start(const SpeechRequest &request) {
     QMetaObject::invokeMethod(worker_, [worker = worker_, request, generation] { worker->load(request, generation); });
 }
 
-void SpeechService::setCommandPhrases(const QStringList &phrases) {
-    if (commands_ == phrases)
-        return;
-    commands_ = phrases;
-    updateVocabulary();
-#ifdef Q_OS_WIN
-    if (active_ && systemMode_)
-        system_.updateScript(scriptPhrases(script_, scriptPosition_, commands_));
-#endif
-}
-
 void SpeechService::setScript(const QString &script, int position) {
     if (script_ == script && scriptPosition_ == position)
         return;
@@ -355,14 +342,14 @@ void SpeechService::setScript(const QString &script, int position) {
         updateVocabulary();
 #ifdef Q_OS_WIN
     if (active_ && systemMode_)
-        system_.updateScript(scriptPhrases(script_, scriptPosition_, commands_));
+        system_.updateScript(scriptPhrases(script_, scriptPosition_));
 #endif
 }
 
 // The script goes to the recognizer, which learns its sentences (Vosk). The
 // vocabulary depends on the script and the language, not on the reading position.
 void SpeechService::updateVocabulary() {
-    const auto words = speechVocabulary(script_, language_, commands_);
+    const auto words = speechVocabulary(script_, language_);
     QMetaObject::invokeMethod(worker_, [worker = worker_, words] { worker->setVocabulary(words); });
 }
 
