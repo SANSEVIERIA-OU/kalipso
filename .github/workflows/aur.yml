@@ -5,6 +5,11 @@ name: AUR
 # maintains the packages. Without it the job warns and stops; nothing else depends on it.
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: Published version to publish (2.0 or v2.0); empty updates kalipso-git only
+        type: string
+        required: false
   workflow_call:
     inputs:
       version:
@@ -28,6 +33,8 @@ jobs:
       - name: Write the PKGBUILDs
         run: |
           set -euo pipefail
+          # The release passes its tag (v2.0); the URLs and pkgver want the version alone.
+          VERSION="${VERSION#v}"
           mkdir -p aur/kalipso-git
           git_version="$(sed -n 's/^project(Kalipso VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt).r$(git rev-list --count HEAD).g$(git rev-parse --short=7 HEAD)"
           sed "s/^pkgver=.*/pkgver=$git_version/" packaging/arch/kalipso-git/PKGBUILD > aur/kalipso-git/PKGBUILD
