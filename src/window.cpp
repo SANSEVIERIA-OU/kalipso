@@ -7,7 +7,6 @@
 #include "platform/capture_exclusion.h"
 #include "platform/kwin_placement.h"
 #include "remote.h"
-#include "script_editor.h"
 #include "script_highlighter.h"
 #include "speech_assets.h"
 #include "speech_download.h"
@@ -391,142 +390,36 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     if (!Accessibility::native())
         Accessibility::apply(this, Design::light);
 
-    // App bar: the script being edited on the left, settings and the one
-    // primary action, Open reader, on the right. Wraps on narrow windows.
-    auto *central = new QWidget;
-    auto *layout = new QVBoxLayout(central);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(0);
-    auto *appBar = new QWidget;
-    appBar->setObjectName("appBar");
-    buildLibraryBar(appBar);
-    auto *barLayout = static_cast<FlowLayout *>(appBar->layout());
-    auto *settingsButton = new AccessibleButton(tr("Settings"));
-    settingsButton->setObjectName("settingsButton");
-    settingsButton->setProperty("quiet", true);
-    auto *show = new AccessibleButton(tr("Read"));
-    show->setDefault(true);
-    show->setObjectName("primaryAction");
-    show->setToolTip(tr("This window becomes the reader, near your camera (Ctrl+Enter)"));
-    barLayout->addTrailing(settingsButton);
-    barLayout->addTrailing(show);
-    barLayout->addTrailing(more_);
-    icons_.append({settingsButton, "settings"});
-    icons_.append({show, "reader"});
-    layout->addWidget(appBar);
-    // Under the desktop's style the bars are set apart by its own separator lines.
-    const auto separator = [layout] {
-        if (!Accessibility::native())
-            return;
-        auto *line = new QFrame;
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Plain);
-        line->setForegroundRole(QPalette::Mid);
-        layout->addWidget(line);
-    };
-    separator();
-
-    script_ = new ScriptEditor;
-    script_->addActions(formatActions_); // Formatting shortcuts work without opening the menu.
-    script_->setObjectName("scriptEditor");
-    script_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    script_->setPlaceholderText(tr("Paste or write the script you want to read…\n\n"
-                                   "[Bracketed cues] are shown but not read aloud. "
-                                   "Lines starting with # become sections you can jump to."));
-    script_->setAccessibleName(tr("Editable script"));
-    auto editorFont = script_->font();
-    editorFont.setPointSizeF(editorFont.pointSizeF() * 1.4);
-    script_->setFont(editorFont);
-    if (Accessibility::native()) {
-        // The page is the whole editor, not a box in the middle of the window.
-        script_->setFrameShape(QFrame::NoFrame);
-        script_->setBackgroundRole(QPalette::Base);
-        script_->setAutoFillBackground(true);
+    // One window, one text: the reader is also where the script is written. Large, it shows the
+    // formats and the scripts beside the text; small, under the camera, only what reading needs.
+    script_ = prompter_->text;
+    script_->setAccessibleName(tr("Script"));
+    // The formats as Markdown marks the reader hides: buttons in the reader's top bar and the usual
+    // shortcuts. Each button puts the format on or takes it off again, as in word processors.
+    const QList<std::tuple<QString, QString, QKeySequence, QString>> formats{
+        {"formatBold", tr("Bold"), QKeySequence::Bold, QStringLiteral("bold")},
+        {"formatItalic", tr("Italic"), QKeySequence::Italic, QStringLiteral("italic")},
+        {"formatHeading", tr("Section heading"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H),
+         QStringLiteral("heading")},
+        {"formatCue", tr("Direction cue, not read aloud"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C),
+         QStringLiteral("cue")}};
+    for (const auto &[name, label, shortcut, kind] : formats) {
+        auto *action = new QAction(label, this);
+        action->setObjectName(name);
+        action->setShortcut(shortcut);
+        action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+        action->setCheckable(true);
+        action->setToolTip(tr("%1 (%2)").arg(label, shortcut.toString(QKeySequence::NativeText)));
+        formatActions_.append(action);
+        connect(action, &QAction::triggered, this, [this, kind] { toggleFormat(kind); });
     }
-    // The scripts beside the editor, like notes in a notebook. Before the first script, a welcome
-    // page takes the editor's place.
-    scriptList_ = new QListWidget;
-    scriptList_->setObjectName("scriptList");
-    scriptList_->setAccessibleName(tr("Scripts"));
-    scriptList_->setFrameShape(QFrame::NoFrame);
-    scriptList_->setTextElideMode(Qt::ElideRight);
-    scriptList_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scriptList_->setBackgroundRole(QPalette::Window);
-    scriptList_->viewport()->setBackgroundRole(QPalette::Window);
-    scriptList_->setItemDelegate(new ScriptItemDelegate(scriptList_));
-    scriptList_->setSpacing(1);
-    // The list with its name above it, as in the desktop's sidebars.
-    libraryPanel_ = new QWidget;
-    libraryPanel_->setObjectName("libraryPanel");
-    auto *panel = new QVBoxLayout(libraryPanel_);
-    panel->setContentsMargins(Design::Metric::space2, Design::Metric::space3, Design::Metric::space2, 0);
-    panel->setSpacing(Design::Metric::space2);
-    auto *panelTitle = new QLabel(tr("Scripts"));
-    panelTitle->setObjectName("libraryTitle");
-    panelTitle->setProperty("role", "muted");
-    panelTitle->setContentsMargins(Design::Metric::space2, 0, 0, 0);
-    auto panelFont = panelTitle->font();
-    panelFont.setWeight(QFont::DemiBold);
-    panelTitle->setFont(panelFont);
-    panel->addWidget(panelTitle);
-    panel->addWidget(scriptList_, 1);
-    connect(scriptList_, &QListWidget::currentItemChanged, this, [this](QListWidgetItem *item) {
-        if (item)
-            openScript(item->data(Qt::UserRole).toString());
-    });
-    editorStack_ = new QStackedWidget;
-    editorStack_->addWidget(script_);
+    script_->addActions(formatActions_); // The shortcuts work while the text has the focus.
+    prompter_->setFormatActions(formatActions_);
+    connect(script_, &QTextEdit::cursorPositionChanged, this, &MainWindow::updateFormatState);
+    prompter_->setDrawer(makeDrawer());
     welcome_ = makeWelcome();
-    editorStack_->addWidget(welcome_);
-    auto *split = new QSplitter;
-    split->setObjectName("librarySplit");
-    split->setChildrenCollapsible(false);
-    split->addWidget(libraryPanel_);
-    split->addWidget(editorStack_);
-    split->setStretchFactor(1, 1);
-    // It takes the height the window has: its preferred height (long scripts at 200%) must not make
-    // the whole window scroll around the editor, which scrolls by itself.
-    split->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
-    split->setSizes({fontMetrics().averageCharWidth() * 30, 900});
-    layout->addWidget(split, 1);
-    separator();
-
-    // Status line: what is happening on the left, where you are on the right.
-    auto *statusRow = new QWidget;
-    statusRow->setObjectName("statusRow");
-    auto *statusLayout = new FlowLayout(statusRow);
-    statusLayout->setContentsMargins(Design::Metric::space4, Design::Metric::space2, Design::Metric::space4,
-                                     Design::Metric::space2);
-    audioStatus_ = new StatusLabel(QString());
-    audioStatus_->setObjectName("audioStatus");
-    audioStatus_->setProperty("role", "muted");
-    position_ = new StatusLabel(tr("Ready to write."));
-    position_->setObjectName("readingPosition");
-    position_->setToolTip(tr("The reading time is estimated at the steady speed. Ctrl+Enter opens the reader. In "
-                             "the reader, arrow keys step and Space starts or pauses."));
-    position_->setProperty("role", "muted");
-    auto *readHere = new AccessibleButton(tr("Read from here"));
-    readHere_ = readHere;
-    readHere->setObjectName("readHere");
-    readHere->setProperty("quiet", true);
-    readHere->setToolTip(tr("Read from the word under the text cursor"));
-    statusLayout->addWidget(audioStatus_);
-    statusLayout->addTrailing(position_);
-    statusLayout->addTrailing(readHere);
-    layout->addWidget(statusRow);
-
-    auto *page = new QScrollArea;
-    page->setWidgetResizable(true);
-    page->setWidget(central);
-    page->setFrameShape(QFrame::NoFrame);
-    // One window, two views: writing, and reading near the camera.
-    writingView_ = page;
-    views_ = new QStackedWidget;
-    views_->setObjectName("views");
-    views_->addWidget(page);
-    views_->addWidget(prompter_);
-    setCentralWidget(views_);
-
+    prompter_->setWelcome(welcome_);
+    setCentralWidget(prompter_);
     settings_ = new QDialog(this);
     settings_->setWindowTitle(tr("Kalipso settings"));
     settings_->setObjectName("settingsDialog");
@@ -553,7 +446,6 @@ MainWindow::MainWindow(const QString &libraryDirectory)
         if (microphoneTestEnd_.isActive())
             stopMicrophoneTest(false);
     });
-    connect(settingsButton, &QPushButton::clicked, this, [this] { showSettings(); });
     applyTheme();
 
     autosave_.setSingleShot(true);
@@ -571,14 +463,6 @@ MainWindow::MainWindow(const QString &libraryDirectory)
         refreshRunning();
     });
 
-    connect(show, &QPushButton::clicked, this, &MainWindow::showPrompter);
-    connect(readHere, &QPushButton::clicked, this, [this] {
-        tracker_.setScript(script_->toPlainText());
-        tracker_.seekCharacter(script_->textCursor().position());
-        seekWord(tracker_.position());
-        showPrompter();
-    });
-
     connect(script_, &QTextEdit::textChanged, this, [this] {
         const auto text = script_->toPlainText();
         if (text == scriptText_)
@@ -589,10 +473,6 @@ MainWindow::MainWindow(const QString &libraryDirectory)
             waitForNewUtterance_ = true;
             speech_.setScript(text, tracker_.position());
         }
-        if (prompter_->text->toPlainText() != text) {
-            const QSignalBlocker block(prompter_->text);
-            replaceText(prompter_->text->document(), text);
-        }
         prompter_->setSections(ScriptTracker::sections(text));
         prompter_->setTitle(ScriptLibrary::titleFor(text));
         updateWindowTitle();
@@ -601,13 +481,8 @@ MainWindow::MainWindow(const QString &libraryDirectory)
         if (!loading_)
             autosave_.start();
         refreshReading();
-        if (editorStack_ && editorStack_->currentWidget() == welcome_ && !text.trimmed().isEmpty())
+        if (prompter_->welcomeShown() && !text.trimmed().isEmpty())
             refreshWelcome(); // Imported or pasted from elsewhere: the script takes the page.
-    });
-    connect(prompter_->text, &QTextEdit::textChanged, this, [this] {
-        const auto text = prompter_->text->toPlainText();
-        if (script_->toPlainText() != text)
-            replaceText(script_->document(), text);
     });
     connect(prompter_, &ReaderPage::step, this, [this](int delta) { seekWord(tracker_.position() + delta); });
     connect(prompter_, &ReaderPage::resetRequested, this, [this] { seekWord(-1); });
@@ -619,7 +494,14 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     connect(prompter_, &ReaderPage::sectionRequested, this, &MainWindow::jumpSection);
     connect(prompter_, &ReaderPage::speedRequested, this, &MainWindow::changeSpeed);
     connect(prompter_, &ReaderPage::modeRequested, this, &MainWindow::setMode);
-    connect(prompter_, &ReaderPage::writeRequested, this, &MainWindow::showWriting);
+    connect(prompter_, &ReaderPage::placeRequested, this, [this] {
+        if (underCamera_)
+            expand();
+        else
+            placeUnderCamera();
+    });
+    connect(prompter_, &ReaderPage::textSizeRequested, this, &MainWindow::stepTextSize);
+    connect(prompter_, &ReaderPage::editingChanged, this, [this] { prompter_->setStatus(statusText()); });
     connect(prompter_, &ReaderPage::settingsRequested, this, [this] { showSettings(); });
     connect(prompter_, &ReaderPage::blockedRequested, this, [this] { showSettings(voiceLanguage_); });
 
@@ -627,12 +509,11 @@ MainWindow::MainWindow(const QString &libraryDirectory)
         speechStatus_ = message;
         // A message while not listening says why listening did not start or ended: the reader shows it.
         speechError_ = speech_.active() ? QString() : message;
-        audioStatus_->setText(message);
         refreshRunning();
     });
     impress_ = new ImpressFollower(this);
     connect(impress_, &ImpressFollower::slideChanged, this, &MainWindow::followSlide);
-    connect(impress_, &ImpressFollower::statusChanged, audioStatus_, &QLabel::setText);
+    connect(impress_, &ImpressFollower::statusChanged, this, &MainWindow::notify);
     connect(impress_, &ImpressFollower::finished, this,
             [this] { impressAction_->setText(tr("Present with Impress…")); });
     // The reader hides its status while you read: a silent microphone shows it again.
@@ -690,10 +571,25 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     auto *saveShortcut = new QShortcut(QKeySequence::Save, this);
     connect(saveShortcut, &QShortcut::activated, this, [this] {
         saveScript();
-        audioStatus_->setText(tr("Script saved."));
+        notify(tr("Script saved."));
     });
-    auto *showShortcut = new QShortcut(QKeySequence("Ctrl+Return"), this);
-    connect(showShortcut, &QShortcut::activated, this, &MainWindow::showPrompter);
+    // Start or pause from anywhere, also while writing (where Space types a space).
+    auto *startShortcut = new QShortcut(QKeySequence("Ctrl+Return"), this);
+    connect(startShortcut, &QShortcut::activated, this, [this] {
+        if (prompter_->editing() && !running())
+            prompter_->text->setFocus(); // Pedals and keys go to the reader from now on.
+        if (mode_ == ReadingMode::Voice && !running() && !voiceReady() && SpeechCatalog::downloadsSupported())
+            showSettings(voiceLanguage_);
+        else
+            toggleRunning();
+    });
+    // The text size, as in word processors and browsers.
+    for (const auto &[keys, direction] : {std::pair{QKeySequence(QKeySequence::ZoomIn), 1},
+                                          std::pair{QKeySequence(QStringLiteral("Ctrl+=")), 1},
+                                          std::pair{QKeySequence(QKeySequence::ZoomOut), -1}}) {
+        auto *shortcut = new QShortcut(keys, this);
+        connect(shortcut, &QShortcut::activated, this, [this, direction] { stepTextSize(direction); });
+    }
 
     setMode(modeFromKey(QSettings().value("reading/mode", "voice").toString()));
     prompter_->setSpeed(wordsPerMinute_);
@@ -706,7 +602,6 @@ MainWindow::MainWindow(const QString &libraryDirectory)
     else
         newScript();
     refreshWelcome();
-    adaptLayout();
 }
 
 MainWindow::~MainWindow() {
@@ -720,31 +615,46 @@ MainWindow::~MainWindow() {
 
 // --- Script library ---------------------------------------------------------
 
-void MainWindow::buildLibraryBar(QWidget *bar) {
-    auto *layout = new FlowLayout(bar);
-    layout->setContentsMargins(Design::Metric::space4, Design::Metric::space3, Design::Metric::space4,
-                               Design::Metric::space3);
-    scripts_ = new ScriptPicker;
-    scripts_->setObjectName("scriptPicker");
-    scripts_->setAccessibleName(tr("Script"));
-    scripts_->setToolTip(tr("Your scripts, saved on this device"));
+// The scripts, in a panel of the reader: their names with how long they take and when they changed,
+// a button for a new one, and a menu for the rest.
+QWidget *MainWindow::makeDrawer() {
+    auto *drawer = new QWidget;
+    drawer->setObjectName("scriptDrawer");
+    drawer->setAttribute(Qt::WA_StyledBackground);
+    auto *layout = new QVBoxLayout(drawer);
+    layout->setContentsMargins(Design::Metric::space2, Design::Metric::space3, Design::Metric::space2, 0);
+    layout->setSpacing(Design::Metric::space2);
+    auto *headerRow = new QWidget;
+    headerRow->setObjectName("scriptDrawerHeader");
+    auto *header = new QHBoxLayout(headerRow);
+    header->setContentsMargins(Design::Metric::space2, 0, 0, 0);
+    header->setSpacing(Design::Metric::space1);
+    auto *title = new QLabel(tr("Scripts"));
+    title->setObjectName("libraryTitle");
+    title->setProperty("role", "muted");
+    auto titleFont = title->font();
+    titleFont.setWeight(QFont::DemiBold);
+    title->setFont(titleFont);
     auto *add = new AccessibleButton(tr("New"));
     add->setObjectName("newScript");
     add->setAccessibleName(tr("New script"));
+    add->setToolTip(tr("New script (Ctrl+N)"));
     add->setProperty("quiet", true);
-    // The menu of everything else, at the end of the bar like in the desktop's own apps.
-    auto *more = new QToolButton;
+    add->setProperty("label", add->text()); // The reader shortens it to its icon in a narrow panel.
+    // The menu of everything else, at the end of the row like in the desktop's own apps.
+    auto *more = new AccessibleButton(QString());
     more->setObjectName("scriptActions");
-    more->setText(tr("More"));
     more->setToolTip(tr("More"));
     more->setAccessibleName(tr("More script actions"));
     more->setProperty("quiet", true);
-    more->setPopupMode(QToolButton::InstantPopup);
-    more->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    more->setIconSize({20, 20});
-    more->setMinimumSize(Design::Metric::control, Design::Metric::control);
     more_ = more;
-    auto *menu = new QMenu(more);
+    auto *menu = new QMenu(this);
+    connect(menu, &QMenu::aboutToShow, this, [this, menu] {
+        // The desktop's menus in the window's colours, as the reader's other menus.
+        menu->setPalette(palette());
+        if (!Accessibility::native())
+            menu->setStyleSheet(styleSheet());
+    });
     auto *import = menu->addAction(tr("Import…"));
     import->setToolTip(tr("Text, Markdown, Word (.docx) and OpenDocument (.odt) documents, or speaker notes from "
                           "PowerPoint (.pptx) and Impress (.odp)"));
@@ -752,35 +662,44 @@ void MainWindow::buildLibraryBar(QWidget *bar) {
     impressAction_->setObjectName("presentWithImpress");
     impressAction_->setToolTip(tr("Open a presentation in LibreOffice Impress and follow its slideshow: the reader "
                                   "jumps to the notes of the slide being shown."));
-    // Markdown formatting, with the usual shortcuts while the editor has focus.
-    auto *format = menu->addMenu(tr("Format"));
-    const QList<std::tuple<QString, QString, QKeySequence, std::function<void()>>> formats{
-        {"formatBold", tr("Bold"), QKeySequence::Bold, [this] { wrapSelection("**", "**"); }},
-        {"formatItalic", tr("Italic"), QKeySequence::Italic, [this] { wrapSelection("*", "*"); }},
-        {"formatHeading", tr("Section heading"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_H),
-         [this] { toggleHeading(); }},
-        {"formatCue", tr("Direction cue [ ]"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C),
-         [this] { wrapSelection("[", "]"); }}};
-    for (const auto &[name, label, shortcut, apply] : formats) {
-        auto *action = format->addAction(label);
-        action->setObjectName(name);
-        action->setShortcut(shortcut);
-        action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-        formatActions_.append(action); // Added to the editor once it exists, for the shortcuts.
-        connect(action, &QAction::triggered, this, apply);
-    }
     auto *exportAction = menu->addAction(tr("Export…"));
     reportAction_ = menu->addAction(tr("Save session report…"));
     reportAction_->setObjectName("saveSessionReport");
     reportAction_->setEnabled(false); // Available after a voice session.
     menu->addSeparator();
     auto *remove = menu->addAction(tr("Delete script…"));
-    more->setMenu(menu);
-    for (auto *widget : QList<QWidget *>{scripts_, add})
-        layout->addWidget(widget);
-    icons_.append({add, "plus"});
-    icons_.append({more, "more"});
-    connect(scripts_, &QComboBox::activated, this, [this] { openScript(scripts_->currentData().toString()); });
+    remove->setObjectName("deleteScript");
+    menu->setToolTipsVisible(true);
+    connect(more, &QPushButton::clicked, menu, [more, menu] { menu->popup(more->mapToGlobal(QPoint(0, more->height()))); });
+    header->addWidget(title, 1);
+    header->addWidget(add);
+    header->addWidget(more);
+    layout->addWidget(headerRow);
+    prompter_->addIconButton(add, "plus");
+    prompter_->addIconButton(more, "more");
+
+    scriptList_ = new QListWidget;
+    scriptList_->setObjectName("scriptList");
+    scriptList_->setAccessibleName(tr("Scripts"));
+    scriptList_->setFrameShape(QFrame::NoFrame);
+    scriptList_->setTextElideMode(Qt::ElideRight);
+    scriptList_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scriptList_->setItemDelegate(new ScriptItemDelegate(scriptList_));
+    scriptList_->setSpacing(1);
+    layout->addWidget(scriptList_, 1);
+    connect(scriptList_, &QListWidget::currentItemChanged, this, [this](QListWidgetItem *item) {
+        if (!item)
+            return;
+        openScript(item->data(Qt::UserRole).toString());
+    });
+    // Over the text, in a small window, the panel goes once a script is chosen.
+    connect(scriptList_, &QListWidget::itemClicked, this, [this] {
+        if (!prompter_->roomy())
+            prompter_->setDrawerOpen(false);
+    });
+    auto *newShortcut = new QShortcut(QKeySequence::New, this);
+    connect(newShortcut, &QShortcut::activated, this, &MainWindow::newScript);
+
     connect(add, &QPushButton::clicked, this, &MainWindow::newScript);
     connect(import, &QAction::triggered, this, &MainWindow::importScript);
     connect(exportAction, &QAction::triggered, this, &MainWindow::exportScript);
@@ -802,6 +721,7 @@ void MainWindow::buildLibraryBar(QWidget *bar) {
         if (!path.isEmpty())
             saveSessionReport(path);
     });
+    return drawer;
 }
 
 bool MainWindow::saveSessionReport(const QString &path) {
@@ -813,7 +733,7 @@ bool MainWindow::saveSessionReport(const QString &path) {
         QMessageBox::warning(this, tr("Cannot save the report"), tr("Check the destination and available disk space."));
         return false;
     }
-    audioStatus_->setText(tr("Session report saved to %1.").arg(QDir::toNativeSeparators(path)));
+    notify(tr("Session report saved to %1.").arg(QDir::toNativeSeparators(path)));
     return true;
 }
 
@@ -841,7 +761,6 @@ void MainWindow::applyTheme() {
         Accessibility::apply(settings_, *tokens);
     }
     const QPalette &used = palette();
-    script_->setColors(Accessibility::muted(used), used.color(QPalette::Text));
     for (const auto &[button, name] : icons_) {
         // The window's new colours: while the desktop's change travels down, a button can still have
         // the old ones. The primary action's colours were just set above.
@@ -862,15 +781,19 @@ void MainWindow::changeEvent(QEvent *event) {
         applyTheme();
         applyingTheme_ = false;
     }
+    // Out of sight, the reader stops: the microphone is off until Start is pressed again.
+    if (event->type() == QEvent::WindowStateChange && isMinimized() && running()) {
+        pauseRunning();
+        notify(tr("Paused while the window was minimized · microphone off"));
+    }
 }
 
+void MainWindow::notify(const QString &message) { prompter_->showMessage(message); }
+
 void MainWindow::refreshLibrary() {
-    const QSignalBlocker block(scripts_);
     const QSignalBlocker blockList(scriptList_);
-    scripts_->clear();
     scriptList_->clear();
     for (const auto &entry : library_.entries()) {
-        scripts_->addItem(entry.title, entry.id);
         auto *item = new QListWidgetItem(entry.title, scriptList_);
         item->setData(Qt::UserRole, entry.id);
         item->setData(ScriptItemDelegate::MetaRole, scriptMeta(entry));
@@ -878,8 +801,6 @@ void MainWindow::refreshLibrary() {
         if (entry.id == currentId_)
             scriptList_->setCurrentItem(item);
     }
-    scripts_->setCurrentIndex(std::max(0, scripts_->findData(currentId_)));
-    scripts_->updateGeometry();
 }
 
 // "2 min · 14:32": how long the script takes to read at its steady speed, and when it changed.
@@ -931,6 +852,7 @@ void MainWindow::openScript(const QString &id) {
     }
     refreshLibrary();
     seekWord(tracker_.position());
+    prompter_->placeCaret(tracker_.character()); // While writing, the caret where reading stopped.
     refreshWelcome();
 }
 
@@ -941,7 +863,7 @@ bool MainWindow::saveScript() {
     const auto text = script_->toPlainText();
     if (text != library_.load(currentId_)) {
         if (!library_.save(currentId_, text)) {
-            audioStatus_->setText(tr("Cannot save the script. Check the available disk space."));
+            notify(tr("Cannot save the script. Check the available disk space."));
             return false;
         }
         refreshCurrentRow();
@@ -955,8 +877,6 @@ void MainWindow::refreshCurrentRow() {
     if (!persist_ || currentId_.isEmpty())
         return;
     const auto title = ScriptLibrary::titleFor(script_->toPlainText());
-    if (const int index = scripts_->findData(currentId_); index >= 0 && scripts_->itemText(index) != title)
-        scripts_->setItemText(index, title);
     auto *item = scriptList_->currentItem();
     if (!item || item->data(Qt::UserRole).toString() != currentId_)
         return;
@@ -980,7 +900,7 @@ void MainWindow::dropIfEmpty() {
 void MainWindow::newScript() {
     const auto id = library_.create();
     if (id.isEmpty()) {
-        audioStatus_->setText(tr("Cannot create a script in %1.").arg(library_.directory()));
+        notify(tr("Cannot create a script in %1.").arg(library_.directory()));
         return;
     }
     openScript(id);
@@ -1001,11 +921,11 @@ bool MainWindow::importFile(const QString &path) {
     }
     const auto id = library_.create(result.text);
     if (id.isEmpty()) {
-        audioStatus_->setText(tr("Cannot save the imported script."));
+        notify(tr("Cannot save the imported script."));
         return false;
     }
     openScript(id);
-    audioStatus_->setText(result.sections ? tr("Imported speaker notes from %n slide(s). Use Sections in the reader "
+    notify(result.sections ? tr("Imported speaker notes from %n slide(s). Use Sections in the reader "
                                                "to jump between slides.",
                                                nullptr, result.sections)
                                           : tr("Script imported."));
@@ -1051,6 +971,138 @@ void MainWindow::toggleHeading() {
     script_->setFocus();
 }
 
+namespace {
+// The Markdown the formats write, as the highlighter reads it.
+const QRegularExpression &strongMarks() {
+    static const QRegularExpression pattern(QStringLiteral(R"(\*\*(?=\S)(.+?)(?<=\S)\*\*)"));
+    return pattern;
+}
+const QRegularExpression &emphasisMarks() {
+    static const QRegularExpression pattern(QStringLiteral(R"((?<![*\w])\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?![*\w]))"));
+    return pattern;
+}
+const QRegularExpression &strongEmphasisMarks() {
+    static const QRegularExpression pattern(QStringLiteral(R"(\*\*\*(?=\S)(.+?)(?<=\S)\*\*\*)"));
+    return pattern;
+}
+const QRegularExpression &cueMarks() {
+    static const QRegularExpression pattern(QStringLiteral(R"(\[[^\[\]\n]*\])"));
+    return pattern;
+}
+
+// The format around the caret or the selection (both ends inside the same marks), as document
+// positions of its first and past its last mark.
+struct Span {
+    int start = -1, end = -1;
+    bool found() const { return start >= 0; }
+};
+Span spanAround(const QTextCursor &cursor, const QRegularExpression &pattern) {
+    const auto *document = cursor.document();
+    const auto block = document->findBlock(cursor.selectionStart());
+    if (block != document->findBlock(cursor.selectionEnd()))
+        return {};
+    const int from = cursor.selectionStart() - block.position(), to = cursor.selectionEnd() - block.position();
+    for (auto matches = pattern.globalMatch(block.text()); matches.hasNext();) {
+        const auto match = matches.next();
+        if (from >= match.capturedStart() && to <= match.capturedEnd())
+            return {block.position() + int(match.capturedStart()), block.position() + int(match.capturedEnd())};
+    }
+    return {};
+}
+} // namespace
+
+// A format button puts its format on the selection (or at the caret), or takes it off the text it is
+// already on, keeping the selection on the same words.
+void MainWindow::toggleFormat(const QString &kind) {
+    if (kind == QLatin1String("heading")) {
+        toggleHeading();
+        updateFormatState();
+        return;
+    }
+    auto cursor = script_->textCursor();
+    const bool emphasis = kind == QLatin1String("bold") || kind == QLatin1String("italic");
+    const int marks = kind == QLatin1String("bold") ? 2 : 1;
+    Span span = emphasis ? spanAround(cursor, strongEmphasisMarks()) : Span{};
+    if (!span.found())
+        span = spanAround(cursor, kind == QLatin1String("bold")     ? strongMarks()
+                                  : kind == QLatin1String("italic") ? emphasisMarks()
+                                                                    : cueMarks());
+    if (!span.found()) {
+        if (kind == QLatin1String("cue"))
+            wrapSelection("[", "]");
+        else
+            wrapSelection(QString(marks, QLatin1Char('*')), QString(marks, QLatin1Char('*')));
+        updateFormatState();
+        return;
+    }
+    const auto shift = [&](int position) {
+        if (position > span.end - marks)
+            position = std::min(position, span.end - marks) - marks;
+        else if (position > span.start)
+            position = std::max(span.start, position - marks);
+        return position;
+    };
+    const int anchor = shift(cursor.anchor()), position = shift(cursor.position());
+    QTextCursor edit(script_->document());
+    edit.beginEditBlock();
+    edit.setPosition(span.end - marks);
+    edit.setPosition(span.end, QTextCursor::KeepAnchor);
+    edit.removeSelectedText();
+    edit.setPosition(span.start);
+    edit.setPosition(span.start + marks, QTextCursor::KeepAnchor);
+    edit.removeSelectedText();
+    edit.endEditBlock();
+    cursor.setPosition(anchor);
+    cursor.setPosition(position, QTextCursor::KeepAnchor);
+    script_->setTextCursor(cursor);
+    script_->setFocus();
+    updateFormatState();
+}
+
+// The format buttons show which formats the caret is in.
+void MainWindow::updateFormatState() {
+    if (formatActions_.size() < 4)
+        return;
+    const auto cursor = script_->textCursor();
+    const bool both = spanAround(cursor, strongEmphasisMarks()).found();
+    const bool states[] = {both || spanAround(cursor, strongMarks()).found(),
+                           both || spanAround(cursor, emphasisMarks()).found(),
+                           script_->highlighter()->headingMarks(cursor.block()) > 0,
+                           spanAround(cursor, cueMarks()).found()};
+    for (int i = 0; i < 4; ++i)
+        formatActions_[i]->setChecked(states[i]);
+}
+
+// The text size in steps an eighth apart (the typographic scale of the major second, 9:8), so every
+// press looks like the same change at any size; Word's list jumps from 28 to 36, 48 and 72.
+void MainWindow::stepTextSize(int direction) {
+    if (!textSize_)
+        return;
+    static constexpr int steps[] = {18, 20, 22, 25, 28, 32, 35, 40, 45, 51, 57, 64, 72, 81, 91, 96};
+    const int now = textSize_->value();
+    int next = now;
+    if (direction > 0) {
+        for (const int step : steps)
+            if (step > now) {
+                next = step;
+                break;
+            }
+    } else {
+        for (auto it = std::rbegin(steps); it != std::rend(steps); ++it)
+            if (*it < now) {
+                next = *it;
+                break;
+            }
+    }
+    next = std::clamp(next, textSize_->minimum(), textSize_->maximum());
+    if (next == now) {
+        notify(direction > 0 ? tr("The text is as large as it gets.") : tr("The text is as small as it gets."));
+        return;
+    }
+    textSize_->setValue(next); // Saved, and the same as in Settings.
+    notify(tr("Text size %1").arg(next));
+}
+
 void MainWindow::exportScript() {
     auto path = QFileDialog::getSaveFileName(this, tr("Export script"), ScriptLibrary::titleFor(script_->toPlainText()),
                                              tr("Text (*.txt);;Markdown (*.md)"));
@@ -1061,7 +1113,7 @@ void MainWindow::exportScript() {
     if (!file.open(QIODevice::WriteOnly) || file.write(data) != data.size() || !file.commit())
         QMessageBox::warning(this, tr("Cannot export"), tr("Check the destination and available disk space."));
     else
-        audioStatus_->setText(tr("Exported to %1.").arg(QDir::toNativeSeparators(path)));
+        notify(tr("Exported to %1.").arg(QDir::toNativeSeparators(path)));
 }
 
 void MainWindow::deleteScript() {
@@ -1081,7 +1133,7 @@ void MainWindow::deleteScript() {
         newScript();
     else
         openScript(remaining.first().id);
-    audioStatus_->setText(tr("Deleted “%1”.").arg(title));
+    notify(tr("Deleted “%1”.").arg(title));
 }
 
 namespace {
@@ -1102,11 +1154,7 @@ void MainWindow::setDemoScript() {
     script_->spaceLines();
     loading_ = false;
     {
-        const QSignalBlocker block(scripts_);
         const QSignalBlocker blockList(scriptList_);
-        scripts_->clear();
-        scripts_->addItem(tr("Sample script (not saved)"));
-        scripts_->updateGeometry();
         scriptList_->clear();
         scriptList_->addItem(tr("Sample script (not saved)"));
         scriptList_->setCurrentRow(0);
@@ -1224,7 +1272,7 @@ QWidget *MainWindow::makeWelcome() {
     connect(sample, &QPushButton::clicked, this, &MainWindow::loadSample);
     step(3, tr("Write or import your script"),
          new QLabel(tr("Paste your text, or import a document, Markdown or the speaker notes of a presentation. "
-                       "Then press Read: this window becomes the reader, under your camera.")),
+                       "To read, press Under the camera: the window goes small, at the top of the screen.")),
          {write, import, sample});
 
     // The column takes the width it has up to a comfortable measure, so the notes wrap at it.
@@ -1247,12 +1295,11 @@ QWidget *MainWindow::makeWelcome() {
 }
 
 void MainWindow::refreshWelcome() {
-    if (!editorStack_ || !modelPath_ || !backend_)
+    if (!welcome_ || !modelPath_ || !backend_)
         return;
     const bool first =
         !welcomeDismissed_ && persist_ && script_->toPlainText().trimmed().isEmpty() && library_.entries().size() <= 1;
-    const bool focused = editorStack_->currentWidget() == script_ && script_->hasFocus();
-    editorStack_->setCurrentWidget(first && !focused ? welcome_ : script_);
+    prompter_->showWelcome(first && !script_->hasFocus());
     const bool ready = voiceReady();
     const auto name = spokenName(speechLanguage());
     welcomeVoice_->setText(ready ? tr("Ready: Kalipso listens in %1, on this computer.").arg(name)
@@ -1260,53 +1307,6 @@ void MainWindow::refreshWelcome() {
     welcomeVoiceButton_->setText(ready ? tr("Change language") : tr("Choose language"));
     if (!steps_.isEmpty())
         steps_.first()->setDone(ready);
-    // Nothing to place or read yet: the position and Read from cursor come back with the script.
-    const bool empty = script_->toPlainText().trimmed().isEmpty();
-    position_->setVisible(!empty);
-    readHere_->setVisible(!empty);
-    // The welcome page has the whole window; the list and the status line come with the first script.
-    if (auto *status = findChild<QWidget *>("statusRow"))
-        status->setVisible(editorStack_->currentWidget() != welcome_);
-    adaptLayout();
-}
-
-void MainWindow::adaptLayout() {
-    if (!scriptList_)
-        return;
-    // Beside the editor when the window has room for both; in the app bar otherwise.
-    const bool wide = width() >= fontMetrics().averageCharWidth() * 110;
-    libraryPanel_->setVisible(wide && editorStack_->currentWidget() != welcome_);
-    scripts_->setVisible(!wide);
-    // The app bar stays one row as long as it can: first New and Settings keep only their icons.
-    auto *bar = findChild<QWidget *>("appBar");
-    if (!bar)
-        return;
-    const QList<QPushButton *> quiet{findChild<QPushButton *>("newScript"), findChild<QPushButton *>("settingsButton")};
-    scripts_->setMaximumWidth(QWIDGETSIZE_MAX);
-    for (const bool icons : {false, true}) {
-        for (auto *button : quiet)
-            if (button) {
-                if (!button->property("label").isValid())
-                    button->setProperty("label", button->text());
-                button->setText(icons ? QString() : button->property("label").toString());
-                button->updateGeometry();
-            }
-        const auto margins = bar->layout()->contentsMargins();
-        int need = margins.left() + margins.right(), visible = 0;
-        for (int i = 0; i < bar->layout()->count(); ++i)
-            if (auto *item = bar->layout()->itemAt(i); item->widget() && !item->widget()->isHidden()) {
-                need += item->sizeHint().width();
-                ++visible;
-            }
-        need += std::max(0, visible - 1) * bar->layout()->spacing();
-        if (need <= bar->width())
-            return;
-    }
-    // Still too wide: the script picker gives up width before anything goes to a second row.
-    if (scripts_->isVisible()) {
-        const int over = bar->layout()->sizeHint().width() - bar->width();
-        scripts_->setMaximumWidth(std::max(fontMetrics().averageCharWidth() * 12, scripts_->sizeHint().width() - over));
-    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
@@ -1319,11 +1319,9 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
                 if (wantedSize_.isValid() && wanted_.elapsed() < kSizeSettles && size() != wantedSize_)
                     resizeFor(wantedSize_, false);
             });
-        adaptLayout();
         return;
     }
     saveReaderGeometry(true);
-    adaptLayout();
 }
 
 // --- Reading ----------------------------------------------------------------
@@ -1337,12 +1335,13 @@ void MainWindow::startSteadyScrolling() {
     refreshRunning();
 }
 
-void MainWindow::showPrompter() {
-    if (!reading_) {
+// Under the camera: small, without a frame, above the other windows, at the top of the screen.
+// Reading goes on as it was; the text is the same.
+void MainWindow::placeUnderCamera() {
+    if (!underCamera_) {
         saveScript();
-        reading_ = true;
-        views_->setCurrentWidget(prompter_);
-        Motion::fadeIn(prompter_);
+        underCamera_ = true;
+        prompter_->setUnderCamera(true);
         updateWindowTitle(); // KWin takes the frame off first; then the window takes the reader's size.
         placeWindow(true);
     }
@@ -1355,26 +1354,15 @@ void MainWindow::showPrompter() {
     prompter_->text->setFocus();
 }
 
-// Leaving the reader always releases the microphone; coming back never resumes. The caret waits
-// where reading stopped, to fix a word there.
-void MainWindow::showWriting() {
-    if (!reading_)
+// Back to the size and place the window had before, with its frame: room to write.
+void MainWindow::expand() {
+    if (!underCamera_)
         return;
-    if (running()) {
-        pauseRunning();
-        audioStatus_->setText(tr("Paused. Back to writing: the microphone is off."));
-    }
-    reading_ = false;
-    views_->setCurrentWidget(writingView_);
+    underCamera_ = false;
+    prompter_->setUnderCamera(false);
     updateWindowTitle();
     placeWindow(false);
-    if (editorStack_->currentWidget() == script_) {
-        QTextCursor caret(script_->document());
-        caret.setPosition(std::clamp(tracker_.character(), 0, std::max(0, script_->document()->characterCount() - 1)));
-        script_->setTextCursor(caret);
-        script_->ensureCursorVisible();
-        script_->setFocus();
-    }
+    prompter_->text->setFocus();
 }
 
 namespace {
@@ -1395,7 +1383,9 @@ void MainWindow::placeWindow(bool reading) {
     const bool shown = isVisible();
     if (reading) {
         writingGeometry_ = normalGeometry();
-        writingMaximized_ = isMaximized() || isFullScreen();
+        writingMaximized_ = isMaximized();
+        if (!writingMaximized_ && !ReaderPage::isRoomy(writingGeometry_.size(), Qt::WindowNoState))
+            writingGeometry_ = {}; // Expanding from here gives the window room to write.
         if (writingMaximized_)
             showNormal(); // A maximized window cannot become the reader.
     }
@@ -1434,6 +1424,15 @@ void MainWindow::placeWindow(bool reading) {
             resizeFor(writingGeometry_.size()); // KWin puts it back in its place.
         else
             setGeometry(writingGeometry_);
+    } else if (auto *screen = windowHandle() ? windowHandle()->screen() : QGuiApplication::primaryScreen()) {
+        // It was small before going under the camera: it gets the room of a writing window, or the
+        // whole screen when the screen is small.
+        const auto available = screen->availableGeometry();
+        const QSize room(std::min(1100, available.width() * 4 / 5), std::min(760, available.height() * 17 / 20));
+        writingMaximized_ = !ReaderPage::isRoomy(room, Qt::WindowNoState);
+        resizeFor(room);
+        if (!kwin)
+            move(available.center() - QPoint(room.width(), room.height()) / 2);
     }
     placing_ = false;
     if (!kwin && shown) {
@@ -1455,7 +1454,7 @@ void MainWindow::resizeFor(QSize size, bool restart) {
 }
 
 void MainWindow::saveReaderGeometry(bool resized) {
-    if (!reading_ || placing_ || !isVisible() || !windowHandle())
+    if (!underCamera_ || placing_ || !isVisible() || !windowHandle())
         return;
     if (resized)
         QSettings().setValue("reader/size", size());
@@ -1475,7 +1474,7 @@ void MainWindow::moveEvent(QMoveEvent *event) {
 void MainWindow::updateWindowTitle() {
     const auto title = ScriptLibrary::titleFor(script_->toPlainText());
     auto text = title.isEmpty() ? tr("Kalipso") : tr("%1 — Kalipso").arg(title);
-    if (reading_)
+    if (underCamera_)
         text.prepend(QChar(KWinPlacement::readingMark));
     if (windowTitle() != text)
         setWindowTitle(text);
@@ -1483,7 +1482,7 @@ void MainWindow::updateWindowTitle() {
 
 void MainWindow::setCaptureExcluded(bool excluded) {
     captureExcluded_ = excluded;
-    if (reading_)
+    if (underCamera_)
         CaptureExclusion::apply(this, excluded);
     // Said to assistive technology; a tooltip over the whole reader would cover the text whenever the
     // pointer rests on it.
@@ -1525,7 +1524,8 @@ void MainWindow::refreshReading() {
                            {"total", tracker_.count()},
                            {"speed", wordsPerMinute_}});
     if (waitForNewUtterance_) {
-        position_->setText(tr("Resumes after your next pause"));
+        positionText_ = tr("Resumes after your next pause");
+        prompter_->setStatus(statusText());
         return;
     }
     // Reading time of the whole script at the steady speed, as a rehearsal guide.
@@ -1536,7 +1536,8 @@ void MainWindow::refreshReading() {
     // Before reading: how long the script is. Once reading started: where it stopped.
     const auto where = tracker_.position() < 0 ? tr("%n word(s)", nullptr, tracker_.count())
                                                : tr("Word %1 of %2").arg(tracker_.position() + 1).arg(tracker_.count());
-    position_->setText(length.isEmpty() ? where : tr("%1 · %2").arg(where, length));
+    positionText_ = length.isEmpty() ? where : tr("%1 · %2").arg(where, length);
+    prompter_->setStatus(statusText());
 }
 
 void MainWindow::setMode(ReadingMode mode) {
@@ -1589,7 +1590,7 @@ void MainWindow::pauseRunning() {
     steady_.stop();
     if (speech_.active()) {
         speech_.stop();
-        audioStatus_->setText(tr("Paused · microphone off"));
+        notify(tr("Paused · microphone off"));
     }
     refreshRunning();
 }
@@ -1622,12 +1623,12 @@ void MainWindow::followSlide(int number, const QString &notes) {
     const auto first =
         std::find_if(lines.begin(), lines.end(), [](const QString &line) { return !line.trimmed().isEmpty(); });
     if (first == lines.end()) {
-        audioStatus_->setText(tr("Impress · slide %1 has no notes.").arg(number));
+        notify(tr("Impress · slide %1 has no notes.").arg(number));
         return;
     }
     const int at = int(script_->toPlainText().indexOf(first->trimmed()));
     if (at < 0) {
-        audioStatus_->setText(tr("Impress · the notes of slide %1 are not in this script.").arg(number));
+        notify(tr("Impress · the notes of slide %1 are not in this script.").arg(number));
         return;
     }
     if (at == 0)
@@ -1635,7 +1636,7 @@ void MainWindow::followSlide(int number, const QString &notes) {
     else
         tracker_.seekCharacter(at - 1);
     seekWord(tracker_.position());
-    audioStatus_->setText(tr("Following Impress · slide %1").arg(number));
+    notify(tr("Following Impress · slide %1").arg(number));
 }
 
 namespace {
@@ -1678,7 +1679,7 @@ bool MainWindow::voiceCommand(const QString &utterance) {
             seekWord(-1);
         else
             jumpSection(command == VoiceCommand::NextSection ? 1 : -1);
-        audioStatus_->setText(tr("Voice command: %1")
+        notify(tr("Voice command: %1")
                                   .arg(command == VoiceCommand::Start         ? tr("back to the start")
                                        : command == VoiceCommand::NextSection ? tr("next section")
                                                                               : tr("previous section")));
@@ -1696,6 +1697,9 @@ void MainWindow::jumpSection(int direction) {
 
 QString MainWindow::statusText() const {
     const bool active = running();
+    // While writing: how long the script is, or where reading stopped, and its reading time.
+    if (prompter_->editing() && !active && speechError_.isEmpty() && !positionText_.isEmpty())
+        return positionText_;
     QString status;
     switch (mode_) {
     case ReadingMode::Manual: status = tr("Manual · microphone off"); break;
@@ -1764,7 +1768,7 @@ void MainWindow::startListening() {
     if (request.backend != QLatin1String("system") && !QFileInfo(request.model).isDir() &&
         SpeechCatalog::downloadsSupported()) {
         speechError_ = tr("Choose the language you speak in Settings: Kalipso downloads it once.");
-        audioStatus_->setText(speechError_);
+        notify(speechError_);
         refreshRunning();
         showSettings(voiceLanguage_); // Over the reader, which stays where it is.
         return;
@@ -1794,7 +1798,7 @@ void MainWindow::finishSession() {
         text += " " + tr("(longest %1)").arg(duration(summary.longestPauseMs));
     if (summary.fillers)
         text += " · " + tr("%n filler word(s) recognized", nullptr, summary.fillers);
-    audioStatus_->setText(text);
+    notify(text);
     lastSession_ = summary;
     lastSessionScript_ = script_->toPlainText();
     lastSessionAt_ = QDateTime::currentDateTime();
@@ -2008,6 +2012,7 @@ QWidget *MainWindow::makeReadingSettings() {
     refreshScreens();
 
     auto *size = new SettingsSpinBox;
+    textSize_ = size;
     size->setObjectName("readerTextSize");
     size->setRange(18, 96);
     size->setValue(settings.value("reading/fontSize", 28).toInt());
@@ -2076,7 +2081,7 @@ QWidget *MainWindow::makeReadingSettings() {
     });
     form->addRow(tr("Mirror text"), mirror);
 
-    wordsPerMinute_ = std::clamp(settings.value("reading/speed", 140).toInt(), 40, 400);
+    wordsPerMinute_ = std::clamp(settings.value("reading/speed", 150).toInt(), 40, 400);
     auto *countdown = new SettingsComboBox;
     countdown->setObjectName("readerCountdown");
     countdown->addItem(tr("Off"), 0);
@@ -2130,7 +2135,6 @@ QWidget *MainWindow::makeReadingSettings() {
         stop->hide(); // Offered only once a window is shared.
         connect(choose, &QPushButton::clicked, this, [this, readerTheme, stop] {
             readerTheme->setCurrentIndex(readerTheme->findData("auto"));
-            showPrompter();
             prompter_->chooseBackgroundWindow();
             stop->show();
         });
@@ -2169,7 +2173,7 @@ QWidget *MainWindow::makeReadingSettings() {
     language->setCurrentIndex(std::max(0, language->findData(settings.value("appearance/language").toString())));
     connect(language, &QComboBox::currentIndexChanged, this, [this, language] {
         QSettings().setValue("appearance/language", language->currentData());
-        audioStatus_->setText(tr("The interface language changes the next time Kalipso starts."));
+        notify(tr("The interface language changes the next time Kalipso starts."));
     });
     form->addRow(tr("Interface language"), language);
 
@@ -2198,9 +2202,12 @@ QWidget *MainWindow::makeReadingSettings() {
                                     "Check the view from another participant before relying on it.")));
     } else {
         hiddenRow->deleteLater();
-        group->form->addRow(
-            note(tr("Others may see the reader when you share the whole screen. Share a single window, or on "
-                    "Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).")));
+        group->form->addRow(note(
+            KWinPlacement::active()
+                ? tr("Under the camera, Plasma 6.6 or later leaves the reader out of screen sharing. Check the view "
+                     "from another participant before relying on it.")
+                : tr("Others may see the reader when you share the whole screen. Share a single window, or on "
+                     "Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).")));
     }
     appearanceSettings_ = appearanceGroup; // A page of its own in Settings.
     return group;
@@ -2248,11 +2255,6 @@ void MainWindow::applyInterfaceScale(double scale) {
         widget->setFont(font);
     }
     interfaceScale_ = scale;
-    // The list of scripts keeps room for about 28 letters of the new size.
-    if (auto *split = findChild<QSplitter *>("librarySplit"); split && libraryPanel_) {
-        const int list = libraryPanel_->fontMetrics().averageCharWidth() * 28;
-        split->setSizes({list, std::max(1, split->width() - list)});
-    }
 }
 
 QWidget *MainWindow::makeSpeechSettings() {
@@ -2735,8 +2737,8 @@ QWidget *MainWindow::makeRemoteSettings() {
     remote_ = new RemoteControl(this);
     connect(remote_, &RemoteControl::command, this, [this](const QString &name) {
         if (name == QLatin1String("toggle")) {
-            // The microphone only ever runs with the reader visible.
-            if (running() || reading_)
+            // The microphone only ever runs with the reader in sight.
+            if (running() || (isVisible() && !isMinimized()))
                 toggleRunning();
         } else if (name == QLatin1String("next"))
             seekWord(tracker_.position() + 1);

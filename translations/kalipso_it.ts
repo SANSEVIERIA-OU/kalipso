@@ -82,28 +82,8 @@
         <translation>Kalipso</translation>
     </message>
     <message>
-        <source>Paste or write the script you want to read…
-
-[Bracketed cues] are shown but not read aloud. Lines starting with # become sections you can jump to.</source>
-        <translation>Incolla o scrivi il copione da leggere…
-
-Le [indicazioni tra parentesi quadre] si vedono ma non si leggono ad alta voce. Le righe che iniziano con # diventano sezioni a cui saltare.</translation>
-    </message>
-    <message>
-        <source>Editable script</source>
-        <translation>Copione modificabile</translation>
-    </message>
-    <message>
         <source>Script</source>
         <translation>Copione</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation>Impostazioni</translation>
-    </message>
-    <message>
-        <source>Ready to write.</source>
-        <translation>Pronto per scrivere.</translation>
     </message>
     <message>
         <source>Script saved.</source>
@@ -490,10 +470,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Impostazioni di Kalipso</translation>
     </message>
     <message>
-        <source>Your scripts, saved on this device</source>
-        <translation>I tuoi copioni, salvati su questo dispositivo</translation>
-    </message>
-    <message>
         <source>New</source>
         <translation>Nuovo</translation>
     </message>
@@ -547,10 +523,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Text, Markdown, Word (.docx) and OpenDocument (.odt) documents, or speaker notes from PowerPoint (.pptx) and Impress (.odp)</source>
         <translation>Testo, Markdown, documenti Word (.docx) e OpenDocument (.odt), o note del relatore da PowerPoint (.pptx) e Impress (.odp)</translation>
-    </message>
-    <message>
-        <source>The reading time is estimated at the steady speed. Ctrl+Enter opens the reader. In the reader, arrow keys step and Space starts or pauses.</source>
-        <translation>Il tempo di lettura è stimato alla velocità costante. Ctrl+Invio apre il lettore. Nel lettore, le frecce avanzano e lo Spazio avvia o mette in pausa.</translation>
     </message>
     <message>
         <source>under a minute</source>
@@ -696,10 +668,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Segue Impress · diapositiva %1</translation>
     </message>
     <message>
-        <source>Format</source>
-        <translation>Formato</translation>
-    </message>
-    <message>
         <source>Bold</source>
         <translation>Grassetto</translation>
     </message>
@@ -710,10 +678,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Section heading</source>
         <translation>Titolo di sezione</translation>
-    </message>
-    <message>
-        <source>Direction cue [ ]</source>
-        <translation>Segnale [ ]</translation>
     </message>
     <message>
         <source>Count filler words (um, uh) in the session summary</source>
@@ -1008,22 +972,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Telefono come telecomando</translation>
     </message>
     <message>
-        <source>Read</source>
-        <translation>Leggi</translation>
-    </message>
-    <message>
-        <source>This window becomes the reader, near your camera (Ctrl+Enter)</source>
-        <translation>Questa finestra diventa il gobbo, vicino alla webcam (Ctrl+Invio)</translation>
-    </message>
-    <message>
-        <source>Read from here</source>
-        <translation>Leggi da qui</translation>
-    </message>
-    <message>
-        <source>Read from the word under the text cursor</source>
-        <translation>Leggi dalla parola sotto il cursore</translation>
-    </message>
-    <message>
         <source>Empty</source>
         <translation>Vuoto</translation>
     </message>
@@ -1047,10 +995,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>%1 · %2</translation>
     </message>
     <message>
-        <source>Paused. Back to writing: the microphone is off.</source>
-        <translation>In pausa. Sei tornato a scrivere: il microfono è spento.</translation>
-    </message>
-    <message>
         <source>%1 — Kalipso</source>
         <translation>%1 — Kalipso</translation>
     </message>
@@ -1070,12 +1014,44 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         </translation>
     </message>
     <message>
-        <source>Paste your text, or import a document, Markdown or the speaker notes of a presentation. Then press Read: this window becomes the reader, under your camera.</source>
-        <translation>Incolla il testo, oppure importa un documento, un file Markdown o le note di una presentazione. Poi premi Leggi: questa finestra diventa il gobbo, sotto la webcam.</translation>
-    </message>
-    <message>
         <source>Microphone off · no language chosen yet</source>
         <translation>Microfono spento · manca la lingua</translation>
+    </message>
+    <message>
+        <source>Direction cue, not read aloud</source>
+        <translation>Indicazione, non letta ad alta voce</translation>
+    </message>
+    <message>
+        <source>%1 (%2)</source>
+        <translation>%1 (%2)</translation>
+    </message>
+    <message>
+        <source>New script (Ctrl+N)</source>
+        <translation>Nuovo copione (Ctrl+N)</translation>
+    </message>
+    <message>
+        <source>Paused while the window was minimized · microphone off</source>
+        <translation>In pausa: la finestra è stata ridotta a icona · microfono spento</translation>
+    </message>
+    <message>
+        <source>The text is as large as it gets.</source>
+        <translation>Il testo è già alla dimensione più grande.</translation>
+    </message>
+    <message>
+        <source>The text is as small as it gets.</source>
+        <translation>Il testo è già alla dimensione più piccola.</translation>
+    </message>
+    <message>
+        <source>Text size %1</source>
+        <translation>Dimensione del testo %1</translation>
+    </message>
+    <message>
+        <source>Paste your text, or import a document, Markdown or the speaker notes of a presentation. To read, press Under the camera: the window goes small, at the top of the screen.</source>
+        <translation>Incolla il testo, o importa un documento, un file Markdown o le note del relatore di una presentazione. Per leggere premi Sotto la webcam: la finestra diventa piccola, in alto sullo schermo.</translation>
+    </message>
+    <message>
+        <source>Under the camera, Plasma 6.6 or later leaves the reader out of screen sharing. Check the view from another participant before relying on it.</source>
+        <translation>Sotto la webcam, Plasma 6.6 o successivo esclude il gobbo dalla condivisione dello schermo. Prima di fidarti, controlla la vista di un altro partecipante.</translation>
     </message>
 </context>
 <context>
@@ -1222,20 +1198,8 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <source>Write</source>
-        <translation>Scrivi</translation>
-    </message>
-    <message>
-        <source>Back to writing (Esc)</source>
-        <translation>Torna a scrivere (Esc)</translation>
-    </message>
-    <message>
         <source>Reading progress</source>
         <translation>Avanzamento della lettura</translation>
-    </message>
-    <message>
-        <source>Write your script first: press Write.</source>
-        <translation>Prima scrivi il copione: premi Scrivi.</translation>
     </message>
     <message>
         <source>Previous word (← or Page Up)</source>
@@ -1324,6 +1288,50 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
     <message>
         <source>Choose the language you speak, in Settings</source>
         <translation>Scegli nelle Impostazioni la lingua in cui parli</translation>
+    </message>
+    <message>
+        <source>Your scripts (F9)</source>
+        <translation>I tuoi copioni (F9)</translation>
+    </message>
+    <message>
+        <source>Scripts</source>
+        <translation>Copioni</translation>
+    </message>
+    <message>
+        <source>Smaller text (Ctrl+−)</source>
+        <translation>Testo più piccolo (Ctrl+−)</translation>
+    </message>
+    <message>
+        <source>Smaller text</source>
+        <translation>Testo più piccolo</translation>
+    </message>
+    <message>
+        <source>Larger text (Ctrl++)</source>
+        <translation>Testo più grande (Ctrl++)</translation>
+    </message>
+    <message>
+        <source>Larger text</source>
+        <translation>Testo più grande</translation>
+    </message>
+    <message>
+        <source>Write or paste your script here.</source>
+        <translation>Scrivi o incolla qui il tuo copione.</translation>
+    </message>
+    <message>
+        <source>Expand</source>
+        <translation>Espandi</translation>
+    </message>
+    <message>
+        <source>Under the camera</source>
+        <translation>Sotto la webcam</translation>
+    </message>
+    <message>
+        <source>Larger, to write and manage your scripts</source>
+        <translation>Più grande, per scrivere e gestire i copioni</translation>
+    </message>
+    <message>
+        <source>Small, at the top of the screen, under the camera</source>
+        <translation>Piccola, in alto sullo schermo, sotto la webcam</translation>
     </message>
 </context>
 <context>

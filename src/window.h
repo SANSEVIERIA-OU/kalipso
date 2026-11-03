@@ -19,7 +19,6 @@ class QListWidget;
 class QPushButton;
 class QStackedWidget;
 class QLineEdit;
-class ScriptEditor;
 class QProgressBar;
 class QSpinBox;
 class RemoteControl;
@@ -37,15 +36,17 @@ public:
     bool importFile(const QString &path);
     ~MainWindow() override;
 
-    // The window turns into the reader near the camera, and back into the editor. The same
-    // window and the same script: what you write is what you read.
-    void showPrompter();
-    void showWriting();
-    bool reading() const { return reading_; }
+    // The window goes small under the camera, and back to the size it had, with room to write. The
+    // same window and the same text either way: what you write is what you read.
+    void placeUnderCamera();
+    void expand();
+    bool underCamera() const { return underCamera_; }
     void setDemoScript();
     // Starts steady scrolling immediately, without changing the saved mode.
     void startSteadyScrolling();
     ReaderPage *prompter() const { return prompter_; }
+    // Where reading is and how long the script takes, as the status says it while writing.
+    QString positionText() const { return positionText_; }
     QString currentScript() const { return currentId_; }
 
 protected:
@@ -56,7 +57,7 @@ protected:
 
 private:
     // Script library
-    void buildLibraryBar(QWidget *bar);
+    QWidget *makeDrawer();
     void refreshLibrary();
     QString scriptMeta(const ScriptLibrary::Entry &entry) const;
     void refreshCurrentRow();
@@ -70,12 +71,17 @@ private:
     void exportScript();
     void wrapSelection(const QString &before, const QString &after);
     void toggleHeading();
+    // Bold, italic, cue: on the selection, or off the text that has it. Heading: the line.
+    void toggleFormat(const QString &kind);
+    void updateFormatState();
+    // One step larger (1) or smaller (-1), saved as the reader's text size.
+    void stepTextSize(int direction);
+    // What just happened, for a few seconds in the reader's status.
+    void notify(const QString &message);
     void deleteScript();
-    // The first-run page: shown instead of an empty editor until there is a script.
+    // The first-run page: shown instead of an empty script until there is one.
     QWidget *makeWelcome();
     void refreshWelcome();
-    // Wide windows list the scripts beside the editor; narrow ones pick them from the app bar.
-    void adaptLayout();
     // Whether voice following has a model for the chosen language.
     bool voiceReady() const;
     void loadSample();
@@ -152,9 +158,7 @@ private:
     QDateTime lastSessionAt_;
     QAction *reportAction_ = nullptr;
     ReaderPage *prompter_;
-    QStackedWidget *views_ = nullptr;
-    QWidget *writingView_ = nullptr;
-    bool reading_ = false;
+    bool underCamera_ = false;
     bool placing_ = false;
     bool captureExcluded_ = false;
     QRect writingGeometry_;
@@ -167,24 +171,24 @@ private:
     ReadingMode mode_ = ReadingMode::Voice;
     QTimer steady_, countdown_;
     int countdownLeft_ = 0;
-    int wordsPerMinute_ = 140;
+    // 150: Italian read aloud (182 words/min, Brysbaert 2019) slowed as a script is read to listeners
+    // (audiobooks 155 against 190 read aloud in English): see docs/reading-speed.md.
+    int wordsPerMinute_ = 150;
     QString speechStatus_;
     QString speechError_;           // Why listening did not start or stopped; shown in the reader until the next try.
     bool microphoneSilent_ = false; // No sound from the microphone: said before anything else.
     bool waitForNewUtterance_ = false;
 
-    QComboBox *scripts_;
     QListWidget *scriptList_ = nullptr;
-    QWidget *libraryPanel_ = nullptr;
-    class QToolButton *more_ = nullptr;
-    QStackedWidget *editorStack_ = nullptr;
+    QAbstractButton *more_ = nullptr;
     QWidget *welcome_ = nullptr;
     QLabel *welcomeVoice_ = nullptr;
     QPushButton *welcomeVoiceButton_ = nullptr;
     bool welcomeDismissed_ = false;
     QList<class StepBadge *> steps_;
-    QPushButton *readHere_ = nullptr;
-    ScriptEditor *script_;
+    ReaderView *script_;
+    QSpinBox *textSize_ = nullptr;
+    QString positionText_; // "120 words · about 1 min", the status while writing.
     QDialog *settings_ = nullptr;
     QWidget *appearanceSettings_ = nullptr;
     class QFormLayout *readerForm_ = nullptr;
@@ -192,8 +196,6 @@ private:
     QStackedWidget *settingsStack_ = nullptr;
     std::function<void(int)> settingsAdapt_;
     QList<QPair<QAbstractButton *, QString>> icons_; // Buttons whose icon follows the theme.
-    StatusLabel *audioStatus_;
-    QLabel *position_;
 
     QComboBox *screen_ = nullptr, *voiceLanguage_ = nullptr, *backend_ = nullptr, *language_ = nullptr,
               *architecture_ = nullptr;

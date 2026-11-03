@@ -70,7 +70,7 @@ endif()
 # --- Standalone application -----------------------------------------------------
 add_library(kalipso_app STATIC
   src/window.cpp src/reader.cpp src/backdrop.cpp src/library.cpp src/import.cpp src/remote.cpp
-  src/script_highlighter.cpp src/script_editor.cpp src/session_stats.cpp src/impress.cpp src/icons.cpp src/motion.cpp
+  src/script_highlighter.cpp src/session_stats.cpp src/impress.cpp src/icons.cpp src/motion.cpp
   src/platform/capture_exclusion.cpp src/platform/kwin_placement.cpp)
 target_link_libraries(kalipso_app PUBLIC kalipso_downloads Qt6::Widgets Qt6::Network Qt6::Svg PRIVATE kalipso_vendor)
 file(GLOB KALIPSO_ICONS CONFIGURE_DEPENDS

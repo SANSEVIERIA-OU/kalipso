@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
         window.setDemoScript();
     window.show();
     if (parser.isSet("prompter") || parser.isSet("steady"))
-        window.showPrompter();
+        window.placeUnderCamera();
     if (parser.isSet("steady"))
         window.startSteadyScrolling();
     if (parser.isSet("quit-after")) {
@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
         QDir().mkpath(directory);
         QTimer::singleShot(500, &window, [&window, directory, &app] {
             window.grab().save(directory + "/editor.png");
-            window.showPrompter();
+            window.placeUnderCamera();
             QTimer::singleShot(300, &window, [&window, directory, &app] {
                 window.prompter()->grab().save(directory + "/prompter.png");
                 app.quit();

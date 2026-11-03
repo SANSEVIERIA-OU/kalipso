@@ -12,13 +12,13 @@ On each system you test (Linux, Windows, macOS):
 2. **Deny** the permission. The reader should say that the microphone is unavailable. It must not show "Listening".
 3. Allow the permission (system settings), start again and read a few lines. The current word should follow you; the `[cue]` should be skipped.
 4. Pause and resume five times in a row. Each pause should stop the microphone; the system's microphone indicator should turn off.
-5. While listening: go back to writing (Escape), minimize the window, and quit Kalipso. Each one should turn the microphone off. Reading again must not resume listening.
+5. While listening: pause with Escape, minimize the window, and quit Kalipso. Each one should turn the microphone off. Nothing should start listening again by itself.
 6. In **Settings → Voice → Microphone**, every microphone of the system should be listed, the first entry naming the system's one. **Test microphone**: the bar should move when you speak and the note should say that Kalipso hears you; mute the microphone in the system and the note should say that no sound arrives.
 7. Unplug a USB microphone or headset while listening. With that microphone chosen in Settings, the reader should say that no sound arrives from it, by name, and must not freeze or switch to another microphone. With **System microphone**, listening should continue with the system's new microphone.
 
 ## Leaving the reader out of screen sharing (#32)
 
-- **Windows:** share the whole screen in Teams, Zoom or Meet, and record with OBS (Display Capture). The reader should not appear to other participants or in the recording; the editor window should.
+- **Windows:** share the whole screen in Teams, Zoom or Meet, and record with OBS (Display Capture). Under the camera, the window should not appear to other participants or in the recording.
 - **KDE Plasma 6.6 or later:** open the reader's window menu (Alt+F3) → **Hide from Screencast**, then share the screen. The reader should not appear.
 - **macOS, GNOME, older Plasma:** the reader is expected to appear; share a single window instead. Confirm the documentation says so.
 
@@ -28,9 +28,9 @@ Always check from a second device what other participants actually see.
 
 With Orca (Linux), NVDA (Windows) or VoiceOver (macOS):
 
-1. Move through the editor window with Tab only. Every control should be reached and announced with a name (for example "Read, button").
+1. Move through the large window with Tab only. Every control should be reached and announced with a name (for example "Under the camera, button").
 2. Open Settings with the keyboard. Each setting should be announced with its label and its current value.
-3. Open the reader (Ctrl+Enter). The reading position and status ("Paused · …", "Scrolling · …") should be announced when they change, without repeating every word while scrolling.
+3. Start reading (Ctrl+Enter). The reading position and status ("Paused · …", "Scrolling · …") should be announced when they change, without repeating every word while scrolling.
 4. Set system text size to 200%. Nothing should be cut off and no window should need horizontal scrolling.
 5. Repeat steps 1–3 in the Plasma widget and the GNOME extension.
 
@@ -44,12 +44,12 @@ With Orca (Linux), NVDA (Windows) or VoiceOver (macOS):
 ## Automatic reader colors (#15)
 
 1. Choose **Reader appearance → Automatic screen colors** (GNOME: **Reader colors → Automatic**), put the reader over a light window, then over a dark one. The reader should switch to light or dark within a few seconds and stay readable.
-2. **KDE (Wayland):** use **Choose background window…** with a GPU-backed session. The system should ask which window to share, and sharing should stop when you choose manual colors or go back to writing.
+2. **KDE (Wayland):** use **Choose background window…** with a GPU-backed session. The system should ask which window to share, and sharing should stop when you choose manual colors or minimize the window.
 3. **macOS:** the system should ask for Screen Recording permission. Denying it should leave readable fixed colors.
 
 ## Pedals, clickers and the phone remote (#28)
 
-1. Connect a Bluetooth foot pedal or presentation clicker (most send arrows, Page Up/Down or Space). Each press should step or start/pause without the editor taking the keys.
+1. Connect a Bluetooth foot pedal or presentation clicker (most send arrows, Page Up/Down or Space). With the window small (under the camera), each press should step or start/pause; nothing should be typed into the script.
 2. Turn on **Settings → Remote control**, scan the QR code with a phone on the same Wi-Fi, and use every button: start/pause, previous/next, section, slower/faster, back to start.
 3. Turn remote control off. The phone page should report that Kalipso is not reachable.
 

@@ -9,6 +9,7 @@
 #include <QAbstractButton>
 #include <QAccessible>
 #include <QCheckBox>
+#include <QClipboard>
 #include <QComboBox>
 #include <QDialog>
 #include <QFontInfo>
@@ -17,6 +18,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMenu>
+#include <QMimeData>
 #include <QPlainTextEdit>
 #include <QProcess>
 #include <QProgressBar>
@@ -25,6 +27,7 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QSignalSpy>
+#include <QSpinBox>
 #include <QStandardPaths>
 #include <QTabWidget>
 #include <QTemporaryDir>
@@ -36,8 +39,12 @@
 #include <QtTest>
 
 namespace {
-QTextEdit *editor(MainWindow &window) { return window.findChild<QTextEdit *>("scriptEditor"); }
-QLabel *positionLabel(MainWindow &window) { return window.findChild<QLabel *>("readingPosition"); }
+// One window: the reader's text is also where the script is written.
+QTextEdit *editor(MainWindow &window) { return window.prompter()->text; }
+// Where reading is, as the status says it while writing ("Word 3 of 4 · …").
+QString position(MainWindow &window) { return window.positionText(); }
+// The reader's status line, where messages about what just happened show for a few seconds.
+QLabel *statusLine(MainWindow &window) { return window.prompter()->findChild<QLabel *>("readerListeningStatus"); }
 // The widgets that need the most width in a scroll area, so an overflow seen
 // only on another machine (fonts, Qt version) can be fixed without guessing.
 QString overflowReport(QScrollArea *area) {
@@ -71,7 +78,7 @@ QString overflowReport(QScrollArea *area) {
 }
 
 QDialog *openSettings(MainWindow &window) {
-    window.findChild<QPushButton *>("settingsButton")->click();
+    window.prompter()->findChild<QPushButton *>("readerSettings")->click(); // In the reader's top bar.
     return window.findChild<QDialog *>("settingsDialog");
 }
 
@@ -183,15 +190,14 @@ private slots:
         {
             MainWindow window(scripts_.path());
             editor(window)->setPlainText("uno due tre quattro");
-            setCursor(editor(window), 8);
-            window.findChild<QPushButton *>("readHere")->click();
-            QVERIFY(positionLabel(window)->text().startsWith("Word 3 of 4"));
+            emit window.prompter()->jumpRequested(8); // A word clicked: reading goes on from it.
+            QVERIFY(position(window).startsWith("Word 3 of 4"));
             id = window.currentScript();
         }
         MainWindow reopened(scripts_.path());
         QCOMPARE(reopened.currentScript(), id);
         QCOMPARE(editor(reopened)->toPlainText(), QString("uno due tre quattro"));
-        QVERIFY(positionLabel(reopened)->text().startsWith("Word 3 of 4"));
+        QVERIFY(position(reopened).startsWith("Word 3 of 4"));
     }
 
     void firstRunWelcomesAndTheListFollowsTheLibrary() {
@@ -206,7 +212,6 @@ private slots:
         QVERIFY(!editor(window)->isVisible());
         // The welcome has the whole window: nothing to list yet, and the empty script is not listed.
         QVERIFY(!list->isVisible());
-        QVERIFY(!window.findChild<QComboBox *>("scriptPicker")->isVisible()); // The list replaces it.
         // Steps still to do are rings, not discs: a filled one read as a black blot.
         const auto steps = window.findChildren<QWidget *>("welcomeStep");
         QCOMPARE(steps.size(), 3);
@@ -224,10 +229,18 @@ private slots:
         QVERIFY(editor(window)->isVisible()); // A second script is not a first run.
         list->setCurrentRow(list->row(list->findItems("Welcome", Qt::MatchExactly).value(0)));
         QVERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
-        // Narrow: the picker in the bar takes the list's place.
-        window.resize(420, 760);
+        // Small, as a teleprompter: the scripts close, and open over the text when asked for.
+        window.resize(620, 400);
         QTRY_VERIFY(!list->isVisible());
-        QVERIFY(window.findChild<QComboBox *>("scriptPicker")->isVisible());
+        auto *scripts = window.prompter()->findChild<QPushButton *>("readerScripts");
+        scripts->click();
+        QTRY_VERIFY(list->isVisible());
+        QTest::keyClick(list, Qt::Key_Escape); // Esc closes them, and the keys go back to the text.
+        QTRY_VERIFY(!list->isVisible());
+        QVERIFY(editor(window)->hasFocus() || !window.isActiveWindow());
+        // Large again: the scripts beside the text, as before.
+        window.resize(1100, 760);
+        QTRY_VERIFY(list->isVisible());
     }
 
     void desktopLookMarksOnlyWhatTheStyleCannotKnow() {
@@ -261,19 +274,18 @@ private slots:
 
     void libraryCreatesSwitchesAndDeletesScripts() {
         MainWindow window(scripts_.path());
-        auto *picker = window.findChild<QComboBox *>("scriptPicker");
+        auto *list = window.findChild<QListWidget *>("scriptList");
         editor(window)->setPlainText("# First talk\nHello");
         const auto first = window.currentScript();
         window.findChild<QPushButton *>("newScript")->click();
         QVERIFY(window.currentScript() != first);
         QVERIFY(editor(window)->toPlainText().isEmpty());
         editor(window)->setPlainText("Second talk");
-        QCOMPARE(picker->count(), 2);
-        picker->setCurrentIndex(picker->findData(first));
-        emit picker->activated(picker->currentIndex());
+        QTRY_COMPARE(list->count(), 2);
+        list->setCurrentRow(list->row(list->findItems("First talk", Qt::MatchExactly).value(0)));
         QCOMPARE(window.currentScript(), first);
         QCOMPARE(editor(window)->toPlainText(), QString("# First talk\nHello"));
-        QCOMPARE(picker->currentText(), QString("First talk"));
+        QCOMPARE(list->currentItem()->text(), QString("First talk"));
     }
 
     void accessiblePalettesKeepReadTextAndSelectionLegible() {
@@ -357,7 +369,7 @@ private slots:
     void settingsFieldsHaveAccessibleNames() {
         MainWindow window(scripts_.path());
         for (const auto *name : {"speechBackend", "speechLanguage", "speechLibrary", "speechModel", "applicationTheme",
-                                 "readerTheme", "readerMirror", "readingLine", "voiceLanguage", "scriptPicker",
+                                 "readerTheme", "readerMirror", "readingLine", "voiceLanguage", "scriptList",
                                  "microphone", "testMicrophone", "microphoneLevel"}) {
             auto *field = window.findChild<QWidget *>(name);
             QVERIFY2(field, name);
@@ -393,37 +405,101 @@ private slots:
         QCOMPARE(unsafe.currentIndex(), 1); // Counterexample: ordinary combos change while scrolling.
     }
 
-    void editorShowsSectionsAsHeadingsWithTheirMarksInTheMargin() {
+    void writingShowsTheFormatsAndOnlyTheMarksAtTheCaret() {
         MainWindow window(scripts_.path());
         window.resize(1100, 760);
         window.show();
+        auto *reader = window.prompter();
         auto *edit = editor(window);
-        edit->setPlainText("# Opening\n\nHello everyone\n\n## Details\n\nMore words");
+        // A large window writes: the text takes the caret and the formats are in the top bar.
+        QTRY_VERIFY(reader->editing());
+        QVERIFY(!edit->isReadOnly());
+        QVERIFY(reader->findChild<QWidget *>("readerFormats")->isVisible());
+        edit->setPlainText("# Opening\n\nHello **everyone** here\n\n## Details");
         QTest::qWait(30);
-        const auto sizeAt = [edit](int blockNumber, int column) {
+        const auto hidden = [edit](int blockNumber, int column) {
             const auto block = edit->document()->findBlockByNumber(blockNumber);
             for (const auto &range : block.layout()->formats())
-                if (column >= range.start && column < range.start + range.length && range.format.hasProperty(QTextFormat::FontPointSize))
-                    return range.format.fontPointSize();
-            return edit->font().pointSizeF();
+                if (column >= range.start && column < range.start + range.length &&
+                    range.format.hasProperty(QTextFormat::FontPointSize) && range.format.fontPointSize() <= 1)
+                    return true;
+            return false;
         };
-        const double text = edit->font().pointSizeF();
-        QCOMPARE(sizeAt(2, 0), text);
-        QVERIFY2(qAbs(sizeAt(0, 4) - text * 1.35) < 0.01, qPrintable(QString::number(sizeAt(0, 4) / text))); // Kirigami level 1.
-        QVERIFY2(qAbs(sizeAt(4, 5) - text * 1.20) < 0.01, qPrintable(QString::number(sizeAt(4, 5) / text))); // Level 2.
-        // Lines one and a half times the text size apart.
-        const auto metrics = QFontMetricsF(edit->font());
-        const double spacing = edit->document()->findBlockByNumber(2).blockFormat().lineHeight() / 100.0 * metrics.lineSpacing();
-        QVERIFY2(qAbs(spacing - 1.5 * QFontInfo(edit->font()).pixelSize()) < 1.0, qPrintable(QString::number(spacing)));
-        // The caret steps over the hidden marks, and Backspace at a heading's start makes it a line again.
-        QTextCursor caret(edit->document());
-        caret.setPosition(0);
-        edit->setTextCursor(caret);
-        QCOMPARE(edit->textCursor().position(), 2); // After "# ".
+        const auto place = [edit](int position) {
+            QTextCursor caret(edit->document());
+            caret.setPosition(position);
+            edit->setTextCursor(caret);
+        };
+        const QString text = edit->toPlainText();
+        // Away from the caret every mark is hidden, as in the reader.
+        place(int(text.indexOf("here")));
+        QVERIFY(hidden(0, 0)); // "#"
+        QVERIFY(hidden(2, 6)); // "**" before "everyone": the caret is past the bold words.
+        place(int(text.indexOf("Hello")));
+        QVERIFY(hidden(2, 6));
+        QVERIFY(hidden(2, 16));
+        // At the caret the marks show, so the caret never moves through marks it cannot see.
+        place(int(text.indexOf("everyone")) + 3);
+        QVERIFY(!hidden(2, 6));
+        QVERIFY(!hidden(2, 16));
+        auto *bold = window.findChild<QAction *>("formatBold");
+        QVERIFY(bold->isChecked()); // The Bold button shows that the caret is in bold text.
+        // Bold again takes it off, as in word processors.
+        bold->trigger();
+        QCOMPARE(edit->document()->findBlockByNumber(2).text(), QString("Hello everyone here"));
+        QVERIFY(!bold->isChecked());
+        edit->undo();
+        QCOMPARE(edit->document()->findBlockByNumber(2).text(), QString("Hello **everyone** here"));
+        // The heading's marks show only on its line; Backspace at its start makes it a line again.
+        place(2);
+        QVERIFY(!hidden(0, 0));
+        QVERIFY(window.findChild<QAction *>("formatHeading")->isChecked());
         QTest::keyClick(edit, Qt::Key_Backspace);
         QVERIFY(edit->toPlainText().startsWith("Opening\n"));
-        edit->document()->undo();
+        edit->undo();
         QVERIFY(edit->toPlainText().startsWith("# Opening\n"));
+        // Copying gives the script as written, marks included, as plain text.
+        QTextCursor all(edit->document());
+        all.select(QTextCursor::Document);
+        edit->setTextCursor(all);
+        edit->copy();
+        QCOMPARE(QApplication::clipboard()->text(), edit->toPlainText());
+        QVERIFY(!QApplication::clipboard()->mimeData()->hasHtml());
+        // Small, as a teleprompter, it reads: no caret, no formats.
+        window.resize(620, 400);
+        QTRY_VERIFY(!reader->editing());
+        QVERIFY(edit->isReadOnly());
+        QVERIFY(!reader->findChild<QWidget *>("readerFormats")->isVisible());
+        QVERIFY(hidden(0, 0)); // Every mark hidden again.
+    }
+
+    void theTextSizeStepsLikeAWordProcessorAndIsSaved() {
+        MainWindow window(scripts_.path());
+        window.resize(620, 400);
+        window.show();
+        auto *reader = window.prompter();
+        auto *size = window.findChild<QSpinBox *>("readerTextSize");
+        size->setValue(28);
+        reader->findChild<QPushButton *>("readerTextLarger")->click();
+        QCOMPARE(size->value(), 32); // An eighth larger.
+        QCOMPARE(reader->text->font().pointSize(), 32);
+        QCOMPARE(QSettings().value("reading/fontSize").toInt(), 32);
+        reader->findChild<QPushButton *>("readerTextSmaller")->click();
+        reader->findChild<QPushButton *>("readerTextSmaller")->click();
+        QCOMPARE(size->value(), 25);
+        // Every step up comes back down to where it was.
+        for (int i = 0; i < 20; ++i)
+            emit reader->textSizeRequested(1);
+        QCOMPARE(size->value(), size->maximum());
+        for (int i = 0; i < 20; ++i)
+            emit reader->textSizeRequested(-1);
+        QCOMPARE(size->value(), size->minimum());
+        // Ctrl and the wheel step too, instead of a zoom Settings would not know.
+        QWheelEvent wheel(QPointF(10, 10), reader->text->viewport()->mapToGlobal(QPointF(10, 10)), QPoint(),
+                          QPoint(0, 120), Qt::NoButton, Qt::ControlModifier, Qt::NoScrollPhase, false);
+        QApplication::sendEvent(reader->text->viewport(), &wheel);
+        QCOMPARE(size->value(), 20);
+        QCOMPARE(reader->text->font().pointSize(), 20);
     }
 
     void anEmptyScriptIsNotKept() {
@@ -439,13 +515,14 @@ private slots:
         QCOMPARE(window.windowTitle(), QString("Kept — Kalipso"));
     }
 
-    void backToWritingPausesAndReadingAgainDoesNotResume() {
+    void escOrMinimizingPausesAndNothingResumesByItself() {
         QSettings().setValue("reading/countdown", 0);
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("one two three four five six seven eight");
-        window.showPrompter();
-        QVERIFY(window.reading());
+        window.placeUnderCamera();
+        QVERIFY(window.underCamera());
         auto *reader = window.prompter();
+        QCOMPARE(reader->findChild<QPushButton *>("readerPlace")->accessibleName(), QString("Expand"));
         auto *mode = reader->findChild<QToolButton *>("readerMode");
         for (auto *action : mode->menu()->actions())
             if (action->text() == "Steady speed")
@@ -454,20 +531,23 @@ private slots:
         auto *primary = reader->findChild<QPushButton *>("readerListeningButton");
         primary->click();
         QCOMPARE(primary->accessibleName(), QString("Pause"));
-        // One window: Write turns it back into the editor, and the reading stops.
-        reader->findChild<QPushButton *>("readerWrite")->click();
-        QVERIFY(!window.reading());
-        QVERIFY(editor(window)->isVisible());
-        QVERIFY(!reader->isVisible());
+        // Esc pauses.
+        QTest::keyClick(reader->text, Qt::Key_Escape);
         QCOMPARE(primary->accessibleName(), QString("Start"));
-        QVERIFY(window.findChild<QLabel *>("audioStatus")->text().startsWith("Paused"));
-        window.showPrompter();
-        QVERIFY(reader->isVisible());
+        // Out of sight, the reader stops.
+        primary->click();
+        QCOMPARE(primary->accessibleName(), QString("Pause"));
+        window.setWindowState(Qt::WindowMinimized);
+        QTRY_COMPARE(primary->accessibleName(), QString("Start"));
+        QVERIFY(statusLine(window)->text().startsWith("Paused"));
+        window.setWindowState(Qt::WindowNoState);
         QTest::qWait(600);
         QCOMPARE(primary->accessibleName(), QString("Start"));
-        // Esc in the reader is Write too.
-        QTest::keyClick(reader->text, Qt::Key_Escape);
-        QVERIFY(!window.reading());
+        // Expand: the same window, with its frame, larger; the text is the same.
+        reader->findChild<QPushButton *>("readerPlace")->click();
+        QVERIFY(!window.underCamera());
+        QVERIFY(!(window.windowFlags() & Qt::FramelessWindowHint));
+        QCOMPARE(editor(window)->toPlainText(), QString("one two three four five six seven eight"));
     }
 
     void theReaderSaysWhyListeningDidNotStart() {
@@ -475,7 +555,7 @@ private slots:
         QSettings().setValue("profiles/vosk/model", scripts_.path() + "/no-such-model");
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("one two three four");
-        window.showPrompter();
+        window.placeUnderCamera();
         auto *reader = window.prompter();
         auto *mode = reader->findChild<QToolButton *>("readerMode");
         for (auto *action : mode->menu()->actions())
@@ -491,7 +571,7 @@ private slots:
             primary->click();
             auto *settings = window.findChild<QDialog *>("settingsDialog");
             QVERIFY(settings->isVisible());
-            QVERIFY(window.reading());
+            QVERIFY(window.underCamera());
             QCOMPARE(settings->focusWidget(), window.findChild<QComboBox *>("voiceLanguage"));
             settings->close();
             // Space still tries, and says why it cannot.
@@ -503,7 +583,7 @@ private slots:
             primary->click();
             // The reason, not just the idle status.
             QVERIFY(status->text() != "Microphone off · no language chosen yet");
-            QCOMPARE(status->text(), window.findChild<QLabel *>("audioStatus")->text());
+            QCOMPARE(status->text(), statusLine(window)->text());
         }
         // Choosing a reading mode again starts from a clean status.
         for (auto *action : mode->menu()->actions())
@@ -580,7 +660,7 @@ private slots:
         QSettings().setValue("profiles/moonshine/language", "en");
         MainWindow window(scripts_.path());
         editor(window)->setPlainText(QString("completed ").repeated(400)); // What the fake recognizer hears.
-        window.showPrompter();
+        window.placeUnderCamera();
         auto *reader = window.prompter();
         emit reader->modeRequested(ReadingMode::Voice);
         auto *status = reader->findChild<QLabel *>("readerListeningStatus");
@@ -600,7 +680,7 @@ private slots:
     void theReaderResizesFromItsEdges() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("one two three four");
-        window.showPrompter();
+        window.placeUnderCamera();
         auto *reader = window.prompter();
         QVERIFY(QTest::qWaitForWindowExposed(&window));
         QVERIFY(window.windowFlags() & Qt::FramelessWindowHint); // Without KWin's script, the window itself.
@@ -629,14 +709,14 @@ private slots:
         for (int i = 0; i < 30; ++i)
             emit reader->speedRequested(10); // Clamped at 400 words per minute.
         emit reader->toggleRequested();
-        QTRY_VERIFY_WITH_TIMEOUT(positionLabel(window)->text().startsWith("Word 3 of 3"), 3000);
+        QTRY_VERIFY_WITH_TIMEOUT(position(window).startsWith("Word 3 of 3"), 3000);
         QTRY_COMPARE(reader->findChild<QLabel *>("readerListeningStatus")->text(), QString("End of script"));
     }
 
     void readerControlsFadeWhileReadingAndReturn() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText(QString("word ").repeated(200));
-        window.showPrompter();
+        window.placeUnderCamera();
         auto *reader = window.prompter();
         emit reader->modeRequested(ReadingMode::Steady);
         auto *status = reader->findChild<QLabel *>("readerListeningStatus");
@@ -655,8 +735,8 @@ private slots:
     void readerFontAndLineSpacingFollowSettingsAndEdits() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText(QString("word ").repeated(300));
-        QVERIFY(positionLabel(window)->text().endsWith(" · about 3 min")); // 300 words at 140 words/min.
-        window.showPrompter();
+        QVERIFY(position(window).endsWith(" · about 2 min")); // 300 words at 150 words/min.
+        window.placeUnderCamera();
         auto *reader = window.prompter();
         openSettings(window);
         auto *spacing = window.findChild<QComboBox *>("readerLineSpacing");
@@ -668,9 +748,13 @@ private slots:
         emit spacing->activated(spacing->currentIndex());
         QCOMPARE(lineHeight(), 150.0);
         QCOMPARE(QSettings().value("reading/lineSpacing").toInt(), 150);
-        // The script keeps the spacing through edits that add paragraphs.
-        editor(window)->setPlainText(QString("word ").repeated(300) + "\n\nA new paragraph");
+        // The script keeps the spacing through edits that add paragraphs, and a whole new text gets it.
+        QTextCursor end(editor(window)->document());
+        end.movePosition(QTextCursor::End);
+        end.insertText("\n\nA typed paragraph");
         QCOMPARE(lineHeight(), 150.0);
+        editor(window)->setPlainText(QString("word ").repeated(300) + "\n\nA new paragraph");
+        QTRY_COMPARE(lineHeight(), 150.0);
         QVERIFY(reader->text->toPlainText().endsWith("A new paragraph"));
         QVERIFY(before > 0);
         // A chosen font reaches the reader; "Interface font" goes back to the default.
@@ -691,7 +775,7 @@ private slots:
         // A jump leaves the position just before the section's first word.
         const auto expect = [&window](const char *command, const char *label) {
             emit window.findChild<RemoteControl *>()->command(command);
-            return positionLabel(window)->text().startsWith(label);
+            return position(window).startsWith(label);
         };
         QVERIFY(expect("section-next", "Word 2 of 5"));     // Before "gamma"
         QVERIFY(expect("section-next", "Word 4 of 5"));     // Before "epsilon"
@@ -701,23 +785,27 @@ private slots:
         QVERIFY(expect("section-previous", "5 word")); // Stays on the first
 
         // Each script keeps its own steady speed when switching between them.
-        auto *picker = window.findChild<QComboBox *>("scriptPicker");
+        auto *list = window.findChild<QListWidget *>("scriptList");
         auto *speed = window.prompter()->findChild<QLabel *>("readerSpeed");
-        const auto first = picker->currentData().toString();
+        const auto first = window.currentScript();
         emit window.prompter()->speedRequested(30);
         const auto firstSpeed = speed->text();
         window.findChild<QPushButton *>("newScript")->click();
-        const auto second = picker->currentData().toString();
+        const auto second = window.currentScript();
         QVERIFY(second != first);
         editor(window)->setPlainText("A second talk"); // An empty script would not be kept.
         emit window.prompter()->speedRequested(-60);
         const auto secondSpeed = speed->text();
         QVERIFY(secondSpeed != firstSpeed);
-        picker->setCurrentIndex(picker->findData(first));
-        emit picker->activated(picker->currentIndex());
+        const auto choose = [list](const QString &id) {
+            for (int row = 0; row < list->count(); ++row)
+                if (list->item(row)->data(Qt::UserRole).toString() == id)
+                    list->setCurrentRow(row);
+        };
+        choose(first);
+        QCOMPARE(window.currentScript(), first);
         QCOMPARE(speed->text(), firstSpeed);
-        picker->setCurrentIndex(picker->findData(second));
-        emit picker->activated(picker->currentIndex());
+        choose(second);
         QCOMPARE(speed->text(), secondSpeed);
     }
 
@@ -731,15 +819,15 @@ private slots:
         auto *speech = window.findChild<SpeechService *>();
         emit speech->listening();
         emit speech->transcript("alpha beta", true);
-        const auto before = positionLabel(window)->text();
+        const auto before = position(window);
         // Three words further on: enough to skip ahead for a recognizer that hears anything (two), not
         // for one guided by the script (four), which hears script words in what is said off it.
         emit speech->guidedChanged(true);
         emit speech->transcript("orange violet copper", true);
-        QCOMPARE(positionLabel(window)->text(), before);
+        QCOMPARE(position(window), before);
         emit speech->guidedChanged(false);
         emit speech->transcript("orange violet copper", true);
-        QVERIFY2(positionLabel(window)->text().startsWith("Word 47 of"), qPrintable(positionLabel(window)->text()));
+        QVERIFY2(position(window).startsWith("Word 47 of"), qPrintable(position(window)));
         emit speech->stopped();
     }
 
@@ -768,7 +856,7 @@ private slots:
     void customKeysCanReplaceBuiltInKeys() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("# One\nalpha beta gamma\n# Two\ndelta");
-        window.showPrompter();
+        window.placeUnderCamera();
         auto *reader = window.prompter();
         openSettings(window);
         const auto edit = [&window](const char *id) { return window.findChild<QKeySequenceEdit *>(id); };
@@ -782,11 +870,11 @@ private slots:
         assign(edit("key-faster"), QKeySequence(Qt::Key_Up));
         QTest::keyClick(reader->text, Qt::Key_Up);
         QVERIFY(speed->text() != before);
-        QVERIFY(positionLabel(window)->text().startsWith("4 word"));
+        QVERIFY(position(window).startsWith("4 word"));
         // A pedal key for the next section.
         assign(edit("key-section-next"), QKeySequence(Qt::Key_B));
         QTest::keyClick(reader->text, Qt::Key_B);
-        QVERIFY2(positionLabel(window)->text().startsWith("Word 3 of 4"), qPrintable(positionLabel(window)->text()));
+        QVERIFY2(position(window).startsWith("Word 3 of 4"), qPrintable(position(window)));
         // A key belongs to one action: giving it to another moves it.
         assign(edit("key-toggle"), QKeySequence(Qt::Key_B));
         QVERIFY(edit("key-section-next")->keySequence().isEmpty());
@@ -795,11 +883,11 @@ private slots:
         assign(edit("key-reset"), QKeySequence(Qt::Key_R, Qt::Key_S));
         QCOMPARE(edit("key-reset")->keySequence(), QKeySequence(Qt::Key_R));
         QTest::keyClick(reader->text, Qt::Key_Left);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 2 of 4"));
+        QVERIFY(position(window).startsWith("Word 2 of 4"));
         // Clearing a key gives the built-in one back.
         edit("key-faster")->clear();
         QTest::keyClick(reader->text, Qt::Key_Up);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 1 of 4"));
+        QVERIFY(position(window).startsWith("Word 1 of 4"));
         QSettings().remove("keys");
     }
 
@@ -813,7 +901,7 @@ private slots:
         editor(window)->setPlainText("# Slide 1: Welcome\n\nThank everyone for coming.\nMention the  two  spaces.\n\n"
                                      "# Slide 3: Results\n\nRevenue grew by twelve percent.\nPause for questions.\n");
         auto *impress = window.findChild<ImpressFollower *>();
-        auto *status = window.findChild<QLabel *>("audioStatus");
+        auto *status = statusLine(window);
         QVERIFY(impress && status);
         // The same JSON lines impress_follow.py prints for a real slideshow.
         impress->startHelper(python, {"-c", R"(import json, time
@@ -826,10 +914,10 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
     print(json.dumps(event), flush=True)
     time.sleep(0.2)
 )"});
-        QTRY_VERIFY_WITH_TIMEOUT(positionLabel(window)->text().startsWith("Word 8 of 16"), 5000); // Before "Revenue".
+        QTRY_VERIFY_WITH_TIMEOUT(position(window).startsWith("Word 8 of 16"), 5000); // Before "Revenue".
         QCOMPARE(status->text(), QString("Following Impress · slide 3"));
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("Impress · slide 2 has no notes."), 5000);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 8 of 16")); // Stays put.
+        QVERIFY(position(window).startsWith("Word 8 of 16")); // Stays put.
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("Impress · the notes of slide 4 are not in this script."),
                                   5000);
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("The presentation was closed. Stopped following Impress."),
@@ -852,7 +940,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         MainWindow window(scripts_.path());
         QVERIFY(window.importFile(path));
         auto *impress = window.findChild<ImpressFollower *>();
-        auto *status = window.findChild<QLabel *>("audioStatus");
+        auto *status = statusLine(window);
         QVERIFY(impress->start(path));
         QTRY_VERIFY_WITH_TIMEOUT(status->text().startsWith("Connected to Impress"), 90000);
         const auto press = [&xdotool](const QString &key) {
@@ -861,7 +949,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         };
         press("F5");
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("Following Impress · slide 1"), 30000);
-        QVERIFY(positionLabel(window)->text().contains(" word")); // Not started: how long it is.
+        QVERIFY(position(window).contains(" word")); // Not started: how long it is.
         // A click advances the full-screen slideshow (keyboard focus is unreliable without a window manager).
         const auto advance = [&xdotool] {
             QTest::qWait(2000); // The slideshow reports a slide before its window takes input.
@@ -871,7 +959,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("Impress · slide 2 has no notes."), 30000);
         advance();
         QTRY_COMPARE_WITH_TIMEOUT(status->text(), QString("Following Impress · slide 3"), 30000);
-        QVERIFY2(positionLabel(window)->text().startsWith("Word 8 of"), qPrintable(positionLabel(window)->text()));
+        QVERIFY2(position(window).startsWith("Word 8 of"), qPrintable(position(window)));
         impress->stop();
         QProcess::execute(xdotool, {"key", "Escape"});
         QProcess::execute("pkill", {"-f", "--", "--accept=pipe,name=kalipso-"}); // The LibreOffice started here.
@@ -913,28 +1001,28 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("# One\nalpha beta\n# Two\nthen we go back home\n# Three\nend");
         auto *speech = window.findChild<SpeechService *>();
-        auto *status = window.findChild<QLabel *>("audioStatus");
+        auto *status = statusLine(window);
         openSettings(window);
         auto *enable = window.findChild<QCheckBox *>("voiceCommands");
         QVERIFY(enable && !enable->isChecked()); // Off by default.
         emit speech->transcript("go next", true);
-        QVERIFY(positionLabel(window)->text().startsWith("8 word"));
+        QVERIFY(position(window).startsWith("8 word"));
         enable->setChecked(true);
         emit speech->transcript("Go next.", true);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 2 of 8")); // Before "then"
+        QVERIFY(position(window).startsWith("Word 2 of 8")); // Before "then"
         QCOMPARE(status->text(), QString("Voice command: next section"));
         // "then we go back home": when the script itself says "go back", it is read, not obeyed.
         emit speech->transcript("then we", true);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 4 of 8"));
+        QVERIFY(position(window).startsWith("Word 4 of 8"));
         emit speech->transcript("go back", true);
-        QVERIFY2(positionLabel(window)->text().startsWith("Word 6 of 8"), qPrintable(positionLabel(window)->text()));
+        QVERIFY2(position(window).startsWith("Word 6 of 8"), qPrintable(position(window)));
         // Inside a longer sentence it is ordinary speech; on its own it is a command.
         status->clear();
         emit speech->transcript("so we go next week", true);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 6 of 8"));
+        QVERIFY(position(window).startsWith("Word 6 of 8"));
         QVERIFY(!status->text().startsWith("Voice command"));
         emit speech->transcript("da capo", true);
-        QVERIFY(positionLabel(window)->text().startsWith("8 word"));
+        QVERIFY(position(window).startsWith("8 word"));
         QSettings().remove("speech/voiceCommands");
     }
 
@@ -943,8 +1031,8 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         const QString script = "---\ntitle: Launch\n---\n# Opening\nHello everyone";
         editor(window)->setPlainText(script);
         QCOMPARE(window.prompter()->anchor(), int(script.indexOf("# Opening"))); // Not at the metadata.
-        QTRY_COMPARE_WITH_TIMEOUT(window.findChild<QComboBox *>("scriptPicker")->currentText(), QString("Launch"),
-                                  5000); // After autosave.
+        QTRY_COMPARE_WITH_TIMEOUT(window.findChild<QListWidget *>("scriptList")->currentItem()->text(),
+                                  QString("Launch"), 5000); // After autosave.
         QTest::keyClick(window.prompter()->text, Qt::Key_Right);
         QCOMPARE(window.prompter()->anchor(), int(script.indexOf("Hello")));
     }
@@ -990,15 +1078,15 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
     void readerKeysStepTheScript() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("one two three four");
-        window.showPrompter();
+        window.placeUnderCamera();
         auto *view = window.prompter()->text;
         QTest::keyClick(view, Qt::Key_Right);
         QTest::keyClick(view, Qt::Key_PageDown);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 2 of 4"));
+        QVERIFY(position(window).startsWith("Word 2 of 4"));
         QTest::keyClick(view, Qt::Key_Left);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 1 of 4"));
+        QVERIFY(position(window).startsWith("Word 1 of 4"));
         QTest::keyClick(view, Qt::Key_Home);
-        QVERIFY(positionLabel(window)->text().startsWith("4 word"));
+        QVERIFY(position(window).startsWith("4 word"));
     }
 
     void readerControlsKeepKeyboardFocusOnTheScript() {
@@ -1011,7 +1099,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
     void sectionsJumpAndCuesStayOutOfTheWordCount() {
         MainWindow window(scripts_.path());
         editor(window)->setPlainText("# Opening\nHello everyone [smile]\n\n# Results\nRevenue grew");
-        QVERIFY(positionLabel(window)->text().startsWith("4 word"));
+        QVERIFY(position(window).startsWith("4 word"));
         auto *sections = window.prompter()->findChild<QToolButton *>("readerSections");
         QVERIFY(!sections->isHidden());
         const auto actions = sections->menu()->actions();
@@ -1019,7 +1107,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QCOMPARE(actions[1]->text(), QString("Results"));
         actions[1]->trigger();
         // The last word before the heading is read; "Revenue" is next.
-        QVERIFY(positionLabel(window)->text().startsWith("Word 2 of 4"));
+        QVERIFY(position(window).startsWith("Word 2 of 4"));
     }
 
     void mirroringFlipsTheReaderText() {
@@ -1045,7 +1133,9 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         QVERIFY(!window.findChild<QTabWidget *>());
         auto *settings = openSettings(window);
         QVERIFY(settings && settings->isVisible());
-        QCOMPARE(window.findChild<QPushButton *>("primaryAction")->text(), QString("Read"));
+        // The window goes under the camera from its own top bar.
+        QCOMPARE(window.prompter()->findChild<QPushButton *>("readerPlace")->accessibleName(),
+                 QString("Under the camera"));
         auto *button = window.prompter()->findChild<QPushButton *>("readerListeningButton");
         const double original = button->font().pointSizeF();
         const double scriptSize = window.prompter()->text->font().pointSizeF();
@@ -1091,9 +1181,6 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         scale->setCurrentIndex(1);
         scale->setCurrentIndex(2); // Changing again starts from the same sizes.
         QCOMPARE(scale->font().pointSizeF(), std::max(8.0, base) * 2);
-        auto *scroll = window.findChild<QScrollArea *>(); // The writing view; the reader does not scroll.
-        QVERIFY(scroll && scroll->parentWidget()->objectName() == "views");
-        QCOMPARE(scroll->horizontalScrollBar()->maximum(), 0);
         for (const int width : {640, 320}) {
             window.resize(width, 760);
             settings->resize(width, 700);
@@ -1152,7 +1239,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
             settings->findChild<QScrollArea *>()->ensureWidgetVisible(window.findChild<QWidget *>("key-reset"));
             QTest::qWait(30);
             settings->grab().save(directory + "/qt-settings-keys.png");
-            window.showPrompter();
+            window.placeUnderCamera();
             for (const auto *theme : {"light", "dark"}) {
                 window.prompter()->setReaderTheme(theme);
                 QTest::qWait(80);
@@ -1186,31 +1273,41 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         MainWindow window(scripts_.path());
         auto *script = editor(window);
         script->setPlainText("uno due tre quattro");
-        setCursor(script, 8);
-        window.findChild<QPushButton *>("readHere")->click();
-        QVERIFY(positionLabel(window)->text().startsWith("Word 3 of 4"));
+        emit window.prompter()->jumpRequested(8);
+        QVERIFY(position(window).startsWith("Word 3 of 4"));
         auto *reader = window.prompter()->text;
         QTextCursor insert(reader->document());
         insert.setPosition(0);
         insert.insertText("prima ");
         QCOMPARE(script->toPlainText(), QString("prima uno due tre quattro"));
-        QVERIFY(positionLabel(window)->text().startsWith("Word 4 of 5"));
+        QVERIFY(position(window).startsWith("Word 4 of 5"));
         script->undo();
         QCOMPARE(script->toPlainText(), QString("uno due tre quattro"));
         QCOMPARE(reader->toPlainText(), script->toPlainText());
-        QVERIFY(positionLabel(window)->text().startsWith("Word 3 of 4"));
+        QVERIFY(position(window).startsWith("Word 3 of 4"));
     }
 
-    void editingDoesNotMoveReadingAnchorToEditorCaret() {
+    void whileWritingTheCaretIsWhereReadingStarts() {
         MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        QTRY_VERIFY(window.prompter()->editing());
         auto *script = editor(window);
         script->setPlainText("uno due tre quattro");
-        setCursor(script, 8);
-        window.findChild<QPushButton *>("readHere")->click();
-        setCursor(script, 0);
-        QVERIFY(positionLabel(window)->text().startsWith("Word 3 of 4"));
-        script->insertPlainText("prima ");
-        QVERIFY(positionLabel(window)->text().startsWith("Word 4 of 5"));
+        setCursor(script, 8); // The caret put on "tre", by the mouse or the arrows.
+        QVERIFY(position(window).startsWith("Word 3 of 4"));
+        // Text added before it keeps reading on the same word.
+        QTextCursor before(script->document());
+        before.insertText("prima ");
+        QVERIFY(position(window).startsWith("Word 4 of 5"));
+        // Anywhere the caret goes, reading follows, also while typing.
+        setCursor(script, int(script->toPlainText().indexOf("due")));
+        QVERIFY(position(window).startsWith("Word 3 of 5"));
+        QTest::keyClicks(script, "e ");
+        QCOMPARE(script->toPlainText(), QString("prima uno e due tre quattro"));
+        QVERIFY(position(window).startsWith("Word 4 of 6"));
+        // The words already read are not dimmed while writing; the caret marks the place.
+        QVERIFY(script->extraSelections().isEmpty());
     }
 
     void demoScriptNeverTouchesTheLibrary() {
@@ -1281,7 +1378,7 @@ for event in [{"state": "slide", "slide": 2, "notes": ""},
         source.setStyleSheet("background:#000000;");
         QTest::qWait(3000);
         QCOMPARE(samples.size(), count);
-        window.showPrompter();
+        window.placeUnderCamera();
         QTest::qWait(2500);
         QCOMPARE(samples.size(), count);
     }

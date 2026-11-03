@@ -123,7 +123,7 @@ export default class Kalipso extends Extension {
         this._rows = [];
         this._steadyTimer = 0;
         this._mode = 'manual';
-        this._speed = 140;
+        this._speed = 150; // As the app: see docs/reading-speed.md.
         this._mirror = 'none';
         this._readerSize = N.readerSize;
         this._fontFamily = '';     // '' is the interface font

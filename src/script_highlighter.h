@@ -17,6 +17,9 @@ public:
         hideMarks_ = hide;
         rehighlight();
     }
+    // While writing, the marks of the heading or emphasis at this position show, dimmed, so the caret
+    // never moves through marks it cannot see; every other mark stays hidden. -1: none.
+    void setReveal(int position);
     void setColors(const QColor &cue, const QColor &heading) {
         cue_ = cue;
         heading_ = heading;
@@ -50,6 +53,7 @@ protected:
 private:
     int frontMatterEnd();
     int frontMatterEnd_ = 0;
+    int reveal_ = -1;
     bool hideMarks_ = false;
     bool hideHeadingMarks_ = false;
     double headingScale_ = 0; // 0: headings keep the text's size (the reader).
