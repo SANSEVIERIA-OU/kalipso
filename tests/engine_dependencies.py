@@ -97,5 +97,38 @@ with tempfile.TemporaryDirectory(prefix='kalipso-engine-test-') as directory:
         assert not json.loads(ast.literal_eval(call('GetState'))[0])['active']
         print('PASS: backend selection, profile isolation, invalid selection rejected, missing dependencies, no capture')
         print('PASS: catalog languages listed with their state; an installed language is used without downloading')
+        # The app's scripts, read for the widget and the extension. Before the app saved any: none.
+        listed = json.loads(ast.literal_eval(call('ListScripts'))[0])
+        assert listed == {'available': False, 'current': '', 'scripts': []}, listed
+        library = Path(directory)/'data/brianidavide/kalipso/scripts'
+        library.mkdir(parents=True)
+        first, second, empty = 'a'*32, 'b'*32, 'c'*32
+        (library/f'{first}.txt').write_text('# Intervento\n\nBuongiorno a tutti.', encoding='utf-8')
+        (library/f'{second}.txt').write_text('Second talk words', encoding='utf-8')
+        (library/f'{empty}.txt').write_text('  ', encoding='utf-8')
+        (library/'library.json').write_text(json.dumps([
+            {'id': first, 'title': 'Intervento', 'modified': '2026-11-03T09:00:00Z', 'position': 12, 'speed': 130},
+            {'id': second, 'title': 'Second talk', 'modified': '2026-11-03T10:00:00Z', 'position': -1, 'speed': 0},
+            {'id': empty, 'title': 'Untitled', 'modified': '2026-11-03T11:00:00Z', 'position': -1, 'speed': 0}]))
+        (Path(directory)/'outside.txt').write_text('secret')
+        app_config = Path(directory)/'brianidavide/kalipso.conf'
+        app_config.parent.mkdir(parents=True, exist_ok=True)
+        app_config.write_text(f'[library]\ncurrent={first}\n')
+        listed = json.loads(ast.literal_eval(call('ListScripts'))[0])
+        assert listed['available'] and listed['current'] == first, listed
+        # Newest first; the empty script has nothing to read and is left out.
+        assert [item['id'] for item in listed['scripts']] == [second, first], listed
+        assert listed['scripts'][1]['title'] == 'Intervento' and listed['scripts'][1]['words'] == 3, listed
+        assert listed['scripts'][1]['speed'] == 130
+        script = json.loads(ast.literal_eval(call('GetScript', first))[0])
+        assert script['text'] == '# Intervento\n\nBuongiorno a tutti.' and script['position'] == 12, script
+        # Only ids of the library: a path never reaches another file.
+        for wrong in ['../../outside', 'outside', 'd'*32, '']:
+            try:call('GetScript', wrong)
+            except RuntimeError as error:assert 'InvalidArgs' in str(error), error
+            else:raise AssertionError('GetScript returned a file outside the library: ' + wrong)
+        # The companion only reads: the library is untouched.
+        assert json.loads((library/'library.json').read_text())[0]['position'] == 12
+        print('PASS: the app\'s scripts are listed and read, newest first; nothing outside the library is reachable')
     finally:
         child.terminate();child.wait(timeout=10)
