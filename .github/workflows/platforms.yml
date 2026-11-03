@@ -67,7 +67,9 @@ jobs:
           # The disk image people expect on a Mac: the app beside a link to Applications, to drag it there.
           mkdir -p dmg && cp -R build/kalipso.app dmg/Kalipso.app && ln -s /Applications dmg/Applications
           hdiutil create -volname Kalipso -srcfolder dmg -ov -format UDZO artifacts/kalipso-macos.dmg
-          hdiutil verify artifacts/kalipso-macos.dmg
+          # Right after hdiutil create the image can still be busy ("Resource temporarily unavailable"):
+          # verify again for a while before giving up.
+          for attempt in 1 2 3 4 5 6; do hdiutil verify artifacts/kalipso-macos.dmg && break; [ "$attempt" = 6 ] && exit 1; sleep 10; done
       - name: Windows package
         if: runner.os == 'Windows'
         shell: pwsh
