@@ -4,6 +4,19 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …); only th
 X.0 are published (see [docs/releasing.md](docs/releasing.md)). This file lists what each published
 version brings, for the people who use it.
 
+## Since 2.0 (in the next published version)
+
+- Kalipso moved to the organization SANSEVIERIA OÜ: github.com/SANSEVIERIA-OU/kalipso, and the website
+  at sansevieria-ou.github.io/kalipso. Its identifiers follow:
+  - the app and the Plasma widget are `io.github.sansevieria_ou.kalipso`;
+  - the companion on D-Bus is `io.github.sansevieria_ou.Kalipso.Engine`;
+  - the GNOME extension is `kalipso@sansevieria-ou.github.io`.
+
+  The first start moves your scripts and settings from the earlier folders by itself. The widget and the
+  extension also find a companion from 2.0. Add the widget to the panel again, and enable the extension
+  again, after updating.
+- Voice following on Linux uses Vosk 0.3.50, built from source by Kalipso.
+
 ## 2.0 — 3 November 2026
 
 The first version published since the project started in October 2026: everything below is new.

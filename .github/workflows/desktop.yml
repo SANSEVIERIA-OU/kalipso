@@ -65,11 +65,11 @@ jobs:
             namcap /home/builder/pkg/*.pkg.tar.zst || true
             pacman -U --noconfirm /home/builder/pkg/*.pkg.tar.zst >/dev/null
             for file in /usr/bin/kalipso /usr/bin/kalipso-engine /usr/bin/kalipso-voice-setup \
-                /usr/share/dbus-1/services/io.github.brianidavide.Kalipso.Engine.service \
-                /usr/share/applications/io.github.brianidavide.kalipso.desktop \
-                /usr/share/plasma/plasmoids/io.github.brianidavide.kalipso/metadata.json \
-                /usr/share/plasma/plasmoids/io.github.brianidavide.kalipso/contents/fonts/AtkinsonHyperlegibleNext-Regular.ttf \
-                /usr/share/gnome-shell/extensions/kalipso@brianidavide.github.io/metadata.json \
+                /usr/share/dbus-1/services/io.github.sansevieria_ou.Kalipso.Engine.service \
+                /usr/share/applications/io.github.sansevieria_ou.kalipso.desktop \
+                /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso/metadata.json \
+                /usr/share/plasma/plasmoids/io.github.sansevieria_ou.kalipso/contents/fonts/AtkinsonHyperlegibleNext-Regular.ttf \
+                /usr/share/gnome-shell/extensions/kalipso@sansevieria-ou.github.io/metadata.json \
                 /usr/share/kwin/scripts/kalipso-companion/metadata.json; do
               test -e "$file" || { echo "Missing $file"; exit 1; }
             done

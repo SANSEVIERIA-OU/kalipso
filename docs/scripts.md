@@ -63,7 +63,7 @@ Slide text itself is not imported, only the notes you wrote for yourself. **Expo
 
 ## Where scripts are stored
 
-- **Standalone app:** one text file per script in the application data folder (`~/.local/share/brianidavide/kalipso/scripts` on Linux), plus `library.json` with titles and reading positions.
+- **Standalone app:** one text file per script in the application data folder (`~/.local/share/sansevieria-ou/kalipso/scripts` on Linux), plus `library.json` with titles and reading positions.
 - **Plasma widget:** in the widget's own Plasma configuration.
 - **GNOME extension:** in `~/.local/share/kalipso/gnome-extension.json`.
 

@@ -45,7 +45,7 @@ function kwin({savedPlace = ''} = {}) {
 
 function kalipsoWindow(caption = 'Talk — Kalipso') {
     return {
-        resourceClass: 'io.github.brianidavide.kalipso',
+        resourceClass: 'io.github.sansevieria_ou.kalipso',
         caption,
         internalId: '{kalipso}',
         frameGeometry: {x: 200, y: 150, width: 624, height: 384},
@@ -114,7 +114,7 @@ const READING = '⁠', SHAREABLE = '⁣';
     const told = calls.find(call => call.method === 'SetReaderPlace');
     assert.ok(told, 'Kalipso is told where the reader is');
     assert.deepEqual(told.args, ['1500,20']);
-    assert.equal(told.service, 'io.github.brianidavide.Kalipso.App');
+    assert.equal(told.service, 'io.github.sansevieria_ou.Kalipso.App');
 }
 {
     const {workspace, monitor} = kwin({savedPlace: '1500,20'});

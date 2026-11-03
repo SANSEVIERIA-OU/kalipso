@@ -18,9 +18,12 @@
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     app.setApplicationName("kalipso");
-    app.setOrganizationName("brianidavide");
+    app.setOrganizationName("sansevieria-ou");
     app.setApplicationVersion(KALIPSO_VERSION);
-    app.setDesktopFileName("io.github.brianidavide.kalipso");
+    app.setDesktopFileName("io.github.sansevieria_ou.kalipso");
+    // Settings and scripts from before the move to SANSEVIERIA-OU, then from the first name.
+    importLegacySettings("brianidavide", "kalipso");
+    importLegacyData("brianidavide");
     importLegacySettings("brianidavide", "kde-teleprompter");
     Accessibility::useInterfaceStyle();
     Accessibility::useInterfaceFont();

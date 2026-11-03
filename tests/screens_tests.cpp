@@ -14,7 +14,7 @@ class ScreensTests : public QObject {
 private slots:
     void initTestCase() {
         QStandardPaths::setTestModeEnabled(true);
-        QCoreApplication::setOrganizationName("brianidavide");
+        QCoreApplication::setOrganizationName("sansevieria-ou");
         QCoreApplication::setApplicationName("kalipso-screens-tests");
         if (QGuiApplication::screens().size() < 2)
             QSKIP("Needs the offscreen platform with tests/fixtures/two-screens.json");

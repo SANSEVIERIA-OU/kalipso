@@ -258,7 +258,7 @@
   "vosk": {
     "version": "0.3.50",
     "platform": "Linux x86_64, glibc >= 2.17",
-    "url": "https://github.com/brianidavide/kalipso/releases/download/vosk-runtime-0.3.50/vosk-0.3.50-linux-x86_64.zip",
+    "url": "https://github.com/SANSEVIERIA-OU/kalipso/releases/download/vosk-runtime-0.3.50/vosk-0.3.50-linux-x86_64.zip",
     "sha256": "404e9f1536dfc694c13edef60c4591cd2e558c4d5dc0962ac17752f04378f253",
     "bytes": 7415288,
     "library": "vosk/libvosk.so",

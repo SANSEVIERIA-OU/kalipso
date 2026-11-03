@@ -15,14 +15,26 @@
 // reads them: the scripts are written in the app, and the frontends read them, so one library
 // serves the three. The one thing it writes is which script the app opens next (open()).
 namespace AppScripts {
-// Where the app keeps them (its data folder: organization "brianidavide", application "kalipso").
+// The app's organization, and its name before Kalipso moved to SANSEVIERIA-OU: until the app has
+// started once under the new name, its scripts and settings are still under the old one.
+inline QString organization() {
+    const auto data = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    const bool moved = QFileInfo::exists(data + "/sansevieria-ou/kalipso") ||
+                       !QSettings(QStringLiteral("sansevieria-ou"), QStringLiteral("kalipso")).allKeys().isEmpty();
+    const bool earlier = QFileInfo::exists(data + "/brianidavide/kalipso") ||
+                         !QSettings(QStringLiteral("brianidavide"), QStringLiteral("kalipso")).allKeys().isEmpty();
+    return moved || !earlier ? QStringLiteral("sansevieria-ou") : QStringLiteral("brianidavide");
+}
+
+// Where the app keeps them (its data folder: <organization>/kalipso).
 inline QString directory() {
-    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/brianidavide/kalipso/scripts";
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/" + organization() +
+           "/kalipso/scripts";
 }
 
 // The script the app has open, from the app's settings.
 inline QString current() {
-    return QSettings(QStringLiteral("brianidavide"), QStringLiteral("kalipso")).value("library/current").toString();
+    return QSettings(organization(), QStringLiteral("kalipso")).value("library/current").toString();
 }
 
 // Newest first, without empty scripts (nothing to read). `available` is false while the app has
@@ -71,7 +83,8 @@ inline QJsonObject get(const QString &id) {
 // starts. The companion and the app are installed side by side; KALIPSO_APP names another program
 // (tests). False when the app cannot be started.
 inline bool open(const QString &id) {
-    QSettings app(QStringLiteral("brianidavide"), QStringLiteral("kalipso"));
+    // Into the settings the app will read: the old ones until it has moved them.
+    QSettings app(organization(), QStringLiteral("kalipso"));
     app.setValue("library/current", id);
     app.sync();
     auto program = qEnvironmentVariable("KALIPSO_APP");

@@ -19,7 +19,7 @@ says the companion is missing, log out and back in.
 To download the language from the terminal at the same time: ./install --language it
 (the languages: ~/.local/bin/kalipso-engine --list-models).
 
-To remove it: rm ~/.local/bin/kalipso-engine ~/.local/share/dbus-1/services/io.github.brianidavide.Kalipso.Engine.service
+To remove it: rm ~/.local/bin/kalipso-engine ~/.local/share/dbus-1/services/io.github.sansevieria_ou.Kalipso.Engine.service
 and the folders ~/.local/share/kalipso and ~/.local/share/licenses/kalipso-engine.
 
-Source code, licence (AGPL-3.0-or-later) and help: https://github.com/brianidavide/kalipso
+Source code, licence (AGPL-3.0-or-later) and help: https://github.com/SANSEVIERIA-OU/kalipso

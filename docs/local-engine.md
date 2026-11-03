@@ -55,7 +55,7 @@ kalipso-voice-setup --language en --backend vosk   # another engine than the usu
 **You installed a Kalipso package** (AUR `kalipso-git`, the `.deb`): the companion is already there.
 
 **You use only the widget or the extension** (from the KDE Store or extensions.gnome.org): download
-`kalipso-companion-…-linux-x86_64.tar.gz` from the [releases page](https://github.com/brianidavide/kalipso/releases),
+`kalipso-companion-…-linux-x86_64.tar.gz` from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases),
 then:
 
 ```sh
@@ -76,7 +76,7 @@ sudo apt install build-essential cmake git qt6-base-dev libpipewire-0.3-dev pkg-
 # Arch / EndeavourOS
 sudo pacman -S --needed base-devel cmake git qt6-base pipewire pipewire-audio pkgconf python
 
-git clone https://github.com/brianidavide/kalipso.git
+git clone https://github.com/SANSEVIERIA-OU/kalipso.git
 cd kalipso
 python3 tools/install-local-engine.py --language it
 ```
@@ -89,7 +89,7 @@ In the widget, choose **Follow my voice** in the mode menu under the text (or in
 Reading**); in the extension, **Settings → Follow my voice**. Then **Start**.
 
 The companion also gives the widget and the extension the scripts you write in the Kalipso app
-(`~/.local/share/brianidavide/kalipso/scripts`), over D-Bus (`ListScripts`, `GetScript`). It only reads
+(`~/.local/share/sansevieria-ou/kalipso/scripts`), over D-Bus (`ListScripts`, `GetScript`). It only reads
 them; **Edit in Kalipso** (`OpenInApp`) makes the script the app's current one and starts the app. Pause releases the microphone and keeps your place. Stop listening before changing the language; only one frontend can listen at a time.
 
 To see what is happening, run `~/.local/bin/kalipso-engine --serve` (or `kalipso-engine --serve`) in a terminal and start listening.
@@ -182,7 +182,7 @@ Stop listening and remove the widget or extension first. Then delete:
 
 ```sh
 rm ~/.local/bin/kalipso-engine
-rm ~/.local/share/dbus-1/services/io.github.brianidavide.Kalipso.Engine.service
+rm ~/.local/share/dbus-1/services/io.github.sansevieria_ou.Kalipso.Engine.service
 rm -r ~/.local/share/licenses/kalipso-engine
 rm -r ~/.config/Kalipso                       # engine settings
 rm -r ~/.local/share/kalipso/runtimes ~/.local/share/kalipso/models   # downloaded speech files

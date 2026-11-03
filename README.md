@@ -2,9 +2,9 @@
 
 A local-first teleprompter for your desktop. Keep your script next to your camera, read naturally, and let Kalipso follow your voice — speech recognition runs on your device.
 
-[Website](https://brianidavide.github.io/kalipso/) · [Writing scripts](docs/scripts.md) · [Standalone app](docs/standalone.md) · [Plasma and GNOME](desktop/README.md) · [Voice following](docs/local-engine.md)
+[Website](https://sansevieria-ou.github.io/kalipso/) · [Writing scripts](docs/scripts.md) · [Standalone app](docs/standalone.md) · [Plasma and GNOME](desktop/README.md) · [Voice following](docs/local-engine.md)
 
-> **Packages are not signed yet.** Download them from the [releases page](https://github.com/brianidavide/kalipso/releases) and check them with `SHA256SUMS`; the release notes say how to open them on Windows and macOS. What changed: [CHANGELOG](CHANGELOG.md).
+> **Packages are not signed yet.** Download them from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases) and check them with `SHA256SUMS` or `gh attestation verify <file> -R SANSEVIERIA-OU/kalipso` (2.0, built before Kalipso moved to SANSEVIERIA-OU: `--owner brianidavide`); the release notes say how to open them on Windows and macOS. What changed: [CHANGELOG](CHANGELOG.md).
 
 ## What it does
 
@@ -60,7 +60,7 @@ Kalipso downloads that language's speech model once (40 to 60 MB). Without an AU
 
 ### Debian, Ubuntu and Fedora
 
-Download the `.deb` or the `.rpm` from the [releases page](https://github.com/brianidavide/kalipso/releases), then:
+Download the `.deb` or the `.rpm` from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases), then:
 
 ```sh
 sudo apt install ./kalipso_2.0_amd64.deb      # Debian 13, Ubuntu 24.04 or newer
@@ -75,7 +75,7 @@ To build from source instead (Debian, Ubuntu):
 
 ```sh
 sudo apt install build-essential cmake ninja-build git qt6-base-dev qt6-svg-dev qt6-l10n-tools qt6-tools-dev libpipewire-0.3-dev pkg-config pipewire-bin
-git clone https://github.com/brianidavide/kalipso.git
+git clone https://github.com/SANSEVIERIA-OU/kalipso.git
 cd kalipso
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$HOME/.local"
 cmake --build build
@@ -84,7 +84,7 @@ cmake --install build
 
 ### Windows and macOS
 
-From the [releases page](https://github.com/brianidavide/kalipso/releases): on Windows, the `.msi` installs
+From the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases): on Windows, the `.msi` installs
 Kalipso for every user with an entry in the Start menu (the `.zip` runs without installing); on macOS,
 open the `.dmg` and drag Kalipso to Applications. The packages are not signed yet: Windows SmartScreen
 asks you to confirm (*More info → Run anyway*); on macOS open it once, then choose *Open Anyway* in
@@ -96,7 +96,7 @@ see [macOS and Windows builds](docs/system-speech.md), also for building them yo
 Install the widget from the KDE Store or the extension from extensions.gnome.org (when listed), or build
 them: `python3 desktop/package.py`, then follow [installing the widget or extension](desktop/README.md).
 For voice following they need the **companion**: download `kalipso-companion` from the
-[releases page](https://github.com/brianidavide/kalipso/releases), unpack it and run `./install`, then
+[releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases), unpack it and run `./install`, then
 choose **Settings → Language you speak** in the widget or extension. See
 [voice following on Linux](docs/local-engine.md).
 
@@ -112,7 +112,7 @@ Updating keeps your scripts, your reading positions and your settings; so does u
 | Windows | run the new `.msi`: it replaces the old version | Settings → Apps → Installed apps → Kalipso → Uninstall |
 | macOS | drag the new Kalipso to Applications, replacing the old one | move Kalipso from Applications to the Bin |
 
-To go back to an earlier version, install its package from the [releases page](https://github.com/brianidavide/kalipso/releases) over the new one; your scripts and settings stay:
+To go back to an earlier version, install its package from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases) over the new one; your scripts and settings stay:
 
 | System | Back to an earlier version |
 | --- | --- |
@@ -125,9 +125,9 @@ To go back to an earlier version, install its package from the [releases page](h
 A script saved by a newer Kalipso opens in an older one: scripts are plain text.
 
 To remove your scripts, settings and downloaded voice models too, delete:
-- Linux: `~/.local/share/brianidavide/kalipso`, `~/.local/share/kalipso` and `~/.config/brianidavide/kalipso.conf`;
-- Windows: the folder `%APPDATA%\brianidavide\kalipso` and the registry key `HKEY_CURRENT_USER\Software\brianidavide\kalipso`;
-- macOS: `~/Library/Application Support/brianidavide/kalipso` and `~/Library/Preferences/com.brianidavide.kalipso.plist`.
+- Linux: `~/.local/share/sansevieria-ou/kalipso`, `~/.local/share/kalipso` and `~/.config/sansevieria-ou/kalipso.conf`;
+- Windows: the folder `%APPDATA%\sansevieria-ou\kalipso` and the registry key `HKEY_CURRENT_USER\Software\sansevieria-ou\kalipso`;
+- macOS: `~/Library/Application Support/sansevieria-ou/kalipso` and `~/Library/Preferences/com.sansevieria-ou.kalipso.plist`.
 
 On Windows and macOS, Kalipso listens with the system's own speech recognition and downloads no models.
 

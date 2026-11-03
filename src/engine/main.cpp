@@ -27,8 +27,8 @@
 #include <unistd.h>
 
 namespace {
-constexpr auto kService = "io.github.brianidavide.Kalipso.Engine";
-constexpr auto kObjectPath = "/io/github/brianidavide/Kalipso/Engine";
+constexpr auto kService = "io.github.sansevieria_ou.Kalipso.Engine";
+constexpr auto kObjectPath = "/io/github/sansevieria_ou/Kalipso/Engine";
 constexpr qint64 kLeaseMs = 10000; // Clients poll; a silent client loses its session.
 constexpr qint64 kIdleExitMs = 90000;
 constexpr int kMaxEvents = 64;
@@ -83,7 +83,7 @@ QJsonArray languageChoices() {
 
 class Engine final : public QObject, protected QDBusContext {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "io.github.brianidavide.Kalipso.Engine")
+    Q_CLASSINFO("D-Bus Interface", "io.github.sansevieria_ou.Kalipso.Engine")
 public:
     Engine() {
         speechWatcher_.setConnection(QDBusConnection::sessionBus());

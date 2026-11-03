@@ -1,6 +1,6 @@
 {
   "KPlugin": {
-    "Id": "io.github.brianidavide.kalipso",
+    "Id": "io.github.sansevieria_ou.kalipso",
     "Name": "Kalipso",
     "Name[it]": "Kalipso",
     "Description": "A teleprompter on your desktop: read Kalipso's scripts, or one written here, near your camera, scroll at a steady speed or follow your voice with local speech recognition. Nothing you say leaves your computer.",
@@ -14,8 +14,8 @@
       }
     ],
     "Category": "Utilities",
-    "Website": "https://brianidavide.github.io/kalipso/",
-    "BugReportUrl": "https://github.com/brianidavide/kalipso/issues"
+    "Website": "https://sansevieria-ou.github.io/kalipso/",
+    "BugReportUrl": "https://github.com/SANSEVIERIA-OU/kalipso/issues"
   },
   "KPackageStructure": "Plasma/Applet",
   "X-Plasma-API-Minimum-Version": "6.0"

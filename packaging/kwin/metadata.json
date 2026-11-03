@@ -10,7 +10,7 @@
         "Name": "Kalipso contributors"
       }
     ],
-    "Website": "https://github.com/brianidavide/kalipso"
+    "Website": "https://github.com/SANSEVIERIA-OU/kalipso"
   },
   "X-Plasma-API": "javascript",
   "X-Plasma-MainScript": "code/main.js",

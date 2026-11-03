@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CMAKE = ROOT / 'CMakeLists.txt'
-METAINFO = ROOT / 'packaging/io.github.brianidavide.kalipso.metainfo.xml'
+METAINFO = ROOT / 'packaging/io.github.sansevieria_ou.kalipso.metainfo.xml'
 JSON_FILES = {ROOT / 'desktop/plasma/metadata.json': ('KPlugin', 'Version'),
               ROOT / 'packaging/kwin/metadata.json': ('KPlugin', 'Version'),
               ROOT / 'desktop/gnome/metadata.json': (None, 'version-name')}

@@ -65,7 +65,7 @@ def main():
         f'The catalog covers additional Qt modules; only licenses of shipped components apply.\n'
         f'Original catalog: {base}licenses-used-in-qt.html\n'
         f'Qt source: https://download.qt.io/archive/qt/{series}/{args.version}/submodules/\n'
-        'Kalipso source: https://github.com/brianidavide/kalipso\n'
+        'Kalipso source: https://github.com/SANSEVIERIA-OU/kalipso\n'
         'Qt libraries remain replaceable in the bundle; rebuilding instructions are in the source repository.\n', encoding='utf-8')
     print(f'Packaged Qt {args.version} license catalog and {len(pages)} notice pages')
 

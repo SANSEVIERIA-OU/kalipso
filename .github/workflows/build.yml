@@ -67,7 +67,7 @@ jobs:
       - name: Verify design token generation
         run: |
           python3 tools/generate-design-tokens.py
-          git diff --exit-code -- design src/design_tokens.h src/icons/generated site/assets/tokens.css site/assets/mark.svg site/assets/tracker.mjs site/assets/unicode-tokens.mjs desktop/gnome/tokens.js desktop/gnome/stylesheet.css desktop/plasma/contents/ui/Tokens.js packaging/io.github.brianidavide.kalipso.svg
+          git diff --exit-code -- design src/design_tokens.h src/icons/generated site/assets/tokens.css site/assets/mark.svg site/assets/tracker.mjs site/assets/unicode-tokens.mjs desktop/gnome/tokens.js desktop/gnome/stylesheet.css desktop/plasma/contents/ui/Tokens.js packaging/io.github.sansevieria_ou.kalipso.svg
       - name: Package and check the companion download
         run: |
           packaging/companion/make-archive.sh build/kalipso-engine 0.0 companion
@@ -76,7 +76,7 @@ jobs:
           env -u XDG_DATA_HOME HOME="$home" companion/kalipso-companion-v0.0-linux-x86_64/install
           test -x "$home/.local/bin/kalipso-engine"
           grep -qx "Exec=\"$home/.local/bin/kalipso-engine\" --serve" \
-            "$home/.local/share/dbus-1/services/io.github.brianidavide.Kalipso.Engine.service"
+            "$home/.local/share/dbus-1/services/io.github.sansevieria_ou.Kalipso.Engine.service"
           env -u XDG_DATA_HOME HOME="$home" "$home/.local/bin/kalipso-engine" --list-models | grep -q '^it  Italiano  vosk'
           env -u XDG_DATA_HOME HOME="$home" "$home/.local/bin/kalipso-engine" --download --language xx && exit 1 || true
       - name: Install to staging

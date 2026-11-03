@@ -112,7 +112,7 @@ inline QJsonObject dependencies(const QString &backend) {
             {"architecture", value(backend, "architecture", 2).toInt()},
             {"configFile", QSettings().fileName()},
             {"modelLoadTested", false}, // This check never loads the model.
-            {"setup", "https://github.com/brianidavide/kalipso/blob/main/docs/local-engine.md"}};
+            {"setup", "https://github.com/SANSEVIERIA-OU/kalipso/blob/main/docs/local-engine.md"}};
 }
 
 inline QJsonArray backends() {

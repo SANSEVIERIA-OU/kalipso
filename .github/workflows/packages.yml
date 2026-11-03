@@ -33,13 +33,13 @@ jobs:
           QT_QPA_PLATFORM=offscreen kalipso --version
           QT_QPA_PLATFORM=offscreen kalipso --demo --quit-after 1000
           test -x /usr/bin/kalipso-engine
-          desktop-file-validate /usr/share/applications/io.github.brianidavide.kalipso.desktop || true
+          desktop-file-validate /usr/share/applications/io.github.sansevieria_ou.kalipso.desktop || true
           sudo apt-get install -y ./pkg/next/kalipso_*.deb
           dpkg-query -W -f='${Version}\n' kalipso | grep -q '\.1$'
           QT_QPA_PLATFORM=offscreen kalipso --version
           sudo apt-get remove -y kalipso
           test ! -e /usr/bin/kalipso
-          test ! -e /usr/share/applications/io.github.brianidavide.kalipso.desktop
+          test ! -e /usr/share/applications/io.github.sansevieria_ou.kalipso.desktop
       - name: The .rpm in Fedora
         run: |
           docker run --rm -v "$PWD/pkg:/pkg:ro" fedora:latest bash -euxo pipefail -c '

@@ -11,7 +11,7 @@ if [ "$1" = gnome ]; then
  export KALIPSO_TEST_API=1
  export GSETTINGS_BACKEND=keyfile XDG_CONFIG_HOME=$PWD/artifacts/desktop-test/gnome-config GNOME_SHELL_SESSION_MODE=user LIBGL_ALWAYS_SOFTWARE=1
  bash desktop/install-gnome.sh
- gsettings set org.gnome.shell enabled-extensions "['kalipso@brianidavide.github.io']"
+ gsettings set org.gnome.shell enabled-extensions "['kalipso@sansevieria-ou.github.io']"
  exec xvfb-run -a -s '-screen 0 1440x1000x24' bash -c 'printf "%s" "$DISPLAY" > artifacts/desktop-test/gnome-display; printf "%s" "$XAUTHORITY" > artifacts/desktop-test/gnome-xauthority; printf "%s" "$$" > artifacts/desktop-test/gnome-pid; exec gnome-shell --nested --wayland --no-x11 --wayland-display=kalipso-gnome --sm-disable'
 else
  export QT_QPA_PLATFORM=xcb QT_QUICK_BACKEND=software

@@ -11,7 +11,7 @@
 // the reader is kept for the next start.
 const READING_MARK = '⁠';
 const SHAREABLE_MARK = '⁣';
-const APP = ['io.github.brianidavide.Kalipso.App', '/App', 'io.github.brianidavide.Kalipso.App'];
+const APP = ['io.github.sansevieria_ou.Kalipso.App', '/App', 'io.github.sansevieria_ou.Kalipso.App'];
 const states = {}; // By window id: reading, excluded, where it was before (writing), going back there.
 const windows = {}; // By window id: Kalipso's windows.
 let readerPlace = null; // Where the person last put the reader (kept by Kalipso across starts).
@@ -19,7 +19,7 @@ let applying = false; // Geometry changes made here are not the person's.
 
 function isKalipso(window) {
     const identity = String(window.resourceClass);
-    return identity === 'io.github.brianidavide.kalipso' || identity === 'kalipso';
+    return identity === 'io.github.sansevieria_ou.kalipso' || identity === 'kalipso';
 }
 
 function tell(method, value) {
