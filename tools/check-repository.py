@@ -12,7 +12,7 @@ def tracked(*arguments):
 
 allowed_roots = {'.github', 'benchmarks', 'design', 'desktop', 'docs', 'packaging',
                  'site', 'src', 'tests', 'third_party', 'tools', 'translations', 'LICENSES'}
-allowed_files = {'.clang-format', '.gitignore', 'CMakeLists.txt', 'CONTRIBUTING.md', 'LICENSE',
+allowed_files = {'.clang-format', '.gitignore', 'CHANGELOG.md', 'CMakeLists.txt', 'CONTRIBUTING.md', 'LICENSE',
                  'README.md', 'THIRD_PARTY_NOTICES.md'}
 generated_suffixes = {'.png', '.jpg', '.jpeg', '.webp', '.mp4', '.webm', '.wav', '.mp3', '.pcm',
                       '.zip', '.plasmoid', '.so', '.dll', '.dylib', '.exe', '.bin', '.onnx', '.ort',
