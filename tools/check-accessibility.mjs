@@ -12,19 +12,20 @@ const settle=page=>page.evaluate(async()=>{for(let y=0;y<document.documentElemen
 for(const engine of ['chromium','firefox','webkit']){
  const browser=await pw[engine].launch();const page=await browser.newPage({viewport:{width:1280,height:960}});
  const errors=[];page.on('pageerror',e=>errors.push(String(e)));
- for(const theme of ['dark','light']){
-  await page.goto(base);await page.locator('#reader-appearance').selectOption(theme);await page.locator('#edit-toggle').click();await page.locator('#next-word').click();
+ for(const [route,theme] of [['/','dark'],['/','light'],['/it/','dark'],['/it/','light']]){
+  await page.goto(base+route);await page.locator('#reader-appearance').selectOption(theme);await page.locator('#edit-toggle').click();await page.locator('#next-word').click();
   await settle(page);await page.evaluate(axe);
   const result=await page.evaluate(async()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']}}));
-  await writeFile(`${out}/${engine}-${theme}.json`,JSON.stringify(result,null,2));
-  assert.deepEqual(result.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],`${engine} ${theme}`);
-  await page.screenshot({path:`${out}/${engine}-${theme}.png`});
-  report.push({engine,theme,passes:result.passes.length,incomplete:result.incomplete.map(v=>v.id)});
+  const name=`${engine}${route==='/'?'':'-it'}-${theme}`;
+  await writeFile(`${out}/${name}.json`,JSON.stringify(result,null,2));
+  assert.deepEqual(result.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],name);
+  await page.screenshot({path:`${out}/${name}.png`});
+  report.push({engine,route,theme,passes:result.passes.length,incomplete:result.incomplete.map(v=>v.id)});
  }
- for(const width of [320,640,1280]){
-  await page.setViewportSize({width,height:960});await page.goto(base);await page.locator('#edit-toggle').click();
+ for(const width of [320,640,1280])for(const route of ['/','/it/']){
+  await page.setViewportSize({width,height:960});await page.goto(base+route);await page.locator('#edit-toggle').click();
   await page.addStyleTag({content:'html{font-size:200%!important}*{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}'});
-  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${engine} ${width} enlarged text overflow`);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false,`${engine} ${route} ${width} enlarged text overflow`);
  }
  await page.setViewportSize({width:1280,height:960});await page.goto(base);await page.keyboard.press('Tab');assert.equal(await page.locator('.skip').evaluate(e=>e===document.activeElement),true);
  await page.locator('#edit-toggle').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#script').evaluate(e=>e===document.activeElement),true);await page.keyboard.press('Escape');assert.equal(await page.locator('#edit-toggle').evaluate(e=>e===document.activeElement),true);

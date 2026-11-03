@@ -241,6 +241,8 @@ textarea{display:block;inline-size:100%;min-block-size:9rem;padding:.75rem;borde
 .platforms article p{color:var(--site-muted)}
 .platforms .platform-status{font-size:var(--site-text-small);font-weight:700;color:var(--site-ink)}
 .yours-tag{align-self:flex-start;padding:.125rem .5rem;border-radius:6px;background:var(--site-accent-soft);color:var(--site-accent);font-size:.8125rem;font-weight:700}
+.platforms .command-label{font-size:var(--site-text-small)}
+.platforms .command-label+.command{margin-block-start:-.25rem}
 .command{position:relative;border-radius:12px;background:var(--site-night);color:var(--site-night-text)}
 .command pre{margin:0;padding:1rem 1rem 3.25rem;overflow-x:auto;font-size:.8125rem;line-height:1.7;white-space:pre}
 .command .copy{position:absolute;inset-block-end:.5rem;inset-inline-end:.5rem;min-block-size:2.5rem;background:var(--site-night-raised);border-color:var(--site-night-control);color:var(--site-night-text)}
@@ -273,6 +275,8 @@ details code{font-size:.9em}
 .footer-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;padding-block:2rem;font-size:var(--site-text-small);color:var(--site-muted)}
 .footer-row .brand{font-size:1.125rem;color:var(--site-ink)}
 .footer-row>*{min-inline-size:0;max-inline-size:100%}
+/* The languages, each by its own name; the one you are reading is underlined like the place you are in. */
+.languages a[aria-current=page]{background-size:100% 2px;color:var(--site-ink)}
 
 /* Entrances (motion.js adds .motion): the first screen rises in on load, the rest as it comes into view.
    Only opacity and transform move, so nothing shifts the layout; with reduced motion nothing is hidden. */
@@ -325,7 +329,7 @@ details code{font-size:.9em}
  .reader .button{flex:1 1 auto}
  .reader-transport output{inline-size:100%;margin-inline-start:0}
  .reading-text{font-size:1.25rem}
- h1,h2,h3,p,a,summary,.eyebrow,.button{overflow-wrap:anywhere}
+ h1,h2,h3,p,li,figcaption,label,a,summary,.eyebrow,.button{overflow-wrap:anywhere}
 }
 
 @media (prefers-reduced-motion:reduce){

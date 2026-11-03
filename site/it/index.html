@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="text-scale" content="scale">
+<title>Kalipso — il teleprompter che non ti fa perdere il segno</title>
+<meta name="description" content="Un teleprompter libero e open source per il computer. Leggi accanto alla webcam mentre Kalipso segue la tua voce con un riconoscimento vocale che resta sul tuo computer, scorre a velocità costante o aspetta il tuo pedale.">
+<meta name="color-scheme" content="light">
+<link rel="alternate" hreflang="en" href="https://brianidavide.github.io/kalipso/">
+<link rel="alternate" hreflang="it" href="https://brianidavide.github.io/kalipso/it/">
+<link rel="icon" href="../assets/mark.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/atkinson-hyperlegible-next-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/styles.css">
+<script type="module" src="../assets/demo.js"></script>
+<script type="module" src="../assets/motion.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<header class="site-header">
+ <div class="wrap header-row">
+  <a class="brand" href="./"><img src="../assets/mark.svg" width="30" height="30" alt=""><span>Kalipso</span></a>
+  <nav aria-label="Principale">
+   <a href="#how">Come funziona</a>
+   <a href="#install">Installa</a>
+   <a class="external" href="https://github.com/brianidavide/kalipso">GitHub<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a>
+   <a href="../" hreflang="en" lang="en" data-language>English</a>
+  </nav>
+ </div>
+ <div class="page-progress" aria-hidden="true"></div>
+</header>
+
+<main id="main">
+<section id="headline" class="hero wrap" aria-labelledby="hero-title">
+ <div class="hero-copy">
+  <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Libero e open source · versione 2.0</p>
+  <h1 id="hero-title">Guarda la webcam. <span class="soft">Kalipso tiene <span class="mark">il segno.</span></span></h1>
+  <p class="lead opening-copy">Un teleprompter per il tuo computer. Metti un piccolo lettore accanto alla webcam e parla: Kalipso segue la tua voce con un riconoscimento vocale che resta sul tuo computer, scorre a velocità costante o aspetta il tuo pedale.</p>
+  <div class="actions">
+   <a class="button primary" id="download" href="#install"><svg class="icon" data-motion="down" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-os-label>Scarica Kalipso</span></a>
+   <a class="button" href="#try"><svg class="icon" data-motion="play" viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M8 5.5v13l10-6.5z"/></svg>Provalo qui</a>
+  </div>
+  <p class="fineprint">Linux, con le versioni per KDE Plasma e GNOME. Windows e macOS: sperimentali. Nessun account, nessun cloud.</p>
+ </div>
+ <figure class="hero-figure" data-pausable>
+  <div class="live-reader" data-live-reader aria-hidden="true">
+   <div class="live-bar"><span>Saluti iniziali</span><span class="live-state"><span class="level"><i></i><i></i><i></i><i></i></span>Segue la voce · prova</span></div>
+   <div class="live-progress"><span></span></div>
+   <div class="live-window">
+    <svg class="live-marker" viewBox="0 0 10 12"><path d="M1 1l8 5-8 5z"/></svg>
+    <p class="live-text">Grazie a tutti di essere qui. [sorridi] Oggi voglio raccontarvi un'idea semplice. Un teleprompter dovrebbe seguire voi, non il contrario. Parlate al vostro ritmo, fermatevi quando serve e poi riprendete. La riga che state leggendo resta qui, alla stessa altezza.</p>
+   </div>
+   <div class="live-foot"><span>165 parole/min</span><span data-live-left></span></div>
+  </div>
+  <figcaption class="live-caption"><button class="button live-toggle" type="button" data-live-toggle data-state="playing"><svg class="icon" data-motion="toggle" viewBox="0 0 24 24" aria-hidden="true"><path class="pause" d="M9 6v12M15 6v12"/><path class="play fill" d="M8 5.5v13l10-6.5z"/></svg><span>Ferma l'animazione</span></button><span>Una dimostrazione di come Kalipso segue la voce: la parola corrente è evidenziata, quelle già dette si attenuano e la tua riga resta alla stessa altezza.</span></figcaption>
+ </figure>
+</section>
+
+<section id="how" class="ways wrap" aria-labelledby="ways-title">
+ <div class="section-heading" data-reveal>
+  <p class="eyebrow">Tre modi per non perdere il segno</p>
+  <h2 id="ways-title">Tu parli. Il copione ti segue.</h2>
+ </div>
+ <ol class="ways-list" data-reveal-group>
+  <li data-reveal><div class="vignette" data-vignette="voice" aria-hidden="true"><span class="v-tool"><span class="v-badge"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM6 11a6 6 0 0 0 12 0M12 17v4"/></svg></span><span class="v-level"><i></i><i></i><i></i><i></i></span></span><span class="v-window"><span class="v-marker"></span><span class="v-page"><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span></span></span><span class="v-progress"><i></i></span></div>
+   <h3>Segue la tua voce</h3><p>Le parole già dette si attenuano e la riga che leggi resta alla stessa altezza. Il riconoscimento avviene sul tuo computer, con Moonshine o Vosk, oppure con quello del sistema su Windows e macOS.</p></li>
+  <li data-reveal><div class="vignette" data-vignette="pace" aria-hidden="true"><span class="v-tool"><span class="v-badge"><svg viewBox="0 0 24 24"><path d="M5 12h11M12 7l5 5-5 5M20 5v14"/></svg><span class="v-count"><b>3</b><b>2</b><b>1</b></span></span></span><span class="v-window"><span class="v-marker"></span><span class="v-page"><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span></span></span><span class="v-progress"><i></i></span></div>
+   <h3>Scorre a velocità costante</h3><p>Parte da 150 parole al minuto, <a href="https://github.com/brianidavide/kalipso/blob/main/docs/reading-speed.md">un ritmo ricavato dagli studi sulla lettura ad alta voce</a>; più veloce o più lenta mentre leggi. Prima un conto alla rovescia, poi il tempo che manca.</p></li>
+  <li data-reveal><div class="vignette" data-vignette="hand" aria-hidden="true"><span class="v-tool"><span class="v-key"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span><span class="v-window"><span class="v-marker"></span><span class="v-page"><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span><span class="v-line"><i></i></span></span></span><span class="v-progress"><i></i></span></div>
+   <h3>Avanza a mano</h3><p>Con le frecce, un pedale, un telecomando per presentazioni o il telefono. Ogni tasto fa quello che scegli tu.</p></li>
+ </ol>
+</section>
+
+<section id="try" class="try" aria-labelledby="try-title">
+ <div class="wrap try-layout">
+  <div class="try-copy" data-reveal>
+   <p class="eyebrow">Prova il lettore</p>
+   <h2 id="try-title">Guarda come tiene il segno.</h2>
+   <p>Questo è il lettore dell'app, nel tuo browser. Vai avanti di qualche parola, cambia i colori o rifletti il testo per il vetro del teleprompter, poi modifica il copione. La versione nel browser non registra mai l'audio e non salva il copione.</p>
+  </div>
+  <div class="reader" data-reader data-theme="dark" data-reveal>
+   <div class="reader-header"><span class="reader-name" id="reader-title">Copione di prova</span><button class="button quiet" id="edit-toggle" aria-expanded="false" aria-controls="edit-panel">Modifica il copione</button></div>
+   <div class="reader-progress" aria-hidden="true"><span id="read-progress"></span></div>
+   <p class="reading-text" id="reading-text" dir="auto">Un po' di preparazione lascia spazio a una conversazione migliore. Prenditi il tuo tempo. Lascia spazio a una pausa.</p>
+   <div class="reader-transport"><button class="button quiet icon-button" id="previous-word" aria-label="Parole precedenti"><svg class="icon" data-motion="back" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg></button><button class="button primary" id="next-word"><svg class="icon" data-motion="play" viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="m9 5 9 7-9 7Z"/></svg>Parole successive</button><button class="button quiet" id="reset-reading"><svg class="icon" data-motion="spin-back" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.6M4 4v5h5"/></svg>Da capo</button><output id="read-count" aria-label="Parole lette">0 / 27</output></div>
+   <div class="reader-state"><span class="status-dot" aria-hidden="true"></span><span id="read-state" role="status">Prova manuale · Microfono spento</span></div>
+   <div class="reader-appearance"><span class="choice"><label for="reader-appearance">Colori del lettore</label><select id="reader-appearance"><option value="dark">Scuri</option><option value="light">Chiari</option></select></span><span class="choice"><label for="reader-mirror">Specchio</label><select id="reader-mirror"><option value="none">No</option><option value="horizontal">Orizzontale</option><option value="vertical">Verticale</option></select></span></div>
+   <div class="edit-panel" id="edit-panel" hidden><label for="script">Copione</label><textarea id="script" rows="5" spellcheck="false" dir="auto">Un po' di preparazione lascia spazio a una conversazione migliore. [sorridi]
+
+Prenditi il tuo tempo. Lascia spazio a una pausa. Le prossime parole saranno qui quando sei pronto.</textarea><p class="hint">Le modifiche compaiono subito. Le [indicazioni tra parentesi] si vedono ma non si leggono mai. Questa prova ricomincia quando ricarichi la pagina; le app salvano il copione.</p></div>
+  </div>
+ </div>
+ <noscript><p class="wrap">Attiva JavaScript per provare il lettore. Il resto della pagina funziona anche senza.</p></noscript>
+</section>
+
+<section id="in-use" class="in-use wrap" aria-labelledby="in-use-title">
+ <div class="section-heading" data-reveal>
+  <p class="eyebrow">Nell'uso reale</p>
+  <h2 id="in-use-title">Proprio sotto la webcam, sopra qualsiasi app.</h2>
+  <p>In una videochiamata, mentre registri, mentre presenti: il lettore resta dove devono stare i tuoi occhi, su Linux, Windows e macOS.</p>
+ </div>
+ <div class="scenes" data-reveal-group>
+  <figure data-reveal><img src="../assets/media/scene-call-macos.webp" width="2160" height="1350" loading="lazy" decoding="async" alt="Desktop macOS simulato durante una videochiamata: quattro riquadri dei partecipanti in basso e il lettore di Kalipso subito sotto la tacca della webcam, che fa scorrere a 150 parole al minuto il copione di una riunione di squadra (in inglese)."><figcaption><strong>In videochiamata · macOS</strong>Il lettore sta subito sotto la webcam, così mentre parli guardi chi ti ascolta.</figcaption></figure>
+  <figure data-reveal><img src="../assets/media/scene-recording-windows.webp" width="2160" height="1350" loading="lazy" decoding="async" alt="Desktop Windows simulato su un monitor con webcam: una finestra di registrazione mostra l'anteprima della videocamera e REC 00:42, e il lettore di Kalipso a colori chiari sta subito sotto la webcam, con il copione di una puntata video (in inglese)."><figcaption><strong>Mentre registri un video · Windows</strong>Il testo scorre alla tua velocità mentre registri; qui a colori chiari.</figcaption></figure>
+  <figure data-reveal><img src="../assets/media/scene-slides-plasma.webp" width="2160" height="1350" loading="lazy" decoding="async" alt="Desktop KDE Plasma simulato su un portatile: una console del relatore mostra la diapositiva 3 di 12 con un grafico a barre e, sopra, il widget di Kalipso per Plasma mostra le note di quella diapositiva con la parola corrente evidenziata (in inglese)."><figcaption><strong>Mentre presenti · KDE Plasma</strong>Il widget di Plasma tiene le tue note, una sezione per diapositiva; vai avanti con un telecomando o con le frecce.</figcaption></figure>
+  <figure data-reveal><img src="../assets/media/scene-lesson-gnome.webp" width="2160" height="1350" loading="lazy" decoding="async" alt="Desktop GNOME simulato su un portatile: una lezione online sulla fotosintesi con l'elenco degli studenti e l'estensione di Kalipso per GNOME, aperta dalla barra in alto, subito sotto la webcam con il copione della lezione (in inglese)."><figcaption><strong>Mentre insegni online · GNOME</strong>L'estensione per GNOME si apre dalla barra in alto, sopra qualsiasi app.</figcaption></figure>
+ </div>
+ <p class="scenes-note">Desktop e app simulati, disegnati per illustrare. Le finestre di Kalipso sono catture reali della versione attuale, in inglese.</p>
+</section>
+
+<section class="private" aria-labelledby="private-title">
+ <div class="wrap private-layout">
+  <div data-reveal>
+   <p class="eyebrow">Privacy fin dalla progettazione</p>
+   <h2 id="private-title">Le tue parole restano sul tuo computer.</h2>
+  </div>
+  <ul class="facts" data-reveal-group>
+   <li data-reveal><strong>Nessun account, nessun cloud.</strong> I copioni sono file di testo semplice in una cartella del tuo computer.</li>
+   <li data-reveal><strong>Il riconoscimento vocale avviene sul computer.</strong> L'audio non lascia mai il computer e non viene registrato niente.</li>
+   <li data-reveal><strong>Il telecomando dal telefono non vede il copione.</strong> Manda solo comandi come avvio, pausa e passo avanti o indietro, nella tua rete.</li>
+   <li data-reveal><strong>Open source con licenza AGPL.</strong> Leggi il codice, compilalo da te, controlla che cosa fa.</li>
+  </ul>
+ </div>
+</section>
+
+<section class="features wrap" aria-labelledby="features-title">
+ <div class="section-heading" data-reveal>
+  <p class="eyebrow">Che altro fa</p>
+  <h2 id="features-title">Fatto per il tuo modo di presentare.</h2>
+ </div>
+ <ul class="feature-grid" data-reveal-group>
+  <li data-reveal><h3>Note e documenti</h3><p>Importa le note del relatore da PowerPoint e Impress, una sezione per diapositiva, oppure documenti di Word, Writer e Markdown.</p></li>
+  <li data-reveal><h3>Segue Impress dal vivo</h3><p>Presenti con LibreOffice Impress e il lettore salta alle note della diapositiva sullo schermo. Per ora su Linux.</p></li>
+  <li data-reveal><h3>Specchio per il vetro</h3><p>Rifletti il testo in orizzontale o in verticale per un teleprompter a specchio. I comandi restano leggibili.</p></li>
+  <li data-reveal><h3>Lettura più facile</h3><p>Testo più grande o più piccolo con A− e A+, qualsiasi carattere installato, anche quelli pensati per la dislessia, righe ben spaziate che sfumano ai bordi.</p></li>
+  <li data-reveal><h3>Scrivi dove leggi</h3><p>Una sola finestra: quando è grande scrivi direttamente nel lettore, con i pulsanti per grassetto, corsivo, sezioni a cui saltare e [indicazioni] come [sorridi] che non si leggono mai. Sotto la webcam mostra solo il lettore.</p></li>
+  <li data-reveal><h3>Com'è andata</h3><p>Dopo una sessione con la voce: ritmo, pause lunghe e tempo per sezione, da salvare come resoconto se ti serve.</p></li>
+ </ul>
+</section>
+
+<section id="install" class="installation wrap" aria-labelledby="install-title">
+ <div class="section-heading" data-reveal>
+  <p class="eyebrow">Installa</p>
+  <h2 id="install-title">Scarica Kalipso 2.0.</h2>
+  <p>Pacchetti gratuiti per Linux, Windows e macOS nella <a href="https://github.com/brianidavide/kalipso/releases/latest">pagina della versione</a>. Non sono ancora firmati, quindi la prima volta il sistema ti chiede di confermare; il file <code>SHA256SUMS</code> che trovi lì permette di controllare ogni download.</p>
+ </div>
+ <div class="platforms" data-reveal-group>
+  <article data-reveal data-os="linux"><h3>App per Linux</h3><p class="platform-status">Arch ed EndeavourOS · Debian 13, Ubuntu 24.04 o successivi</p><p>L'app completa: scrivi e leggi in una sola finestra, una libreria di copioni, le importazioni, un lettore da spostare e riflettere, il telecomando dal telefono e la voce. Su Arch i pacchetti portano anche il widget di Plasma, l'estensione per GNOME e lo script di KWin.</p>
+   <p class="command-label" id="arch-label">Arch Linux ed EndeavourOS, già compilato (<code>kalipso</code> lo compila, <code>kalipso-git</code> segue lo sviluppo):</p>
+   <div class="command"><pre id="arch-command" aria-labelledby="arch-label"><code>yay -S kalipso-bin</code></pre><button class="button quiet copy" data-copy="arch-command" type="button"><svg class="icon" data-motion="copy" viewBox="0 0 24 24" aria-hidden="true"><path class="copy-shape" d="M9 9h10v10H9zM5 15V5h10"/><path class="check-shape" d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Copia</span></button></div>
+   <p class="command-label" id="deb-label">Debian e Ubuntu, nella cartella dove hai salvato il <code>.deb</code> dalla pagina della versione:</p>
+   <div class="command"><pre id="deb-command" aria-labelledby="deb-label"><code>sudo apt install ./kalipso_*_amd64.deb</code></pre><button class="button quiet copy" data-copy="deb-command" type="button"><svg class="icon" data-motion="copy" viewBox="0 0 24 24" aria-hidden="true"><path class="copy-shape" d="M9 9h10v10H9zM5 15V5h10"/><path class="check-shape" d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Copia</span></button></div>
+   <a class="text-link" href="https://github.com/brianidavide/kalipso#install">Altre distribuzioni: compila dai sorgenti (in inglese)<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a></article>
+  <article data-reveal data-os="linux"><h3>KDE Plasma</h3><p class="platform-status">Widget per Plasma 6</p><p>Un lettore sul desktop o nel pannello che conserva il copione tra una sessione e l'altra. È compreso nei pacchetti per Arch; altrove aggiungi il <code>.plasmoid</code> dalla pagina della versione. Per seguire la voce serve il companion di Kalipso. È previsto l'arrivo sul KDE Store.</p><a class="text-link" href="https://github.com/brianidavide/kalipso/blob/main/desktop/README.md#kde-plasma-6">Guida per KDE (in inglese)<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a></article>
+  <article data-reveal data-os="linux"><h3>GNOME</h3><p class="platform-status">Estensione per GNOME Shell 48</p><p>Un lettore dalla barra in alto che conserva il copione tra una sessione e l'altra. È compresa nei pacchetti per Arch; altrove installa il suo <code>.zip</code> dalla pagina della versione. Dichiara GNOME Shell 48, la versione con cui è provata.</p><a class="text-link" href="https://github.com/brianidavide/kalipso/blob/main/desktop/README.md#gnome-shell-48">Guida per GNOME (in inglese)<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a></article>
+  <article data-reveal data-os="mac"><h3>macOS</h3><p class="platform-status">Apple Silicon · macOS 14.4 o successivo · sperimentale</p><p>L'app, nell'archivio <code>macos-arm64</code>. Estrailo e apri Kalipso; la prima volta scegli <em>Apri comunque</em> in Impostazioni di Sistema → Privacy e sicurezza. Il riconoscimento vocale del sistema richiede macOS 26.</p><a class="text-link" href="https://github.com/brianidavide/kalipso/releases/latest">Scarica per macOS<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a></article>
+  <article data-reveal data-os="windows"><h3>Windows</h3><p class="platform-status">Windows 10 o 11, x64 · sperimentale</p><p>L'app, come programma di installazione <code>.msi</code> o come <code>.zip</code> portatile. Se SmartScreen la blocca, scegli <em>Ulteriori informazioni</em> e poi <em>Esegui comunque</em>. Per seguire la voce usa i riconoscitori vocali installati in Windows.</p><a class="text-link" href="https://github.com/brianidavide/kalipso/releases/latest">Scarica per Windows<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a></article>
+ </div>
+ <p class="copied" role="status" aria-live="polite"></p>
+</section>
+
+<section id="questions" class="questions wrap" aria-labelledby="questions-title">
+ <h2 id="questions-title" data-reveal>Prima di usarlo.</h2>
+ <div class="question-list" data-reveal>
+  <details><summary>Funziona con la mia app per chiamate o registrazioni?<svg class="icon chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Kalipso è una finestra di lettura a parte: non deve stare dentro una particolare app per riunioni. Il posto delle finestre e ciò che viene catturato cambiano da un desktop all'altro. Prova la tua vera chiamata o registrazione prima di contarci.</p></details>
+  <details><summary>Gli altri lo vedono quando condivido lo schermo?<svg class="icon chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Su Windows l'app chiede al sistema di lasciare il lettore fuori dalle condivisioni dello schermo e dalle registrazioni. Su KDE Plasma 6.6 o successivo la finestra resta fuori finché è sotto la webcam. macOS non offre a un'app un modo affidabile per farlo: lì condividi una sola finestra. In ogni caso, prima della presentazione controlla che cosa vede un altro partecipante, o il video registrato.</p></details>
+  <details><summary>Legge le note di PowerPoint o di Impress?<svg class="icon chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Sì. L'app importa le note del relatore dei file <code>.pptx</code> e <code>.odp</code>, una sezione per diapositiva. Su Linux può anche seguire una presentazione di LibreOffice Impress mentre presenti, spostandosi alle note della diapositiva sullo schermo.</p></details>
+  <details><summary>Quali lingue sa seguire?<svg class="icon chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Fra i modelli da scaricare ci sono quelli di Moonshine per inglese, tedesco, spagnolo, giapponese e cinese, e quelli di Vosk per le stesse lingue più l'italiano. La qualità del riconoscimento cambia con la lingua e il modello. La lettura a mano e a velocità costante funziona in qualsiasi lingua. L'app parla italiano e inglese.</p></details>
+  <details><summary>Il copione si salva da solo?<svg class="icon chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Sì. L'app, il widget di Plasma e l'estensione per GNOME salvano il copione e il punto di lettura sul tuo computer mentre scrivi. Non viene caricato niente. Solo questa prova nel browser ricomincia quando ricarichi la pagina.</p></details>
+  <details><summary>È pronto per una presentazione importante dal vivo?<svg class="icon chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><p>Kalipso 2.0 è la prima versione pubblica. Il riconoscimento può ancora perdere il segno, e le prove su computer e microfoni reali sono ancora poche. Tieni una copia delle note, impara i comandi manuali e prova prima sul tuo computer.</p></details>
+ </div>
+</section>
+
+<section class="closing wrap" aria-labelledby="closing-title" data-reveal-group>
+ <h2 id="closing-title" data-reveal>Aiutaci a migliorare la prossima versione.</h2>
+ <p data-reveal>Raccontaci che cosa ha funzionato, che cosa no e che cosa ti serve per il tuo prossimo intervento o la prossima registrazione.</p>
+ <div data-reveal><a class="button primary" href="https://github.com/brianidavide/kalipso/issues">Scrivici su GitHub<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a></div>
+</section>
+</main>
+
+<footer class="site-footer">
+ <div class="wrap footer-row">
+  <a class="brand" href="./"><img src="../assets/mark.svg" width="26" height="26" alt=""><span>Kalipso</span></a>
+  <p>Un teleprompter per il computer che lavora in locale. AGPL-3.0 o successiva.<br>Indipendente da KDE, GNOME, Apple e Microsoft.</p>
+  <nav aria-label="Lingua" class="languages"><a href="../" hreflang="en" lang="en" data-language>English</a><a href="./" hreflang="it" lang="it" aria-current="page" data-language>Italiano</a></nav>
+  <nav aria-label="Piè di pagina"><a class="external" href="https://github.com/brianidavide/kalipso">Codice sorgente<svg class="icon" data-motion="out" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16 16 8M10 8h6v6"/></svg></a><a href="https://github.com/brianidavide/kalipso/blob/main/LICENSE">Licenza</a></nav>
+ </div>
+</footer>
+</body>
+</html>

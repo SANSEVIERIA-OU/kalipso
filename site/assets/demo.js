@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Manual presentation only. No microphone, network request or inference.
 import {Tracker} from './tracker.mjs';
+import {t} from './i18n.mjs';
 const script=document.querySelector('#script');
 if(script){
  const tracker=new Tracker(script.value),reading=document.querySelector('#reading-text'),count=document.querySelector('#read-count'),panel=document.querySelector('#edit-panel'),toggle=document.querySelector('#edit-toggle');
@@ -11,7 +12,7 @@ if(script){
   const word=tracker.words[tracker.position],current=word?word.start:end;
   for(const [className,text] of [['read-word',(first?'… ':'')+tracker.text.slice(start,current)],['current-word',word?tracker.text.slice(word.start,end):''],['next-word',tracker.text.slice(Math.max(start,end),finish)+(last<tracker.words.length?' …':'')]]){if(!text)continue;const span=document.createElement('span');span.className=className;for(const part of text.replace(/\s+/g,' ').split(/(\[[^\]]*\])/)){if(!part)continue;if(/^\[.*\]$/.test(part)){const cue=document.createElement('span');cue.className='cue';cue.textContent=part;span.append(cue)}else span.append(part)}reading.append(span)}
   document.querySelector('#read-progress').style.inlineSize=`${tracker.words.length?100*(tracker.position+1)/tracker.words.length:0}%`;
-  if(!tracker.words.length)reading.textContent='Add your script to begin.';
+  if(!tracker.words.length)reading.textContent=t.emptyScript;
   count.textContent=`${tracker.position+1} / ${tracker.words.length}`;
   const next=document.querySelector('#next-word'),previous=document.querySelector('#previous-word'),focused=document.activeElement;
   next.disabled=!tracker.words.length||tracker.position===tracker.words.length-1;
@@ -20,14 +21,14 @@ if(script){
   if(focused===next&&next.disabled)previous.focus();
   if(focused===previous&&previous.disabled)next.focus();
   reading.dataset.position=tracker.position;
-  document.querySelector('#read-state').textContent=tracker.words.length&&tracker.position===tracker.words.length-1?'End of script · Microphone off':'Manual demo · Microphone off';
+  document.querySelector('#read-state').textContent=tracker.words.length&&tracker.position===tracker.words.length-1?t.endState:t.manualState;
  }
  script.addEventListener('input',()=>{tracker.setText(script.value);render()});
  document.querySelector('#next-word').addEventListener('click',()=>{tracker.seek(tracker.position+4);render()});
  document.querySelector('#previous-word').addEventListener('click',()=>{tracker.seek(tracker.position-4);render()});
  document.querySelector('#reset-reading').addEventListener('click',()=>{tracker.seek(-1);render()});
- function closeEditor(){panel.hidden=true;toggle.textContent='Edit script';toggle.setAttribute('aria-expanded','false');toggle.focus()}
- toggle.addEventListener('click',()=>{if(!panel.hidden){closeEditor();return}panel.hidden=false;toggle.textContent='Done editing';toggle.setAttribute('aria-expanded','true');script.focus()});
+ function closeEditor(){panel.hidden=true;toggle.textContent=t.editScript;toggle.setAttribute('aria-expanded','false');toggle.focus()}
+ toggle.addEventListener('click',()=>{if(!panel.hidden){closeEditor();return}panel.hidden=false;toggle.textContent=t.doneEditing;toggle.setAttribute('aria-expanded','true');script.focus()});
  panel.addEventListener('keydown',event=>{if(event.key==='Escape'){closeEditor();event.preventDefault()}});
  render();
 }
@@ -53,9 +54,9 @@ const platform=(navigator.userAgentData?.platform||navigator.platform||navigator
 const os=platform.includes('mac')?'mac':platform.includes('win')?'windows':platform.includes('linux')||platform.includes('x11')?'linux':'';
 const label=document.querySelector('[data-os-label]');
 if(os&&label){
- label.textContent={linux:'Get Kalipso for Linux',mac:'Get Kalipso for macOS',windows:'Get Kalipso for Windows'}[os];
+ label.textContent=t.getFor[os];
  const card=document.querySelector(`.platforms article[data-os="${os}"]`);
- if(card){card.classList.add('yours');const tag=document.createElement('span');tag.className='yours-tag';tag.textContent='Your system';card.prepend(tag)}
+ if(card){card.classList.add('yours');const tag=document.createElement('span');tag.className='yours-tag';tag.textContent=t.yourSystem;card.prepend(tag)}
 }
 
 // Copy buttons: the command is copied as shown; the status line says so for screen readers too.
@@ -63,8 +64,8 @@ for(const button of document.querySelectorAll('[data-copy]')){
  button.addEventListener('click',async()=>{
   const text=document.getElementById(button.dataset.copy)?.innerText??'';
   const status=document.querySelector('.copied');
-  try{await navigator.clipboard.writeText(text);button.classList.add('done');button.querySelector('span').textContent='Copied';if(status)status.textContent='Command copied to the clipboard.'}
-  catch{if(status)status.textContent='Copying is not allowed here: select the command and copy it.'}
-  setTimeout(()=>{button.classList.remove('done');button.querySelector('span').textContent='Copy'},2000);
+  try{await navigator.clipboard.writeText(text);button.classList.add('done');button.querySelector('span').textContent=t.copied;if(status)status.textContent=t.copiedStatus}
+  catch{if(status)status.textContent=t.copyBlocked}
+  setTimeout(()=>{button.classList.remove('done');button.querySelector('span').textContent=t.copy},2000);
  });
 }

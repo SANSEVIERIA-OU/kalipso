@@ -11,4 +11,5 @@ and GNOME, without logos or real app interfaces), with real captures of Kalipso 
 The captures are made from the current build with clean profiles and the scripts in
 `tools/scenes/scripts/`; no microphone is opened. The GNOME capture is at normal size (the nested shell
 does not scale reliably), the others at twice the size. Rebuild them whenever the interface shown
-changes: `tools/scenes/build.sh build/kalipso` (see that script for what it needs).
+changes: `tools/scenes/build.sh build/kalipso` (see that script for what it needs). When only some
+captures change, render those scenes alone: `node tools/scenes/render.mjs call-macos recording-windows`.
