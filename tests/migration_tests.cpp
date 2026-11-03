@@ -17,6 +17,8 @@ class MigrationTests : public QObject {
         QDir(earlier()).removeRecursively();
         QSettings().clear();
         QSettings("brianidavide", "kalipso").clear();
+        QSettings().sync();
+        QSettings("brianidavide", "kalipso").sync();
     }
 
 private slots:

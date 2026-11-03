@@ -17,12 +17,15 @@
 namespace AppScripts {
 // The app's organization, and its name before Kalipso moved to SANSEVIERIA-OU: until the app has
 // started once under the new name, its scripts and settings are still under the old one.
+inline bool hasSettings(const QString &organization) {
+    QSettings settings(organization, QStringLiteral("kalipso"));
+    settings.setFallbacksEnabled(false); // Kalipso's own keys, not the system's global preferences.
+    return !settings.allKeys().isEmpty();
+}
 inline QString organization() {
     const auto data = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    const bool moved = QFileInfo::exists(data + "/sansevieria-ou/kalipso") ||
-                       !QSettings(QStringLiteral("sansevieria-ou"), QStringLiteral("kalipso")).allKeys().isEmpty();
-    const bool earlier = QFileInfo::exists(data + "/brianidavide/kalipso") ||
-                         !QSettings(QStringLiteral("brianidavide"), QStringLiteral("kalipso")).allKeys().isEmpty();
+    const bool moved = QFileInfo::exists(data + "/sansevieria-ou/kalipso") || hasSettings(QStringLiteral("sansevieria-ou"));
+    const bool earlier = QFileInfo::exists(data + "/brianidavide/kalipso") || hasSettings(QStringLiteral("brianidavide"));
     return moved || !earlier ? QStringLiteral("sansevieria-ou") : QStringLiteral("brianidavide");
 }
 

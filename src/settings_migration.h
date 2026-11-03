@@ -12,11 +12,15 @@
 // Kalipso moved to SANSEVIERIA-OU (November 2026); earlier still the app was "kde-teleprompter".
 
 // Copies the settings of an earlier name, once: only while the current settings are empty.
+// Only Kalipso's own keys count: on macOS the settings also show the system's global preferences
+// unless fallbacks are off, and they would make the current settings look already used.
 inline void importLegacySettings(const QString &organization, const QString &application) {
     QSettings current;
+    current.setFallbacksEnabled(false);
     if (!current.allKeys().isEmpty())
         return;
-    const QSettings legacy(organization, application);
+    QSettings legacy(organization, application);
+    legacy.setFallbacksEnabled(false);
     for (const auto &key : legacy.allKeys())
         current.setValue(key, legacy.value(key));
     current.sync();
