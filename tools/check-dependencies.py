@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Report newer stable build tools. Never rewrites pins or resolves releases at build time."""
+"""Report newer stable build tools and speech runtimes. Never rewrites pins or resolves releases at build
+time. The speech runtimes are the wheels the speech catalog downloads (tools/data/speech-catalog.json):
+a newer one is reported here, then checked by hand (fingerprint, size, native files) before the catalog
+changes."""
 import json
 import re
 import sys
@@ -23,6 +26,8 @@ def version(value):
 def main():
     pinned = json.loads((ROOT / 'tools/dependency-versions.json').read_text())
     browser = json.loads((ROOT / 'tools/browser/package.json').read_text())['devDependencies']
+    catalog = json.loads((ROOT / 'tools/data/speech-catalog.json').read_text())
+    runtimes = {'vosk': catalog['vosk']['version'], 'moonshine': catalog['moonshine']['version']}
     sources = {
         'aqt': 'https://pypi.org/pypi/aqtinstall/json',
         'qt': 'https://api.github.com/repos/qt/qtbase/tags?per_page=100',
@@ -31,21 +36,25 @@ def main():
         'cmake': 'https://pypi.org/pypi/cmake/json',
         'playwright': 'https://registry.npmjs.org/playwright/latest',
         'axe-core': 'https://registry.npmjs.org/axe-core/latest',
+        'vosk': 'https://pypi.org/pypi/vosk/json',
+        'moonshine': 'https://pypi.org/pypi/moonshine-voice/json',
     }
     report = []
-    for name, current in (pinned | browser).items():
+    for name, current in (pinned | browser | runtimes).items():
         try:
             data = fetch(sources[name])
             if name == 'qt':
                 candidates = [row['name'].removeprefix('v') for row in data if re.fullmatch(r'v6\.\d+\.\d+', row['name'])]
             elif name == 'node':
-                candidates = [row['version'].removeprefix('v') for row in data if re.fullmatch(r'v\d+\.\d+\.\d+', row['version'])]
+                # Long-term support lines only: the odd "Current" lines are not for building releases.
+                candidates = [row['version'].removeprefix('v') for row in data
+                              if row.get('lts') and re.fullmatch(r'v\d+\.\d+\.\d+', row['version'])]
             elif name == 'python':
                 candidates = [row['version'] for row in data if row.get('stable') and re.fullmatch(r'\d+\.\d+\.\d+', row['version'])]
             else:
-                candidates = [data['info']['version'] if name in ('cmake', 'aqt') else data['version']]
+                candidates = [data['info']['version'] if name in ('cmake', 'aqt', 'vosk', 'moonshine') else data['version']]
             latest = max(candidates, key=version)
-            report.append({'name': name, 'pinned': current, 'latest': latest,
+            report.append({'name': name, 'pinned': current, 'latest': latest, 'kind': 'speech runtime' if name in runtimes else 'tool',
                            'update_available': version(latest) > version(current), 'source': sources[name]})
         except Exception as error:
             report.append({'name': name, 'pinned': current, 'error': str(error), 'source': sources[name]})
