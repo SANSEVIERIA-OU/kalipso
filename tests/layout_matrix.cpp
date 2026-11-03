@@ -286,6 +286,18 @@ void settingsStates(MainWindow &window, const QString &prefix) {
             const auto state = QString("%1 settings %2x%3 page %4").arg(prefix).arg(size.width()).arg(size.height()).arg(page);
             checkWindow(state, dialog);
             checkScrollBars(state, dialog);
+            // The page names in the list are never cut ("Appeara…").
+            if (auto *pages = dialog->findChild<QListWidget *>("settingsPages"); pages && pages->isVisible())
+                for (int row = 0; row < pages->count(); ++row) {
+                    const auto *item = pages->item(row);
+                    const int needs = pages->fontMetrics().horizontalAdvance(item->text()) +
+                                      (item->icon().isNull() ? 0 : pages->iconSize().width() + 8);
+                    if (needs > pages->visualItemRect(item).width() - 8)
+                        problem(state, QString("page name cut: %1 needs %2, has %3")
+                                           .arg(item->text())
+                                           .arg(needs)
+                                           .arg(pages->visualItemRect(item).width()));
+                }
             shoot(dialog, QString(state).replace(' ', '-'));
         }
     }
