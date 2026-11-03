@@ -6,7 +6,8 @@ version brings, for the people who use it.
 
 ## 2.3 — 3 November 2026
 
-- Debian and Ubuntu: the `.deb` also installs Qt's SVG image plugin (`qt6-svg-plugins`). Without it,
+- Debian and Ubuntu: the `.deb` also installs Qt's SVG image plugin (`qt6-svg-plugins` on Debian 13
+  and newer Ubuntu; Ubuntu 24.04 has it in `libqt6svg6`). Without it,
   on GNOME and other desktops without a Qt style of their own, check boxes showed no tick and drop-down
   lists no arrow.
 

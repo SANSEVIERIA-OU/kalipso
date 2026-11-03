@@ -349,9 +349,10 @@ set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_SECTION utils)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 # Qt's SVG image plugin, which the computed dependencies miss: the drawn style (GNOME, any desktop without
-# its own Qt style) draws its check marks and arrows from SVG images, and Debian ships the plugin apart
-# from the library (Fedora's qt6-qtsvg and Arch's qt6-svg include it).
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "qt6-svg-plugins")
+# its own Qt style) draws its check marks and arrows from SVG images. Debian 13 ships the plugin apart
+# from the library (qt6-svg-plugins); Ubuntu 24.04, with Qt 6.4, has no such package and keeps it in
+# libqt6svg6. Fedora's qt6-qtsvg and Arch's qt6-svg include it.
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "qt6-svg-plugins | libqt6svg6 (<< 6.5~)")
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "pipewire-bin, xdg-desktop-portal")
 # Fedora and openSUSE: rpmbuild finds the libraries the binaries need; PipeWire's tools are named, since
 # the microphone is recorded with pw-record.
