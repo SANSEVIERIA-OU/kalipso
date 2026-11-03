@@ -148,7 +148,7 @@ no built files. `.github/workflows/vosk-runtime.yml` builds it from source (#26)
   digest. The script follows upstream's own manylinux build.
 - **Dependencies:** Kaldi (branch `vosk`), OpenFST, OpenBLAS 0.3.20 and CLAPACK, each at the commit
   upstream's build would have used on the day of the tag. `BUILD-INFO.txt` in the archive records the
-  commits.
+  commits. Two separate builds on GitHub gave the same archive, byte for byte (SHA-256 `404e9f15…`).
 - **What it makes:** `vosk-0.3.50-linux-x86_64.zip`, laid out like the wheel's `vosk/` folder, with
   the five licences.
 
