@@ -25,6 +25,6 @@ build() {
 }
 
 package() {
+  # The app, the companion, the Plasma widget, the GNOME Shell extension and the KWin script.
   DESTDIR="$pkgdir" cmake --install build
-  sh "kalipso-$pkgver/packaging/linux/install-extras.sh" "$srcdir/kalipso-$pkgver" "$pkgdir/usr"
 }

@@ -1,6 +1,8 @@
 # Maintainer: Davide Briani <116493713+brianidavide@users.noreply.github.com>
 #
-# Kalipso from the latest commit on main: for trying what is not released yet.
+# Kalipso from the latest commit on main: for trying what is not released yet. No longer published on
+# AUR (only published versions are, as kalipso-bin and kalipso); CI builds and installs it from each
+# change (.github/workflows/desktop.yml).
 
 pkgname=kalipso-git
 pkgver=0.1.r0.g0000000
@@ -32,6 +34,6 @@ build() {
 }
 
 package() {
+  # The app, the companion, the Plasma widget, the GNOME Shell extension and the KWin script.
   DESTDIR="$pkgdir" cmake --install build
-  sh kalipso/packaging/linux/install-extras.sh "$srcdir/kalipso" "$pkgdir/usr"
 }

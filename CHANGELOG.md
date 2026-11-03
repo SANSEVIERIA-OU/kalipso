@@ -4,22 +4,18 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …); only th
 X.0 are published (see [docs/releasing.md](docs/releasing.md)). This file lists what each published
 version brings, for the people who use it.
 
-## Since 2.0 (in the next published version)
-
-- Kalipso moved to the organization SANSEVIERIA OÜ: github.com/SANSEVIERIA-OU/kalipso, and the website
-  at sansevieria-ou.github.io/kalipso. Its identifiers follow:
-  - the app and the Plasma widget are `io.github.sansevieria_ou.kalipso`;
-  - the companion on D-Bus is `io.github.sansevieria_ou.Kalipso.Engine`;
-  - the GNOME extension is `kalipso@sansevieria-ou.github.io`.
-
-  The first start moves your scripts and settings from the earlier folders by itself. The widget and the
-  extension also find a companion from 2.0. Add the widget to the panel again, and enable the extension
-  again, after updating.
-- Voice following on Linux uses Vosk 0.3.50, built from source by Kalipso.
-
 ## 2.0 — 3 November 2026
 
 The first version published since the project started in October 2026: everything below is new.
+
+2.0 was built again on the same day, after Kalipso moved to the organization SANSEVIERIA OÜ
+(github.com/SANSEVIERIA-OU/kalipso, website at sansevieria-ou.github.io/kalipso). On AUR the new build is
+2.0-2. If you used an earlier build, or a development version:
+- the identifiers changed: the app and the Plasma widget are `io.github.sansevieria_ou.kalipso`, the
+  companion on D-Bus is `io.github.sansevieria_ou.Kalipso.Engine`, the GNOME extension is
+  `kalipso@sansevieria-ou.github.io`;
+- the first start moves your scripts and settings from the earlier folders by itself;
+- add the widget to the panel again, and turn the extension on again, after updating.
 
 ### One window that writes and reads
 
@@ -41,7 +37,8 @@ The first version published since the project started in October 2026: everythin
   from studies of reading aloud: [docs/reading-speed.md](docs/reading-speed.md)) and **Manual**.
 - Voice following runs on your computer (Vosk or Moonshine). It keeps up through room noise, says when
   you go off script, and catches up when you come back, even after skipping ahead or going back.
-  The voice model for your language downloads from Settings, once.
+  The voice model for your language downloads from Settings, once. On Linux, Vosk is 0.3.50, built
+  from source by Kalipso.
 - Mirroring for beam-splitter glass, a countdown, the current line at the height you choose, any font
   (also ones designed for dyslexia) and line spacing, controls that fade while you read.
 - Foot pedals, presentation clickers and keys you choose; a phone remote over your network; optional
@@ -71,7 +68,8 @@ The first version published since the project started in October 2026: everythin
 ### Downloads
 
 - Linux: a `.deb` (Debian 13, Ubuntu 24.04 and newer), an `.rpm` (current Fedora), and on Arch
-  `kalipso` and `kalipso-bin` on AUR (`kalipso-git` follows the development).
+  `kalipso-bin` and `kalipso` on AUR. Each also installs the Plasma widget, the GNOME extension and the
+  KWin script.
 - Windows: an `.msi` installer, which upgrades an older Kalipso in place, and a portable `.zip`.
 - macOS (Apple Silicon): a `.dmg`.
 - None of them is signed yet: see the release notes for how to open them, and `SHA256SUMS` with the

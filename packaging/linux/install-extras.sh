@@ -1,8 +1,8 @@
 #!/bin/sh
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# For distribution packages: installs what goes with the app beyond `cmake --install` — the Plasma
-# widget, the GNOME Shell extension and the KWin script, unpacked where each desktop looks for add-ons
-# installed system-wide.
+# `cmake --install` now installs the Plasma widget, the GNOME Shell extension and the KWin script
+# itself (CMakeLists.txt). This script is kept for PKGBUILDs already on AUR that still call it after the
+# install, such as the last kalipso-git: it unpacks the same files over the same paths.
 # Usage: install-extras.sh <source tree> <staging prefix, e.g. $pkgdir/usr>
 set -eu
 src=$1 prefix=$2

@@ -1,6 +1,12 @@
 # Install the Plasma widget or GNOME extension
 
-From a clone of the repository, build both archives:
+Kalipso's Linux packages (the `.deb`, the `.rpm`, `kalipso-bin` and `kalipso` on AUR) already install
+both, with the KWin script: on Plasma, add the **Kalipso** widget to the desktop or panel; on GNOME, log
+out and back in, then turn **Kalipso** on in the Extensions app. This page is for using them without
+the app's packages.
+
+Their files are on the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases)
+(`kalipso-plasma.plasmoid`, `kalipso-gnome.zip`). To build them instead, from a clone of the repository:
 
 ```sh
 git clone https://github.com/SANSEVIERIA-OU/kalipso.git
@@ -55,30 +61,3 @@ gnome-extensions uninstall kalipso@sansevieria-ou.github.io
 - Keys (for foot pedals and clickers): arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed, Home returns to the start.
 
 The interface follows your desktop language (English or Italian). Hiding the reader stops the microphone. The reader can appear in screen sharing; check what other participants see.
-
-## Store listings
-
-The texts for the KDE Store (category Plasma 6 Applets → Utilities) and extensions.gnome.org.
-
-**Kalipso: a teleprompter that follows your voice**
-
-Read your script near your camera without losing your place. Kalipso scrolls at a steady speed, waits for your foot pedal, or follows your voice with speech recognition that runs on your computer: nothing you say is sent anywhere.
-
-- Reads the scripts you write in the Kalipso app, or one you write here.
-- Follows your voice in Italian, English, German, Spanish, Japanese and Chinese once you download your language (50–62 MB, once).
-- Sections, direction cues that are shown but never read, mirror for beam-splitter glass, light and dark colors, fonts for easier reading.
-- English and Italian interface.
-
-Prerequisites:
-- Plasma 6 (the widget) or GNOME Shell 48 or 51 (the extension).
-- For voice following, the Kalipso companion (`kalipso-engine`), which ships with the Kalipso app and in the companion archive of each release, and PipeWire.
-- For Kalipso's scripts, the Kalipso app. Without it, the widget and the extension read a script written in them.
-
-**Kalipso: un gobbo che segue la tua voce** (italiano)
-
-Leggi il tuo copione vicino alla webcam senza perdere il segno. Kalipso scorre a velocità costante, aspetta il tuo pedale o segue la tua voce con un riconoscimento vocale che lavora sul tuo computer: niente di quello che dici viene inviato.
-
-- Legge i copioni che scrivi nell'app Kalipso, o uno scritto qui.
-- Segue la voce in italiano, inglese, tedesco, spagnolo, giapponese e cinese, dopo aver scaricato una volta la tua lingua (50–62 MB).
-- Sezioni, indicazioni di regia mostrate ma mai lette, specchio per i vetri dei gobbi, colori chiari e scuri, caratteri per una lettura più facile.
-- Interfaccia in italiano e inglese.

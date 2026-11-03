@@ -34,16 +34,16 @@ metadata, the Plasma widget, the GNOME extension and the KWin script); CI fails 
 
 4. The **Release** workflow builds every package on Linux (Ubuntu, and Arch for `kalipso-bin`), macOS
    and Windows, makes the Windows installer, writes `SHA256SUMS`, attests where each file was built
-   (`gh attestation verify <file> -R SANSEVIERIA-OU/kalipso`; 2.0 was built before the move to
-   SANSEVIERIA-OU, so its files verify with `--owner brianidavide`), and creates the release: published for 0.1
+   (`gh attestation verify <file> -R SANSEVIERIA-OU/kalipso`), and creates the release: published for 0.1
    and X.0, a draft otherwise. Its notes list the merged pull requests and explain how to open unsigned
-   packages. For a published version it then updates `kalipso`, `kalipso-bin` and `kalipso-git` on AUR.
+   packages. For a published version it then updates `kalipso-bin` and `kalipso` on AUR.
 
 ## What is in a release
 
 - Linux:
   - a `.deb` (Debian 13, Ubuntu 24.04 or newer), an `.rpm` (current Fedora) and a `.tar.gz`, each with
-    the voice companion and `kalipso-voice-setup`;
+    the voice companion, `kalipso-voice-setup`, the Plasma widget, the GNOME Shell extension and the KWin
+    script (`cmake --install` puts the add-ons where each desktop looks for them);
   - `kalipso-X.Y-archlinux-x86_64.tar.zst`: the installed files built on Arch Linux against Arch's Qt,
     which `kalipso-bin` on AUR unpacks.
 - `kalipso-companion-vX.Y-linux-x86_64.tar.gz`: the companion alone, for people who use only the Plasma
@@ -54,7 +54,8 @@ metadata, the Plasma widget, the GNOME extension and the KWin script); CI fails 
   - `kalipso-vX.Y-windows-x64.zip`, the same files to run without installing.
 - macOS Apple Silicon: `kalipso-vX.Y-macos-arm64.dmg` (drag to Applications) and the same app bundle in a
   `.tar.gz`, signed ad hoc only.
-- The Plasma widget (`.plasmoid`), the GNOME Shell extension (`.zip`) and the KWin script.
+- The Plasma widget (`.plasmoid`), the GNOME Shell extension (`.zip`) and the KWin script, for using them
+  without the app's packages.
 
 The **Linux packages** workflow takes the `.deb` and the `.rpm` through installing, starting, upgrading
 to a newer version and removing, on every change: the `.deb` on Ubuntu, the `.rpm` in a Fedora container.
@@ -105,16 +106,20 @@ Three PKGBUILDs:
 
 | PKGBUILD | What it does |
 | --- | --- |
-| `packaging/arch/kalipso` | Builds a published version from source. |
 | `packaging/arch/kalipso-bin` | Unpacks the files the release built on Arch (`tools/build-arch-tarball.sh`), so nothing is compiled. |
-| `packaging/arch/kalipso-git` | Builds the latest `main`. |
+| `packaging/arch/kalipso` | Builds a published version from source. |
+| `packaging/arch/kalipso-git` | Builds the latest `main`. Not published on AUR: CI builds it from every change and installs it in an Arch container. |
 
-CI builds `kalipso-git` from every change and installs it in an Arch container.
-
-The **AUR** workflow publishes them:
+The **AUR** workflow publishes `kalipso-bin` and `kalipso`:
 - the release workflow calls it for 0.1 and every X.0, with the version and the checksums of the
   source and of the Arch tarball;
-- it can be run by hand from the Actions tab to update `kalipso-git`.
+- it can be run by hand from the Actions tab for a published version;
+- `pkgrel` is 1 for a new version. If a published version is built again, its files change but its
+  number does not: the workflow then publishes one `pkgrel` more than AUR has, so pacman offers the new
+  build (2.0 was built again on 3 November 2026, after the move to SANSEVIERIA-OU: 2.0-2).
+
+`kalipso-git` was published until 2.0. Its last PKGBUILD on AUR still builds `main`; it calls
+`packaging/linux/install-extras.sh`, which is kept for it.
 
 It needs the repository secret `AUR_SSH_KEY`, the private SSH key of the AUR account that maintains the
 packages; without it the job only warns. The first push creates each package on AUR.
@@ -133,8 +138,11 @@ To try `kalipso-bin` before a release, on Arch:
     Actions integration;
   - a Certum open-source certificate in the developer's name.
 
-  Azure Artifact Signing only accepts individual developers in the United States and Canada. On macOS,
+  Azure Artifact Signing: Microsoft's page of 29 August 2026 lists organisations in the European Union
+  as eligible, which may include SANSEVIERIA OÜ (not checked). On macOS,
   Developer ID signing and notarization need the Apple Developer Program (99 USD a year). The `.rpm` is
   not signed either: Fedora's `rpm -i` refuses it, and `dnf install` accepts it after a warning.
-- **Store listings** (#20 and #21): the Plasma widget on the KDE Store and the extension on
-  extensions.gnome.org are uploaded by hand by the maintainer.
+- **Microsoft Store**: an MSIX package, which the Store signs, so people who install from it see no
+  SmartScreen warning. It needs a company Partner Center account for SANSEVIERIA OÜ (see its issue).
+- The Plasma widget and the GNOME extension are not listed on the KDE Store or extensions.gnome.org:
+  every Linux package installs them with the app (decided on 3 November 2026).

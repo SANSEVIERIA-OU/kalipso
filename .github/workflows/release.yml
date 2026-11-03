@@ -107,8 +107,9 @@ jobs:
             *System Settings → Privacy & Security* and choose
             *Open Anyway* (within about an hour).
           - **Linux:** the .deb is for Debian 13 and Ubuntu 24.04 or newer, the .rpm for current Fedora releases;
-            on Arch, install \`kalipso-bin\` (or \`kalipso\`) from AUR. The Plasma widget and the GNOME
-            extension are separate files.
+            on Arch, install \`kalipso-bin\` (or \`kalipso\`) from AUR. Each Linux package also installs the
+            Plasma widget, the GNOME extension and the KWin script; their separate files are for using them
+            without the app.
           EOF
           if python3 tools/version.py public "$GITHUB_REF_NAME"; then
             echo "public=true" >> "$GITHUB_OUTPUT"

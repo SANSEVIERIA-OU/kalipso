@@ -52,9 +52,10 @@ kalipso-voice-setup --language en --backend vosk   # another engine than the usu
 
 ## Get the companion
 
-**You installed a Kalipso package** (AUR `kalipso-git`, the `.deb`): the companion is already there.
+**You installed a Kalipso package** (AUR `kalipso-bin` or `kalipso`, the `.deb`, the `.rpm`): the
+companion is already there.
 
-**You use only the widget or the extension** (from the KDE Store or extensions.gnome.org): download
+**You use only the widget or the extension**, without the app: download
 `kalipso-companion-…-linux-x86_64.tar.gz` from the [releases page](https://github.com/SANSEVIERIA-OU/kalipso/releases),
 then:
 

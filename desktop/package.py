@@ -5,8 +5,13 @@
 Archives contain only frontend source and notices: no companion binary,
 speech model or recording. Output: artifacts/packages/. File timestamps are
 fixed so identical sources produce identical archives.
+
+With --tree DIR the same files are written unpacked, in DIR/plasma, DIR/gnome
+and DIR/kwin: what `cmake --install` puts where each desktop looks for add-ons
+installed system-wide, so every Linux package carries them.
 """
 from pathlib import Path
+import argparse
 import ast
 import hashlib
 import struct
@@ -108,11 +113,14 @@ def kwin_files():
             if path.is_file() and path.suffix in SOURCE_SUFFIXES]
 
 
+def entries(files, generated):
+    return ([(destination, source.read_bytes()) for source, destination in files + NOTICES]
+            + [(destination, data) for _, destination, data in generated])
+
+
 def write(name, files, generated=()):
     with zipfile.ZipFile(OUT / name, 'w', zipfile.ZIP_DEFLATED) as archive:
-        entries = [(destination, source.read_bytes()) for source, destination in files + NOTICES]
-        entries += [(destination, data) for _, destination, data in generated]
-        for destination, data in entries:
+        for destination, data in entries(files, generated):
             info = zipfile.ZipInfo(destination, (2026, 10, 26, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
@@ -120,12 +128,30 @@ def write(name, files, generated=()):
     print(hashlib.sha256((OUT / name).read_bytes()).hexdigest(), name)
 
 
+def write_tree(folder, files, generated=()):
+    """The archive's files, unpacked into an empty folder."""
+    for destination, data in entries(files, generated):
+        path = folder / destination
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument('--tree', type=Path, help='write the files unpacked into this folder instead')
+    tree = parser.parse_args().tree
     subprocess.run([sys.executable, str(ROOT / 'tools/sync-shared.py'), '--check'], check=True)
+    plasma = (plasma_files(), translations('contents/locale/', PLASMA_DOMAIN))
+    gnome = (gnome_files(), translations('locale/', GNOME_DOMAIN))
+    kwin = (kwin_files(),)
+    if tree:
+        for name, contents in (('plasma', plasma), ('gnome', gnome), ('kwin', kwin)):
+            write_tree(tree / name, *contents)
+        return
     OUT.mkdir(parents=True, exist_ok=True)
-    write('kalipso-plasma.plasmoid', plasma_files(), translations('contents/locale/', PLASMA_DOMAIN))
-    write('kalipso-gnome.zip', gnome_files(), translations('locale/', GNOME_DOMAIN))
-    write('kalipso-kwin.kwinscript', kwin_files())
+    write('kalipso-plasma.plasmoid', *plasma)
+    write('kalipso-gnome.zip', *gnome)
+    write('kalipso-kwin.kwinscript', *kwin)
 
 
 if __name__ == '__main__':
