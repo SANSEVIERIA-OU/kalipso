@@ -7,7 +7,7 @@
   <summary>Teleprompter that follows your voice, on your device</summary>
   <developer id="io.github.brianidavide"><name>Davide Briani and contributors</name></developer>
   <description>
-    <p>Keep your script next to your camera and read naturally. Kalipso shows the next words in a compact reader and dims the words you have already read.</p>
+    <p>Keep your script next to your camera and read naturally. Kalipso is one window: large, you write your script in it with bold, italic, sections and cues; small, under the camera, it shows the next words and dims the ones you have already read.</p>
     <ul>
       <li>Follow your voice with local speech recognition, scroll at a steady speed, or step with the keyboard, a foot pedal or your phone.</li>
       <li>Scripts and reading positions are saved automatically on your device.</li>
@@ -15,7 +15,7 @@
       <li>Import speaker notes from PowerPoint and LibreOffice Impress presentations.</li>
       <li>Mirror the text for beam-splitter teleprompter glass.</li>
     </ul>
-    <p>Speech recognition runs on this device and needs a separately installed Moonshine or Vosk runtime and language model. This is a development preview.</p>
+    <p>Speech recognition runs on this device. Kalipso downloads the voice model for your language once, from its Settings.</p>
   </description>
   <launchable type="desktop-id">io.github.brianidavide.kalipso.desktop</launchable>
   <provides><binary>kalipso</binary></provides>
@@ -25,8 +25,16 @@
   <url type="vcs-browser">https://github.com/brianidavide/kalipso</url>
   <content_rating type="oars-1.1"/>
   <releases>
-    <release version="0.1" date="2026-10-29" type="development">
-      <description><p>Development preview: script library, steady scrolling, mirroring, cues and sections, speaker-note import and local voice following.</p></description>
+    <release version="2.0" date="2026-11-03" type="stable">
+      <description>
+        <p>The first public version.</p>
+        <ul>
+          <li>One window that writes and reads, with text size buttons and a scripts panel.</li>
+          <li>Voice following on this device in Italian and five more languages, steady speed (150 words a minute to begin with) or manual steps.</li>
+          <li>A Plasma widget and a GNOME Shell extension that read the app's scripts.</li>
+          <li>Packages for Arch, Debian, Ubuntu and Fedora, a Windows installer and a macOS disk image.</li>
+        </ul>
+      </description>
     </release>
   </releases>
 </component>
