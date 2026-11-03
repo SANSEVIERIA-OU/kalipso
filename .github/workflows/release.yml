@@ -1,16 +1,65 @@
 name: Release
-# Pushing a version tag (see tools/version.py and docs/releasing.md) builds every package, with
-# SHA256SUMS and a build provenance attestation per file. The first version (v0.1) and every vX.0
-# are published as GitHub releases; the steps in between (v0.2 ... v0.9, v1.1 ... v1.9) stay drafts,
-# visible to maintainers only.
+# Every update is a version (tools/version.py, docs/releasing.md), and every version is released for every
+# system (owner's decision, 3 November 2026). When a push to main brings a version that has no tag yet,
+# this workflow tags that commit, builds every package with SHA256SUMS and a build provenance
+# attestation per file, publishes the GitHub release as latest, and updates AUR. A tag pushed by hand
+# releases the same way. A push whose version is already released does nothing.
 on:
   push:
+    branches: [main]
     tags: ['v*']
+concurrency:
+  group: release
+  cancel-in-progress: false
 permissions:
   contents: read
 jobs:
-  linux:
+  version:
+    # Which version this push releases, if any. A new version on main is tagged here.
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+      release: ${{ steps.version.outputs.release }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            tag=$GITHUB_REF_NAME
+          else
+            tag="v$(sed -n 's/^project(Kalipso VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)"
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag" -R "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "$tag is already released: nothing to do."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$GITHUB_REF_TYPE" != tag ]; then
+            # The commit the tag names (an annotated tag lists it as ^{}), if the tag exists.
+            tagged=$(git ls-remote origin "refs/tags/$tag" "refs/tags/$tag^{}" | tail -1 | cut -f1)
+            if [ -z "$tagged" ]; then
+              git tag "$tag" "$GITHUB_SHA"
+              git push origin "refs/tags/$tag"
+            elif [ "$tagged" != "$GITHUB_SHA" ]; then
+              echo "::warning::$tag already names another commit and has no release; release it by hand."
+              echo "release=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+          echo "Releasing $tag"
+          echo "release=true" >> "$GITHUB_OUTPUT"
+  linux:
+    needs: version
+    if: needs.version.outputs.release == 'true'
+    runs-on: ubuntu-24.04
+    env:
+      TAG: ${{ needs.version.outputs.tag }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install build dependencies
@@ -20,12 +69,12 @@ jobs:
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=/usr
           cmake --build build --parallel 2
       - name: Check the tag matches the version everywhere
-        run: python3 tools/version.py check "$GITHUB_REF_NAME"
+        run: python3 tools/version.py check "$TAG"
       - name: Package
         run: |
           (cd build && cpack -G "DEB;RPM;TGZ")
           # The companion alone, for people who use only the Plasma widget or the GNOME extension.
-          packaging/companion/make-archive.sh build/kalipso-engine "${GITHUB_REF_NAME#v}" build
+          packaging/companion/make-archive.sh build/kalipso-engine "${TAG#v}" build
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: kalipso-linux
@@ -36,7 +85,11 @@ jobs:
             build/kalipso-companion-*.tar.gz
   arch:
     # The installed files built on Arch Linux against Arch's own Qt: what kalipso-bin on AUR unpacks.
+    needs: version
+    if: needs.version.outputs.release == 'true'
     runs-on: ubuntu-24.04
+    env:
+      TAG: ${{ needs.version.outputs.tag }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Build in an Arch Linux container
@@ -44,7 +97,7 @@ jobs:
           mkdir -p out
           docker run --rm -v "$PWD:/src" -v "$PWD/out:/out" archlinux:base-devel bash -euo pipefail -c '
             pacman -Syu --noconfirm --needed cmake ninja python qt6-base qt6-svg qt6-tools libpipewire pipewire hicolor-icon-theme >/dev/null
-            /src/tools/build-arch-tarball.sh /src "${0#v}" /out' "$GITHUB_REF_NAME"
+            /src/tools/build-arch-tarball.sh /src "${0#v}" /out' "$TAG"
           sudo chown -R "$(id -u):$(id -g)" out
           ls -l out
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -52,14 +105,16 @@ jobs:
           name: kalipso-arch
           path: out/kalipso-*-archlinux-x86_64.tar.zst
   platforms:
+    needs: version
+    if: needs.version.outputs.release == 'true'
     uses: ./.github/workflows/platforms.yml
   desktop:
+    needs: version
+    if: needs.version.outputs.release == 'true'
     uses: ./.github/workflows/desktop.yml
   publish:
-    needs: [linux, arch, platforms, desktop]
+    needs: [version, linux, arch, platforms, desktop]
     runs-on: ubuntu-24.04
-    outputs:
-      public: ${{ steps.release.outputs.public }}
     permissions:
       contents: write
       id-token: write
@@ -67,6 +122,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
+      TAG: ${{ needs.version.outputs.tag }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Collect packages
@@ -76,14 +132,14 @@ jobs:
           cp downloads/kalipso-linux/* dist/
           cp downloads/kalipso-arch/* dist/
           cp downloads/kalipso-desktop-packages/* dist/
-          cp downloads/kalipso-macos-26/kalipso-macos.tar.gz "dist/kalipso-$GITHUB_REF_NAME-macos-arm64.tar.gz"
-          cp downloads/kalipso-macos-26/kalipso-macos.dmg "dist/kalipso-$GITHUB_REF_NAME-macos-arm64.dmg"
-          (cd downloads/kalipso-windows-2022/kalipso && zip -qr "$GITHUB_WORKSPACE/dist/kalipso-$GITHUB_REF_NAME-windows-x64.zip" .)
+          cp downloads/kalipso-macos-26/kalipso-macos.tar.gz "dist/kalipso-$TAG-macos-arm64.tar.gz"
+          cp downloads/kalipso-macos-26/kalipso-macos.dmg "dist/kalipso-$TAG-macos-arm64.dmg"
+          (cd downloads/kalipso-windows-2022/kalipso && zip -qr "$GITHUB_WORKSPACE/dist/kalipso-$TAG-windows-x64.zip" .)
           # The Windows installer, from the same folder the Windows job built and started (tools/make-msi.sh),
           # with Debian 13's msitools (0.106), the version the installer was checked with.
           docker run --rm -v "$PWD:/w" -w /w debian:trixie bash -euo pipefail -c '
             apt-get update -qq && apt-get install -y -qq wixl imagemagick python3 >/dev/null
-            tools/make-msi.sh downloads/kalipso-windows-2022/kalipso "${0#v}" dist' "$GITHUB_REF_NAME"
+            tools/make-msi.sh downloads/kalipso-windows-2022/kalipso "${0#v}" dist' "$TAG"
           sudo chown -R "$(id -u):$(id -g)" dist
           cd dist && sha256sum -- * > SHA256SUMS && cat SHA256SUMS
       - name: Attest where each file was built
@@ -93,12 +149,12 @@ jobs:
       - name: Create the release
         id: release
         run: |
-          version=${GITHUB_REF_NAME#v}
+          version=${TAG#v}
           cat > notes.md <<EOF
           Kalipso $version. Installation guide: https://github.com/$GH_REPO#install
 
           **The packages are not signed yet.** Check a download with \`SHA256SUMS\` or with
-          \`gh attestation verify <file> -R $GH_REPO\` (it proves the file was built here, from this tag).
+          \`gh attestation verify <file> -R $GH_REPO\` (it proves the file was built here, from this version's commit).
           - **Windows:** the .msi installs Kalipso for every user and upgrades an older one in place; the .zip
             runs without installing. If SmartScreen says "Windows protected your PC", choose *More info*,
             then *Run anyway*.
@@ -111,20 +167,12 @@ jobs:
             Plasma widget, the GNOME extension and the KWin script; their separate files are for using them
             without the app.
           EOF
-          if python3 tools/version.py public "$GITHUB_REF_NAME"; then
-            echo "public=true" >> "$GITHUB_OUTPUT"
-            gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --latest --title "Kalipso $version" \
-              --notes-file notes.md --generate-notes
-          else
-            # A step between public releases: built and kept for maintainers, not announced.
-            gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --draft --title "Kalipso $version (internal)" \
-              --notes-file notes.md --generate-notes
-          fi
+          gh release create "$TAG" dist/* --verify-tag --latest --title "Kalipso $version" \
+            --notes-file notes.md --generate-notes
   aur:
-    # Arch packages on AUR follow published versions only.
-    needs: publish
-    if: needs.publish.outputs.public == 'true'
+    # kalipso-bin and kalipso on AUR follow every version.
+    needs: [version, publish]
     uses: ./.github/workflows/aur.yml
     with:
-      version: ${{ github.ref_name }}
+      version: ${{ needs.version.outputs.tag }}
     secrets: inherit

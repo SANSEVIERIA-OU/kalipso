@@ -67,9 +67,10 @@ Build-tool versions are pinned in `tools/dependency-versions.json` (Qt, Node LTS
 
 ## Releases
 
-Versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …); 0.1 and every X.0 are published, the steps in
-between stay draft releases for maintainers. `tools/version.py set` writes a version everywhere, and
-pushing the tag `vX.Y` builds every package and creates the release. The whole procedure, what each
+Versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one step per update, and every step is
+released for every system: when the pull request that sets a new version is merged, the release
+workflow tags it, builds and publishes it, and updates AUR. `tools/version.py set` writes a version
+everywhere. The whole procedure, what each
 release contains and how the Windows installer and the AUR packages are made: [docs/releasing.md](docs/releasing.md).
 
 ## Reporting problems

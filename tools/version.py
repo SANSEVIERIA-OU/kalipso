@@ -2,12 +2,11 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """Kalipso's version, kept the same in every place that states it.
 
-Versions go up one step at a time, 0.1, 0.2 ... 0.9, 1.0, 1.1 ... 1.9, 2.0: ten steps between public
-releases. Every step is tagged and built (a draft GitHub release, visible to maintainers only); only
-the first version (0.1) and every X.0 are published.
+Versions go up one step at a time, 0.1, 0.2 ... 0.9, 1.0, 1.1 ... 1.9, 2.0, one step per update.
+Every step is published for every system (owner's decision, 3 November 2026): when a new version
+reaches main, the release workflow tags it, builds every package and publishes them, and AUR follows.
 
   version.py check [vX.Y]     every file states the same version (and the tag's, if given)
-  version.py public vX.Y      exit 0 if that tag is published, 1 if it stays a draft
   version.py next             print the version after the current one
   version.py set X.Y [--stable YYYY-MM-DD]   write a version everywhere; --stable records the release date
 """
@@ -50,11 +49,6 @@ def current():
     return versions.pop()
 
 
-def is_public(version):
-    major, step = parse(version)
-    return version == FIRST or step == 0
-
-
 def following(version):
     major, step = parse(version)
     return f'{major + 1}.0' if step == 9 else f'{major}.{step + 1}'
@@ -91,7 +85,7 @@ def write(version, stable_date=None):
 
 
 def main(args):
-    if not args or args[0] not in {'check', 'public', 'next', 'set'}:
+    if not args or args[0] not in {'check', 'next', 'set'}:
         sys.exit(__doc__)
     command = args[0]
     if command == 'check':
@@ -99,9 +93,7 @@ def main(args):
         parse(version)
         if len(args) > 1 and args[1] != f'v{version}':
             sys.exit(f'Tag {args[1]} does not match the version {version}')
-        print(f'Version {version} everywhere' + (' (published when tagged)' if is_public(version) else ' (draft when tagged)'))
-    elif command == 'public':
-        sys.exit(0 if is_public(args[1].removeprefix('v')) else 1)
+        print(f'Version {version} everywhere')
     elif command == 'next':
         print(following(current()))
     elif command == 'set':

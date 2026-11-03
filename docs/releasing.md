@@ -2,13 +2,10 @@
 
 ## Versions
 
-Kalipso goes up one step at a time: 0.1, 0.2 … 0.9, 1.0, 1.1 … 1.9, 2.0. There are ten steps between
-public releases:
-
-| Version | What happens when it is tagged |
-|---|---|
-| 0.1 (the first) and every X.0 | Built and **published** as a GitHub release, marked latest. |
-| Every other step (0.2 … 0.9, 1.1 … 1.9, …) | Built and kept as a **draft** release: the same files, visible to maintainers only. |
+Kalipso goes up one step at a time: 0.1, 0.2 … 0.9, 1.0, 1.1 … 1.9, 2.0. Every update that changes
+what people install is a new step, and every step is published for every system, marked latest, with
+AUR following it (owner's decision, 3 November 2026: GitHub's minutes cost nothing for this public
+repository, so there is no reason to hold versions back). X.0 is only the tenth step.
 
 `tools/version.py` keeps the version the same in every place that states it (CMake, the AppStream
 metadata, the Plasma widget, the GNOME extension and the KWin script); CI fails if they differ.
@@ -17,26 +14,25 @@ metadata, the Plasma widget, the GNOME extension and the KWin script); CI fails 
 
 1. Check that `main` is green and that the manual checks in [manual-testing.md](manual-testing.md) that
    matter for this version have been done.
-2. Write the version. For a published version, give the release date:
+2. In the pull request with the update, write the next version with today's date, and summarise it in
+   the AppStream entry that `set` adds (`packaging/io.github.sansevieria_ou.kalipso.metainfo.xml`):
 
    ```sh
-   python3 tools/version.py set "$(python3 tools/version.py next)"            # a step: draft
-   python3 tools/version.py set 2.0 --stable 2026-11-03                         # a public release
+   python3 tools/version.py set "$(python3 tools/version.py next)" --stable 2026-11-04
    ```
 
-3. Add the version's section to [CHANGELOG.md](../CHANGELOG.md) (for a published version: what it brings,
-   for the people who use it). Commit through a pull request as usual, then tag the merged commit and
-   push the tag:
+3. Add the version's section to [CHANGELOG.md](../CHANGELOG.md): what it brings, for the people who use
+   it.
+4. Merge the pull request. The **Release** workflow sees a version on `main` that has no tag yet, tags
+   that commit `vX.Y`, builds every package on Linux (Ubuntu, and Arch for `kalipso-bin`), macOS and
+   Windows, makes the Windows installer, writes `SHA256SUMS`, attests where each file was built
+   (`gh attestation verify <file> -R SANSEVIERIA-OU/kalipso`), publishes the release as latest, and
+   updates `kalipso-bin` and `kalipso` on AUR. Its notes list the merged pull requests and explain how to
+   open unsigned packages. A push whose version is already released does nothing; a tag pushed by hand
+   (`git tag v2.1 && git push origin v2.1`) releases the same way.
 
-   ```sh
-   git tag v2.0 && git push origin v2.0
-   ```
-
-4. The **Release** workflow builds every package on Linux (Ubuntu, and Arch for `kalipso-bin`), macOS
-   and Windows, makes the Windows installer, writes `SHA256SUMS`, attests where each file was built
-   (`gh attestation verify <file> -R SANSEVIERIA-OU/kalipso`), and creates the release: published for 0.1
-   and X.0, a draft otherwise. Its notes list the merged pull requests and explain how to open unsigned
-   packages. For a published version it then updates `kalipso-bin` and `kalipso` on AUR.
+If a job fails (macOS runners are sometimes not available: "not acquired by Runner"), re-run the failed
+jobs of that run: the release is created only when every package is there.
 
 ## What is in a release
 
@@ -111,9 +107,9 @@ Three PKGBUILDs:
 | `packaging/arch/kalipso-git` | Builds the latest `main`. Not published on AUR: CI builds it from every change and installs it in an Arch container. |
 
 The **AUR** workflow publishes `kalipso-bin` and `kalipso`:
-- the release workflow calls it for 0.1 and every X.0, with the version and the checksums of the
+- the release workflow calls it for every version, with the version and the checksums of the
   source and of the Arch tarball;
-- it can be run by hand from the Actions tab for a published version;
+- it can be run by hand from the Actions tab for a released version;
 - `pkgrel` is 1 for a new version. If a published version is built again, its files change but its
   number does not: the workflow then publishes one `pkgrel` more than AUR has, so pacman offers the new
   build (2.0 was built again on 3 November 2026, after the move to SANSEVIERIA-OU: 2.0-2).
