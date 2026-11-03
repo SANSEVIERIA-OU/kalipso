@@ -26,7 +26,7 @@ export class LocalEngine {
     // modified, words, speed}]}. An older companion, or none, gives an empty library.
     async scripts() {
         try {return JSON.parse(await this.call('ListScripts'));}
-        catch(_error){return {available:false,current:'',scripts:[]};}
+        catch(_error){return {available:false,failed:true,current:'',scripts:[]};}
     }
     // One script with its text ({id, title, modified, text, position, speed}).
     async script(id) {return JSON.parse(await this.call('GetScript',true,new GLib.Variant('(s)',[id])));}

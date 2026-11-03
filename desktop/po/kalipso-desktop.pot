@@ -434,10 +434,7 @@ msgstr ""
 msgid "Speech unavailable · Open Settings"
 msgstr ""
 
-msgid "Start listening"
-msgstr ""
-
-msgid "Start scrolling"
+msgid "Start"
 msgstr ""
 
 msgid "Starting in %1 second…"

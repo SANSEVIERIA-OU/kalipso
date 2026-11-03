@@ -29,7 +29,7 @@ const C = paletteColors('dark');
 const MOTIONS = {'go-next-symbolic': 'forward', 'go-previous-symbolic': 'back', 'go-first-symbolic': 'back',
     'media-playback-start-symbolic': 'grow', 'media-playback-pause-symbolic': 'grow', 'document-edit-symbolic': 'tilt',
     'applications-system-symbolic': 'turn', 'window-close-symbolic': 'shrink', 'object-select-symbolic': 'grow',
-    'document-open-symbolic': 'down'};
+    'document-open-symbolic': 'down', 'audio-input-microphone-symbolic': 'grow'};
 const ENTER = parseInt(T.site.enter), EXIT = parseInt(T.site.exit), PRESS = parseInt(T.site.press);
 
 // Script, reading position and preferences, saved as JSON in the user data folder.
@@ -279,10 +279,14 @@ export default class Kalipso extends Extension {
 
     async refreshLibrary() {
         const info = await this.local.scripts();
-        if (!this.actor)
+        // The companion stopped or is restarting: keep what is being read.
+        if (!this.actor || info.failed)
             return;
-        this._library = info.available ? info.scripts : [];
-        this._buildScriptButtons();
+        const listed = JSON.stringify(info.available ? info.scripts : []);
+        if (listed !== JSON.stringify(this._library)) {
+            this._library = info.available ? info.scripts : [];
+            this._buildScriptButtons();
+        }
         const ids = this._library.map(item => item.id);
         if (this.fromLibrary) {
             const entry = this._library.find(item => item.id === this._scriptId);
@@ -355,6 +359,9 @@ export default class Kalipso extends Extension {
     }
 
     _buildScriptButtons() {
+        // The old buttons go, from the list the layout walks too.
+        const old = new Set(this.scriptButtons.map(item => item[2]));
+        this._buttons = this._buttons.filter(button => !old.has(button));
         this.scriptsBox.destroy_all_children();
         this.scriptButtons = [];
         for (const script of this._library) {
@@ -430,18 +437,22 @@ export default class Kalipso extends Extension {
             style_class: 'tp-title', style: `font-size:${N.labelSize}pt;`});
         this.title.clutter_text.set_ellipsize(Pango.EllipsizeMode.END);
         header.add_child(this.title);
-        this.previousSection = this.button(_('‹ Section'), () => this.jumpSection(-1), 'quiet');
+        // One row: the title, then icons (named for assistive technology), and Edit with its label.
+        this.previousSection = this.button('', () => this.jumpSection(-1), 'quiet', 'go-up-symbolic');
         this.previousSection.accessible_name = _('Previous section');
-        this.nextSection = this.button(_('Section ›'), () => this.jumpSection(1), 'quiet');
+        this.nextSection = this.button('', () => this.jumpSection(1), 'quiet', 'go-down-symbolic');
         this.nextSection.accessible_name = _('Next section');
-        this.scriptsButton = this.button(_('Scripts'), () => this.showPane(this._pane === 'scripts' ? '' : 'scripts'),
+        this.scriptsButton = this.button('', () => this.showPane(this._pane === 'scripts' ? '' : 'scripts'),
             'quiet', 'document-open-symbolic');
         this.scriptsButton.accessible_name = _("Choose one of Kalipso's scripts");
         this.editButton = this.button(_('Edit script'), () => this.editAction(), 'quiet', 'document-edit-symbolic');
-        this.settingsButton = this.button(_('Settings'), () => this.showPane(this._pane === 'settings' ? '' : 'settings'), 'quiet',
+        this.settingsButton = this.button('', () => this.showPane(this._pane === 'settings' ? '' : 'settings'), 'quiet',
             'applications-system-symbolic');
+        this.settingsButton.accessible_name = _('Settings');
+        const hide = this.button('', () => this.hide(), 'quiet', 'window-close-symbolic');
+        hide.accessible_name = _('Hide');
         for (const child of [this.scriptsButton, this.previousSection, this.nextSection, this.editButton, this.settingsButton,
-            this.button(_('Hide'), () => this.hide(), 'quiet', 'window-close-symbolic')])
+            hide])
             header.add_child(child);
 
         // The filled part is the first child of a row, so it grows from the start of the line.
@@ -1197,12 +1208,14 @@ export default class Kalipso extends Extension {
         const listening = this._active || this.local.owned, pending = this.local.pending;
         const hasWords = Boolean(this.tracker.words.length);
         this.primary.label = this._mode === 'manual' ? _('Next words')
-            : this._mode === 'steady' ? (this._steadyTimer || this._countdownTimer ? _('Pause') : _('Start scrolling'))
-            : listening ? _('Pause') : pending ? _('Cancel') : _('Start listening');
+            : this._mode === 'steady' ? (this._steadyTimer || this._countdownTimer ? _('Pause') : _('Start'))
+            : listening ? _('Pause') : pending ? _('Cancel') : _('Start');
         const running = this._mode === 'steady' ? Boolean(this._steadyTimer || this._countdownTimer) : listening;
+        // As in the app: the microphone and Start when following the voice, Pause while reading.
         this.primary._glyph.icon_name = this._mode === 'manual' ? 'go-next-symbolic'
             : pending && !listening ? 'process-stop-symbolic'
-            : running ? 'media-playback-pause-symbolic' : 'media-playback-start-symbolic';
+            : running ? 'media-playback-pause-symbolic'
+            : this._mode === 'voice' ? 'audio-input-microphone-symbolic' : 'media-playback-start-symbolic';
         const setEnabled = (button, enabled) => {
             button.reactive = enabled;
             button.can_focus = enabled;
@@ -1224,7 +1237,7 @@ export default class Kalipso extends Extension {
         this.editButton.label = this.fromLibrary ? _('Edit in Kalipso')
             : this._pane === 'edit' ? _('Done editing') : _('Edit script');
         this.editButton._glyph.icon_name = this._pane === 'edit' ? 'object-select-symbolic' : 'document-edit-symbolic';
-        this.settingsButton.label = this._pane === 'settings' ? _('Done') : _('Settings');
+        this.settingsButton.accessible_name = this._pane === 'settings' ? _('Done') : _('Settings');
         this.settingsButton._glyph.icon_name = this._pane === 'settings' ? 'object-select-symbolic' : 'applications-system-symbolic';
         const languageText = this._languageText();
         this.details.set_text(languageText || this._status);

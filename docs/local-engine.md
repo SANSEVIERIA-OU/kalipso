@@ -15,8 +15,8 @@ Recognition stays on your computer: audio goes from PipeWire to the native libra
 
 ## Choose your language
 
-In Kalipso, the Plasma widget or the GNOME extension, open **Settings → Language you speak** and choose
-yours. The first time, Kalipso downloads its speech model (40 to 60 MB, with the engine's runtime if it is
+Choose yours: in Kalipso, **Settings → Voice**; in the Plasma widget, **Configure Kalipso… → Voice**; in
+the GNOME extension, **Settings → Language you speak**. The first time, Kalipso downloads its speech model (40 to 60 MB, with the engine's runtime if it is
 not there yet), shows the progress with **Cancel download**, checks every file against the SHA-256
 fingerprint pinned in [the catalog](../tools/data/speech-catalog.json) and keeps nothing that does not
 match. Then **Follow my voice** and **Start**. Choosing a language never opens the microphone,
@@ -85,7 +85,12 @@ It builds the companion, installs it under `~/.local` with its D-Bus service and
 
 ## Use it
 
-In the widget or extension: **Settings → Follow my voice**, then **Start listening**. Pause releases the microphone and keeps your place. Stop listening before changing the language; only one frontend can listen at a time.
+In the widget, choose **Follow my voice** in the mode menu under the text (or in **Configure Kalipso… →
+Reading**); in the extension, **Settings → Follow my voice**. Then **Start**.
+
+The companion also gives the widget and the extension the scripts you write in the Kalipso app
+(`~/.local/share/brianidavide/kalipso/scripts`), over D-Bus (`ListScripts`, `GetScript`). It only reads
+them; **Edit in Kalipso** (`OpenInApp`) makes the script the app's current one and starts the app. Pause releases the microphone and keeps your place. Stop listening before changing the language; only one frontend can listen at a time.
 
 To see what is happening, run `~/.local/bin/kalipso-engine --serve` (or `kalipso-engine --serve`) in a terminal and start listening.
 
