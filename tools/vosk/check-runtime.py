@@ -72,9 +72,12 @@ def fetch_clips(data, count):
             if len(rows) == count:
                 break
     wanted = {row['file']: row for row in rows}
-    request = urllib.request.Request(FLEURS.format(revision=REVISION, path='audio/test.tar.gz'),
-                                     headers={'User-Agent': 'kalipso-vosk-runtime-check'})
-    with urllib.request.urlopen(request, timeout=300) as response, tarfile.open(fileobj=response, mode='r|gz') as tar:
+    # The whole archive to disk first (about 660 MB), resumed on a dropped connection: a stream over
+    # the CDN can end early.
+    archive = data / 'test.tar.gz'
+    subprocess.run(['curl', '-fsSL', '--retry', '5', '--retry-all-errors', '-C', '-', '-o', str(archive),
+                    FLEURS.format(revision=REVISION, path='audio/test.tar.gz')], check=True)
+    with tarfile.open(archive, mode='r:gz') as tar:
         for member in tar:
             name = Path(member.name).name
             if name in wanted and member.isfile():
@@ -124,12 +127,12 @@ def decode(library, model, data, clips, grammar):
     if not handle:
         sys.exit(f'{library}: the model did not load')
     load_seconds = time.perf_counter() - started
-    # As Kalipso does while following a script: the script's words the model knows (vosk_model_find_word),
-    # and "[unk]" for anything else.
+    # As Kalipso does while following a script (src/speech.cpp, SpeechWorker::grammar): each sentence of the
+    # script as a phrase, in the words the model knows (vosk_model_find_word), and "[unk]" for the rest.
     vosk.vosk_model_find_word.argtypes = [ctypes.c_void_p, ctypes.c_char_p]
-    vocabulary = sorted({word for clip in clips for word in words(clip['reference'])})
-    known = [word for word in vocabulary if vosk.vosk_model_find_word(handle, word.encode()) >= 0]
-    grm = json.dumps(known + ['[unk]'], ensure_ascii=False).encode()
+    known = lambda word: vosk.vosk_model_find_word(handle, word.encode()) >= 0  # noqa: E731
+    phrases = [' '.join(w for w in words(clip['reference']) if known(w)) for clip in clips]
+    grm = json.dumps([p for p in phrases if p] + ['[unk]'], ensure_ascii=False).encode()
     results, decode_seconds, audio_seconds = [], 0.0, 0.0
     for clip in clips:
         with wave.open(str(data / clip['file'])) as audio:
@@ -151,7 +154,7 @@ def decode(library, model, data, clips, grammar):
         decode_seconds += time.perf_counter() - started
         results.append(' '.join(t for t in texts if t))
     vosk.vosk_model_free(handle)
-    return {'transcripts': results, 'grammar_words': len(known), 'load_seconds': load_seconds, 'decode_seconds': decode_seconds,
+    return {'transcripts': results, 'grammar_phrases': len(phrases), 'load_seconds': load_seconds, 'decode_seconds': decode_seconds,
             'audio_seconds': audio_seconds, 'peak_rss_mib': resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}
 
 
