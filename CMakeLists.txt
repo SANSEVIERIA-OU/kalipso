@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 # Must precede project(): the oldest macOS the app and its helper run on.
 set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS version (Qt 6.12 requires 14.4)")
-project(Kalipso VERSION 2.4 LANGUAGES C CXX)
+project(Kalipso VERSION 2.5 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
@@ -108,7 +108,7 @@ endif()
 add_library(kalipso_app STATIC
   src/window.cpp src/reader.cpp src/backdrop.cpp src/library.cpp src/import.cpp src/remote.cpp
   src/app_bridge.cpp src/script_highlighter.cpp src/session_stats.cpp src/impress.cpp src/icons.cpp src/motion.cpp
-  src/platform/capture_exclusion.cpp src/platform/kwin_placement.cpp)
+  src/platform/capture_exclusion.cpp src/platform/kwin_placement.cpp src/platform/gnome_extension.cpp)
 target_link_libraries(kalipso_app PUBLIC kalipso_downloads Qt6::Widgets Qt6::Network Qt6::Svg PRIVATE kalipso_vendor)
 file(GLOB KALIPSO_ICONS CONFIGURE_DEPENDS
   ${CMAKE_CURRENT_SOURCE_DIR}/src/icons/*.svg ${CMAKE_CURRENT_SOURCE_DIR}/src/icons/generated/*.svg)
@@ -185,6 +185,14 @@ if(BUILD_TESTING)
   add_executable(core_tests tests/core_tests.cpp)
   target_link_libraries(core_tests PRIVATE prompter_core Qt6::Test)
   add_test(NAME core COMMAND core_tests)
+
+  # GNOME's top bar reader in Settings, against a stand-in GNOME Shell on a private session bus.
+  if(TARGET kalipso_colors AND DBUS_RUN_SESSION)
+    add_executable(gnome_extension_tests tests/gnome_extension_tests.cpp)
+    target_link_libraries(gnome_extension_tests PRIVATE kalipso_app Qt6::DBus Qt6::Test)
+    add_test(NAME gnome_extension COMMAND ${DBUS_RUN_SESSION} -- $<TARGET_FILE:gnome_extension_tests>)
+    set_tests_properties(gnome_extension PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen" TIMEOUT 120)
+  endif()
 
   add_executable(library_tests tests/library_tests.cpp)
   target_link_libraries(library_tests PRIVATE kalipso_app Qt6::Test)

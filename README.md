@@ -72,7 +72,7 @@ not signed; `dnf install` installs them after a warning. Run `kalipso`, or try i
 
 Like the Arch packages, they also install the Plasma widget, the GNOME Shell extension and the KWin
 script. On Plasma, add the **Kalipso** widget to the desktop or panel. On GNOME, log out and back in,
-then turn **Kalipso** on in the Extensions app.
+then turn it on in Kalipso's **Settings → Appearance → GNOME top bar** (or in the Extensions app).
 
 To build from source instead (Debian, Ubuntu):
 

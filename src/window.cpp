@@ -6,6 +6,7 @@
 #include "impress.h"
 #include "platform/capture_exclusion.h"
 #include "app_bridge.h"
+#include "platform/gnome_extension.h"
 #include "platform/kwin_placement.h"
 #include "remote.h"
 #include "script_highlighter.h"
@@ -2265,7 +2266,80 @@ QWidget *MainWindow::makeReadingSettings() {
             note(tr("Others may see the reader when you share the whole screen. Share a single window, or on "
                     "Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).")));
     }
-    appearanceSettings_ = appearanceGroup; // A page of its own in Settings.
+    // A page of its own in Settings, with GNOME's top bar after the looks where GNOME is the desktop.
+    auto *appearancePage = new QWidget;
+    auto *appearanceLayout = new QVBoxLayout(appearancePage);
+    appearanceLayout->setContentsMargins(0, 0, 0, 0);
+    appearanceLayout->setSpacing(0);
+    appearanceLayout->addWidget(appearanceGroup);
+    if (auto *gnome = makeGnomeExtensionSection())
+        appearanceLayout->addWidget(gnome);
+    appearanceSettings_ = appearancePage;
+    return group;
+}
+
+// Kalipso in GNOME's top bar: the packages install the extension, but GNOME keeps it off until the
+// person turns it on. Shown only on GNOME, and only where the extension is installed.
+QWidget *MainWindow::makeGnomeExtensionSection() {
+    gnomeExtension_ = new GnomeExtension(this);
+    const auto installedOnDisk = [] {
+        return !QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                       QStringLiteral("gnome-shell/extensions/%1/metadata.json")
+                                           .arg(QLatin1String(GnomeExtension::uuid)))
+                    .isEmpty();
+    };
+    const auto first = gnomeExtension_->state();
+    if (first == GnomeExtension::State::Unavailable ||
+        (first == GnomeExtension::State::NotInstalled && !installedOnDisk()))
+        return nullptr;
+    auto *group = new SettingsSection(tr("GNOME top bar"));
+    auto *status = note(QString());
+    status->setObjectName("gnomeExtensionStatus");
+    auto *turnOn = new AccessibleButton(tr("Turn on"));
+    turnOn->setObjectName("gnomeExtensionTurnOn");
+    group->form->addRow(status);
+    // Compact and on the left, like Settings' other buttons (Test microphone).
+    auto *turnOnRow = new QHBoxLayout;
+    turnOnRow->setContentsMargins(0, 0, 0, 0);
+    turnOnRow->addWidget(turnOn);
+    turnOnRow->addStretch(1);
+    group->form->addRow(turnOnRow);
+    const auto refresh = [this, status, turnOn] {
+        using State = GnomeExtension::State;
+        const auto state = gnomeExtension_->state();
+        switch (state) {
+        case State::On:
+            status->setText(tr("On: the play icon in the top bar shows Kalipso's reader over any app, with the "
+                               "scripts you write here."));
+            break;
+        case State::Off:
+            status->setText(tr("Off. Kalipso's reader can also live in the top bar, over any app, with the "
+                               "scripts you write here."));
+            break;
+        case State::ExtensionsOff:
+            status->setText(tr("GNOME's extensions are switched off. Turn them on in the Extensions app; Kalipso's "
+                               "top bar reader then starts by itself."));
+            break;
+        case State::OutOfDate:
+            status->setText(tr("Not on this version of GNOME: the top bar reader runs on GNOME Shell 48 and 51."));
+            break;
+        case State::Error:
+            status->setText(tr("GNOME could not start the top bar reader. Log out and back in, then look here "
+                               "again."));
+            break;
+        case State::NotInstalled:
+        case State::Unavailable:
+            status->setText(tr("Installed. Log out and back in, then turn it on here."));
+            break;
+        }
+        turnOn->setVisible(state == State::Off);
+    };
+    connect(turnOn, &QPushButton::clicked, this, [this] {
+        if (!gnomeExtension_->turnOn())
+            notify(tr("GNOME did not turn on the top bar reader."));
+    });
+    connect(gnomeExtension_, &GnomeExtension::changed, group, refresh);
+    refresh();
     return group;
 }
 

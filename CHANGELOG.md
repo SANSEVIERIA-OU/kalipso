@@ -4,6 +4,13 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.5 — 3 November 2026
+
+- On GNOME, **Settings → Appearance → GNOME top bar** says whether Kalipso's top bar reader is on. It
+  can turn the reader on, so the Extensions app is no longer needed. GNOME keeps a newly installed
+  extension off until it is turned on. The section also says when GNOME's extensions are all switched
+  off, or when this GNOME version is not one the extension supports.
+
 ## 2.4 — 3 November 2026
 
 - Windows: upgrading Kalipso with the `.msi` no longer breaks it. On a real Windows, an upgrade removed

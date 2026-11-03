@@ -1092,6 +1092,42 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <source>Removed %1: %2 MB freed.</source>
         <translation>Lingua rimossa (%1): %2 MB liberati.</translation>
     </message>
+    <message>
+        <source>GNOME top bar</source>
+        <translation>Barra in alto di GNOME</translation>
+    </message>
+    <message>
+        <source>Turn on</source>
+        <translation>Accendi</translation>
+    </message>
+    <message>
+        <source>On: the play icon in the top bar shows Kalipso&apos;s reader over any app, with the scripts you write here.</source>
+        <translation>Acceso: l&apos;icona di avvio nella barra in alto mostra il lettore di Kalipso sopra qualsiasi app, con i copioni che scrivi qui.</translation>
+    </message>
+    <message>
+        <source>Off. Kalipso&apos;s reader can also live in the top bar, over any app, with the scripts you write here.</source>
+        <translation>Spento. Il lettore di Kalipso può stare anche nella barra in alto, sopra qualsiasi app, con i copioni che scrivi qui.</translation>
+    </message>
+    <message>
+        <source>GNOME&apos;s extensions are switched off. Turn them on in the Extensions app; Kalipso&apos;s top bar reader then starts by itself.</source>
+        <translation>Le estensioni di GNOME sono disattivate. Attivale nell&apos;app Estensioni: il lettore di Kalipso nella barra in alto partirà da solo.</translation>
+    </message>
+    <message>
+        <source>Not on this version of GNOME: the top bar reader runs on GNOME Shell 48 and 51.</source>
+        <translation>Non disponibile in questa versione di GNOME: il lettore nella barra in alto funziona con GNOME Shell 48 e 51.</translation>
+    </message>
+    <message>
+        <source>GNOME could not start the top bar reader. Log out and back in, then look here again.</source>
+        <translation>GNOME non è riuscito ad avviare il lettore nella barra in alto. Esci e rientra, poi torna qui.</translation>
+    </message>
+    <message>
+        <source>Installed. Log out and back in, then turn it on here.</source>
+        <translation>Installato. Esci e rientra, poi accendilo qui.</translation>
+    </message>
+    <message>
+        <source>GNOME did not turn on the top bar reader.</source>
+        <translation>GNOME non ha acceso il lettore nella barra in alto.</translation>
+    </message>
 </context>
 <context>
     <name>MicrophoneCapture</name>
