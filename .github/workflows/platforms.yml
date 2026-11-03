@@ -191,7 +191,8 @@ jobs:
           $new = (Get-ChildItem installers/new/*.msi).FullName
           $old = (Get-ChildItem installers/old/*.msi).FullName
           function Msi($action, $file, $log) {
-            $run = Start-Process msiexec.exe -ArgumentList $action, "`"$file`"", '/qn', '/l*v', $log -Wait -PassThru
+            $run = Start-Process msiexec.exe -ArgumentList $action, "`"$file`"", '/qn', '/l*v', $log -PassThru
+            if (-not $run.WaitForExit(300000)) { Stop-Process -Id $run.Id -Force; Get-Content $log -Tail 40; throw "msiexec $action did not end within 5 minutes" }
             if ($run.ExitCode -notin 0, 3010) { Get-Content $log -Tail 40; throw "msiexec $action ended with $($run.ExitCode)" }
           }
           function Entries {
@@ -215,7 +216,19 @@ jobs:
           if (-not $entries[0].DisplayVersion.StartsWith($version)) { throw "Installed $($entries[0].DisplayVersion), expected $version" }
           if (-not (Test-Path "$program\bin\kalipso.exe")) { throw 'No kalipso.exe in Program Files' }
           if ((Shortcuts).Count -eq 0) { throw 'No Start menu item' }
-          $app = Start-Process "$program\bin\kalipso.exe" -ArgumentList '--demo', '--quit-after', '1500' -Wait -PassThru
+          # At most a minute: if the app does not quit by itself, the screen shows why (a dialog?).
+          $app = Start-Process "$program\bin\kalipso.exe" -ArgumentList '--demo', '--quit-after', '1500' -PassThru
+          if (-not $app.WaitForExit(60000)) {
+            Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+            $bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+            $bitmap = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+            [System.Drawing.Graphics]::FromImage($bitmap).CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size)
+            New-Item -ItemType Directory -Force installer-debug | Out-Null
+            $bitmap.Save("$PWD\installer-debug\still-running.png")
+            Get-Process | Where-Object { $_.MainWindowTitle } | Select-Object ProcessName, MainWindowTitle | Format-Table | Out-String | Write-Host
+            Stop-Process -Id $app.Id -Force
+            throw 'The installed app did not quit by itself within a minute (see installer-debug/still-running.png)'
+          }
           if ($app.ExitCode -ne 0) { throw "The installed app exited with $($app.ExitCode)" }
           'app: started and quit'
           Msi '/x' $new remove.log
@@ -224,3 +237,12 @@ jobs:
           if ((Shortcuts).Count -ne 0) { throw 'Start menu item left behind' }
           if ((Get-Content $kept) -ne 'my script') { throw "The user's files were removed" }
           "removed; the user's files are still there"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: failure()
+        with:
+          retention-days: 7 # Intermediate files: releases keep their own copies.
+          name: kalipso-installer-debug
+          path: |
+            installer-debug
+            *.log
+          if-no-files-found: ignore
