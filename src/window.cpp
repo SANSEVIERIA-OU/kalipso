@@ -804,6 +804,13 @@ void MainWindow::comeForward(const QString &token) {
                 token.toUtf8());
     if (isMinimized())
         setWindowState(windowState() & ~Qt::WindowMinimized);
+    // "Edit in Kalipso" from the widget or the extension chose a script before starting Kalipso again:
+    // the window opens it.
+    QSettings settings;
+    settings.sync(); // Written by the companion, another process.
+    if (const auto wanted = settings.value("library/current").toString();
+        !wanted.isEmpty() && wanted != currentId_ && library_.contains(wanted))
+        openScript(wanted);
     show();
     raise();
     activateWindow();
