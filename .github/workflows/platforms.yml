@@ -64,6 +64,10 @@ jobs:
           build/kalipso.app/Contents/MacOS/kalipso --demo --quit-after 1000
           mkdir -p artifacts
           tar -czf artifacts/kalipso-macos.tar.gz -C build kalipso.app
+          # The disk image people expect on a Mac: the app beside a link to Applications, to drag it there.
+          mkdir -p dmg && cp -R build/kalipso.app dmg/Kalipso.app && ln -s /Applications dmg/Applications
+          hdiutil create -volname Kalipso -srcfolder dmg -ov -format UDZO artifacts/kalipso-macos.dmg
+          hdiutil verify artifacts/kalipso-macos.dmg
       - name: Windows package
         if: runner.os == 'Windows'
         shell: pwsh
@@ -84,4 +88,5 @@ jobs:
           name: kalipso-${{ matrix.os }}
           path: |
             artifacts/kalipso-macos.tar.gz
+            artifacts/kalipso-macos.dmg
             artifacts/kalipso

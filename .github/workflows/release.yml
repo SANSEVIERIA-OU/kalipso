@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install build dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build qt6-base-dev qt6-svg-dev qt6-l10n-tools qt6-tools-dev libpipewire-0.3-dev pkg-config dpkg-dev
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build qt6-base-dev qt6-svg-dev qt6-l10n-tools qt6-tools-dev libpipewire-0.3-dev pkg-config dpkg-dev rpm
       - name: Build
         run: |
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=/usr
@@ -23,7 +23,7 @@ jobs:
         run: python3 tools/version.py check "$GITHUB_REF_NAME"
       - name: Package
         run: |
-          (cd build && cpack -G "DEB;TGZ")
+          (cd build && cpack -G "DEB;RPM;TGZ")
           # The companion alone, for people who use only the Plasma widget or the GNOME extension.
           packaging/companion/make-archive.sh build/kalipso-engine "${GITHUB_REF_NAME#v}" build
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -31,14 +31,32 @@ jobs:
           name: kalipso-linux
           path: |
             build/kalipso_*.deb
+            build/kalipso-*.rpm
             build/kalipso-*.tar.gz
             build/kalipso-companion-*.tar.gz
+  arch:
+    # The installed files built on Arch Linux against Arch's own Qt: what kalipso-bin on AUR unpacks.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Build in an Arch Linux container
+        run: |
+          mkdir -p out
+          docker run --rm -v "$PWD:/src" -v "$PWD/out:/out" archlinux:base-devel bash -euo pipefail -c '
+            pacman -Syu --noconfirm --needed cmake ninja python qt6-base qt6-svg qt6-tools libpipewire pipewire hicolor-icon-theme >/dev/null
+            /src/tools/build-arch-tarball.sh /src "${0#v}" /out' "$GITHUB_REF_NAME"
+          sudo chown -R "$(id -u):$(id -g)" out
+          ls -l out
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: kalipso-arch
+          path: out/kalipso-*-archlinux-x86_64.tar.zst
   platforms:
     uses: ./.github/workflows/platforms.yml
   desktop:
     uses: ./.github/workflows/desktop.yml
   publish:
-    needs: [linux, platforms, desktop]
+    needs: [linux, arch, platforms, desktop]
     runs-on: ubuntu-24.04
     outputs:
       public: ${{ steps.release.outputs.public }}
@@ -56,10 +74,18 @@ jobs:
           gh run download "$GITHUB_RUN_ID" --dir downloads
           mkdir dist
           cp downloads/kalipso-linux/* dist/
+          cp downloads/kalipso-arch/* dist/
           cp downloads/kalipso-desktop-packages/* dist/
           cp downloads/kalipso-macos-26/kalipso-macos.tar.gz "dist/kalipso-$GITHUB_REF_NAME-macos-arm64.tar.gz"
+          cp downloads/kalipso-macos-26/kalipso-macos.dmg "dist/kalipso-$GITHUB_REF_NAME-macos-arm64.dmg"
           (cd downloads/kalipso-windows-2022/kalipso && zip -qr "$GITHUB_WORKSPACE/dist/kalipso-$GITHUB_REF_NAME-windows-x64.zip" .)
-          cd dist && sha256sum * > SHA256SUMS && cat SHA256SUMS
+          # The Windows installer, from the same folder the Windows job built and started (tools/make-msi.sh),
+          # with Debian 13's msitools (0.106), the version the installer was checked with.
+          docker run --rm -v "$PWD:/w" -w /w debian:trixie bash -euo pipefail -c '
+            apt-get update -qq && apt-get install -y -qq wixl imagemagick python3 >/dev/null
+            tools/make-msi.sh downloads/kalipso-windows-2022/kalipso "${0#v}" dist' "$GITHUB_REF_NAME"
+          sudo chown -R "$(id -u):$(id -g)" dist
+          cd dist && sha256sum -- * > SHA256SUMS && cat SHA256SUMS
       - name: Attest where each file was built
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
@@ -73,11 +99,15 @@ jobs:
 
           **The packages are not signed yet.** Check a download with \`SHA256SUMS\` or with
           \`gh attestation verify <file> -R $GH_REPO\` (it proves the file was built here, from this tag).
-          - **Windows:** if SmartScreen says "Windows protected your PC", choose *More info*, then *Run anyway*.
+          - **Windows:** the .msi installs Kalipso for every user and upgrades an older one in place; the .zip
+            runs without installing. If SmartScreen says "Windows protected your PC", choose *More info*,
+            then *Run anyway*.
             With Smart App Control on, Windows blocks unsigned apps and offers no way round it.
-          - **macOS:** open the app once, then go to *System Settings → Privacy & Security* and choose
+          - **macOS:** open the .dmg and drag Kalipso to Applications. Open it once, then go to
+            *System Settings → Privacy & Security* and choose
             *Open Anyway* (within about an hour).
-          - **Linux:** the .deb is for Debian 13 and Ubuntu 24.04 or newer; the Plasma widget and the GNOME
+          - **Linux:** the .deb is for Debian 13 and Ubuntu 24.04 or newer, the .rpm for current Fedora releases;
+            on Arch, install \`kalipso-bin\` (or \`kalipso\`) from AUR. The Plasma widget and the GNOME
             extension are separate files.
           EOF
           if python3 tools/version.py public "$GITHUB_REF_NAME"; then
