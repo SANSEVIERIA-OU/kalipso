@@ -39,5 +39,10 @@ with tempfile.TemporaryDirectory() as root:
     metainfo = version.METAINFO.read_text()
     assert '<release version="2.0" date="2026-11-03" type="stable">' in metainfo, metainfo
     assert 'Development preview' not in metainfo, metainfo
-    assert metainfo.count('<release ') == 1, metainfo
+    assert metainfo.count('<release version="2.0"') == 1, metainfo
+    # Setting the same version again updates its entry and keeps its notes.
+    version.write('2.0', '2026-11-04')
+    again = version.METAINFO.read_text()
+    assert again.count('<release version="2.0"') == 1, again
+    assert '<release version="2.0" date="2026-11-04" type="stable">' in again, again
 print('version scheme: steps, public releases, consistency and writing a published version PASS')
