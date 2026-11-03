@@ -35,7 +35,7 @@ All three work without speech components (manual and steady modes). Voice follow
 | Arch Linux, EndeavourOS | AUR: `kalipso-bin` (ready to run), `kalipso` (built on your computer) | Arch with Plasma 6.8 and Qt 6.12: packages built, installed and started |
 | Debian 13, Ubuntu 24.04 or newer | `.deb` | Ubuntu 24.04 in CI and Debian 13: installed, started, upgraded, removed |
 | Fedora (current release) | `.rpm` | Fedora container in CI: installed, started, upgraded, removed |
-| Windows 10 (1809) or 11, x64 | `.msi` installer, portable `.zip` | Windows Server 2022 in CI: built and started; the installer under Wine: installed, upgraded, started, removed |
+| Windows 10 (1809) or 11, x64 | `.msi` installer, portable `.zip` | Windows Server 2022 in CI: built and started, and the installer installed, upgraded, started and removed (also under Wine) |
 | macOS 14.4 or newer, Apple Silicon | `.dmg`, `.tar.gz` | macOS 26 in CI: built and started, pictures light and dark |
 | KDE Plasma 6 | Plasma widget (`.plasmoid`) | Plasma 6.3 and 6.8 |
 | GNOME Shell 48 | GNOME extension (`.zip`) | GNOME Shell 48 |
