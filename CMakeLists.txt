@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 # Must precede project(): the oldest macOS the app and its helper run on.
 set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS version (Qt 6.12 requires 14.4)")
-project(Kalipso VERSION 2.2 LANGUAGES C CXX)
+project(Kalipso VERSION 2.3 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
@@ -348,6 +348,10 @@ set(CPACK_STRIP_FILES ON)
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_SECTION utils)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+# Qt's SVG image plugin, which the computed dependencies miss: the drawn style (GNOME, any desktop without
+# its own Qt style) draws its check marks and arrows from SVG images, and Debian ships the plugin apart
+# from the library (Fedora's qt6-qtsvg and Arch's qt6-svg include it).
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "qt6-svg-plugins")
 set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "pipewire-bin, xdg-desktop-portal")
 # Fedora and openSUSE: rpmbuild finds the libraries the binaries need; PipeWire's tools are named, since
 # the microphone is recorded with pw-record.

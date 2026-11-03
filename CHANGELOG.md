@@ -4,6 +4,12 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.3 — 3 November 2026
+
+- Debian and Ubuntu: the `.deb` also installs Qt's SVG image plugin (`qt6-svg-plugins`). Without it,
+  on GNOME and other desktops without a Qt style of their own, check boxes showed no tick and drop-down
+  lists no arrow.
+
 ## 2.2 — 3 November 2026
 
 - Voice commands are gone. Saying "go next", "vai avanti" and the like moved the reader, and a script
