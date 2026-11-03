@@ -146,6 +146,7 @@ private:
     void saveSpeechProfile();
     void saveSettings();
     void applyInterfaceScale(double scale);
+    void fitSettingsPages();
     double interfaceScale_ = 1.0;
     QString speechLanguage() const;
 

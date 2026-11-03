@@ -2020,13 +2020,11 @@ QWidget *MainWindow::makeSettings() {
     picker->setAccessibleName(tr("Settings pages"));
     auto *stack = new QStackedWidget;
     stack->setObjectName("settingsStack");
-    int navWidth = 0;
     for (int i = 0; i < pages.size(); ++i) {
         const auto icon = Accessibility::native() ? QIcon::fromTheme(pages[i].icon) : QIcon();
         auto *item = new QListWidgetItem(icon, pages[i].name, nav);
         item->setSizeHint({0, fontMetrics().height() + 2 * Design::Metric::space3});
         picker->addItem(icon, pages[i].name);
-        navWidth = std::max(navWidth, fontMetrics().horizontalAdvance(pages[i].name));
         auto *scroll = new QScrollArea;
         scroll->setObjectName("settingsScroll");
         scroll->setWidgetResizable(true);
@@ -2035,7 +2033,8 @@ QWidget *MainWindow::makeSettings() {
         scroll->setMinimumSize(0, 0);
         stack->addWidget(scroll);
     }
-    nav->setFixedWidth(navWidth + 22 + 3 * Design::Metric::space4);
+    settingsNav_ = nav;
+    fitSettingsPages();
     connect(nav, &QListWidget::currentRowChanged, stack, &QStackedWidget::setCurrentIndex);
     connect(nav, &QListWidget::currentRowChanged, picker, &QComboBox::setCurrentIndex);
     connect(picker, &QComboBox::currentIndexChanged, nav, [nav](int row) { nav->setCurrentRow(row); });
@@ -2334,6 +2333,20 @@ void MainWindow::applyInterfaceScale(double scale) {
         widget->setFont(font);
     }
     interfaceScale_ = scale;
+    fitSettingsPages();
+}
+
+// The page list is as wide as its longest name at the interface's text size: names are never cut.
+void MainWindow::fitSettingsPages() {
+    if (!settingsNav_)
+        return;
+    int names = 0;
+    for (int i = 0; i < settingsNav_->count(); ++i) {
+        auto *item = settingsNav_->item(i);
+        names = std::max(names, settingsNav_->fontMetrics().horizontalAdvance(item->text()));
+        item->setSizeHint({0, settingsNav_->fontMetrics().height() + 2 * Design::Metric::space3});
+    }
+    settingsNav_->setFixedWidth(names + settingsNav_->iconSize().width() + 3 * Design::Metric::space4);
 }
 
 QWidget *MainWindow::makeSpeechSettings() {
