@@ -150,6 +150,12 @@ public:
 
 QString megabytes(qint64 bytes) { return QString::number((bytes + 524288) >> 20); }
 
+QString displayPath(const QString &path) {
+    // Unlike '/', a Windows separator is not a Unicode line-break opportunity. Keep the native
+    // spelling while allowing long paths in notes and status messages to wrap between folders.
+    return QDir::toNativeSeparators(path).replace(QStringLiteral("\\"), QStringLiteral("\\\u200b"));
+}
+
 // Shows a useful width of the script title but can still shrink on narrow windows.
 class ScriptPicker : public SettingsComboBox {
 public:
@@ -783,7 +789,7 @@ bool MainWindow::saveSessionReport(const QString &path) {
         QMessageBox::warning(this, tr("Cannot save the report"), tr("Check the destination and available disk space."));
         return false;
     }
-    notify(tr("Session report saved to %1.").arg(QDir::toNativeSeparators(path)));
+    notify(tr("Session report saved to %1.").arg(displayPath(path)));
     return true;
 }
 
@@ -1200,7 +1206,7 @@ void MainWindow::exportScript() {
     if (!file.open(QIODevice::WriteOnly) || file.write(data) != data.size() || !file.commit())
         QMessageBox::warning(this, tr("Cannot export"), tr("Check the destination and available disk space."));
     else
-        notify(tr("Exported to %1.").arg(QDir::toNativeSeparators(path)));
+        notify(tr("Exported to %1.").arg(displayPath(path)));
 }
 
 void MainWindow::deleteScript() {
@@ -2569,7 +2575,7 @@ QWidget *MainWindow::makeSpeechSettings() {
                             "fingerprint. The models are free software: Moonshine's under the MIT licence, Vosk's "
                             "under the Apache 2.0 licence. Then Kalipso listens only on this computer: nothing you "
                             "say is sent.")
-                             .arg(QDir::toNativeSeparators(SpeechCatalog::writableRoot()))
+                             .arg(displayPath(SpeechCatalog::writableRoot()))
                        : tr("Moonshine and Vosk need a runtime and a model installed by hand: choose Other model "
                             "installed by hand."));
     downloadNote->setObjectName("speechDownloadNote");
@@ -2666,7 +2672,7 @@ QWidget *MainWindow::makeSpeechSettings() {
             installedStatus_->setText(tr("%1 is installed: %2 MB in %3, %4 licence.")
                                           .arg(spokenName(code),
                                                megabytes(SpeechCatalog::installedBytes(installed.model)),
-                                               QDir::toNativeSeparators(installed.model),
+                                               displayPath(installed.model),
                                                SpeechCatalog::modelLicense(installed.backend, code)));
         }
         form->setRowVisible(installedBox_, !installed.backend.isEmpty());
