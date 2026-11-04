@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- SPDX-License-Identifier: AGPL-3.0-or-later
+<!-- SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
      The Windows installer, built by tools/make-msi.sh with msitools' wixl from the portable folder that
      the "macOS and Windows" workflow builds. The UpgradeCode never changes: each new version replaces the
      installed one in place. Scripts and settings live in the user's AppData and are kept. -->

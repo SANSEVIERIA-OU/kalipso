@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Builds libvosk.so for Linux x86_64 from the Vosk source at a pinned tag, with every dependency at a
 # pinned commit, following upstream's own manylinux build (vosk-api travis/Dockerfile.manylinux and
 # travis/build-wheels.sh). Runs inside quay.io/pypa/manylinux2014_x86_64, so the library needs glibc

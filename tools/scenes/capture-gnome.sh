@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Captures the GNOME Shell extension for the website scenes: the built extension in a nested GNOME
 # Shell (at normal size: the nested shell does not scale reliably), its saved state set to the scene's script, position (the start of a
 # passage), mode and colours. The reader is cut out of the screen with transparent rounded corners.

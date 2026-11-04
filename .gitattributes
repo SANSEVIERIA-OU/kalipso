@@ -1,0 +1,4 @@
+LICENSE text eol=lf
+NOTICE text eol=lf
+*.py text eol=lf
+*.yml text eol=lf

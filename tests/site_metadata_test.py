@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Validate every shipped social preview, software record and sitemap URL without a network."""
 from html.parser import HTMLParser
 import json

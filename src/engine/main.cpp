@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Optional session D-Bus companion: local speech recognition, speech model downloads and
 // window-color sampling for the Plasma widget and GNOME extension.
 #include "config.h"

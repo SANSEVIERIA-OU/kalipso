@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 set -eu
 cd "$(dirname "$0")/../.."
 mkdir -p artifacts/desktop-test

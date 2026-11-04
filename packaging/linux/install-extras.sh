@@ -1,5 +1,5 @@
 #!/bin/sh
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # `cmake --install` now installs the Plasma widget, the GNOME Shell extension and the KWin script
 # itself (CMakeLists.txt). This script is kept for PKGBUILDs already on AUR that still call it after the
 # install, such as the last kalipso-git: it unpacks the same files over the same paths.

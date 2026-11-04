@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Lifecycle test double for the Vosk C API: no recognition. A chunk whose first byte is 'E' ends an
 // utterance; any other chunk is speech. Changing the grammar while an utterance is being heard is
 // recorded as a violation, because the real library stops the program then.

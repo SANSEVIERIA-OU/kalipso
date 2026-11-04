@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #pragma once
 // A stand-in for PipeWire's command-line tools, first on PATH while it lives. pw-dump prints the
 // chosen list of nodes; pw-record writes down its arguments and sends the chosen sound (16 kHz mono

@@ -1,0 +1,466 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: cs\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=4; plural=((((n >= 2 && n <= 4)) && ((0 == 0))) ? 1 : (!((0 == 0))) ? 2 : (((n == 1)) && ((0 == 0))) ? 0 : 3);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 je stažený. Až zastavíte poslech, vyberte jej znovu."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekunda"
+msgstr[1] "%1 sekundy"
+msgstr[2] "%1 sekundy"
+msgstr[3] "%1 sekund"
+
+msgid "%1 words/min"
+msgstr "%1 slov/min"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · stažení %2 MB"
+
+msgid "%d words/min"
+msgstr "%d slov/min"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s je stažený. Až zastavíte poslech, vyberte jej znovu."
+
+msgid "%s · %d min"
+msgstr "%s · %d min"
+
+msgid "%s · download %d MB"
+msgstr "%s · stažení %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Trocha přípravy vytváří prostor pro lepší rozhovor. [úsměv]\n\nNespěchejte. Nechte prostor na pauzu. Další slova tu budou, až budete připraveni."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Trocha přípravy vytváří prostor pro lepší rozhovor. [úsměv] Nespěchejte. Přečtěte první větu nahlas a sledujte, jak vás slova následují."
+
+msgid "A script written here"
+msgstr "Text napsaný zde"
+
+msgid "Add your script to begin."
+msgstr "Začněte přidáním textu."
+
+msgid "Appearance"
+msgstr "Vzhled"
+
+msgid "Automatic"
+msgstr "Automaticky"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Automatický režim načítá barvy kolem čtecího okna. Obrázky se neukládají."
+
+msgid "Cancel"
+msgstr "Zrušit"
+
+msgid "Cancel download"
+msgstr "Zrušit stahování"
+
+msgid "Checking and unpacking %1…"
+msgstr "Ověřování a rozbalování %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Ověřování a rozbalování %s…"
+
+msgid "Checking local speech components"
+msgstr "Kontrola místních řečových komponent"
+
+msgid "Chinese"
+msgstr "Čínština"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Vyberte jeden z textů Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Vyberte jazyk, kterým mluvíte."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Vyberte okno za čtecím oknem. Je nutné oprávnění pracovního prostředí."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "V dialogu sdílení plochy vyberte okno za čtecím oknem"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Výběrem jazyka se jednorázově stáhne jeho řečový model od vydavatele a ověří jeho digitální otisk. Rozpoznávání pak běží na tomto počítači: nic z toho, co říkáte, se neodesílá."
+
+msgid "Configure Kalipso…"
+msgstr "Nastavit Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "%1 se nepodařilo stáhnout. Zkontrolujte připojení k internetu a zkuste to znovu."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "%s se nepodařilo stáhnout. Zkontrolujte připojení k internetu a zkuste to znovu."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "%1 se nepodařilo uložit: není dostatek volného místa nebo nelze zapisovat do složky s daty."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "%s se nepodařilo uložit: není dostatek volného místa nebo nelze zapisovat do složky s daty."
+
+msgid "Countdown before steady scrolling"
+msgstr "Odpočet před plynulým posouváním"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Odpočet před plynulým posouváním:"
+
+msgid "Dark"
+msgstr "Tmavý"
+
+msgid "Desktop theme"
+msgstr "Motiv pracovního prostředí"
+
+msgid "Done"
+msgstr "Hotovo"
+
+msgid "Done editing"
+msgstr "Dokončit úpravy"
+
+msgid "Download and use"
+msgstr "Stáhnout a použít"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Stahování bylo zrušeno. Nic se nezměnilo."
+
+msgid "Download progress"
+msgstr "Průběh stahování"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Stahování %1: %2 z %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Stahování %s: %d z %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Upravit v Kalipso"
+
+msgid "Edit script"
+msgstr "Upravit text"
+
+msgid "End of script · Microphone off"
+msgstr "Konec textu · Mikrofon vypnutý"
+
+msgid "English"
+msgstr "Angličtina"
+
+msgid "Faster"
+msgstr "Rychleji"
+
+msgid "Follow a window's colors…"
+msgstr "Sledovat barvy okna…"
+
+msgid "Follow my voice"
+msgstr "Sledovat můj hlas"
+
+msgid "Font:"
+msgstr "Písmo:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Pro zařízení s polopropustným zrcadlem, která zobrazují text odrazem."
+
+msgid "French"
+msgstr "Francouzština"
+
+msgid "German"
+msgstr "Němčina"
+
+msgid "Help:"
+msgstr "Nápověda:"
+
+msgid "Hide"
+msgstr "Skrýt"
+
+msgid "Horizontal"
+msgstr "Vodorovně"
+
+msgid "Interface font"
+msgstr "Písmo rozhraní"
+
+msgid "Italian"
+msgstr "Italština"
+
+msgid "Japanese"
+msgstr "Japonština"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso stahuje řečové modely v Linuxu pro počítače x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Klávesy: šipky nebo Page Up/Down posouvají text, Space spouští či pozastavuje, + a − mění stálou rychlost. Sdílení obrazovky může zahrnovat tento widget; zkontrolujte, co vidí ostatní účastníci."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Klávesy: šipky nebo Page Up/Down posouvají text, Space spouští či pozastavuje, + a − mění stálou rychlost. Čtecí okno se může zobrazit při sdílení obrazovky; zkontrolujte, co vidí ostatní účastníci."
+
+msgid "Language you speak"
+msgstr "Jazyk, kterým mluvíte"
+
+msgid "Language you speak:"
+msgstr "Jazyk, kterým mluvíte:"
+
+msgid "Larger"
+msgstr "Větší"
+
+msgid "Light"
+msgstr "Světlý"
+
+msgid "Line spacing"
+msgstr "Řádkování"
+
+msgid "Line spacing:"
+msgstr "Řádkování:"
+
+msgid "Listening · On this device"
+msgstr "Naslouchání · V tomto zařízení"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Místní rozpoznávání řeči není nainstalováno. Otevřete Nastavení místní řeči a nainstalujte pomocný program a jazykový model."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Místní rozpoznávání řeči není dostupné. Otevřete Nastavení místní řeči a nainstalujte pomocný program a jazykový model."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Místní rozpoznávání řeči sleduje, co říkáte."
+
+msgid "Local speech setup"
+msgstr "Nastavení místní řeči"
+
+msgid "Local speech setup ↗"
+msgstr "Nastavení místní řeči ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Místní rozpoznávání řeči není dostupné. %s Viz docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Ručně"
+
+msgid "Manual · Microphone off"
+msgstr "Ručně · Mikrofon vypnutý"
+
+msgid "Microphone stopped"
+msgstr "Mikrofon je zastaven"
+
+msgid "Mirror"
+msgstr "Zrcadlit"
+
+msgid "Mirror:"
+msgstr "Zrcadlení:"
+
+msgid "More"
+msgstr "Další"
+
+msgid "Next section"
+msgstr "Další oddíl"
+
+msgid "Next words"
+msgstr "Další slova"
+
+msgid "Normal"
+msgstr "Běžné"
+
+msgid "Off"
+msgstr "Vypnuto"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Mimo text · Kalipso vás dožene, až se vrátíte k textu"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Otevřete Upravit text pro přečtení nebo změnu celého textu."
+
+msgid "Pause"
+msgstr "Pozastavit"
+
+msgid "Paused · Microphone off"
+msgstr "Pozastaveno · Mikrofon vypnutý"
+
+msgid "Previous"
+msgstr "Předchozí"
+
+msgid "Previous section"
+msgstr "Předchozí oddíl"
+
+msgid "Reader colors"
+msgstr "Barvy čtecího okna"
+
+msgid "Reader colors:"
+msgstr "Barvy čtecího okna:"
+
+msgid "Reader font"
+msgstr "Písmo pro čtení"
+
+msgid "Reading"
+msgstr "Čtení"
+
+msgid "Reading excerpt"
+msgstr "Čtený úryvek"
+
+msgid "Reading mode"
+msgstr "Režim čtení"
+
+msgid "Reading mode:"
+msgstr "Režim čtení:"
+
+msgid "Reading mode: %1"
+msgstr "Režim čtení: %1"
+
+msgid "Reading progress"
+msgstr "Průběh čtení"
+
+msgid "Reading size"
+msgstr "Velikost pro čtení"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Připraveno naslouchat v jazyce %1 s %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Připraveno naslouchat v jazyce %1. Vyberte Sledovat můj hlas a spusťte poslech."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Připraveno naslouchat v jazyce %s s %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Připraveno naslouchat v jazyce %s. Vyberte Sledovat můj hlas a spusťte poslech."
+
+msgid "Relaxed"
+msgstr "Volnější"
+
+msgid "Reset"
+msgstr "Obnovit"
+
+msgid "SCRIPT"
+msgstr "TEXT"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Ukládá se automaticky. [Pokyny v závorkách] se zobrazují, ale nečtou nahlas. Řádky začínající znakem # jsou oddíly."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Barvy obrazovky nejsou dostupné. Neprůhledné čtecí okno si zachovává kontrast."
+
+msgid "Script"
+msgstr "Text"
+
+msgid "Script: %1"
+msgstr "Text: %1"
+
+msgid "Scripts"
+msgstr "Texty"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Texty se píší a upravují v aplikaci Kalipso; zde se čtou."
+
+msgid "Scrolling · Microphone off"
+msgstr "Posouvání · Mikrofon vypnutý"
+
+msgid "Section ›"
+msgstr "Oddíl ›"
+
+msgid "Sections"
+msgstr "Oddíly"
+
+msgid "Serif"
+msgstr "Patkové"
+
+msgid "Settings"
+msgstr "Nastavení"
+
+msgid "Slower"
+msgstr "Pomaleji"
+
+msgid "Smaller"
+msgstr "Menší"
+
+msgid "Spanish"
+msgstr "Španělština"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Řeč není dostupná · Nastavit Kalipso → Hlas"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Řeč není dostupná · Otevřít Nastavení"
+
+msgid "Start"
+msgstr "Spustit"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Spuštění za %1 sekundu…"
+msgstr[1] "Spuštění za %1 sekundy…"
+msgstr[2] "Spuštění za %1 sekundy…"
+msgstr[3] "Spuštění za %1 sekund…"
+
+msgid "Starting local speech…"
+msgstr "Spouštění místního rozpoznávání řeči…"
+
+msgid "Steady speed"
+msgstr "Stálá rychlost"
+
+msgid "Steady speed:"
+msgstr "Stálá rychlost:"
+
+msgid "Stop following the window"
+msgstr "Zastavit sledování okna"
+
+msgid "Text size:"
+msgstr "Velikost textu:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Stažený %1 neodpovídal svému digitálnímu otisku, proto byl smazán. Zkuste to později znovu."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Model %1 se nepodařilo rozbalit. Zkuste to později znovu."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Stažený %s neodpovídal svému digitálnímu otisku, proto byl smazán. Zkuste to později znovu."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Model %s se nepodařilo rozbalit. Zkuste to později znovu."
+
+msgid "The microphone turns on when you start"
+msgstr "Mikrofon se zapne, až začnete"
+
+msgid "The words advance at the speed below."
+msgstr "Slova se posouvají níže uvedenou rychlostí."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Tento pomocný program Kalipso neumí stahovat jazyky. Nainstalujte nebo aktualizujte jej, pak se odhlaste a znovu přihlaste."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Pro převzetí barev okna za čtecím oknem vyberte Sledovat barvy okna… v nabídce ⋯ čtecího okna."
+
+msgid "Try again"
+msgstr "Zkusit znovu"
+
+msgid "Use this language"
+msgstr "Použít tento jazyk"
+
+msgid "Vertical"
+msgstr "Svisle"
+
+msgid "Voice"
+msgstr "Hlas"
+
+msgid "Wide"
+msgstr "Široké"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Barvy okna nejsou dostupné. Nainstalujte nebo aktualizujte pomocný program Kalipso a portál sdílení plochy."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Sdílení okna zastaveno · Pro pokračování vyberte okno na pozadí"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Text posouváte klávesami, pedálem nebo prezentačním ovladačem."
+
+msgid "your language"
+msgstr "váš jazyk"
+
+msgid "‹ Section"
+msgstr "‹ Oddíl"

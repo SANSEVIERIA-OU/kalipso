@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Speech model downloads against a server on this computer: what is kept, and what is refused.
 #include "speech_download.h"
 #include <QCryptographicHash>

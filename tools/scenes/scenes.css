@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0 */
 /* Simulated desktops for the website scenes. Each scene is a 1440×900 device on a transparent
    background: a laptop (camera in the bezel or the notch) or a monitor (webcam on top). */
 *{box-sizing:border-box;margin:0}

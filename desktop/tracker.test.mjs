@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 import assert from 'node:assert/strict';
 import {Tracker, fold, italianNumber, key, same} from './tracker.mjs';
 import {readFileSync} from 'node:fs';

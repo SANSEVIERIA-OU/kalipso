@@ -5,7 +5,7 @@
     "Description": "A teleprompter on your desktop: read Kalipso's scripts, or one written here, near your camera, scroll at a steady speed or follow your voice with local speech recognition. Nothing you say leaves your computer.",
     "Icon": "media-record",
     "Version": "2.9",
-    "License": "AGPL-3.0-or-later",
+    "License": "LicenseRef-SANSEVIERIA-1.0",
     "Authors": [
       {
         "Name": "Kalipso contributors"

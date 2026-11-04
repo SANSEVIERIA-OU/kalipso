@@ -3338,7 +3338,7 @@
     ]
   },
   "s8a3f34f21be6": {
-    "source": "A free, open-source teleprompter for your desktop. Read next to your webcam while Kalipso follows your voice with speech recognition that stays on your computer, scrolls at a steady pace, or waits for your pedal.",
+    "source": "A free teleprompter for your desktop. Read next to your webcam while Kalipso follows your voice with speech recognition that stays on your computer, scrolls at a steady pace, or waits for your pedal.",
     "locations": [
       "website:attribute"
     ]
@@ -3380,7 +3380,7 @@
     ]
   },
   "s3787a70e8818": {
-    "source": "Free and open source · version {version}",
+    "source": "Free · version {version}",
     "locations": [
       "website:text"
     ]
@@ -3729,7 +3729,7 @@
     ]
   },
   "s62a06c874889": {
-    "source": "Open source under the AGPL.",
+    "source": "SANSEVIERIA License 1.0.",
     "locations": [
       "website:text"
     ]
@@ -4222,7 +4222,7 @@
     ]
   },
   "s95500ffc929f": {
-    "source": "desktop teleprompter. Free software under the GNU AGPL, version 3 or later.",
+    "source": "desktop teleprompter.",
     "locations": [
       "website:text"
     ]
