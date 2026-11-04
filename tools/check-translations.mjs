@@ -31,6 +31,13 @@ for(const engine of ['chromium','firefox','webkit']){
    await page.setViewportSize({width,height:900});
    await page.addStyleTag({content:`html{font-size:${scale}%!important}`});
    await page.evaluate(()=>document.fonts.ready);
+   await page.evaluate(()=>scrollTo(0,0));
+   const pickerVisible=await page.locator('#site-language').evaluate(e=>{
+    const r=e.getBoundingClientRect();
+    return r.width>=44 && r.height>=44 && r.left>=0 && r.right<=innerWidth &&
+      document.elementFromPoint(r.left+r.width/2,r.top+r.height/2)===e;
+   });
+   assert.equal(pickerVisible,true,`${engine}/${locale.code}/${width}/${scale} language picker hidden or clipped`);
    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
    if(overflow) await page.screenshot({path:`${out}/${engine}-${locale.code}-${width}-overflow.png`,fullPage:true});
    assert.equal(overflow,false,`${engine}/${locale.code}/${width}/${scale} overflow`);

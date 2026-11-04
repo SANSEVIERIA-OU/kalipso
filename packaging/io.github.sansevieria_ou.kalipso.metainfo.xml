@@ -336,9 +336,9 @@
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1" />
   <releases>
-    <release version="2.8" date="2026-11-04" type="development">
+    <release version="2.9" date="2026-11-04" type="stable">
       <description>
-        <p>Interfaces in 39 languages across the app, desktop integrations and website, with right-to-left layouts, bundled writing-system fonts and shared plural rules. Generated translations await native-speaker review.</p>
+        <p>Interfaces in 39 languages across the app, desktop integrations and website. The website language picker stays visible outside the scrolling navigation; the app language is first in Appearance settings with restart guidance. Generated translations await native-speaker review.</p>
       </description>
     </release>
     <release version="2.7" date="2026-11-04" type="stable">

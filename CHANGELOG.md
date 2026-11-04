@@ -4,6 +4,14 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.9 — 4 November 2026
+
+- The website's language picker stays outside the scrolling navigation on small screens. The app's
+  language picker is first in Settings → Appearance, with a persistent explanation that the new
+  language takes effect at the next start.
+- Fix the website header check and use the pinned full-ICU Node runtime for macOS and Windows
+  translation checks, so these checks no longer block delivery of the translated versions.
+
 ## 2.8 — 4 November 2026
 
 - The app, Linux companion, Plasma widget, GNOME extension and website now have interfaces in 39
