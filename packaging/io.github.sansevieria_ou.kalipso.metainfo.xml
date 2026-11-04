@@ -25,6 +25,9 @@
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.7" date="2026-11-04" type="stable">
+      <description><p>Settings: the current page and the labels above fields look tidier.</p></description>
+    </release>
     <release version="2.6" date="2026-11-03" type="stable">
       <description><p>Present with Impress finds the presentation however its folder path is written.</p></description>
     </release>

@@ -4,6 +4,14 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.7 — 4 November 2026
+
+- Settings, in Kalipso's own look (GNOME, Windows, macOS): the current page is marked like the other
+  pressed buttons, not by a blue block against the window's edge, and the line beside the list is a
+  light divider.
+- Settings, everywhere: a label above its field no longer breaks over two lines when the row has room
+  for it ("Start or" / "pause").
+
 ## 2.6 — 3 November 2026
 
 - **Present with Impress** recognises the presentation however its folder is written. Kalipso compared
