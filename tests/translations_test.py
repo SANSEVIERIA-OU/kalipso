@@ -42,7 +42,10 @@ numbers=list(range(201))+[1000,10000,100000,1000000,2000000]
 # Intl uses ICU/CLDR independently of the manifest's gettext expressions.
 script='''const input=JSON.parse(process.argv[1]);
 console.log(JSON.stringify(Object.fromEntries(input.locales.map(l=>{
-const r=new Intl.PluralRules(l==='arz'?'ar':l);
+const code=l==='arz'?'ar':l;
+if(l!=='pcm' && !Intl.PluralRules.supportedLocalesOf([code]).length)
+  throw new Error(`Full ICU required: ${code} unavailable in Node ${process.version} / ICU ${process.versions.icu}`);
+const r=new Intl.PluralRules(code);
 return [l,input.numbers.map(n=>r.select(n))];}))));'''
 expected=json.loads(subprocess.check_output(['node','-e',script,json.dumps({'locales':[x['code'] for x in gen.LOCALES],'numbers':numbers})]))
 for locale in gen.LOCALES:

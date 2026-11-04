@@ -44,7 +44,7 @@ for(const engine of ['chromium','firefox','webkit']){
  for(const route of ['/','/it/']){await page.goto(base+route);assert.deepEqual(await breakable(),[],`${engine} ${route} hyphenated words that can break`)}
  await page.evaluate(()=>document.querySelector('.fineprint').append(' A well-known case.'));assert.deepEqual(await breakable(),['well-known']); // Negative control.
  // On a phone the header is the name and one row of menu, also with text at 200%: the menu scrolls, never wraps.
- const rows=()=>page.evaluate(()=>new Set([...document.querySelectorAll('.site-header .brand,.site-header nav a')].map(e=>Math.round(e.getBoundingClientRect().top/8))).size);
+ const rows=()=>page.evaluate(()=>new Set([...document.querySelectorAll('.site-header .brand,.site-header nav a')].filter(e=>e.getClientRects().length).map(e=>Math.round(e.getBoundingClientRect().top/8))).size);
  await page.setViewportSize({width:360,height:740});
  for(const route of ['/','/it/'])for(const size of ['100%','200%']){await page.goto(base+route);await page.addStyleTag({content:`html{font-size:${size}!important}`});assert.ok(await rows()<=2,`${engine} ${route} ${size} header rows`)}
  await page.addStyleTag({content:'.site-header nav{flex-wrap:wrap!important}'});assert.ok(await rows()>2); // Negative control.

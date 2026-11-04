@@ -34,6 +34,7 @@ code,pre{font-family:var(--site-font-mono)}
 .page-progress{position:absolute;inset-inline:0;inset-block-end:-1px;block-size:2px;background:var(--site-accent);transform-origin:left;transform:scaleX(var(--progress,0))}
 .brand{display:inline-flex;align-items:center;gap:.625rem;font-family:var(--site-font-display);font-size:1.25rem;font-weight:700;text-decoration:none;letter-spacing:-.01em}
 .brand img{border-radius:8px;transition:transform var(--site-enter) var(--site-ease-out)}
+.site-header nav{margin-inline-start:auto;align-items:center}
 .site-header nav,.site-footer nav{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem}
 nav a{display:inline-flex;align-items:center;gap:.25rem;min-block-size:2.75rem;text-decoration:none;font-weight:600;background:linear-gradient(currentColor,currentColor) left calc(100% - .5rem)/0 2px no-repeat;transition:background-size var(--site-enter) var(--site-ease-out)}
 nav a:hover,nav a:focus-visible{background-size:100% 2px}
@@ -280,6 +281,8 @@ details code{font-size:.9em}
 .footer-row>*{min-inline-size:0;max-inline-size:100%}
 /* The languages, each by its own name; the one you are reading is underlined like the place you are in. */
 .languages a[aria-current=page]{background-size:100% 2px;color:var(--site-ink)}
+.language-picker{display:flex;align-items:center;max-inline-size:100%;min-inline-size:0}
+#language-link{display:inline-flex;align-items:center;min-block-size:2.75rem}
 #language-link[hidden],#site-language[hidden]{display:none}
 .languages{max-inline-size:100%;gap:.5rem 1rem!important}
 #site-language{font:inherit;color:inherit;background:var(--site-paper);border:1px solid var(--site-line);border-radius:.4rem;padding:.4rem;max-inline-size:min(12rem,100%);min-inline-size:0;min-block-size:44px}
@@ -330,7 +333,7 @@ html[dir=rtl] #previous-word .icon,html[dir=rtl] #next-word .icon{scale:-1 1}
  .header-row{gap:.25rem .75rem}
  .site-header .brand{gap:.5rem;font-size:1.0625rem}
  .site-header .brand img{inline-size:26px;block-size:26px}
- .site-header nav{flex:1 1 auto;min-inline-size:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;gap:.25rem .875rem;font-size:.9375rem}
+ .site-header nav{order:3;flex:1 0 100%;min-inline-size:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;gap:.25rem .875rem;font-size:.9375rem}
  .site-header nav a{flex:none;white-space:nowrap}
  .site-header nav.more-after{mask-image:linear-gradient(to left,transparent,black 2.5rem)}
  .command pre{white-space:pre-wrap;overflow-wrap:anywhere} /* A long command wraps on a phone instead of hiding its end; Copy copies it whole. */

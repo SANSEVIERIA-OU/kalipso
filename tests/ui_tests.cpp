@@ -129,6 +129,34 @@ private slots:
         QDir().mkpath(scripts_.path());
     }
 
+    void interfaceLanguageIsVisibleAndSurvivesRestart() {
+        {
+            MainWindow window(scripts_.path());
+            window.show();
+            auto *settings = openSettings(window);
+            auto *language = window.findChild<QComboBox *>("interfaceLanguage");
+            QVERIFY(language);
+            auto *nav = settings->findChild<QListWidget *>("settingsPages");
+            QVERIFY(nav);
+            nav->setCurrentRow(2); // Appearance.
+            QTRY_VERIFY(language->isVisible());
+            QVERIFY(settings->rect().contains(language->mapTo(settings, language->rect().center())));
+            auto *form = language->parentWidget()->findChild<QFormLayout *>();
+            QVERIFY(form);
+            int row = -1;
+            QFormLayout::ItemRole role;
+            form->getWidgetPosition(language, &row, &role);
+            QCOMPARE(row, 0); // Reachable before any appearance controls, without scrolling.
+            QCOMPARE(language->count(), 40); // System default and every supported language.
+            language->setCurrentIndex(language->findData("it"));
+            QCOMPARE(QSettings().value("appearance/language").toString(), QString("it"));
+            language->setCurrentIndex(language->findData("ar"));
+            QCOMPARE(QSettings().value("appearance/language").toString(), QString("ar"));
+        }
+        MainWindow reopened(scripts_.path());
+        QCOMPARE(reopened.findChild<QComboBox *>("interfaceLanguage")->currentData().toString(), QString("ar"));
+    }
+
     void engineProfilesKeepTheirOwnModelsAndLanguages() {
         {
             MainWindow window(scripts_.path());

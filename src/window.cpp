@@ -2183,6 +2183,22 @@ QWidget *MainWindow::makeReadingSettings() {
 
     auto *appearanceGroup = new SettingsSection(tr("Appearance"));
     form = appearanceGroup->form;
+    auto *language = new SettingsComboBox;
+    language->setObjectName("interfaceLanguage");
+    language->addItem(tr("System language"), QString());
+    for (const auto &entry : InterfaceLanguages::all)
+        language->addItem(QString::fromUtf8(entry.name), QString::fromLatin1(entry.code));
+    language->setCurrentIndex(std::max(0, language->findData(settings.value("appearance/language").toString())));
+    connect(language, &QComboBox::currentIndexChanged, this, [this, language] {
+        QSettings().setValue("appearance/language", language->currentData());
+        notify(tr("The interface language changes the next time Kalipso starts."));
+    });
+    form->addRow(tr("Interface language"), language);
+    form->addRow(note(tr("The interface language changes the next time Kalipso starts.")));
+    if (!InterfaceLanguages::select(settings.value("appearance/language").toString()).reviewed)
+        form->addRow(tr("Translations"), note(tr("Generated translation; native-speaker review pending.")));
+    form->addRow(note(tr("Speech recognition is available only for the languages shown in Voice settings.")));
+
     auto *appearance = new SettingsComboBox;
     appearance->setObjectName("applicationTheme");
     appearance->addItem(tr("Like the system"), "system");
@@ -2254,21 +2270,6 @@ QWidget *MainWindow::makeReadingSettings() {
             if (index >= 0 && scale->currentIndex() == 0)
                 scale->setCurrentIndex(index);
         });
-
-    auto *language = new SettingsComboBox;
-    language->setObjectName("interfaceLanguage");
-    language->addItem(tr("System language"), QString());
-    for (const auto &entry : InterfaceLanguages::all)
-        language->addItem(QString::fromUtf8(entry.name), QString::fromLatin1(entry.code));
-    language->setCurrentIndex(std::max(0, language->findData(settings.value("appearance/language").toString())));
-    connect(language, &QComboBox::currentIndexChanged, this, [this, language] {
-        QSettings().setValue("appearance/language", language->currentData());
-        notify(tr("The interface language changes the next time Kalipso starts."));
-    });
-    form->addRow(tr("Interface language"), language);
-    if (!InterfaceLanguages::select(settings.value("appearance/language").toString()).reviewed)
-        form->addRow(tr("Translations"), note(tr("Generated translation; native-speaker review pending.")));
-    form->addRow(note(tr("Speech recognition is available only for the languages shown in Voice settings.")));
 
     auto *fadeRow = new WrappingCheckBox(tr("Hide the reader's controls while reading"));
     fadeRow->box->setObjectName("autoHideControls");
