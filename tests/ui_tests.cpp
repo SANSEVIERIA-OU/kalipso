@@ -203,6 +203,7 @@ private slots:
             QTRY_VERIFY(languages->isVisibleTo(settings));
             QVERIFY(languages->findText("Italiano · download", Qt::MatchStartsWith) > 0);
             engine->setCurrentIndex(engine->findData("system"));
+            window.close(); // Closing the application persists its selected engine.
             MainWindow reopened(scripts_.path());
             QCOMPARE(reopened.findChild<QComboBox *>("speechBackend")->currentData().toString(), QString("system"));
         }
@@ -895,12 +896,23 @@ private slots:
         // Downloading again removes it and fetches it anew (here the network is dead, so it fails
         // and says so, with Try again).
         install();
-        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", 9));
-        qputenv("https_proxy", "http://127.0.0.1:9");
-        const auto restore = qScopeGuard([] {
-            QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
-            qunsetenv("https_proxy");
-        });
+        // An OS proxy lookup can ignore environment variables (macOS). Use a local unreachable
+        // catalog instead, so this test cannot accidentally download from the public internet.
+        auto catalog = SpeechCatalog::builtIn();
+        auto vosk = catalog.value("vosk").toObject();
+        auto runtime = SpeechCatalog::runtimeFor("vosk");
+        runtime["url"] = "http://127.0.0.1:9/runtime";
+        vosk["runtimes"] = QJsonObject{{speechPlatform(), runtime}};
+        auto models = vosk.value("models").toObject();
+        auto italian = models.value("it").toObject();
+        italian["url"] = "http://127.0.0.1:9/model";
+        models["it"] = italian;
+        vosk["models"] = models;
+        catalog["vosk"] = vosk;
+        auto *download = window.findChild<SpeechDownload *>();
+        QVERIFY(download);
+        download->setCatalog(catalog);
+        download->allowLocalHttp();
         languages->setCurrentIndex(languages->findText("Italiano", Qt::MatchStartsWith));
         emit languages->activated(languages->currentIndex());
         QTRY_VERIFY(box->isVisibleTo(settings));

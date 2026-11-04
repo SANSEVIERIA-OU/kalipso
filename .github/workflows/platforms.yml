@@ -63,16 +63,19 @@ jobs:
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
       - name: Build
+        id: native_build
         run: cmake --build build --config Release --parallel 2
       - name: Tests
         run: ctest --test-dir build -C Release --output-on-failure
         env:
           QT_QPA_PLATFORM: offscreen
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        if: always() && steps.native_build.outcome == 'success'
         with:
           name: speech-fixtures
           path: speech-fixtures
       - name: Download and recognize with native Vosk and Moonshine
+        if: always() && steps.native_build.outcome == 'success'
         shell: bash
         run: |
           if [ "$RUNNER_OS" = Windows ]; then probe=build/Release/speech_runtime_probe.exe; else probe=build/speech_runtime_probe; fi
