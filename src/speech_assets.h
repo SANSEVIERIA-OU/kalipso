@@ -1,9 +1,12 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #pragma once
 #include "engine/config.h"
+#include "speech_platform.h"
 #include <QDir>
 #include <QDirIterator>
+#include <QJsonArray>
 #include <QJsonDocument>
+#include <QOperatingSystemVersion>
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QVector>
@@ -39,10 +42,40 @@ inline QString installedRuntime(const QString &root, const QString &backend) {
     QDir runtimes(root + "/runtimes");
     // Newest version first: directory names are "<backend>-<version>".
     auto names = runtimes.entryList({backend + "-*"}, QDir::Dirs, QDir::Name | QDir::Reversed);
-    const auto libraryName =
-        backend == QLatin1String("moonshine") ? QStringLiteral("libmoonshine.*") : QStringLiteral("libvosk.*");
+#if defined(Q_OS_WIN)
+    const QStringList libraryNames = backend == QLatin1String("moonshine")
+                                         ? QStringList{"moonshine.dll", "libmoonshine.dll"}
+                                         : QStringList{"libvosk.dll"};
+#elif defined(Q_OS_MACOS)
+    const QStringList libraryNames = backend == QLatin1String("moonshine")
+                                         ? QStringList{"libmoonshine.dylib"}
+                                         : QStringList{"libvosk.dylib", "libvosk.dyld"};
+#else
+    const QStringList libraryNames{backend == QLatin1String("moonshine") ? "libmoonshine.so" : "libvosk.so"};
+#endif
     for (const auto &name : names) {
-        QDirIterator it(runtimes.filePath(name), {libraryName}, QDir::Files, QDirIterator::Subdirectories);
+        QFile source(runtimes.filePath(name) + "/source.json");
+        if (source.open(QIODevice::ReadOnly)) {
+            const auto metadata = QJsonDocument::fromJson(source.readAll()).object();
+            const auto target = metadata.value("target").toString();
+            if (!target.isEmpty() && target != speechPlatform())
+                continue;
+#ifdef Q_OS_MACOS
+            if (metadata.contains("minimumMacOS")) {
+                const auto minimum = metadata.value("minimumMacOS").toString().split('.');
+                if (QOperatingSystemVersion::current() < QOperatingSystemVersion(QOperatingSystemVersion::MacOS,
+                                                                                 minimum.value(0).toInt(),
+                                                                                 minimum.value(1).toInt()))
+                    continue;
+            }
+#endif
+            bool complete = true;
+            for (const auto &file : metadata.value("nativeFiles").toArray())
+                complete &= QFileInfo(runtimes.filePath(name) + "/" + file.toString()).isFile();
+            if (!complete)
+                continue;
+        }
+        QDirIterator it(runtimes.filePath(name), libraryNames, QDir::Files, QDirIterator::Subdirectories);
         if (it.hasNext())
             return it.next();
     }

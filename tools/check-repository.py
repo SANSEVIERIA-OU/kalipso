@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Reject ignored files and generated artifacts in the Git index."""
 from pathlib import PurePosixPath
 import subprocess
@@ -13,7 +13,7 @@ def tracked(*arguments):
 allowed_roots = {'.github', 'benchmarks', 'design', 'desktop', 'docs', 'packaging',
                  'site', 'src', 'tests', 'third_party', 'tools', 'translations', 'LICENSES'}
 allowed_files = {'.clang-format', '.gitignore', 'CHANGELOG.md', 'CMakeLists.txt', 'CONTRIBUTING.md', 'LICENSE',
-                 'README.md', 'THIRD_PARTY_NOTICES.md'}
+                 'README.md', 'THIRD_PARTY_NOTICES.md', 'NOTICE'}
 generated_suffixes = {'.png', '.jpg', '.jpeg', '.webp', '.mp4', '.webm', '.wav', '.mp3', '.pcm',
                       '.zip', '.plasmoid', '.so', '.dll', '.dylib', '.exe', '.bin', '.onnx', '.ort',
                       '.log', '.jsonl', '.pyc'}

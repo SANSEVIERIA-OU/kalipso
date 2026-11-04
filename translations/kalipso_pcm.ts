@@ -1080,10 +1080,6 @@ We fit take am one step at a time. [Pause] Listen well, check the question, and 
             <translation>E no fit save %1: free space no reach, or e no fit write inside data folder.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso dey download speech models for Linux on x86_64 computers. Choose Other model wey you install by hand.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Download don cancel. Nothing change.</translation>
         </message>

@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>Δεν ήταν δυνατή η αποθήκευση του %1: δεν υπάρχει αρκετός ελεύθερος χώρος ή δεν επιτρέπεται εγγραφή στον φάκελο δεδομένων.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Το Kalipso κατεβάζει μοντέλα ομιλίας στο Linux για υπολογιστές x86_64. Επιλέξτε Άλλο μοντέλο εγκατεστημένο χειροκίνητα.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Η λήψη ακυρώθηκε. Τίποτα δεν άλλαξε.</translation>
         </message>

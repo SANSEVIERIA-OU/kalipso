@@ -1080,10 +1080,6 @@ Tunaweza kuendelea hatua kwa hatua. [Pumzika] Tusikilize kwa makini, tuhakiki sw
             <translation>Haikuweza kuhifadhi %1: hakuna nafasi ya kutosha, au folda ya data hairuhusu kuandika.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso hupakua modeli za sauti kwenye Linux kwa kompyuta za x86_64. Chagua Modeli nyingine iliyowekwa kwa mkono.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Upakuaji umeghairiwa. Hakuna kilichobadilishwa.</translation>
         </message>

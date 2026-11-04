@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include "fake_pipewire.h"
 #include "speech.h"
 #include <QDir>
@@ -98,6 +98,34 @@ private slots:
         worker.load({"vosk", FAKE_VOSK_LIBRARY, QDir::tempPath()}, 1);
         QCOMPARE(grammar(), QString("(none)"));
     }
+    void olderVoskKeepsScriptGuidanceWithoutTheGrammarSetter() {
+        QLibrary library(FAKE_VOSK_LEGACY_LIBRARY);
+        QVERIFY(library.load());
+        QVERIFY(!library.resolve("vosk_recognizer_set_grm"));
+        const auto grammar = reinterpret_cast<const char *(*)()>(library.resolve("fake_grammar"));
+        const auto created = reinterpret_cast<int (*)()>(library.resolve("fake_recognizers"));
+        QVERIFY(grammar && created);
+        auto epoch = std::make_shared<std::atomic<quint64>>(1);
+        SpeechWorker worker(epoch);
+        QSignalSpy ready(&worker, &SpeechWorker::ready), guided(&worker, &SpeechWorker::guided);
+        worker.setVocabulary({"buongiorno a tutti"});
+        worker.load({"vosk", FAKE_VOSK_LEGACY_LIBRARY, QDir::tempPath()}, 1);
+        QCOMPARE(ready.size(), 1);
+        QVERIFY(guided.last().first().toBool());
+        const int initial = created();
+        worker.consume(QByteArray(6400, 's'), 1);
+        worker.setVocabulary({"a tutti"});
+        QCOMPARE(created(), initial);
+        worker.consume(QByteArray(6400, 'E'), 1);
+        QCOMPARE(created(), initial + 1);
+        QCOMPARE(QString::fromUtf8(grammar()), QString(R"(["a tutti","[unk]"])"));
+        worker.setVocabulary({});
+        QCOMPARE(created(), initial + 2);
+        QVERIFY(!guided.last().first().toBool());
+        QCOMPARE(QString::fromUtf8(grammar()), QString("(none)"));
+        worker.unload();
+    }
+
     void moonshineRotatesHistoryOnlyAfterDrainingAtQuietBoundary() {
         QLibrary library(FAKE_MOONSHINE_LIBRARY);
         // Keep the test observer alive after the recognizer releases its handle.

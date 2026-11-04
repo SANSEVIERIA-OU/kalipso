@@ -1,7 +1,8 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #pragma once
 #include "microphone.h"
 #include "moonshine.h"
+#include "speech_library.h"
 #include "system_speech/client.h"
 #include <QLibrary>
 #include <QObject>
@@ -85,7 +86,7 @@ private:
     QString backend_;
     quint64 generation_ = 0;
 
-    QLibrary vosk_;
+    SpeechLibrary vosk_;
     VoskModel *model_ = nullptr;
     VoskRecognizer *recognizer_ = nullptr;
     VoskModel *(*modelNew_)(const char *) = nullptr;

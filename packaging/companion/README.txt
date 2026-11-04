@@ -22,4 +22,4 @@ To download the language from the terminal at the same time: ./install --languag
 To remove it: rm ~/.local/bin/kalipso-engine ~/.local/share/dbus-1/services/io.github.sansevieria_ou.Kalipso.Engine.service
 and the folders ~/.local/share/kalipso and ~/.local/share/licenses/kalipso-engine.
 
-Source code, licence (AGPL-3.0-or-later) and help: https://github.com/SANSEVIERIA-OU/kalipso
+Source code, licence (SANSEVIERIA License 1.0; see LICENSE and NOTICE) and help: https://github.com/SANSEVIERIA-OU/kalipso

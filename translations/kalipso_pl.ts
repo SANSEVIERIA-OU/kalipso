@@ -1089,10 +1089,6 @@ Możemy działać krok po kroku. [Pauza] Słuchajmy uważnie, sprawdźmy pytanie
             <translation>Nie udało się zapisać %1: za mało wolnego miejsca lub nie można zapisać w folderze danych.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso pobiera modele mowy w Linux dla komputerów x86_64. Wybierz Inny model zainstalowany ręcznie.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Pobieranie anulowane. Nic nie zmieniono.</translation>
         </message>

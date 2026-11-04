@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Kalipso companion for KWin. Kalipso has one window: you write in it, and it goes under the camera to
 // read. While its title starts with an invisible mark (U+2060) the window is under the camera: KWin
 // takes its frame off, keeps it above other windows, places it near the camera and, where KWin

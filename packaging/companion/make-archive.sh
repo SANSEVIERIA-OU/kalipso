@@ -1,5 +1,5 @@
 #!/bin/sh
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Packs the companion download for people who use only the Plasma widget or the GNOME extension:
 # the built kalipso-engine, an install script and the notices. Unpacked, one command installs it
 # under ~/.local (see README.txt); the language is then chosen in the widget or extension.
@@ -14,8 +14,9 @@ dir=$work/$name
 mkdir -p "$dir"
 install -m 755 "$engine" "$dir/kalipso-engine"
 strip "$dir/kalipso-engine" 2>/dev/null || true
-install -m 644 "$root/LICENSE" "$root/THIRD_PARTY_NOTICES.md" "$dir/"
+install -m 644 "$root/LICENSE" "$root/NOTICE" "$root/THIRD_PARTY_NOTICES.md" "$dir/"
 install -m 644 "$root/packaging/companion/README.txt" "$dir/"
+cp -R "$root/LICENSES" "$dir/LICENSES"
 cat >"$dir/install" <<'SH'
 #!/bin/sh
 # Installs the Kalipso companion under ~/.local and registers it with the desktop. Options are
@@ -29,7 +30,8 @@ cp "$here/kalipso-engine" "$bin/kalipso-engine.new" && chmod 755 "$bin/kalipso-e
 mv -f "$bin/kalipso-engine.new" "$bin/kalipso-engine"
 printf '[D-BUS Service]\nName=io.github.sansevieria_ou.Kalipso.Engine\nExec="%s" --serve\n' "$bin/kalipso-engine" \
     >"$data/dbus-1/services/io.github.sansevieria_ou.Kalipso.Engine.service"
-cp "$here/LICENSE" "$data/licenses/kalipso-engine/LICENSE"
+cp "$here/LICENSE" "$here/NOTICE" "$here/THIRD_PARTY_NOTICES.md" "$data/licenses/kalipso-engine/"
+cp -R "$here/LICENSES" "$data/licenses/kalipso-engine/"
 echo "Installed the companion in $bin."
 if [ "$#" -gt 0 ]; then
     exec "$bin/kalipso-engine" --download "$@"

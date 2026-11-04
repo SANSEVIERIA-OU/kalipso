@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include "window.h"
 #include "app_bridge.h"
 #include "design_tokens.h"
@@ -149,6 +149,12 @@ public:
 };
 
 QString megabytes(qint64 bytes) { return QString::number((bytes + 524288) >> 20); }
+
+QString displayPath(const QString &path) {
+    // Unlike '/', a Windows separator is not a Unicode line-break opportunity. Keep the native
+    // spelling while allowing long paths in notes and status messages to wrap between folders.
+    return QDir::toNativeSeparators(path).replace(QStringLiteral("\\"), QStringLiteral("\\\u200b"));
+}
 
 // Shows a useful width of the script title but can still shrink on narrow windows.
 class ScriptPicker : public SettingsComboBox {
@@ -783,7 +789,7 @@ bool MainWindow::saveSessionReport(const QString &path) {
         QMessageBox::warning(this, tr("Cannot save the report"), tr("Check the destination and available disk space."));
         return false;
     }
-    notify(tr("Session report saved to %1.").arg(QDir::toNativeSeparators(path)));
+    notify(tr("Session report saved to %1.").arg(displayPath(path)));
     return true;
 }
 
@@ -1200,7 +1206,7 @@ void MainWindow::exportScript() {
     if (!file.open(QIODevice::WriteOnly) || file.write(data) != data.size() || !file.commit())
         QMessageBox::warning(this, tr("Cannot export"), tr("Check the destination and available disk space."));
     else
-        notify(tr("Exported to %1.").arg(QDir::toNativeSeparators(path)));
+        notify(tr("Exported to %1.").arg(displayPath(path)));
 }
 
 void MainWindow::deleteScript() {
@@ -2569,7 +2575,7 @@ QWidget *MainWindow::makeSpeechSettings() {
                             "fingerprint. The models are free software: Moonshine's under the MIT licence, Vosk's "
                             "under the Apache 2.0 licence. Then Kalipso listens only on this computer: nothing you "
                             "say is sent.")
-                             .arg(QDir::toNativeSeparators(SpeechCatalog::writableRoot()))
+                             .arg(displayPath(SpeechCatalog::writableRoot()))
                        : tr("Moonshine and Vosk need a runtime and a model installed by hand: choose Other model "
                             "installed by hand."));
     downloadNote->setObjectName("speechDownloadNote");
@@ -2666,7 +2672,7 @@ QWidget *MainWindow::makeSpeechSettings() {
             installedStatus_->setText(tr("%1 is installed: %2 MB in %3, %4 licence.")
                                           .arg(spokenName(code),
                                                megabytes(SpeechCatalog::installedBytes(installed.model)),
-                                               QDir::toNativeSeparators(installed.model),
+                                               displayPath(installed.model),
                                                SpeechCatalog::modelLicense(installed.backend, code)));
         }
         form->setRowVisible(installedBox_, !installed.backend.isEmpty());
@@ -2679,10 +2685,13 @@ QWidget *MainWindow::makeSpeechSettings() {
         form->setRowVisible(systemActions, system);
         form->setRowVisible(systemStatus_, system);
     };
+    auto downloadDefault = SpeechCatalog::downloadBackend(QLocale::system().name().left(2));
+    if (downloadDefault.isEmpty())
+        downloadDefault = SpeechCatalog::downloadBackend("en");
     const auto initial = settings
-                             .value("speech/backend", settings.contains("speech/model")         ? "vosk"
-                                                      : SystemSpeechClient::platformSupported() ? "system"
-                                                                                                : "moonshine")
+                             .value("speech/backend", settings.contains("speech/model") ? "vosk"
+                                                      : downloads ? downloadDefault
+                                                      : SystemSpeechClient::platformSupported() ? "system" : "moonshine")
                              .toString();
     backend_->setCurrentIndex(std::max(0, backend_->findData(initial)));
     profile_ = backend_->currentData().toString();
@@ -2714,7 +2723,8 @@ QWidget *MainWindow::makeSpeechSettings() {
         const auto kind = choice.value("kind").toString();
         if (kind == QLatin1String("catalog")) {
             const auto code = choice.value("code").toString();
-            const auto found = SpeechCatalog::installedFor(code);
+            const auto found = SpeechCatalog::installedFor(code, SystemSpeechClient::platformSupported()
+                                                                  ? backend_->currentData().toString() : QString());
             if (found.backend.isEmpty())
                 downloadLanguage(code);
             else
@@ -2773,7 +2783,7 @@ QWidget *MainWindow::makeSpeechSettings() {
                 tr("Couldn't save %1: there isn't enough free space, or the data folder can't be written.").arg(name);
             break;
         case SpeechDownload::Error::Unsupported:
-            message = tr("Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model "
+            message = tr("Moonshine and Vosk need a runtime and a model installed by hand: choose Other model "
                          "installed by hand.");
             retry = false;
             break;
@@ -2849,9 +2859,10 @@ void MainWindow::refreshVoiceLanguages() {
     const auto catalog = downloads ? SpeechCatalog::languages() : QStringList();
     for (const auto &code : catalog) {
         const auto name = listedName(code);
-        const auto ready = SpeechCatalog::installedFor(code);
+        const auto preferred = SystemSpeechClient::platformSupported() ? backend_->currentData().toString() : QString();
+        const auto ready = SpeechCatalog::installedFor(code, preferred);
         const auto bytes =
-            SpeechCatalog::plan(SpeechCatalog::downloadBackend(code), code, SpeechCatalog::writableRoot()).bytes();
+            SpeechCatalog::plan(SpeechCatalog::downloadBackend(code, preferred), code, SpeechCatalog::writableRoot()).bytes();
         voiceLanguage_->addItem(ready.backend.isEmpty() ? tr("%1 · download %2 MB").arg(name, megabytes(bytes))
                                                         : tr("%1 · ready").arg(name),
                                 QVariantMap{{"kind", "catalog"}, {"code", code}});
@@ -2902,7 +2913,9 @@ InstalledSpeech MainWindow::chosenDownload() const {
     const auto choice = voiceLanguage_ ? voiceLanguage_->currentData().toMap() : QVariantMap();
     if (choice.value("kind").toString() != QLatin1String("catalog"))
         return {};
-    const auto found = SpeechCatalog::installedFor(choice.value("code").toString());
+    const auto found = SpeechCatalog::installedFor(choice.value("code").toString(),
+                                                    SystemSpeechClient::platformSupported()
+                                                        ? backend_->currentData().toString() : QString());
     return !found.backend.isEmpty() && SpeechCatalog::downloaded(found) ? found : InstalledSpeech();
 }
 
@@ -2964,7 +2977,8 @@ void MainWindow::downloadLanguage(const QString &code) {
     downloadAction_->setText(tr("Cancel download"));
     voiceLanguage_->setEnabled(false);
     backend_->setEnabled(false);
-    download_->start(SpeechCatalog::downloadBackend(code), code);
+    const auto preferred = SystemSpeechClient::platformSupported() ? backend_->currentData().toString() : QString();
+    download_->start(SpeechCatalog::downloadBackend(code, preferred), code);
     updateSpeechFields_();
     if (focus)
         downloadAction_->setFocus(); // The list is disabled while downloading; Cancel takes its place.

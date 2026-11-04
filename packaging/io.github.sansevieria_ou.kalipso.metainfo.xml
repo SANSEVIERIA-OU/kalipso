@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>io.github.sansevieria_ou.kalipso</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>AGPL-3.0-or-later</project_license>
+  <project_license>LicenseRef-SANSEVIERIA-1.0 AND AGPL-3.0-or-later</project_license>
   <name>Kalipso</name>
   <summary>Teleprompter that follows your voice, on your device</summary>
   <developer id="io.github.sansevieria_ou">
@@ -336,6 +336,11 @@
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="3.0" date="2026-11-04" type="stable">
+      <description>
+        <p>Kalipso 3.0.</p>
+      </description>
+    </release>
     <release version="2.9" date="2026-11-04" type="stable">
       <description>
         <p>Interfaces in 39 languages across the app, desktop integrations and website. The website language picker stays visible outside the scrolling navigation; the app language is first in Appearance settings with restart guidance. Generated translations await native-speaker review.</p>

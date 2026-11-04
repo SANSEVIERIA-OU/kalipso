@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """The GNOME extension finds a companion from Kalipso 2.0, which answers only to the name it had
 before Kalipso moved to SANSEVIERIA-OU (io.github.brianidavide.Kalipso.Engine).
 

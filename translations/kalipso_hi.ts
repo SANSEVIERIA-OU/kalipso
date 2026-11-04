@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>%1 सहेजा नहीं जा सका: खाली जगह कम है, या डेटा फ़ोल्डर में लिखा नहीं जा सकता।</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso x86_64 कंप्यूटर पर Linux में वाक् मॉडल डाउनलोड करता है। हाथ से इंस्टॉल किया गया अन्य मॉडल चुनें।</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>डाउनलोड रद्द हुआ। कुछ नहीं बदला।</translation>
         </message>

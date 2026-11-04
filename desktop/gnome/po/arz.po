@@ -1,0 +1,470 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: arz\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=6; plural=((((n % 100) >= 3 && (n % 100) <= 10)) ? 3 : (((n % 100) >= 11 && (n % 100) <= 99)) ? 4 : ((n == 1)) ? 1 : ((n == 2)) ? 2 : ((n == 0)) ? 0 : 5);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 اتنزّل. اختاره تاني لما توقف الاستماع."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 ث"
+msgstr[1] "%1 ث"
+msgstr[2] "%1 ث"
+msgstr[3] "%1 ث"
+msgstr[4] "%1 ث"
+msgstr[5] "%1 ث"
+
+msgid "%1 words/min"
+msgstr "%1 كلمة/دقيقة"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 د"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · تنزيل %2 MB"
+
+msgid "%d words/min"
+msgstr "%d كلمة/دقيقة"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s اتنزّل. اختاره تاني لما توقف الاستماع."
+
+msgid "%s · %d min"
+msgstr "%s · %d د"
+
+msgid "%s · download %d MB"
+msgstr "%s · تنزيل %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "شوية تحضير بيفتحوا مجال لكلام أحسن. [ابتسم]\n\nخد وقتك. سيب مساحة لوقفة. كلامك الجاي هيبقى هنا لما تكون جاهز."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "شوية تحضير بيفتحوا مجال لكلام أحسن. [ابتسم] خد وقتك. اقرا أول جملة بصوت عالي وشوف الكلمات بتتبعك إزاي."
+
+msgid "A script written here"
+msgstr "نص كلام مكتوب هنا"
+
+msgid "Add your script to begin."
+msgstr "ضيف نص الكلام عشان تبدأ."
+
+msgid "Appearance"
+msgstr "الشكل"
+
+msgid "Automatic"
+msgstr "تلقائي"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "الوضع التلقائي بيلقط الألوان حوالين شاشة القراية. مفيش صور بتتحفظ."
+
+msgid "Cancel"
+msgstr "الغي"
+
+msgid "Cancel download"
+msgstr "الغي التنزيل"
+
+msgid "Checking and unpacking %1…"
+msgstr "بنفحص وبنفك ضغط %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "بنفحص وبنفك ضغط %s…"
+
+msgid "Checking local speech components"
+msgstr "بنفحص مكونات الكلام المحلي"
+
+msgid "Chinese"
+msgstr "صيني"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "اختار واحد من نصوص Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "اختار اللغة اللي بتتكلمها."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "اختار الشباك اللي ورا شاشة القراية. محتاج إذن سطح المكتب."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "اختار الشباك اللي ورا شاشة القراية من مربع مشاركة سطح المكتب"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "لما تختار لغة، موديل الكلام بيتنزّل مرة واحدة من ناشره وبيتطابق مع بصمته. بعد كده التعرّف بيشتغل على الكمبيوتر ده: ولا حاجة من كلامك بتتبعت."
+
+msgid "Configure Kalipso…"
+msgstr "ظبط Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "ماقدرناش ننزّل %1. راجع اتصال الإنترنت وجرّب تاني."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "ماقدرناش ننزّل %s. راجع اتصال الإنترنت وجرّب تاني."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "ماقدرناش نحفظ %1: مفيش مساحة فاضية كفاية، أو مش مسموح نكتب في فولدر البيانات."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "ماقدرناش نحفظ %s: مفيش مساحة فاضية كفاية، أو مش مسموح نكتب في فولدر البيانات."
+
+msgid "Countdown before steady scrolling"
+msgstr "عدّ تنازلي قبل التمرير الثابت"
+
+msgid "Countdown before steady scrolling:"
+msgstr "عدّ تنازلي قبل التمرير الثابت:"
+
+msgid "Dark"
+msgstr "غامق"
+
+msgid "Desktop theme"
+msgstr "شكل سطح المكتب"
+
+msgid "Done"
+msgstr "خلصنا"
+
+msgid "Done editing"
+msgstr "خلصت تعديل"
+
+msgid "Download and use"
+msgstr "نزّل واستخدم"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "التنزيل اتلغى. مفيش حاجة اتغيّرت."
+
+msgid "Download progress"
+msgstr "تقدّم التنزيل"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "بننزّل %1: ‏%2 من %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "بننزّل %s: ‏%d من %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "عدّل في Kalipso"
+
+msgid "Edit script"
+msgstr "عدّل نص الكلام"
+
+msgid "End of script · Microphone off"
+msgstr "نص الكلام خلص · الميكروفون مقفول"
+
+msgid "English"
+msgstr "إنجليزي"
+
+msgid "Faster"
+msgstr "أسرع"
+
+msgid "Follow a window's colors…"
+msgstr "اتبع ألوان شباك…"
+
+msgid "Follow my voice"
+msgstr "تابع صوتي"
+
+msgid "Font:"
+msgstr "الخط:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "لأجهزة تقسيم الشعاع اللي بتعرض شاشة القراية من خلال مراية."
+
+msgid "French"
+msgstr "فرنساوي"
+
+msgid "German"
+msgstr "ألماني"
+
+msgid "Help:"
+msgstr "مساعدة:"
+
+msgid "Hide"
+msgstr "اخفي"
+
+msgid "Horizontal"
+msgstr "أفقي"
+
+msgid "Interface font"
+msgstr "خط الواجهة"
+
+msgid "Italian"
+msgstr "إيطالي"
+
+msgid "Japanese"
+msgstr "ياباني"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso بينزّل موديلات الكلام على Linux لأجهزة x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "الأزرار: الأسهم أو Page Up/Down عشان تتقدم، المسافة للبدء أو الوقف المؤقت، و+ و− لتغيير السرعة الثابتة. الودجت ده ممكن يظهر في مشاركة الشاشة؛ اتأكد الناس التانية شايفة إيه."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "الأزرار: الأسهم أو Page Up/Down عشان تتقدم، المسافة للبدء أو الوقف المؤقت، و+ و− لتغيير السرعة الثابتة. شاشة القراية ممكن تظهر في مشاركة الشاشة؛ اتأكد الناس التانية شايفة إيه."
+
+msgid "Language you speak"
+msgstr "اللغة اللي بتتكلمها"
+
+msgid "Language you speak:"
+msgstr "اللغة اللي بتتكلمها:"
+
+msgid "Larger"
+msgstr "أكبر"
+
+msgid "Light"
+msgstr "فاتح"
+
+msgid "Line spacing"
+msgstr "المسافة بين السطور"
+
+msgid "Line spacing:"
+msgstr "المسافة بين السطور:"
+
+msgid "Listening · On this device"
+msgstr "بيسمع · على الجهاز ده"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "الكلام المحلي مش متثبّت. افتح إعداد الكلام المحلي عشان تثبّت البرنامج المساعد وموديل اللغة."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "الكلام المحلي مش متاح. افتح إعداد الكلام المحلي عشان تثبّت البرنامج المساعد وموديل اللغة."
+
+msgid "Local speech recognition follows what you say."
+msgstr "التعرّف المحلي على الكلام بيتابع اللي بتقوله."
+
+msgid "Local speech setup"
+msgstr "إعداد الكلام المحلي"
+
+msgid "Local speech setup ↗"
+msgstr "إعداد الكلام المحلي ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "الكلام المحلي مش متاح. %s شوف docs/local-engine.md."
+
+msgid "Manual"
+msgstr "يدوي"
+
+msgid "Manual · Microphone off"
+msgstr "يدوي · الميكروفون مقفول"
+
+msgid "Microphone stopped"
+msgstr "الميكروفون وقف"
+
+msgid "Mirror"
+msgstr "اعكس"
+
+msgid "Mirror:"
+msgstr "العكس:"
+
+msgid "More"
+msgstr "أكتر"
+
+msgid "Next section"
+msgstr "الجزء الجاي"
+
+msgid "Next words"
+msgstr "الكلمات الجاية"
+
+msgid "Normal"
+msgstr "عادي"
+
+msgid "Off"
+msgstr "مقفول"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "برا النص · Kalipso هيلحقك لما ترجع للكلام المكتوب"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "افتح عدّل نص الكلام عشان تقرا النص كله أو تغيّره."
+
+msgid "Pause"
+msgstr "وقّف مؤقتًا"
+
+msgid "Paused · Microphone off"
+msgstr "واقف مؤقتًا · الميكروفون مقفول"
+
+msgid "Previous"
+msgstr "اللي فات"
+
+msgid "Previous section"
+msgstr "الجزء اللي فات"
+
+msgid "Reader colors"
+msgstr "ألوان شاشة القراية"
+
+msgid "Reader colors:"
+msgstr "ألوان شاشة القراية:"
+
+msgid "Reader font"
+msgstr "خط شاشة القراية"
+
+msgid "Reading"
+msgstr "القراية"
+
+msgid "Reading excerpt"
+msgstr "حتة من النص"
+
+msgid "Reading mode"
+msgstr "طريقة القراية"
+
+msgid "Reading mode:"
+msgstr "طريقة القراية:"
+
+msgid "Reading mode: %1"
+msgstr "طريقة القراية: %1"
+
+msgid "Reading progress"
+msgstr "تقدّم القراية"
+
+msgid "Reading size"
+msgstr "حجم خط القراية"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "جاهز يسمع %1، باستخدام %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "جاهز يسمع %1. اختار تابع صوتي وابدأ الاستماع."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "جاهز يسمع %s، باستخدام %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "جاهز يسمع %s. اختار تابع صوتي وابدأ الاستماع."
+
+msgid "Relaxed"
+msgstr "مريح"
+
+msgid "Reset"
+msgstr "رجّع الإعدادات"
+
+msgid "SCRIPT"
+msgstr "نص الكلام"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "بيتحفظ لوحده. [الإشارات بين الأقواس] بتظهر بس مش بتتقري بصوت عالي. السطور اللي بتبدأ بـ # بتبقى أجزاء."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "ألوان الشاشة مش متاحة. شاشة القراية المعتمة هتفضل محافظة على التباين."
+
+msgid "Script"
+msgstr "نص الكلام"
+
+msgid "Script: %1"
+msgstr "نص الكلام: %1"
+
+msgid "Scripts"
+msgstr "نصوص الكلام"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "نصوص الكلام بتتكتب وتتعدّل في تطبيق Kalipso؛ هنا بتتقري."
+
+msgid "Scrolling · Microphone off"
+msgstr "بيمرّر · الميكروفون مقفول"
+
+msgid "Section ›"
+msgstr "الجزء ›"
+
+msgid "Sections"
+msgstr "الأجزاء"
+
+msgid "Serif"
+msgstr "خط بزوايد"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Slower"
+msgstr "أبطأ"
+
+msgid "Smaller"
+msgstr "أصغر"
+
+msgid "Spanish"
+msgstr "إسباني"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "الكلام مش متاح · ظبط Kalipso ← الصوت"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "الكلام مش متاح · افتح الإعدادات"
+
+msgid "Start"
+msgstr "ابدأ"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "هيبدأ كمان %1 ث…"
+msgstr[1] "هيبدأ كمان %1 ث…"
+msgstr[2] "هيبدأ كمان %1 ث…"
+msgstr[3] "هيبدأ كمان %1 ث…"
+msgstr[4] "هيبدأ كمان %1 ث…"
+msgstr[5] "هيبدأ كمان %1 ث…"
+
+msgid "Starting local speech…"
+msgstr "بنشغّل الكلام المحلي…"
+
+msgid "Steady speed"
+msgstr "سرعة ثابتة"
+
+msgid "Steady speed:"
+msgstr "السرعة الثابتة:"
+
+msgid "Stop following the window"
+msgstr "وقّف متابعة الشباك"
+
+msgid "Text size:"
+msgstr "حجم الخط:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "تنزيل %1 ماطابقش بصمته، فتمسح. جرّب بعدين."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "ماقدرناش نفك ضغط موديل %1. جرّب بعدين."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "تنزيل %s ماطابقش بصمته، فتمسح. جرّب بعدين."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "ماقدرناش نفك ضغط موديل %s. جرّب بعدين."
+
+msgid "The microphone turns on when you start"
+msgstr "الميكروفون بيشتغل لما تبدأ"
+
+msgid "The words advance at the speed below."
+msgstr "الكلمات بتتقدم بالسرعة اللي تحت."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "برنامج Kalipso المساعد ده مش بيقدر ينزّل لغات. ثبّته أو حدّثه، وبعدين اعمل خروج وادخل تاني."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "عشان تاخد ألوان شباك ورا شاشة القراية، اختار اتبع ألوان شباك… من قايمة ⋯ في شاشة القراية."
+
+msgid "Try again"
+msgstr "جرّب تاني"
+
+msgid "Use this language"
+msgstr "استخدم اللغة دي"
+
+msgid "Vertical"
+msgstr "رأسي"
+
+msgid "Voice"
+msgstr "الصوت"
+
+msgid "Wide"
+msgstr "واسع"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "ألوان الشباك مش متاحة. ثبّت أو حدّث برنامج Kalipso المساعد وبوابة مشاركة سطح المكتب."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "مشاركة الشباك وقفت · اختار شباك خلفية عشان تكمل"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "بتتقدم بالأزرار أو الدواسة أو الكليكر."
+
+msgid "your language"
+msgstr "لغتك"
+
+msgid "‹ Section"
+msgstr "‹ الجزء"

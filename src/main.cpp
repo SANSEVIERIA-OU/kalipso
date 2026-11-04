@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include "accessibility.h"
 #include "app_bridge.h"
 #include "interface_language.h"

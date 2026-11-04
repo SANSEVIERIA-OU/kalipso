@@ -13,7 +13,7 @@ by the sources reviewed. **? does not mean the feature is missing.** Free and pa
 
 | Product | Scope of this comparison | Availability and commercial model |
 | --- | --- | --- |
-| [Kalipso][k] | Standalone app plus explicitly identified Linux integrations | Linux; experimental Windows x64 and Apple Silicon macOS. Free, AGPL-3.0-or-later; no paid feature tier. |
+| [Kalipso][k] | Standalone app plus explicitly identified Linux integrations | Linux; experimental Windows x64 and Apple Silicon macOS. Free; current app source: SANSEVIERIA License 1.0; earlier distribution terms: AGPL-3.0-or-later; no paid feature tier. |
 | [VoicePrompter][vp] | Native Mac/mobile apps and web/PWA, qualified below | Native Mac/iOS/Android and web. Mac free tier has three custom scripts; paid unlimited tier. Native Windows/Linux availability is not established: web availability is separate. |
 | [Textream][t] | Mac, iPhone and iPad; feature differences marked below | Free, MIT; GitHub/App Store distribution. Its privacy policy says Apple speech can be on-device or server-based depending on device, OS and language. |
 | [Flow, by LumoRez][f] | Windows app, repository `LumoRez07/Flow` | Free GPL-3.0-or-later Community build; paid Microsoft Store Pro offering. Not FlowPrompter, TeleprompterFlow or FlowPrompt. |
@@ -138,7 +138,7 @@ Stream Deck integration or a particular pedal protocol. See [Teleprompter.com re
 | Multiple interface languages | ✓ 39; generated translations awaiting review | ✓ platform-dependent | ✓ | ~ eight languages advertised | ✓ edition-dependent | ✓ | ✓ | ✓ store lists ten |
 | Accessibility / dyslexia-friendly text | ~ keyboard/text scaling/contrast tested; coverage documented | ? full audit | ~ documented fonts/readability | ? full audit | ~ text adjustments | ~ documented text/readability features | ~ text adjustments | ~ text adjustments |
 | Entire product free of feature paywalls | ✓ | — free/paid tiers | ✓ | ~ Community free; Store Pro paid | — | ✓ | — free/paid tiers | — free/paid tiers |
-| Public open-source license | ✓ AGPL-3.0-or-later | ? license of compared implementations not established | ✓ MIT | ✓ GPL-3.0-or-later | ? | ✓ GPL-3.0 | ? | ? |
+| Public open-source license | Current app: source-available SANSEVIERIA License 1.0; earlier copies offered under AGPL | ? license of compared implementations not established | ✓ MIT | ✓ GPL-3.0-or-later | ? | ✓ GPL-3.0 | ? | ? |
 
 Store availability is not verification that every downloadable package is signed/notarized. Similarly,
 text-size controls are not a complete accessibility audit. A paid application is not automatically

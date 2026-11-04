@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include <QCoreApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -9,6 +9,7 @@
 #include <functional>
 #include <iostream>
 #include <sapi.h>
+#include <sperror.h>
 #include <windows.h>
 #include <wrl/client.h>
 using Microsoft::WRL::ComPtr;
@@ -35,11 +36,14 @@ static QString attribute(ISpObjectToken *token, const wchar_t *name) {
     CoTaskMemFree(text);
     return value;
 }
-static ComPtr<ISpObjectTokenCategory> category(const wchar_t *id) {
+static ComPtr<ISpObjectTokenCategory> category(const wchar_t *id, bool allowMissing = false) {
     ComPtr<ISpObjectTokenCategory> value;
     require(CoCreateInstance(CLSID_SpObjectTokenCategory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&value)),
             "Speech category");
-    require(value->SetId(id, FALSE), "Speech category lookup");
+    const auto lookup = value->SetId(id, FALSE);
+    if (allowMissing && lookup == SPERR_NOT_FOUND)
+        return {};
+    require(lookup, "Speech category lookup");
     return value;
 }
 static ComPtr<ISpObjectToken> selectRecognizer(const QString &language, QJsonArray &locales) {
@@ -48,7 +52,10 @@ static ComPtr<ISpObjectToken> selectRecognizer(const QString &language, QJsonArr
     if (!requested)
         throw QString("Choose a valid recognition language, for example en-US or it-IT.");
     ComPtr<IEnumSpObjectTokens> tokens;
-    require(category(SPCAT_RECOGNIZERS)->EnumTokens(nullptr, nullptr, &tokens), "Recognizer enumeration");
+    const auto recognizers = category(SPCAT_RECOGNIZERS, true);
+    if (!recognizers.Get())
+        return {};
+    require(recognizers->EnumTokens(nullptr, nullptr, &tokens), "Recognizer enumeration");
     ComPtr<ISpObjectToken> chosen;
     while (true) {
         ComPtr<ISpObjectToken> token;
@@ -225,14 +232,17 @@ int main(int argc, char **argv) {
                   {"supported", (token.Get() != nullptr)},
                   {"locales", locales},
                   {"message", token.Get() ? "Windows local script recognition is ready."
-                                          : "Install a matching Microsoft desktop speech recognizer in Windows "
-                                            "language settings, or choose Moonshine/Vosk."}});
+                                          : "No matching Windows desktop speech recognizer is available. "
+                                            "Choose Vosk or Moonshine in Settings, then choose your language to "
+                                            "download it. Windows OneCore speech packs do not provide this "
+                                            "desktop recognizer."}});
         else if (args[1] == "--install")
             throw QString(
                 "Install the speech language through Windows language settings, then check availability again.");
         else if (args[1] == "--listen") {
             if (!token.Get())
-                throw QString("No matching Microsoft local speech recognizer is installed.");
+                throw QString("No matching Windows desktop speech recognizer is available. Choose Vosk or "
+                              "Moonshine in Settings, then choose your language to download it.");
             Recognition recognition(token.Get());
             QByteArray pending;
             QTimer commands;

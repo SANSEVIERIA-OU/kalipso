@@ -1080,10 +1080,6 @@ Wir können Schritt für Schritt vorgehen. [Pause] Aufmerksam zuhören, die Frag
             <translation>%1 konnte nicht gespeichert werden: Es ist nicht genug Speicherplatz frei oder der Datenordner ist nicht beschreibbar.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso lädt Sprachmodelle unter Linux für x86_64-Computer herunter. Wählen Sie „Anderes, manuell installiertes Modell“.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Download abgebrochen. Nichts wurde geändert.</translation>
         </message>

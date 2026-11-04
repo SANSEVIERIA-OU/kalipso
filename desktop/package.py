@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Build the Plasma widget, GNOME extension and KWin script archives from source.
 
 Archives contain only frontend source and notices: no companion binary,
@@ -23,9 +23,8 @@ BASE = Path(__file__).resolve().parent
 ROOT = BASE.parent
 OUT = ROOT / 'artifacts/packages'
 SOURCE_SUFFIXES = {'.qml', '.mjs', '.js', '.css', '.json', '.xml'}
-NOTICES = [(ROOT / 'LICENSE', 'LICENSE'), (ROOT / 'LICENSES/Unicode-3.0.txt', 'Unicode-LICENSE.txt'),
+NOTICES = [(ROOT / 'LICENSES/Unicode-3.0.txt', 'Unicode-LICENSE.txt'),
            (ROOT / 'THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.md')]
-GNOME_SHARED = ['tracker.mjs', 'contrast.mjs', 'unicode-tokens.mjs']
 PLASMA_DOMAIN = 'plasma_applet_io.github.sansevieria_ou.kalipso'
 GNOME_DOMAIN = 'kalipso'
 
@@ -85,9 +84,9 @@ def compile_po(path):
     return output + ids_data + b''.join(item + b'\0' for item in strs)
 
 
-def translations(prefix, domain):
+def translations(prefix, domain, catalogs=BASE / 'po'):
     return [(path, f'{prefix}{path.stem}/LC_MESSAGES/{domain}.mo', compile_po(path))
-            for path in sorted((BASE / 'po').glob('*.po'))]
+            for path in sorted(catalogs.glob('*.po'))]
 
 
 def plasma_files():
@@ -104,7 +103,8 @@ def plasma_files():
 def gnome_files():
     extension = BASE / 'gnome'
     own = [(path, path.name) for path in sorted(extension.iterdir()) if path.suffix in SOURCE_SUFFIXES]
-    return own + [(BASE / name, name) for name in GNOME_SHARED]
+    # GNOME has its own GPL-compatible snapshots; never relicense shared changes on export.
+    return own
 
 
 def kwin_files():
@@ -113,14 +113,27 @@ def kwin_files():
             if path.is_file() and path.suffix in SOURCE_SUFFIXES]
 
 
-def entries(files, generated):
-    return ([(destination, source.read_bytes()) for source, destination in files + NOTICES]
+def entries(files, generated, licence):
+    name = 'AGPL-3.0-or-later' if licence == BASE / 'gnome/LICENSE' else 'SANSEVIERIA License 1.0'
+    notice = (
+        'KALIPSO DESKTOP COMPONENT — RELEASE NOTICE\n\n'
+        'Steward: SANSEVIERIA OÜ\n'
+        'Component and version: identified in the accompanying metadata.json.\n'
+        f'Original code in this component: {name}; full text in LICENSE.\n'
+        'Separately marked third-party material retains its own terms.\n'
+        'This archive contains the component source. Preserve notices when redistributing.\n'
+        'Project source and build scripts: https://github.com/SANSEVIERIA-OU/kalipso\n'
+        'Licensing contact: https://github.com/SANSEVIERIA-OU/kalipso/issues\n'
+        'The licence of this component is not an alternative licence for other components.\n'
+    )
+    return ([(destination, source.read_bytes()) for source, destination in files + NOTICES + [(licence, 'LICENSE')]]
+            + [('NOTICE', notice.encode('utf-8'))]
             + [(destination, data) for _, destination, data in generated])
 
 
-def write(name, files, generated=()):
+def write(name, files, generated=(), licence=ROOT / 'LICENSE'):
     with zipfile.ZipFile(OUT / name, 'w', zipfile.ZIP_DEFLATED) as archive:
-        for destination, data in entries(files, generated):
+        for destination, data in entries(files, generated, licence):
             info = zipfile.ZipInfo(destination, (2026, 10, 26, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
@@ -128,9 +141,9 @@ def write(name, files, generated=()):
     print(hashlib.sha256((OUT / name).read_bytes()).hexdigest(), name)
 
 
-def write_tree(folder, files, generated=()):
+def write_tree(folder, files, generated=(), licence=ROOT / 'LICENSE'):
     """The archive's files, unpacked into an empty folder."""
-    for destination, data in entries(files, generated):
+    for destination, data in entries(files, generated, licence):
         path = folder / destination
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
@@ -142,7 +155,7 @@ def main():
     tree = parser.parse_args().tree
     subprocess.run([sys.executable, str(ROOT / 'tools/sync-shared.py'), '--check'], check=True)
     plasma = (plasma_files(), translations('contents/locale/', PLASMA_DOMAIN))
-    gnome = (gnome_files(), translations('locale/', GNOME_DOMAIN))
+    gnome = (gnome_files(), translations('locale/', GNOME_DOMAIN, BASE / 'gnome/po'), BASE / 'gnome/LICENSE')
     kwin = (kwin_files(),)
     if tree:
         for name, contents in (('plasma', plasma), ('gnome', gnome), ('kwin', kwin)):

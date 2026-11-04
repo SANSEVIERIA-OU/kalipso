@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include "app_bridge.h"
 #include "fake_pipewire.h"
 #include "impress.h"
@@ -182,13 +182,66 @@ private slots:
         QCOMPARE(reopened.findChild<QLineEdit *>("speechModel")->text(), QString("vosk-model"));
     }
 
+    void newProfilesOfferGuidedDownloadsAndKeepSystemSpeechOptional() {
+        if (!SpeechCatalog::downloadsSupported())
+            QSKIP("No runtime for this platform");
+        MainWindow window(scripts_.path());
+        window.show();
+        auto *settings = openSettings(window);
+        auto *engine = window.findChild<QComboBox *>("speechBackend");
+        auto *languages = window.findChild<QComboBox *>("voiceLanguage");
+        QVERIFY(engine && languages);
+        QVERIFY(engine->currentData().toString() != "system");
+        QTRY_VERIFY(languages->isVisibleTo(settings));
+        QVERIFY(languages->findText("Italiano · download", Qt::MatchStartsWith) > 0);
+        QVERIFY(window.findChild<QLineEdit *>("speechModel")->text().isEmpty());
+        QVERIFY(!window.findChild<QPushButton *>("speechDownloadAction")->isVisibleTo(settings));
+        if (engine->findData("system") >= 0) {
+            engine->setCurrentIndex(engine->findData("system"));
+            QVERIFY(!languages->isVisibleTo(settings));
+            engine->setCurrentIndex(engine->findData("vosk"));
+            QTRY_VERIFY(languages->isVisibleTo(settings));
+            QVERIFY(languages->findText("Italiano · download", Qt::MatchStartsWith) > 0);
+            engine->setCurrentIndex(engine->findData("system"));
+            window.close(); // Closing the application persists its selected engine.
+            MainWindow reopened(scripts_.path());
+            QCOMPARE(reopened.findChild<QComboBox *>("speechBackend")->currentData().toString(), QString("system"));
+        }
+    }
+
+    void choosingAnEngineDoesNotReuseAnotherEnginesModel() {
+        if (!SpeechCatalog::backendsFor("en").contains("moonshine"))
+            QSKIP("No Moonshine download on this platform");
+        const auto root = SpeechCatalog::writableRoot();
+        const auto cleanup = qScopeGuard([root] { QDir(root).removeRecursively(); });
+        const auto plan = SpeechCatalog::plan("vosk", "en", root);
+        for (const auto &path : {plan.library, plan.modelDir + "/am/final.mdl", plan.modelDir + "/conf/mfcc.conf"}) {
+            QVERIFY(QDir().mkpath(QFileInfo(path).absolutePath()));
+            QFile file(path);
+            QVERIFY(file.open(QIODevice::WriteOnly));
+        }
+        QCOMPARE(SpeechCatalog::installedFor("en", "vosk").backend, QString("vosk"));
+        QVERIFY(SpeechCatalog::installedFor("en", "moonshine").backend.isEmpty());
+        QCOMPARE(SpeechCatalog::installedFor("en").backend, QString("vosk"));
+        if (SystemSpeechClient::platformSupported()) {
+            QSettings().setValue("speech/backend", "system");
+            MainWindow window(scripts_.path());
+            auto *engine = window.findChild<QComboBox *>("speechBackend");
+            auto *languages = window.findChild<QComboBox *>("voiceLanguage");
+            engine->setCurrentIndex(engine->findData("moonshine"));
+            QVERIFY(languages->findText("English · download", Qt::MatchStartsWith) > 0);
+            engine->setCurrentIndex(engine->findData("vosk"));
+            QVERIFY(languages->findText("English · ready", Qt::MatchStartsWith) > 0);
+        }
+    }
+
     void voiceLanguagesUseInstalledModelsAndDownloadOnlyWhenChosen() {
         // A Vosk runtime and the Italian model, where a download leaves them.
         const auto root = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kalipso";
         const auto cleanup = qScopeGuard([root] { QDir(root).removeRecursively(); });
         const auto model = root + "/models/vosk/vosk-model-small-it-0.22";
         for (const auto &file :
-             {root + "/runtimes/vosk-0.3.50/vosk/libvosk.so", model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
+             {SpeechCatalog::plan("vosk", "it", root).library, model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
             QVERIFY(QDir().mkpath(QFileInfo(file).absolutePath()));
             QFile touch(file);
             QVERIFY(touch.open(QIODevice::WriteOnly));
@@ -792,14 +845,14 @@ private slots:
 
     void aDownloadedLanguageCanBeRemovedOrDownloadedAgain() {
         if (!SpeechCatalog::downloadsSupported())
-            QSKIP("Kalipso downloads languages on Linux x86_64 only");
+            QSKIP("No native runtime is catalogued for this platform");
         // The Vosk runtime and the Italian model, where a download leaves them.
         const auto root = SpeechCatalog::writableRoot();
         const auto cleanup = qScopeGuard([root] { QDir(root).removeRecursively(); });
         const auto model = root + "/models/vosk/vosk-model-small-it-0.22";
         const auto install = [&] {
             for (const auto &file :
-                 {root + "/runtimes/vosk-0.3.50/vosk/libvosk.so", model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
+                 {SpeechCatalog::plan("vosk", "it", root).library, model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
                 QVERIFY(QDir().mkpath(QFileInfo(file).absolutePath()));
                 QFile touch(file);
                 QVERIFY(touch.open(QIODevice::WriteOnly));
@@ -816,10 +869,12 @@ private slots:
         QCOMPARE(languages->currentText(), QString("Italiano · ready"));
         // Where it is, how big, and its licence; and the note before any download says where they go.
         QTRY_VERIFY(box->isVisibleTo(settings));
-        QVERIFY2(status->text().contains(QDir::toNativeSeparators(model)), qPrintable(status->text()));
+        // Display paths may contain zero-width breaks between Windows folders; the spelling stays intact.
+        QVERIFY2(QString(status->text()).remove(QChar(0x200b)).contains(QDir::toNativeSeparators(model)),
+                 qPrintable(status->text()));
         QVERIFY(status->text().contains("Apache-2.0"));
         auto *note = window.findChild<QLabel *>("speechDownloadNote");
-        QVERIFY(note->text().contains(QDir::toNativeSeparators(root)));
+        QVERIFY(QString(note->text()).remove(QChar(0x200b)).contains(QDir::toNativeSeparators(root)));
         QVERIFY(note->text().contains("MIT") && note->text().contains("Apache 2.0"));
         const auto answer = [](QMessageBox::StandardButton button) {
             QTimer::singleShot(0, [button] {
@@ -835,7 +890,7 @@ private slots:
         answer(QMessageBox::Yes);
         window.findChild<QPushButton *>("speechRemoveModel")->click();
         QVERIFY(!QFileInfo::exists(model));
-        QVERIFY(QFileInfo::exists(root + "/runtimes/vosk-0.3.50/vosk/libvosk.so")); // Other languages use it.
+        QVERIFY(QFileInfo::exists(SpeechCatalog::plan("vosk", "it", root).library)); // Other languages use it.
         QVERIFY(window.findChild<QLineEdit *>("speechModel")->text().isEmpty());
         QVERIFY(languages->findText("Italiano · download", Qt::MatchStartsWith) > 0);
         QVERIFY2(window.findChild<QLabel *>("speechDownloadStatus")->text().startsWith("Removed Italian:"), qPrintable(window.findChild<QLabel *>("speechDownloadStatus")->text()));
@@ -843,12 +898,23 @@ private slots:
         // Downloading again removes it and fetches it anew (here the network is dead, so it fails
         // and says so, with Try again).
         install();
-        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy, "127.0.0.1", 9));
-        qputenv("https_proxy", "http://127.0.0.1:9");
-        const auto restore = qScopeGuard([] {
-            QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
-            qunsetenv("https_proxy");
-        });
+        // An OS proxy lookup can ignore environment variables (macOS). Use a local unreachable
+        // catalog instead, so this test cannot accidentally download from the public internet.
+        auto catalog = SpeechCatalog::builtIn();
+        auto vosk = catalog.value("vosk").toObject();
+        auto runtime = SpeechCatalog::runtimeFor("vosk");
+        runtime["url"] = "http://127.0.0.1:9/runtime";
+        vosk["runtimes"] = QJsonObject{{speechPlatform(), runtime}};
+        auto models = vosk.value("models").toObject();
+        auto italian = models.value("it").toObject();
+        italian["url"] = "http://127.0.0.1:9/model";
+        models["it"] = italian;
+        vosk["models"] = models;
+        catalog["vosk"] = vosk;
+        auto *download = window.findChild<SpeechDownload *>();
+        QVERIFY(download);
+        download->setCatalog(catalog);
+        download->allowLocalHttp();
         languages->setCurrentIndex(languages->findText("Italiano", Qt::MatchStartsWith));
         emit languages->activated(languages->currentIndex());
         QTRY_VERIFY(box->isVisibleTo(settings));

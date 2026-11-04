@@ -1,10 +1,10 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Exercise the actual OS helper's read-only language probe without a microphone."""
 import json
 import subprocess
 import sys
 
-result = subprocess.run([sys.argv[1], '--check', 'en-US'], capture_output=True,
+result = subprocess.run([sys.argv[1], '--check', 'it-IT'], capture_output=True,
                         text=True, timeout=45, check=False)
 events = [json.loads(line) for line in result.stdout.splitlines()]
 assert result.returncode in (0, 1), (result.returncode, result.stderr)
@@ -12,6 +12,8 @@ assert len(events) == 1, events
 event = events[0]
 assert event.get('type') in ('capabilities', 'error'), event
 assert isinstance(event.get('message'), str) and event['message'], event
+# Missing desktop SAPI is a normal unavailable capability, not a microphone/permission failure.
+assert 'Speech category lookup failed (0x8004503a)' not in event['message'], event
 if event['type'] == 'capabilities':
     assert result.returncode == 0, result.returncode
     for flag in ('available', 'installed', 'supported'):

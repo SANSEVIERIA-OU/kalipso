@@ -1080,10 +1080,6 @@ Za mu iya tafiya mataki-mataki. [Dakata] Mu saurara da kyau, mu tabbatar da tamb
             <translation>Ba a iya adana %1 ba: sarari bai isa ba, ko babban fayil na bayanai bai yarda a rubuta ba.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso yana sauke samfurorin magana a Linux don kwamfutocin x86_64. Zaɓi Wani samfurin da aka girka da hannu.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>An soke saukewa. Ba a canja komai ba.</translation>
         </message>

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 export function luminance(hex) {
     if(!/^#[0-9a-f]{6}$/i.test(hex))throw new Error('An opaque RGB color is required');
     const linear=value=>value<=0.04045?value/12.92:((value+0.055)/1.055)**2.4;

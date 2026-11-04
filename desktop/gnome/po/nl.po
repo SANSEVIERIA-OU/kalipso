@@ -1,0 +1,462 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: nl\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 is gedownload. Kies het opnieuw wanneer je stopt met luisteren."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 seconde"
+msgstr[1] "%1 seconden"
+
+msgid "%1 words/min"
+msgstr "%1 woorden/min"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · %2 MB downloaden"
+
+msgid "%d words/min"
+msgstr "%d woorden/min"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s is gedownload. Kies het opnieuw wanneer je stopt met luisteren."
+
+msgid "%s · %d min"
+msgstr "%s · %d min"
+
+msgid "%s · download %d MB"
+msgstr "%s · %d MB downloaden"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Een beetje voorbereiding maakt ruimte voor een beter gesprek. [glimlach]\n\nNeem de tijd. Laat ruimte voor een pauze. Je volgende woorden staan hier wanneer je er klaar voor bent."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Een beetje voorbereiding maakt ruimte voor een beter gesprek. [glimlach] Neem de tijd. Lees de eerste zin hardop en zie hoe de woorden je volgen."
+
+msgid "A script written here"
+msgstr "Een hier geschreven spreektekst"
+
+msgid "Add your script to begin."
+msgstr "Voeg je spreektekst toe om te beginnen."
+
+msgid "Appearance"
+msgstr "Uiterlijk"
+
+msgid "Automatic"
+msgstr "Automatisch"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Automatisch neemt kleuren rond het leesvenster over. Er worden geen afbeeldingen opgeslagen."
+
+msgid "Cancel"
+msgstr "Annuleren"
+
+msgid "Cancel download"
+msgstr "Download annuleren"
+
+msgid "Checking and unpacking %1…"
+msgstr "%1 controleren en uitpakken…"
+
+msgid "Checking and unpacking %s…"
+msgstr "%s controleren en uitpakken…"
+
+msgid "Checking local speech components"
+msgstr "Lokale spraakonderdelen controleren"
+
+msgid "Chinese"
+msgstr "Chinees"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Kies een spreektekst uit Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Kies de taal die je spreekt."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Kies het venster achter het leesvenster. Toestemming van het bureaublad is vereist."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Kies het venster achter het leesvenster in het deelvenster van het bureaublad"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Wanneer je een taal kiest, wordt het spraakmodel eenmalig gedownload van de uitgever en gecontroleerd met een vingerafdruk. Daarna werkt de herkenning op deze computer: niets van wat je zegt wordt verstuurd."
+
+msgid "Configure Kalipso…"
+msgstr "Kalipso instellen…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "%1 kon niet worden gedownload. Controleer de internetverbinding en probeer het opnieuw."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "%s kon niet worden gedownload. Controleer de internetverbinding en probeer het opnieuw."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "%1 kon niet worden opgeslagen: er is te weinig vrije ruimte of de gegevensmap is niet beschrijfbaar."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "%s kon niet worden opgeslagen: er is te weinig vrije ruimte of de gegevensmap is niet beschrijfbaar."
+
+msgid "Countdown before steady scrolling"
+msgstr "Aftellen vóór gelijkmatig scrollen"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Aftellen vóór gelijkmatig scrollen:"
+
+msgid "Dark"
+msgstr "Donker"
+
+msgid "Desktop theme"
+msgstr "Bureaubladthema"
+
+msgid "Done"
+msgstr "Gereed"
+
+msgid "Done editing"
+msgstr "Bewerken afronden"
+
+msgid "Download and use"
+msgstr "Downloaden en gebruiken"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Download geannuleerd. Er is niets gewijzigd."
+
+msgid "Download progress"
+msgstr "Downloadvoortgang"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "%1 downloaden: %2 van %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "%s downloaden: %d van %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Bewerken in Kalipso"
+
+msgid "Edit script"
+msgstr "Spreektekst bewerken"
+
+msgid "End of script · Microphone off"
+msgstr "Einde van de spreektekst · Microfoon uit"
+
+msgid "English"
+msgstr "Engels"
+
+msgid "Faster"
+msgstr "Sneller"
+
+msgid "Follow a window's colors…"
+msgstr "De kleuren van een venster volgen…"
+
+msgid "Follow my voice"
+msgstr "Volg mijn stem"
+
+msgid "Font:"
+msgstr "Lettertype:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Voor teleprompters met een halfdoorlatende spiegel, die het leesvenster via een spiegel tonen."
+
+msgid "French"
+msgstr "Frans"
+
+msgid "German"
+msgstr "Duits"
+
+msgid "Help:"
+msgstr "Hulp:"
+
+msgid "Hide"
+msgstr "Verbergen"
+
+msgid "Horizontal"
+msgstr "Horizontaal"
+
+msgid "Interface font"
+msgstr "Lettertype van de interface"
+
+msgid "Italian"
+msgstr "Italiaans"
+
+msgid "Japanese"
+msgstr "Japans"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso downloadt spraakmodellen op Linux voor x86_64-computers."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Toetsen: pijlen of Page Up/Down springen verder, Spatie start of pauzeert, + en − wijzigen de vaste snelheid. Deze widget kan zichtbaar zijn bij schermdelen; controleer wat andere deelnemers zien."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Toetsen: pijlen of Page Up/Down springen verder, Spatie start of pauzeert, + en − wijzigen de vaste snelheid. Het leesvenster kan zichtbaar zijn bij schermdelen; controleer wat andere deelnemers zien."
+
+msgid "Language you speak"
+msgstr "Taal die je spreekt"
+
+msgid "Language you speak:"
+msgstr "Taal die je spreekt:"
+
+msgid "Larger"
+msgstr "Groter"
+
+msgid "Light"
+msgstr "Licht"
+
+msgid "Line spacing"
+msgstr "Regelafstand"
+
+msgid "Line spacing:"
+msgstr "Regelafstand:"
+
+msgid "Listening · On this device"
+msgstr "Luisteren · Op dit apparaat"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Lokale spraakherkenning is niet geïnstalleerd. Open Lokale spraak instellen om een begeleidende dienst en taalmodel te installeren."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Lokale spraakherkenning is niet beschikbaar. Open Lokale spraak instellen om de begeleidende dienst en een taalmodel te installeren."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Lokale spraakherkenning volgt wat je zegt."
+
+msgid "Local speech setup"
+msgstr "Lokale spraak instellen"
+
+msgid "Local speech setup ↗"
+msgstr "Lokale spraak instellen ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Lokale spraakherkenning niet beschikbaar. %s Zie docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Handmatig"
+
+msgid "Manual · Microphone off"
+msgstr "Handmatig · Microfoon uit"
+
+msgid "Microphone stopped"
+msgstr "Microfoon gestopt"
+
+msgid "Mirror"
+msgstr "Spiegelen"
+
+msgid "Mirror:"
+msgstr "Spiegelen:"
+
+msgid "More"
+msgstr "Meer"
+
+msgid "Next section"
+msgstr "Volgende sectie"
+
+msgid "Next words"
+msgstr "Volgende woorden"
+
+msgid "Normal"
+msgstr "Normaal"
+
+msgid "Off"
+msgstr "Uit"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Buiten de spreektekst · Kalipso sluit weer aan wanneer je terugkeert naar de tekst"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Open Spreektekst bewerken om de volledige spreektekst te lezen of te wijzigen."
+
+msgid "Pause"
+msgstr "Pauzeren"
+
+msgid "Paused · Microphone off"
+msgstr "Gepauzeerd · Microfoon uit"
+
+msgid "Previous"
+msgstr "Vorige"
+
+msgid "Previous section"
+msgstr "Vorige sectie"
+
+msgid "Reader colors"
+msgstr "Kleuren van het leesvenster"
+
+msgid "Reader colors:"
+msgstr "Kleuren van het leesvenster:"
+
+msgid "Reader font"
+msgstr "Leeslettertype"
+
+msgid "Reading"
+msgstr "Lezen"
+
+msgid "Reading excerpt"
+msgstr "Leesfragment"
+
+msgid "Reading mode"
+msgstr "Leesmodus"
+
+msgid "Reading mode:"
+msgstr "Leesmodus:"
+
+msgid "Reading mode: %1"
+msgstr "Leesmodus: %1"
+
+msgid "Reading progress"
+msgstr "Leesvoortgang"
+
+msgid "Reading size"
+msgstr "Leesgrootte"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Klaar om te luisteren in het %1, met %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Klaar om te luisteren in het %1. Kies Volg mijn stem en begin met luisteren."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Klaar om te luisteren in het %s, met %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Klaar om te luisteren in het %s. Kies Volg mijn stem en begin met luisteren."
+
+msgid "Relaxed"
+msgstr "Ruim"
+
+msgid "Reset"
+msgstr "Herstellen"
+
+msgid "SCRIPT"
+msgstr "SPREEKTEKST"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Automatisch opgeslagen. [Aanwijzingen tussen haken] worden getoond maar niet hardop gelezen. Regels die met # beginnen zijn secties."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Schermkleuren zijn niet beschikbaar. Het ondoorzichtige leesvenster behoudt zijn contrast."
+
+msgid "Script"
+msgstr "Spreektekst"
+
+msgid "Script: %1"
+msgstr "Spreektekst: %1"
+
+msgid "Scripts"
+msgstr "Spreekteksten"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Spreekteksten schrijf en bewerk je in de Kalipso-app; hier lees je ze."
+
+msgid "Scrolling · Microphone off"
+msgstr "Scrollen · Microfoon uit"
+
+msgid "Section ›"
+msgstr "Sectie ›"
+
+msgid "Sections"
+msgstr "Secties"
+
+msgid "Serif"
+msgstr "Met schreef"
+
+msgid "Settings"
+msgstr "Instellingen"
+
+msgid "Slower"
+msgstr "Langzamer"
+
+msgid "Smaller"
+msgstr "Kleiner"
+
+msgid "Spanish"
+msgstr "Spaans"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Spraakherkenning niet beschikbaar · Kalipso instellen → Stem"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Spraakherkenning niet beschikbaar · Instellingen openen"
+
+msgid "Start"
+msgstr "Starten"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Start over %1 seconde…"
+msgstr[1] "Start over %1 seconden…"
+
+msgid "Starting local speech…"
+msgstr "Lokale spraakherkenning starten…"
+
+msgid "Steady speed"
+msgstr "Vaste snelheid"
+
+msgid "Steady speed:"
+msgstr "Vaste snelheid:"
+
+msgid "Stop following the window"
+msgstr "Venster niet meer volgen"
+
+msgid "Text size:"
+msgstr "Tekstgrootte:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "De download van %1 kwam niet overeen met de vingerafdruk en is verwijderd. Probeer het later opnieuw."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Het model %1 kon niet worden uitgepakt. Probeer het later opnieuw."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "De download van %s kwam niet overeen met de vingerafdruk en is verwijderd. Probeer het later opnieuw."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Het model %s kon niet worden uitgepakt. Probeer het later opnieuw."
+
+msgid "The microphone turns on when you start"
+msgstr "De microfoon gaat aan wanneer je start"
+
+msgid "The words advance at the speed below."
+msgstr "De woorden gaan verder op de onderstaande snelheid."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Deze begeleidende dienst van Kalipso kan geen talen downloaden. Installeer of werk deze bij en meld je daarna af en weer aan."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Kies De kleuren van een venster volgen… in het ⋯-menu van het leesvenster om de kleuren van een achterliggend venster over te nemen."
+
+msgid "Try again"
+msgstr "Opnieuw proberen"
+
+msgid "Use this language"
+msgstr "Deze taal gebruiken"
+
+msgid "Vertical"
+msgstr "Verticaal"
+
+msgid "Voice"
+msgstr "Stem"
+
+msgid "Wide"
+msgstr "Breed"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Vensterkleuren niet beschikbaar. Installeer of werk de begeleidende dienst van Kalipso en het portaal voor bureaublad delen bij."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Vensterdelen gestopt · Kies een achtergrondvenster om verder te gaan"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Je springt verder met toetsen, een pedaal of een presentatieklikker."
+
+msgid "your language"
+msgstr "je taal"
+
+msgid "‹ Section"
+msgstr "‹ Sectie"

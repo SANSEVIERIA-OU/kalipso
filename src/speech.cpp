@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include "speech.h"
 #include "session_stats.h"
 #include "spoken_words.h"
@@ -84,10 +84,23 @@ void SpeechWorker::setVocabulary(const QStringList &words) {
 }
 
 void SpeechWorker::applyVocabulary() {
-    if (!recognizer_ || !setGrammar_ || !findWord_ || vocabulary_ == applied_)
+    if (!recognizer_ || !findWord_ || vocabulary_ == applied_)
         return;
     const auto words = grammar();
-    setGrammar_(recognizer_, words.constData());
+    if (setGrammar_) {
+        setGrammar_(recognizer_, words.constData());
+    } else {
+        // The official macOS 0.3.42 runtime can create a script grammar but cannot change one.
+        // This is called only between utterances: replace the recognizer without losing live speech.
+        auto *replacement = words == "[]" ? recognizerNew_(model_, float(kSampleRate))
+                                          : recognizerNewGrammar_(model_, float(kSampleRate), words.constData());
+        if (!replacement) {
+            emit error(generation_, tr("Not enough resources to start speech recognition."));
+            return;
+        }
+        recognizerFree_(recognizer_);
+        recognizer_ = replacement;
+    }
     applied_ = vocabulary_;
     emit guided(words != "[]", generation_);
 }
@@ -142,8 +155,8 @@ bool SpeechWorker::loadVosk(const SpeechRequest &request, quint64 generation) {
     if (auto setLogLevel = reinterpret_cast<void (*)(int)>(vosk_.resolve("vosk_set_log_level")))
         setLogLevel(-1);
     // Without these, Vosk hears any word of the language, as before 0.3.42.
-    if (!(resolve(findWord_, "vosk_model_find_word") & resolve(recognizerNewGrammar_, "vosk_recognizer_new_grm") &
-          resolve(setGrammar_, "vosk_recognizer_set_grm")))
+    resolve(setGrammar_, "vosk_recognizer_set_grm");
+    if (!(resolve(findWord_, "vosk_model_find_word") & resolve(recognizerNewGrammar_, "vosk_recognizer_new_grm")))
         findWord_ = nullptr;
     model_ = modelNew_(request.model.toUtf8().constData());
     if (!current(generation)) {

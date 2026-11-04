@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Speech model downloads against a server on this computer: what is kept, and what is refused.
 #include "speech_download.h"
 #include <QCryptographicHash>
@@ -134,6 +134,9 @@ QStringList filesUnder(const QString &root) {
 class DownloadTests : public QObject {
     Q_OBJECT
 
+    QString runtimeDirectory() const {
+        return "runtimes/vosk-9.9" + (speechPlatform() == "linux-x86_64" ? QString() : "-" + speechPlatform());
+    }
     QByteArray runtime_ = zip({{"vosk/libvosk.so", "native library"}, {"vosk/__init__.py", "python"}});
     QByteArray model_ = zip({{"vosk-model-small-xx-1/am/final.mdl", "acoustic model"},
                              {"vosk-model-small-xx-1/conf/mfcc.conf", "features"},
@@ -145,7 +148,7 @@ class DownloadTests : public QObject {
         server.files["/runtime.whl"] = runtime;
         server.files["/model.zip"] = model;
         server.files["/moon/encoder.ort"] = "encoder";
-        return QJsonObject{
+        auto result = QJsonObject{
             {"vosk",
              QJsonObject{
                  {"version", "9.9"},
@@ -159,6 +162,10 @@ class DownloadTests : public QObject {
                                                            {"sha256", modelHash.isEmpty() ? sha(model) : modelHash},
                                                            {"bytes", model.size()},
                                                            {"license", "Apache-2.0"}}}}}}}};
+        auto engine = result.value("vosk").toObject();
+        const auto models = engine.take("models");
+        result.insert("vosk", QJsonObject{{"models", models}, {"runtimes", QJsonObject{{speechPlatform(), engine}}}});
+        return result;
     }
 
     struct Run {
@@ -198,14 +205,14 @@ private slots:
         const auto result = run(download, "vosk", "xx");
         QCOMPARE(result.error, SpeechDownload::Error::None);
         QCOMPARE(result.finished.value(0).toString(), QString("vosk"));
-        QCOMPARE(result.finished.value(1).toString(), root.path() + "/runtimes/vosk-9.9/vosk/libvosk.so");
+        QCOMPARE(result.finished.value(1).toString(), root.path() + "/" + runtimeDirectory() + "/vosk/libvosk.so");
         QCOMPARE(result.finished.value(2).toString(), root.path() + "/models/vosk/vosk-model-small-xx-1");
         const auto files = filesUnder(root.path());
         // The Python package is not kept; the native library, its notices and sources are.
-        QVERIFY(files.contains("runtimes/vosk-9.9/vosk/libvosk.so"));
-        QVERIFY(!files.contains("runtimes/vosk-9.9/vosk/__init__.py"));
-        QVERIFY(files.contains("runtimes/vosk-9.9/source.json"));
-        QVERIFY(files.contains("runtimes/vosk-9.9/notices/vosk-0.3.50-COPYING"));
+        QVERIFY(files.contains(runtimeDirectory() + "/vosk/libvosk.so"));
+        QVERIFY(!files.contains(runtimeDirectory() + "/vosk/__init__.py"));
+        QVERIFY(files.contains(runtimeDirectory() + "/source.json"));
+        QVERIFY(files.contains(runtimeDirectory() + "/notices/vosk-0.3.50-COPYING"));
         QVERIFY(files.contains("models/vosk/vosk-model-small-xx-1/am/final.mdl"));
         QVERIFY(files.contains("models/vosk/vosk-model-small-xx-1/kalipso-source.json"));
         for (const auto &file : files)
@@ -258,7 +265,9 @@ private slots:
         SpeechDownload download;
         auto source = catalog(server, runtime_, model_);
         auto vosk = source["vosk"].toObject();
-        vosk["bytes"] = runtime_.size() - 10;
+        auto runtime = SpeechCatalog::runtimeFor("vosk", source);
+        runtime["bytes"] = runtime_.size() - 10;
+        vosk["runtimes"] = QJsonObject{{speechPlatform(), runtime}};
         source["vosk"] = vosk;
         download.setCatalog(source);
         download.setRoot(root.path());
@@ -294,7 +303,9 @@ private slots:
         SpeechDownload download;
         auto source = catalog(server, runtime_, model_);
         auto vosk = source["vosk"].toObject();
-        vosk["url"] = "http://example.com/runtime.whl";
+        auto runtime = SpeechCatalog::runtimeFor("vosk", source);
+        runtime["url"] = "http://example.com/runtime.whl";
+        vosk["runtimes"] = QJsonObject{{speechPlatform(), runtime}};
         source["vosk"] = vosk;
         download.setCatalog(source);
         download.setRoot(root.path());
@@ -329,6 +340,84 @@ private slots:
                 QVERIFY2(part.bytes > 0, qPrintable(part.url.toString()));
             }
         }
+    }
+
+    void platformsNeverFallBackToAnotherOperatingSystem() {
+        QTemporaryDir root;
+        const auto catalog = SpeechCatalog::builtIn();
+        for (const QString backend : {"vosk", "moonshine"}) {
+            const auto runtimes = catalog.value(backend).toObject().value("runtimes").toObject();
+            for (const auto &platform : runtimes.keys()) {
+                const auto plan =
+                    SpeechCatalog::plan(backend, backend == "vosk" ? "it" : "en", root.path(), catalog, platform);
+                QVERIFY2(plan.valid, qPrintable(platform));
+                QCOMPARE(plan.runtime.value("target").toString(), platform);
+                QVERIFY(plan.runtime.value("nativeFiles").toArray().contains(plan.runtime.value("library")));
+                for (const auto &notice : plan.runtime.value("notices").toArray())
+                    QVERIFY2(QFileInfo::exists(":/speech/notices/" + backend + "/" + notice.toString()),
+                             qPrintable(notice.toString()));
+                if (platform.startsWith("macos"))
+                    QVERIFY(plan.library.endsWith(".dylib") || plan.library.endsWith(".dyld"));
+                else
+                    QVERIFY(plan.library.endsWith(platform.startsWith("windows") ? ".dll" : ".so"));
+                for (const auto &part : plan.parts) {
+                    QCOMPARE(part.url.scheme(), QString("https"));
+                    QCOMPARE(part.sha256.size(), 64);
+                    QVERIFY(part.bytes > 0);
+                }
+            }
+            QVERIFY(!SpeechCatalog::plan(backend, "en", root.path(), catalog, "windows-arm64").valid);
+            QVERIFY(!SpeechCatalog::plan(backend, "en", root.path(), catalog, "unsupported-x86_64").valid);
+        }
+    }
+
+    void missingRuntimeDependencyIsDownloadedAndRepaired() {
+        Server server;
+        QTemporaryDir root;
+        const auto archive = zip({{"vosk/libvosk.so", "native library"}, {"vosk/dependency.dll", "dependency"}});
+        auto source = catalog(server, archive, model_);
+        auto runtime = SpeechCatalog::runtimeFor("vosk", source);
+        runtime["nativeFiles"] = QJsonArray{"vosk/libvosk.so", "vosk/dependency.dll"};
+        auto engine = source["vosk"].toObject();
+        engine["runtimes"] = QJsonObject{{speechPlatform(), runtime}};
+        source["vosk"] = engine;
+        SpeechDownload download;
+        download.setCatalog(source);
+        download.setRoot(root.path());
+        download.allowLocalHttp();
+        QCOMPARE(run(download, "vosk", "xx").error, SpeechDownload::Error::None);
+        const auto installed = SpeechCatalog::plan("vosk", "xx", root.path(), source);
+        QVERIFY(QFile::remove(installed.runtimeDir + "/vosk/dependency.dll"));
+        server.requested.clear();
+        QCOMPARE(SpeechCatalog::plan("vosk", "xx", root.path(), source).parts.size(), 1);
+        QCOMPARE(run(download, "vosk", "xx").error, SpeechDownload::Error::None);
+        QCOMPARE(server.requested, QStringList{"/runtime.whl"});
+        QVERIFY(QFileInfo::exists(installed.runtimeDir + "/vosk/dependency.dll"));
+    }
+
+    void discoveryRejectsARuntimeFromAnotherArchitecture() {
+        QTemporaryDir root;
+        const auto plan = SpeechCatalog::plan("vosk", "it", root.path());
+        QVERIFY(plan.valid);
+        QVERIFY(QDir().mkpath(QFileInfo(plan.library).absolutePath()));
+        QFile library(plan.library);
+        QVERIFY(library.open(QIODevice::WriteOnly));
+        library.close();
+        QFile source(plan.runtimeDir + "/source.json");
+        QVERIFY(source.open(QIODevice::WriteOnly));
+        source.write("{\"target\":\"foreign-architecture\"}");
+        source.close();
+        QVERIFY(installedRuntime(root.path(), "vosk").isEmpty());
+        QVERIFY(source.open(QIODevice::WriteOnly | QIODevice::Truncate));
+        source.write(QJsonDocument(QJsonObject{{"target", speechPlatform()}}).toJson());
+        source.close();
+        QCOMPARE(installedRuntime(root.path(), "vosk"), plan.library);
+        QVERIFY(source.open(QIODevice::WriteOnly | QIODevice::Truncate));
+        source.write(QJsonDocument(QJsonObject{{"target", speechPlatform()},
+                                              {"nativeFiles", QJsonArray{plan.runtime.value("library"),
+                                                                         "missing-dependency"}}}).toJson());
+        source.close();
+        QVERIFY(installedRuntime(root.path(), "vosk").isEmpty());
     }
 };
 

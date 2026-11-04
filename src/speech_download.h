@@ -1,6 +1,7 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #pragma once
 #include "speech_assets.h"
+#include "speech_platform.h"
 #include <QCryptographicHash>
 #include <QFile>
 #include <QJsonObject>
@@ -20,8 +21,10 @@ class QThread;
 // matches, and only the runtime's native files are kept.
 namespace SpeechCatalog {
 const QJsonObject &builtIn();
-// The catalog's runtimes are builds for Linux on x86_64.
+// Only offer downloads when a native runtime exists for this binary's OS and architecture.
 bool downloadsSupported();
+QJsonObject runtimeFor(const QString &backend, const QJsonObject &catalog = builtIn(),
+                       const QString &platform = speechPlatform());
 // Where downloads are installed: <writable data>/kalipso.
 QString writableRoot();
 // Language codes with a model in the catalog, in code order: de, en, es, it, ja, zh.
@@ -30,8 +33,8 @@ QStringList languages(const QJsonObject &catalog = builtIn());
 QString languageName(const QString &code);
 // The engines with a model for the language, Moonshine first: it follows speech more closely.
 QStringList backendsFor(const QString &code, const QJsonObject &catalog = builtIn());
-// An installed model for the language: with the preferred engine if it has one, then Moonshine,
-// then Vosk. An empty backend when none is installed.
+// An installed model for the chosen engine when it supports this language; otherwise Moonshine,
+// then Vosk. An empty backend when that model is not installed.
 InstalledSpeech installedFor(const QString &code, const QString &preferred = {});
 // The engine to download for the language: the preferred one if the catalog has the language for
 // it, otherwise the first of backendsFor().
@@ -52,7 +55,8 @@ struct Plan {
     QList<Part> parts;
     qint64 bytes() const;
 };
-Plan plan(const QString &backend, const QString &code, const QString &root, const QJsonObject &catalog = builtIn());
+Plan plan(const QString &backend, const QString &code, const QString &root, const QJsonObject &catalog = builtIn(),
+          const QString &platform = speechPlatform());
 // The licence of the engine's model for the language, as the catalog names it ("Apache-2.0").
 QString modelLicense(const QString &backend, const QString &code, const QJsonObject &catalog = builtIn());
 // Bytes taken by an installed model's folder.

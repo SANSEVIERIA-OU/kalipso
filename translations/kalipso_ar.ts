@@ -1116,10 +1116,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>تعذر حفظ %1: المساحة الحرة غير كافية، أو مجلد البيانات غير قابل للكتابة.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>ينزّل Kalipso نماذج الكلام على Linux لحواسيب x86_64. اختر «نموذج آخر مثبت يدويًا».</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>أُلغي التنزيل. لم يتغير شيء.</translation>
         </message>

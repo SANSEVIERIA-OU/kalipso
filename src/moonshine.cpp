@@ -1,6 +1,7 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include "moonshine.h"
 #include "../third_party/moonshine/moonshine-c-api.h"
+#include "speech_library.h"
 #include <QElapsedTimer>
 #include <QLibrary>
 #include <QtEndian>
@@ -15,7 +16,7 @@ constexpr uint64_t kHistoryLimit = 256;
 } // namespace
 
 struct MoonshineRecognizer::Impl {
-    QLibrary library;
+    SpeechLibrary library;
     int32_t transcriber = -1;
     int32_t stream = -1;
     double pendingSeconds = 0, lastPassSeconds = 0, audioSeconds = 0;

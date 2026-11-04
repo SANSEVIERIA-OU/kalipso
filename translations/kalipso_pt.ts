@@ -1080,10 +1080,6 @@ Podemos avançar um passo de cada vez. [Pausa] Ouvir com atenção, verificar a 
             <translation>Não foi possível guardar %1: não há espaço livre suficiente ou não é possível escrever na pasta de dados.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>O Kalipso transfere modelos de voz no Linux para computadores x86_64. Escolha Outro modelo instalado manualmente.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Transferência cancelada. Nada foi alterado.</translation>
         </message>

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #include "speech_download.h"
 #include "zip.h"
 #include <QDir>
@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QNetworkProxyFactory>
 #include <QNetworkReply>
+#include <QOperatingSystemVersion>
 #include <QStorageInfo>
 #include <QSysInfo>
 #include <QTemporaryDir>
@@ -74,8 +75,13 @@ Unpacked unpackArchive(const Unpack &job, const std::atomic<bool> &cancelled) {
         if (!zip.contains(name))
             return {Error::Archive, "The archive has no " + name};
     const QString destination = job.parent + "/" + job.target;
-    if (QFileInfo::exists(destination))
-        return {}; // Installed meanwhile, by another Kalipso window: complete() checks it.
+    if (QFileInfo::exists(destination)) {
+        bool complete = true;
+        for (const auto &name : job.only)
+            complete &= QFileInfo(destination + "/" + name).isFile();
+        if (complete)
+            return {}; // Installed meanwhile; complete() also checks the model.
+    }
     if (!QDir().mkpath(job.parent))
         return {Error::Disk, "Cannot create " + job.parent};
     QTemporaryDir staging(job.parent + "/.install-XXXXXX");
@@ -107,8 +113,16 @@ Unpacked unpackArchive(const Unpack &job, const std::atomic<bool> &cancelled) {
     for (auto it = job.extra.cbegin(); it != job.extra.cend(); ++it)
         if (!writeFile(out + "/" + it.key(), it.value()))
             return {Error::Disk, "Cannot write " + it.key()};
-    if (!QDir().rename(out, destination) && !QFileInfo::exists(destination))
+    // Repair a runtime with a missing dependency without mixing old and new native files.
+    const QString previous = staging.path() + "/previous";
+    const bool replacing = QFileInfo::exists(destination);
+    if (replacing && !QDir().rename(destination, previous))
+        return {Error::Disk, "Cannot replace " + destination + ". Stop listening and try again."};
+    if (!QDir().rename(out, destination)) {
+        if (replacing)
+            QDir().rename(previous, destination);
         return {Error::Disk, "Cannot move the files into " + destination};
+    }
     return {};
 }
 } // namespace
@@ -122,18 +136,32 @@ const QJsonObject &builtIn() {
     return catalog;
 }
 
-bool downloadsSupported() {
-#ifdef Q_OS_LINUX
-    return QSysInfo::currentCpuArchitecture() == QLatin1String("x86_64");
-#else
-    return false;
+bool downloadsSupported() { return !runtimeFor("vosk").isEmpty() || !runtimeFor("moonshine").isEmpty(); }
+
+QJsonObject runtimeFor(const QString &backend, const QJsonObject &catalog, const QString &platform) {
+    const auto runtime = catalog.value(backend).toObject().value("runtimes").toObject().value(platform).toObject();
+#ifdef Q_OS_MACOS
+    if (platform == speechPlatform() && runtime.contains("minimumMacOS")) {
+        const auto minimum = runtime.value("minimumMacOS").toString().split('.');
+        if (QOperatingSystemVersion::current() <
+            QOperatingSystemVersion(QOperatingSystemVersion::MacOS, minimum.value(0).toInt(), minimum.value(1).toInt()))
+            return {};
+    }
 #endif
+    return runtime;
 }
 
 QString writableRoot() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kalipso"; }
 
 QString modelLicense(const QString &backend, const QString &code, const QJsonObject &catalog) {
-    return catalog.value(backend).toObject().value("models").toObject().value(code).toObject().value("license").toString();
+    return catalog.value(backend)
+        .toObject()
+        .value("models")
+        .toObject()
+        .value(code)
+        .toObject()
+        .value("license")
+        .toString();
 }
 
 qint64 installedBytes(const QString &directory) {
@@ -159,9 +187,10 @@ bool removeDownloaded(const InstalledSpeech &speech, const QString &root) {
 QStringList languages(const QJsonObject &catalog) {
     QStringList codes;
     for (const QString backend : {"moonshine", "vosk"})
-        for (const auto &code : catalog.value(backend).toObject().value("models").toObject().keys())
-            if (!codes.contains(code))
-                codes.append(code);
+        if (!runtimeFor(backend, catalog).isEmpty())
+            for (const auto &code : catalog.value(backend).toObject().value("models").toObject().keys())
+                if (!codes.contains(code))
+                    codes.append(code);
     codes.sort();
     return codes;
 }
@@ -176,15 +205,18 @@ QString languageName(const QString &code) {
 QStringList backendsFor(const QString &code, const QJsonObject &catalog) {
     QStringList found;
     for (const QString backend : {"moonshine", "vosk"})
-        if (catalog.value(backend).toObject().value("models").toObject().contains(code))
+        if (!runtimeFor(backend, catalog).isEmpty() &&
+            catalog.value(backend).toObject().value("models").toObject().contains(code))
             found.append(backend);
     return found;
 }
 
 InstalledSpeech installedFor(const QString &code, const QString &preferred) {
     QStringList order{"moonshine", "vosk"};
-    if (order.removeAll(preferred))
-        order.prepend(preferred);
+    // An explicit engine choice must not silently select a different installed engine.
+    // Languages it cannot supply (for example Italian in Moonshine) still use the alternative.
+    if (backendsFor(code).contains(preferred))
+        order = {preferred};
     const auto installed = installedSpeech();
     for (const auto &backend : order) {
         // A catalog model first, then any model marked with the language.
@@ -212,26 +244,34 @@ qint64 Plan::bytes() const {
     return sum;
 }
 
-Plan plan(const QString &backend, const QString &code, const QString &root, const QJsonObject &catalog) {
+Plan plan(const QString &backend, const QString &code, const QString &root, const QJsonObject &catalog,
+          const QString &platform) {
     Plan result;
-    const auto runtime = catalog.value(backend).toObject();
-    const auto model = runtime.value("models").toObject().value(code).toObject();
+    auto runtime = runtimeFor(backend, catalog, platform);
+    const auto model = catalog.value(backend).toObject().value("models").toObject().value(code).toObject();
     const auto version = runtime.value("version").toString();
     const auto modelName = model.value("name").toString();
-    if (model.isEmpty() || !plainName(backend + "-" + version) || !plainName(modelName) ||
-        !safeMember(runtime.value("library").toString()))
+    if (runtime.isEmpty() || version.isEmpty() || model.isEmpty() || !plainName(backend + "-" + version) ||
+        !plainName(modelName) || !safeMember(runtime.value("library").toString()))
         return result;
+    runtime.insert("target", platform);
     result.runtime = runtime;
     result.model = model;
     result.modelName = modelName;
     result.runtimeDir = root + "/runtimes/" + backend + "-" + version;
+    // Keep existing Linux installations; distinguish native runtimes in shared/roaming data folders.
+    if (platform != QLatin1String("linux-x86_64"))
+        result.runtimeDir += "-" + platform;
     result.library = result.runtimeDir + "/" + runtime.value("library").toString();
     result.modelDir = root + "/models/" + backend + "/" + modelName;
     const auto part = [](Part::Kind kind, const QJsonObject &source, const QString &url, const QString &name = {}) {
         return Part{kind, QUrl(url), source.value("sha256").toString().toLatin1().toLower(),
                     source.value("bytes").toInteger(), name};
     };
-    if (!QFileInfo(result.library).isFile())
+    bool runtimeComplete = QFileInfo(result.library).isFile();
+    for (const auto &file : runtime.value("nativeFiles").toArray())
+        runtimeComplete &= QFileInfo(result.runtimeDir + "/" + file.toString()).isFile();
+    if (!runtimeComplete)
         result.parts.append(part(Part::Runtime, runtime, runtime.value("url").toString()));
     if (backend == QLatin1String("moonshine")) {
         for (const auto &value : model.value("files").toArray()) {
@@ -313,7 +353,7 @@ void SpeechDownload::begin() {
     if (*cancelled_)
         return fail(Error::Cancelled);
     if (!localHttp_ && !SpeechCatalog::downloadsSupported())
-        return fail(Error::Unsupported, "Kalipso downloads speech models on Linux for x86_64 computers.");
+        return fail(Error::Unsupported, "No speech runtime is catalogued for " + speechPlatform() + ".");
     plan_ = SpeechCatalog::plan(backend_, language_, root(), catalog_);
     if (!plan_.valid)
         return fail(Error::Unsupported, "The catalog has no " + backend_ + " model for " + language_ + ".");
@@ -437,9 +477,12 @@ void SpeechDownload::unpack(const QString &verified) {
         for (const auto &name : plan_.runtime.value("nativeFiles").toArray())
             job.only.append(name.toString());
         // The licences that go with the native libraries, and where they came from.
+        const auto selectedNotices = plan_.runtime.value("notices").toArray();
         QDirIterator notices(":/speech/notices/" + backend_, QDir::Files);
         while (notices.hasNext()) {
             QFile notice(notices.next());
+            if (!selectedNotices.isEmpty() && !selectedNotices.contains(notices.fileName()))
+                continue;
             if (notice.open(QIODevice::ReadOnly))
                 job.extra.insert("notices/" + notices.fileName(), notice.readAll());
         }

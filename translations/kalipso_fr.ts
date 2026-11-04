@@ -1080,10 +1080,6 @@ Nous pouvons avancer une étape à la fois. [Pause] Écoutons attentivement, exa
             <translation>Impossible d’enregistrer %1 : l’espace libre est insuffisant ou le dossier de données n’est pas accessible en écriture.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso télécharge les modèles vocaux sur Linux pour les ordinateurs x86_64. Choisissez Autre modèle installé manuellement.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Téléchargement annulé. Rien n’a été modifié.</translation>
         </message>

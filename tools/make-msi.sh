@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Packs the Windows build into an installer (.msi) on Linux, with msitools' wixl: no Windows needed.
 # The input is the portable folder the "macOS and Windows" workflow builds and tests on Windows (the
 # artifact kalipso-windows-2022, folder kalipso/ with bin/ and share/). The installer puts it in

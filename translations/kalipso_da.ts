@@ -1080,10 +1080,6 @@ Vi kan tage ét skridt ad gangen. [Pause] Lyt opmærksomt, undersøg spørgsmål
             <translation>Kunne ikke gemme %1: der er ikke nok ledig plads, eller der kan ikke skrives i datamappen.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso henter talemodeller på Linux til x86_64-computere. Vælg Anden manuelt installeret model.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Hentning annulleret. Intet blev ændret.</translation>
         </message>

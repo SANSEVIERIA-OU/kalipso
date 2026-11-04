@@ -1089,10 +1089,6 @@ Putem înainta pas cu pas. [Pauză] Să ascultăm cu atenție, să verificăm î
             <translation>Nu s-a putut salva %1: nu există suficient spațiu liber sau dosarul de date nu permite scrierea.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso descarcă modele vocale pe Linux pentru computere x86_64. Alege Alt model instalat manual.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Descărcare anulată. Nu s-a schimbat nimic.</translation>
         </message>

@@ -1080,10 +1080,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
             <translation>Non sono riuscito a salvare %1: lo spazio libero non basta, oppure la cartella dei dati non è scrivibile.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso scarica i modelli vocali su Linux, per i computer x86_64. Scegli Altro modello installato a mano.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Scaricamento annullato. Non è cambiato niente.</translation>
         </message>
