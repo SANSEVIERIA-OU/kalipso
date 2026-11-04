@@ -15,6 +15,9 @@ version brings, for the people who use it.
   microphone permission problem when only OneCore speech packs are present.
 - Native Windows and Mac checks download the real engines and exercise recognition and script
   following with generated Italian and English audio.
+- Current original app, companion, website, Plasma widget and KWin script use SANSEVIERIA License 1.0.
+  The GNOME extension keeps its separate AGPL terms; third-party licences and previously valid
+  permissions remain unaffected. See LICENSE and NOTICE for the scope and conditions.
 
 ## 2.9 — 4 November 2026
 

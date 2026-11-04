@@ -869,10 +869,12 @@ private slots:
         QCOMPARE(languages->currentText(), QString("Italiano · ready"));
         // Where it is, how big, and its licence; and the note before any download says where they go.
         QTRY_VERIFY(box->isVisibleTo(settings));
-        QVERIFY2(status->text().contains(QDir::toNativeSeparators(model)), qPrintable(status->text()));
+        // Display paths may contain zero-width breaks between Windows folders; the spelling stays intact.
+        QVERIFY2(QString(status->text()).remove(QChar(0x200b)).contains(QDir::toNativeSeparators(model)),
+                 qPrintable(status->text()));
         QVERIFY(status->text().contains("Apache-2.0"));
         auto *note = window.findChild<QLabel *>("speechDownloadNote");
-        QVERIFY(note->text().contains(QDir::toNativeSeparators(root)));
+        QVERIFY(QString(note->text()).remove(QChar(0x200b)).contains(QDir::toNativeSeparators(root)));
         QVERIFY(note->text().contains("MIT") && note->text().contains("Apache 2.0"));
         const auto answer = [](QMessageBox::StandardButton button) {
             QTimer::singleShot(0, [button] {
