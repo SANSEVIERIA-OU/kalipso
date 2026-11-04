@@ -1,0 +1,49 @@
+KALIPSO — LICENSING NOTICE
+
+Project: Kalipso
+Steward: SANSEVIERIA OÜ
+Original author: Davide Briani; other authors retain their respective rights.
+Official source: https://github.com/SANSEVIERIA-OU/kalipso
+Licensing contact: https://github.com/SANSEVIERIA-OU/kalipso/issues
+
+The original application, companion, Plasma widget, KWin script, website and
+shared supporting code in this source revision use SANSEVIERIA License 1.0,
+except for the GNOME component and other separately licensed material below. The complete, unchanged licence is supplied as LICENSE and as
+LICENSES/LicenseRef-SANSEVIERIA-1.0.txt. LicenseRef-SANSEVIERIA-1.0 is a local
+identifier for this custom licence, not an OSI approval or SPDX-list entry.
+This licence applies to the copies and revisions expressly offered under it.
+The rights holder may also offer an earlier software version under these terms.
+No provision revokes any valid permissions previously granted under another
+licence, if such permissions were granted. A version number alone does not
+determine the licence of every copy of that version.
+
+Separately licensed components remain under their existing terms:
+- desktop/gnome/, including its own module and translation snapshots:
+  AGPL-3.0-or-later; see desktop/gnome/LICENSE. This compatibility question is
+  separate from ownership of the original application. No AGPL permission for
+  new shared code is created by building or exporting the GNOME package.
+- Third-party code, Unicode data, fonts and other separately marked material:
+  their own terms; see THIRD_PARTY_NOTICES.md and accompanying notices.
+- AppStream metadata: CC0-1.0, as marked in its metadata_license field.
+
+These component-specific licences do not grant an alternative AGPL licence for
+new application code released solely under SANSEVIERIA License 1.0. Existing
+copyright, licence and attribution notices must be preserved. No copyright
+assignment to the Steward is implied by this notice.
+
+Corresponding source is this version's complete source tree, including build
+instructions in README.md, CONTRIBUTING.md and docs/install.md and required
+scripts, templates and dependency information. When distributing a binary or
+providing external network use, supply the matching source or maintain the
+source offer required by section 5; a moving branch URL alone is not a substitute
+for identifying and retaining the matching source revision.
+
+Qt and other LGPL libraries keep their own licences. Nothing in the application
+terms prevents replacing a dynamically linked LGPL library with an interface-
+compatible modified version or reverse engineering the combined work for
+debugging modifications to that library. Library distributors remain responsible
+for applicable notices, source delivery and installation-information obligations.
+
+Commercial authorizations must satisfy section 7 of LICENSE. This notice is not
+such an authorization. Contributions to covered application code require the
+express assent described in CONTRIBUTING.md.

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Every screen in every combination: the one window large (writing) and small (the teleprompter),
 // the scripts open and closed, each reading mode idle and running, light and dark, interface text at 100% and 200%,
 // wide and narrow, and every Settings page. Each state is checked for what breaks a layout (controls overlapping or

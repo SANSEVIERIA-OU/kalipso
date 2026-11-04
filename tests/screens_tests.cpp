@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // The window under the camera with two monitors (the offscreen platform, configured with
 // tests/fixtures/two-screens.json): when the reader's monitor goes away, it comes back onto the one
 // that is left.

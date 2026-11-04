@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Voice following, end to end, as the app does it: recorded speech goes through the real speech
 // worker (Vosk or Moonshine) and its transcripts through the real ScriptTracker, at recording time.
 //

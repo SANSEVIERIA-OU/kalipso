@@ -9,7 +9,7 @@ pkgrel=1
 pkgdesc='Teleprompter that keeps your place: follows your voice on your computer, scrolls at a steady pace or waits for your pedal'
 arch=('x86_64')
 url='https://sansevieria-ou.github.io/kalipso/'
-license=('AGPL-3.0-or-later')
+license=('LicenseRef-SANSEVIERIA-1.0' 'AGPL-3.0-or-later')
 # pipewire: pw-record captures the microphone.
 depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libpipewire' 'libstdc++' 'pipewire' 'qt6-base' 'qt6-svg')
 makedepends=('cmake' 'ninja' 'python' 'qt6-tools')

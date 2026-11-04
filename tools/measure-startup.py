@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """How long Kalipso takes to start: from launching the program until its window is up and its event
 loop runs (`--demo --quit-after 1` quits at the first turn of the loop), over several runs, with a
 private profile. Reports the median (p50) and the 95th percentile (p95) in milliseconds as JSON.

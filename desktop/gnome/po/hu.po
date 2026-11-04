@@ -1,0 +1,462 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: hu\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(((n == 1)) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 letöltve. Válaszd ki újra, miután leállítottad a figyelést."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 másodperc"
+msgstr[1] "%1 másodperc"
+
+msgid "%1 words/min"
+msgstr "%1 szó/perc"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 perc"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · %2 MB letöltése"
+
+msgid "%d words/min"
+msgstr "%d szó/perc"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s letöltve. Válaszd ki újra, miután leállítottad a figyelést."
+
+msgid "%s · %d min"
+msgstr "%s · %d perc"
+
+msgid "%s · download %d MB"
+msgstr "%s · %d MB letöltése"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Egy kis felkészülés teret ad egy jobb beszélgetésnek. [mosoly]\n\nNe siess. Hagyj helyet a szünetnek. A következő szavaid itt lesznek, amikor készen állsz."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Egy kis felkészülés teret ad egy jobb beszélgetésnek. [mosoly] Ne siess. Olvasd fel az első mondatot, és figyeld, ahogy a szavak követnek."
+
+msgid "A script written here"
+msgstr "Itt írt beszédszöveg"
+
+msgid "Add your script to begin."
+msgstr "A kezdéshez add hozzá a beszédszöveged."
+
+msgid "Appearance"
+msgstr "Megjelenés"
+
+msgid "Automatic"
+msgstr "Automatikus"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Az Automatikus mód az olvasófelület körüli színekből vesz mintát. Nem ment képeket."
+
+msgid "Cancel"
+msgstr "Mégse"
+
+msgid "Cancel download"
+msgstr "Letöltés megszakítása"
+
+msgid "Checking and unpacking %1…"
+msgstr "%1 ellenőrzése és kicsomagolása…"
+
+msgid "Checking and unpacking %s…"
+msgstr "%s ellenőrzése és kicsomagolása…"
+
+msgid "Checking local speech components"
+msgstr "Helyi beszédkomponensek ellenőrzése"
+
+msgid "Chinese"
+msgstr "Kínai"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Válassz egy beszédszöveget a Kalipsóból"
+
+msgid "Choose the language you speak."
+msgstr "Válaszd ki a beszélt nyelvet."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Válaszd ki az olvasófelület mögötti ablakot. Az asztali környezet engedélye szükséges."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Válaszd ki az olvasófelület mögötti ablakot az asztali környezet megosztási párbeszédablakában"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "A nyelv kiválasztása egyszer letölti a beszédmodellt a kiadójától, és ellenőrzi az ujjlenyomatát. Ezután a felismerés ezen a számítógépen fut: semmit nem küld el abból, amit mondasz."
+
+msgid "Configure Kalipso…"
+msgstr "Kalipso beállítása…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "%1 letöltése sikertelen. Ellenőrizd az internetkapcsolatot, és próbáld újra."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "%s letöltése sikertelen. Ellenőrizd az internetkapcsolatot, és próbáld újra."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "%1 mentése sikertelen: nincs elég szabad hely, vagy az adatmappa nem írható."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "%s mentése sikertelen: nincs elég szabad hely, vagy az adatmappa nem írható."
+
+msgid "Countdown before steady scrolling"
+msgstr "Visszaszámlálás az egyenletes görgetés előtt"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Visszaszámlálás az egyenletes görgetés előtt:"
+
+msgid "Dark"
+msgstr "Sötét"
+
+msgid "Desktop theme"
+msgstr "Asztali téma"
+
+msgid "Done"
+msgstr "Kész"
+
+msgid "Done editing"
+msgstr "Szerkesztés befejezése"
+
+msgid "Download and use"
+msgstr "Letöltés és használat"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Letöltés megszakítva. Semmi nem változott."
+
+msgid "Download progress"
+msgstr "Letöltés állapota"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "%1 letöltése: %2 / %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "%s letöltése: %d / %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Szerkesztés a Kalipsóban"
+
+msgid "Edit script"
+msgstr "Beszédszöveg szerkesztése"
+
+msgid "End of script · Microphone off"
+msgstr "A beszédszöveg vége · Mikrofon kikapcsolva"
+
+msgid "English"
+msgstr "Angol"
+
+msgid "Faster"
+msgstr "Gyorsabban"
+
+msgid "Follow a window's colors…"
+msgstr "Egy ablak színeinek követése…"
+
+msgid "Follow my voice"
+msgstr "Kövesd a hangomat"
+
+msgid "Font:"
+msgstr "Betűtípus:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Féligáteresztő tükrös súgógépekhez, amelyek tükrön keresztül mutatják az olvasófelületet."
+
+msgid "French"
+msgstr "Francia"
+
+msgid "German"
+msgstr "Német"
+
+msgid "Help:"
+msgstr "Súgó:"
+
+msgid "Hide"
+msgstr "Elrejtés"
+
+msgid "Horizontal"
+msgstr "Vízszintes"
+
+msgid "Interface font"
+msgstr "Felület betűtípusa"
+
+msgid "Italian"
+msgstr "Olasz"
+
+msgid "Japanese"
+msgstr "Japán"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "A Kalipso Linuxon tölt le beszédmodelleket x86_64-számítógépekre."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Billentyűk: a nyilak vagy a Page Up/Down léptetnek, a Szóköz indít vagy szüneteltet, a + és − módosítja az állandó sebességet. Ez a felületi elem megjelenhet képernyőmegosztáskor; ellenőrizd, mit lát a többi résztvevő."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Billentyűk: a nyilak vagy a Page Up/Down léptetnek, a Szóköz indít vagy szüneteltet, a + és − módosítja az állandó sebességet. Az olvasófelület megjelenhet képernyőmegosztáskor; ellenőrizd, mit lát a többi résztvevő."
+
+msgid "Language you speak"
+msgstr "Beszélt nyelv"
+
+msgid "Language you speak:"
+msgstr "Beszélt nyelv:"
+
+msgid "Larger"
+msgstr "Nagyobb"
+
+msgid "Light"
+msgstr "Világos"
+
+msgid "Line spacing"
+msgstr "Sorköz"
+
+msgid "Line spacing:"
+msgstr "Sorköz:"
+
+msgid "Listening · On this device"
+msgstr "Figyelés · Ezen az eszközön"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "A helyi beszédfelismerés nincs telepítve. Nyisd meg a Helyi beszéd beállítása lehetőséget a kiegészítő szolgáltatás és egy nyelvi modell telepítéséhez."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "A helyi beszédfelismerés nem érhető el. Nyisd meg a Helyi beszéd beállítása lehetőséget a kiegészítő szolgáltatás és egy nyelvi modell telepítéséhez."
+
+msgid "Local speech recognition follows what you say."
+msgstr "A helyi beszédfelismerés követi, amit mondasz."
+
+msgid "Local speech setup"
+msgstr "Helyi beszéd beállítása"
+
+msgid "Local speech setup ↗"
+msgstr "Helyi beszéd beállítása ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "A helyi beszédfelismerés nem érhető el. %s Lásd: docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Kézi"
+
+msgid "Manual · Microphone off"
+msgstr "Kézi · Mikrofon kikapcsolva"
+
+msgid "Microphone stopped"
+msgstr "Mikrofon leállítva"
+
+msgid "Mirror"
+msgstr "Tükrözés"
+
+msgid "Mirror:"
+msgstr "Tükrözés:"
+
+msgid "More"
+msgstr "Továbbiak"
+
+msgid "Next section"
+msgstr "Következő szakasz"
+
+msgid "Next words"
+msgstr "Következő szavak"
+
+msgid "Normal"
+msgstr "Normál"
+
+msgid "Off"
+msgstr "Ki"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Eltértél a szövegtől · a Kalipso felzárkózik, amikor visszatérsz a szöveghez"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Nyisd meg a Beszédszöveg szerkesztése lehetőséget a teljes szöveg olvasásához vagy módosításához."
+
+msgid "Pause"
+msgstr "Szünet"
+
+msgid "Paused · Microphone off"
+msgstr "Szüneteltetve · Mikrofon kikapcsolva"
+
+msgid "Previous"
+msgstr "Előző"
+
+msgid "Previous section"
+msgstr "Előző szakasz"
+
+msgid "Reader colors"
+msgstr "Olvasófelület színei"
+
+msgid "Reader colors:"
+msgstr "Olvasófelület színei:"
+
+msgid "Reader font"
+msgstr "Olvasási betűtípus"
+
+msgid "Reading"
+msgstr "Olvasás"
+
+msgid "Reading excerpt"
+msgstr "Olvasási részlet"
+
+msgid "Reading mode"
+msgstr "Olvasási mód"
+
+msgid "Reading mode:"
+msgstr "Olvasási mód:"
+
+msgid "Reading mode: %1"
+msgstr "Olvasási mód: %1"
+
+msgid "Reading progress"
+msgstr "Olvasási előrehaladás"
+
+msgid "Reading size"
+msgstr "Olvasási méret"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Figyelésre kész. Nyelv: %1, motor: %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Figyelésre kész. Nyelv: %1. Válaszd a Kövesd a hangomat lehetőséget, és indítsd el a figyelést."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Figyelésre kész. Nyelv: %s, motor: %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Figyelésre kész. Nyelv: %s. Válaszd a Kövesd a hangomat lehetőséget, és indítsd el a figyelést."
+
+msgid "Relaxed"
+msgstr "Laza"
+
+msgid "Reset"
+msgstr "Visszaállítás"
+
+msgid "SCRIPT"
+msgstr "BESZÉDSZÖVEG"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Automatikusan mentve. A [szögletes zárójelben álló utasítások] megjelennek, de nem kell felolvasni őket. A # jellel kezdődő sorok szakaszok."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "A képernyő színei nem érhetők el. Az átlátszatlan olvasófelület megőrzi a kontrasztját."
+
+msgid "Script"
+msgstr "Beszédszöveg"
+
+msgid "Script: %1"
+msgstr "Beszédszöveg: %1"
+
+msgid "Scripts"
+msgstr "Beszédszövegek"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "A beszédszövegeket a Kalipso alkalmazásban lehet írni és módosítani; itt olvashatók."
+
+msgid "Scrolling · Microphone off"
+msgstr "Görgetés · Mikrofon kikapcsolva"
+
+msgid "Section ›"
+msgstr "Szakasz ›"
+
+msgid "Sections"
+msgstr "Szakaszok"
+
+msgid "Serif"
+msgstr "Talpas"
+
+msgid "Settings"
+msgstr "Beállítások"
+
+msgid "Slower"
+msgstr "Lassabban"
+
+msgid "Smaller"
+msgstr "Kisebb"
+
+msgid "Spanish"
+msgstr "Spanyol"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Beszédfelismerés nem érhető el · Kalipso beállítása → Hang"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Beszédfelismerés nem érhető el · Beállítások megnyitása"
+
+msgid "Start"
+msgstr "Indítás"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Indítás %1 másodperc múlva…"
+msgstr[1] "Indítás %1 másodperc múlva…"
+
+msgid "Starting local speech…"
+msgstr "Helyi beszédfelismerés indítása…"
+
+msgid "Steady speed"
+msgstr "Állandó sebesség"
+
+msgid "Steady speed:"
+msgstr "Állandó sebesség:"
+
+msgid "Stop following the window"
+msgstr "Ablak követésének leállítása"
+
+msgid "Text size:"
+msgstr "Szövegméret:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "A(z) %1 letöltése nem egyezett az ujjlenyomatával, ezért törölve lett. Próbáld újra később."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "A(z) %1 modell nem csomagolható ki. Próbáld újra később."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "A(z) %s letöltése nem egyezett az ujjlenyomatával, ezért törölve lett. Próbáld újra később."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "A(z) %s modell nem csomagolható ki. Próbáld újra később."
+
+msgid "The microphone turns on when you start"
+msgstr "A mikrofon az indításkor bekapcsol"
+
+msgid "The words advance at the speed below."
+msgstr "A szavak az alábbi sebességgel haladnak."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Ez a Kalipso-kiegészítő szolgáltatás nem tud nyelveket letölteni. Telepítsd vagy frissítsd, majd jelentkezz ki és vissza."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Az olvasófelület mögötti ablak színeinek átvételéhez válaszd az Egy ablak színeinek követése… lehetőséget az olvasófelület ⋯ menüjében."
+
+msgid "Try again"
+msgstr "Újrapróbálkozás"
+
+msgid "Use this language"
+msgstr "E nyelv használata"
+
+msgid "Vertical"
+msgstr "Függőleges"
+
+msgid "Voice"
+msgstr "Hang"
+
+msgid "Wide"
+msgstr "Tág"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Az ablak színei nem érhetők el. Telepítsd vagy frissítsd a Kalipso kiegészítő szolgáltatását és az asztali megosztási portált."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Ablakmegosztás leállítva · A folytatáshoz válassz háttérablakot"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Billentyűkkel, pedállal vagy prezentációs távirányítóval léptethetsz."
+
+msgid "your language"
+msgstr "a nyelved"
+
+msgid "‹ Section"
+msgstr "‹ Szakasz"

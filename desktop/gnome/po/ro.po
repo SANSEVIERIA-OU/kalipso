@@ -1,0 +1,464 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: ro\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=3; plural=((((!((0 == 0))) || ((n == 0))) || ((!((n == 1))) && (((n % 100) >= 1 && (n % 100) <= 19)))) ? 1 : (((n == 1)) && ((0 == 0))) ? 0 : 2);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 este descărcat. Alege-l din nou când oprești ascultarea."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 secundă"
+msgstr[1] "%1 secunde"
+msgstr[2] "%1 de secunde"
+
+msgid "%1 words/min"
+msgstr "%1 cuvinte/min"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · descarcă %2 MB"
+
+msgid "%d words/min"
+msgstr "%d cuvinte/min"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s este descărcat. Alege-l din nou când oprești ascultarea."
+
+msgid "%s · %d min"
+msgstr "%s · %d min"
+
+msgid "%s · download %d MB"
+msgstr "%s · descarcă %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Puțină pregătire face loc unei conversații mai bune. [zâmbet]\n\nNu te grăbi. Lasă loc pentru o pauză. Următoarele cuvinte vor fi aici când ești pregătit."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Puțină pregătire face loc unei conversații mai bune. [zâmbet] Nu te grăbi. Citește prima propoziție cu voce tare și privește cum te urmează cuvintele."
+
+msgid "A script written here"
+msgstr "Un text scris aici"
+
+msgid "Add your script to begin."
+msgstr "Adaugă textul pentru a începe."
+
+msgid "Appearance"
+msgstr "Aspect"
+
+msgid "Automatic"
+msgstr "Automat"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Modul automat preia culorile din jurul ferestrei de lectură. Nu se salvează imagini."
+
+msgid "Cancel"
+msgstr "Anulează"
+
+msgid "Cancel download"
+msgstr "Anulează descărcarea"
+
+msgid "Checking and unpacking %1…"
+msgstr "Se verifică și se dezarhivează %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Se verifică și se dezarhivează %s…"
+
+msgid "Checking local speech components"
+msgstr "Se verifică componentele vocale locale"
+
+msgid "Chinese"
+msgstr "Chineză"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Alege unul dintre textele Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Alege limba pe care o vorbești."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Alege fereastra din spatele ferestrei de lectură. Este necesară permisiunea mediului desktop."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Alege fereastra din spatele ferestrei de lectură în dialogul de partajare a desktopului"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Alegerea unei limbi descarcă modelul vocal o singură dată de la editorul său și îl verifică după o amprentă digitală. Recunoașterea rulează apoi pe acest computer: nimic din ce spui nu este trimis."
+
+msgid "Configure Kalipso…"
+msgstr "Configurează Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Nu s-a putut descărca %1. Verifică conexiunea la internet și încearcă din nou."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Nu s-a putut descărca %s. Verifică conexiunea la internet și încearcă din nou."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Nu s-a putut salva %1: nu există suficient spațiu liber sau dosarul de date nu permite scrierea."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Nu s-a putut salva %s: nu există suficient spațiu liber sau dosarul de date nu permite scrierea."
+
+msgid "Countdown before steady scrolling"
+msgstr "Numărătoare inversă înainte de derularea constantă"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Numărătoare inversă înainte de derularea constantă:"
+
+msgid "Dark"
+msgstr "Întunecat"
+
+msgid "Desktop theme"
+msgstr "Tema desktopului"
+
+msgid "Done"
+msgstr "Gata"
+
+msgid "Done editing"
+msgstr "Încheie editarea"
+
+msgid "Download and use"
+msgstr "Descarcă și folosește"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Descărcare anulată. Nu s-a schimbat nimic."
+
+msgid "Download progress"
+msgstr "Progresul descărcării"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Se descarcă %1: %2 din %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Se descarcă %s: %d din %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Editează în Kalipso"
+
+msgid "Edit script"
+msgstr "Editează textul"
+
+msgid "End of script · Microphone off"
+msgstr "Sfârșitul textului · Microfon oprit"
+
+msgid "English"
+msgstr "Engleză"
+
+msgid "Faster"
+msgstr "Mai repede"
+
+msgid "Follow a window's colors…"
+msgstr "Urmărește culorile unei ferestre…"
+
+msgid "Follow my voice"
+msgstr "Urmărește-mi vocea"
+
+msgid "Font:"
+msgstr "Font:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Pentru echipamente cu oglindă semitransparentă, care afișează textul prin reflexie."
+
+msgid "French"
+msgstr "Franceză"
+
+msgid "German"
+msgstr "Germană"
+
+msgid "Help:"
+msgstr "Ajutor:"
+
+msgid "Hide"
+msgstr "Ascunde"
+
+msgid "Horizontal"
+msgstr "Orizontal"
+
+msgid "Interface font"
+msgstr "Fontul interfeței"
+
+msgid "Italian"
+msgstr "Italiană"
+
+msgid "Japanese"
+msgstr "Japoneză"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso descarcă modele vocale pe Linux pentru computere x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Taste: săgețile sau Page Up/Down avansează textul, Space pornește sau pune pauză, + și − schimbă viteza constantă. Partajarea ecranului poate include acest widget; verifică ce văd ceilalți participanți."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Taste: săgețile sau Page Up/Down avansează textul, Space pornește sau pune pauză, + și − schimbă viteza constantă. Fereastra de lectură poate apărea în partajarea ecranului; verifică ce văd ceilalți participanți."
+
+msgid "Language you speak"
+msgstr "Limba pe care o vorbești"
+
+msgid "Language you speak:"
+msgstr "Limba pe care o vorbești:"
+
+msgid "Larger"
+msgstr "Mai mare"
+
+msgid "Light"
+msgstr "Luminos"
+
+msgid "Line spacing"
+msgstr "Spațiere între rânduri"
+
+msgid "Line spacing:"
+msgstr "Spațiere între rânduri:"
+
+msgid "Listening · On this device"
+msgstr "Se ascultă · Pe acest dispozitiv"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Recunoașterea vocală locală nu este instalată. Deschide Configurarea recunoașterii locale pentru a instala programul auxiliar și un model lingvistic."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Recunoașterea vocală locală nu este disponibilă. Deschide Configurarea recunoașterii locale pentru a instala programul auxiliar și un model lingvistic."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Recunoașterea vocală locală urmărește ceea ce spui."
+
+msgid "Local speech setup"
+msgstr "Configurarea recunoașterii locale"
+
+msgid "Local speech setup ↗"
+msgstr "Configurarea recunoașterii locale ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Recunoașterea vocală locală nu este disponibilă. %s Vezi docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Manual"
+
+msgid "Manual · Microphone off"
+msgstr "Manual · Microfon oprit"
+
+msgid "Microphone stopped"
+msgstr "Microfon oprit"
+
+msgid "Mirror"
+msgstr "Oglindește"
+
+msgid "Mirror:"
+msgstr "Oglindire:"
+
+msgid "More"
+msgstr "Mai multe"
+
+msgid "Next section"
+msgstr "Secțiunea următoare"
+
+msgid "Next words"
+msgstr "Cuvintele următoare"
+
+msgid "Normal"
+msgstr "Normală"
+
+msgid "Off"
+msgstr "Oprit"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "În afara textului · Kalipso te ajunge când revii la text"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Deschide Editează textul pentru a citi sau modifica textul complet."
+
+msgid "Pause"
+msgstr "Pauză"
+
+msgid "Paused · Microphone off"
+msgstr "În pauză · Microfon oprit"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Previous section"
+msgstr "Secțiunea anterioară"
+
+msgid "Reader colors"
+msgstr "Culorile ferestrei de lectură"
+
+msgid "Reader colors:"
+msgstr "Culorile ferestrei de lectură:"
+
+msgid "Reader font"
+msgstr "Font de lectură"
+
+msgid "Reading"
+msgstr "Lectură"
+
+msgid "Reading excerpt"
+msgstr "Fragment de lectură"
+
+msgid "Reading mode"
+msgstr "Mod de lectură"
+
+msgid "Reading mode:"
+msgstr "Mod de lectură:"
+
+msgid "Reading mode: %1"
+msgstr "Mod de lectură: %1"
+
+msgid "Reading progress"
+msgstr "Progresul lecturii"
+
+msgid "Reading size"
+msgstr "Dimensiune de lectură"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Pregătit să asculte în %1, cu %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Pregătit să asculte în %1. Alege Urmărește-mi vocea și începe ascultarea."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Pregătit să asculte în %s, cu %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Pregătit să asculte în %s. Alege Urmărește-mi vocea și începe ascultarea."
+
+msgid "Relaxed"
+msgstr "Lejeră"
+
+msgid "Reset"
+msgstr "Resetează"
+
+msgid "SCRIPT"
+msgstr "TEXT"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Se salvează automat. [Indicațiile între paranteze] sunt afișate, dar nu sunt citite cu voce tare. Rândurile care încep cu # sunt secțiuni."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Culorile ecranului nu sunt disponibile. Fereastra opacă de lectură își păstrează contrastul."
+
+msgid "Script"
+msgstr "Text"
+
+msgid "Script: %1"
+msgstr "Text: %1"
+
+msgid "Scripts"
+msgstr "Texte"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Textele sunt scrise și modificate în aplicația Kalipso; aici sunt citite."
+
+msgid "Scrolling · Microphone off"
+msgstr "Derulare · Microfon oprit"
+
+msgid "Section ›"
+msgstr "Secțiune ›"
+
+msgid "Sections"
+msgstr "Secțiuni"
+
+msgid "Serif"
+msgstr "Cu serife"
+
+msgid "Settings"
+msgstr "Setări"
+
+msgid "Slower"
+msgstr "Mai lent"
+
+msgid "Smaller"
+msgstr "Mai mic"
+
+msgid "Spanish"
+msgstr "Spaniolă"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Recunoaștere indisponibilă · Configurează Kalipso → Voce"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Recunoaștere indisponibilă · Deschide Setări"
+
+msgid "Start"
+msgstr "Pornește"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Începe în %1 secundă…"
+msgstr[1] "Începe în %1 secunde…"
+msgstr[2] "Începe în %1 de secunde…"
+
+msgid "Starting local speech…"
+msgstr "Se pornește recunoașterea vocală locală…"
+
+msgid "Steady speed"
+msgstr "Viteză constantă"
+
+msgid "Steady speed:"
+msgstr "Viteză constantă:"
+
+msgid "Stop following the window"
+msgstr "Oprește urmărirea ferestrei"
+
+msgid "Text size:"
+msgstr "Dimensiune text:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Descărcarea %1 nu corespundea amprentei digitale, așa că a fost ștearsă. Încearcă mai târziu."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Modelul %1 nu a putut fi dezarhivat. Încearcă mai târziu."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Descărcarea %s nu corespundea amprentei digitale, așa că a fost ștearsă. Încearcă mai târziu."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Modelul %s nu a putut fi dezarhivat. Încearcă mai târziu."
+
+msgid "The microphone turns on when you start"
+msgstr "Microfonul pornește când începi"
+
+msgid "The words advance at the speed below."
+msgstr "Cuvintele avansează cu viteza de mai jos."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Acest program auxiliar Kalipso nu poate descărca limbi. Instalează-l sau actualizează-l, apoi deconectează-te și conectează-te din nou."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Pentru a prelua culorile unei ferestre din spatele ferestrei de lectură, alege Urmărește culorile unei ferestre… din meniul ⋯."
+
+msgid "Try again"
+msgstr "Încearcă din nou"
+
+msgid "Use this language"
+msgstr "Folosește această limbă"
+
+msgid "Vertical"
+msgstr "Vertical"
+
+msgid "Voice"
+msgstr "Voce"
+
+msgid "Wide"
+msgstr "Largă"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Culorile ferestrei nu sunt disponibile. Instalează sau actualizează programul auxiliar Kalipso și portalul de partajare a desktopului."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Partajarea ferestrei s-a oprit · Alege o fereastră din fundal pentru a relua"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Avansezi cu tastele, o pedală sau o telecomandă pentru prezentări."
+
+msgid "your language"
+msgstr "limba ta"
+
+msgid "‹ Section"
+msgstr "‹ Secțiune"

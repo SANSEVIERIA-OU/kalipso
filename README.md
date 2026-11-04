@@ -1,6 +1,6 @@
 # Kalipso
 
-**A free, open-source desktop teleprompter for Linux, Windows and macOS.** Write or import a script,
+**A free desktop teleprompter with source available for Linux, Windows and macOS.** Write or import a script,
 keep the reader next to your webcam, and advance with your voice, at a steady pace, or with a key,
 pedal or phone. Speech recognition runs on your computer.
 
@@ -162,6 +162,17 @@ reproduce in [Issues](https://github.com/SANSEVIERIA-OU/kalipso/issues). Release
 
 ## License
 
-Kalipso is **AGPL-3.0-or-later**: free to use, study, modify and redistribute under that license.
-See [LICENSE](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md) and bundled font licenses.
-AppStream metadata is CC0-1.0. Kalipso is an independent project, not affiliated with KDE or GNOME.
+The current original application, companion, Plasma widget, KWin script and website
+use **SANSEVIERIA License 1.0**, with the component exceptions identified below.
+It permits free use, modification and compliant forks, with source reciprocity; the commercial
+offerings defined in the licence require written authorization from SANSEVIERIA OÜ.
+This is a source-available licence, not an OSI-approved open-source licence.
+
+The rights holder may offer earlier versions under this licence too. Any permissions already
+validly granted on copies under other terms remain unaffected; a version number alone does not
+fix the licence of every copy. The GNOME extension currently retains its separate AGPL terms,
+including its own module and translation snapshots. This is not an AGPL alternative for the
+application, website, Plasma widget or shared code.
+See [LICENSE](LICENSE), the exact [scope and release notice](NOTICE),
+[third-party notices](THIRD_PARTY_NOTICES.md), and bundled font licences.
+AppStream metadata remains CC0-1.0. Kalipso is independent of KDE and GNOME.

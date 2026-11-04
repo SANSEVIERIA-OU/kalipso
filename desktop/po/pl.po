@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Generated from translations/catalogs; native-speaker review status: translations/locales.json.
 msgid ""
 msgstr "Project-Id-Version: kalipso-desktop\nLanguage: pl\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=4; plural=(((((0 == 0)) && (((n % 10) >= 2 && (n % 10) <= 4))) && (!(((n % 100) >= 12 && (n % 100) <= 14)))) ? 1 : ((((((0 == 0)) && (!((n == 1)))) && (((n % 10) >= 0 && (n % 10) <= 1))) || (((0 == 0)) && (((n % 10) >= 5 && (n % 10) <= 9)))) || (((0 == 0)) && (((n % 100) >= 12 && (n % 100) <= 14)))) ? 2 : (((n == 1)) && ((0 == 0))) ? 0 : 3);\n"

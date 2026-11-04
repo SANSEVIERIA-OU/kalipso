@@ -1,0 +1,462 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: sw\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 imepakuliwa. Ichague tena baada ya kusimamisha kusikiliza."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "sekunde %1"
+msgstr[1] "sekunde %1"
+
+msgid "%1 words/min"
+msgstr "maneno %1/dakika"
+
+msgid "%1 · %2 min"
+msgstr "%1 · dakika %2"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · pakua MB %2"
+
+msgid "%d words/min"
+msgstr "maneno %d/dakika"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s imepakuliwa. Ichague tena baada ya kusimamisha kusikiliza."
+
+msgid "%s · %d min"
+msgstr "%s · dakika %d"
+
+msgid "%s · download %d MB"
+msgstr "%s · pakua MB %d"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Maandalizi kidogo hutoa nafasi kwa mazungumzo bora. [tabasamu]\n\nUsiharakishe. Acha nafasi ya kupumzika. Maneno yako yanayofuata yatakuwa hapa ukiwa tayari."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Maandalizi kidogo hutoa nafasi kwa mazungumzo bora. [tabasamu] Usiharakishe. Soma sentensi ya kwanza kwa sauti na uone maneno yakikufuata."
+
+msgid "A script written here"
+msgstr "Hati iliyoandikwa hapa"
+
+msgid "Add your script to begin."
+msgstr "Ongeza hati yako ya hotuba ili kuanza."
+
+msgid "Appearance"
+msgstr "Mwonekano"
+
+msgid "Automatic"
+msgstr "Kiotomatiki"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Hali ya kiotomatiki huchukua sampuli za rangi kuzunguka dirisha la kusoma. Hakuna picha zinazohifadhiwa."
+
+msgid "Cancel"
+msgstr "Ghairi"
+
+msgid "Cancel download"
+msgstr "Ghairi upakuaji"
+
+msgid "Checking and unpacking %1…"
+msgstr "Inahakiki na kufungua %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Inahakiki na kufungua %s…"
+
+msgid "Checking local speech components"
+msgstr "Inakagua vipengele vya sauti vya ndani"
+
+msgid "Chinese"
+msgstr "Kichina"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Chagua mojawapo ya hati za Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Chagua lugha unayozungumza."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Chagua dirisha lililo nyuma ya dirisha la kusoma. Ruhusa ya mazingira ya eneo-kazi inahitajika."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Chagua dirisha lililo nyuma ya dirisha lako la kusoma katika kisanduku cha kushiriki eneo-kazi"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Kuchagua lugha hupakua modeli yake ya sauti mara moja kutoka kwa mchapishaji wake na kuihakiki kwa alama ya kidijitali. Kisha utambuzi hufanya kazi kwenye kompyuta hii: hakuna unachosema kinachotumwa."
+
+msgid "Configure Kalipso…"
+msgstr "Sanidi Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Haikuweza kupakua %1. Kagua muunganisho wa intaneti na ujaribu tena."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Haikuweza kupakua %s. Kagua muunganisho wa intaneti na ujaribu tena."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Haikuweza kuhifadhi %1: hakuna nafasi ya kutosha, au folda ya data hairuhusu kuandika."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Haikuweza kuhifadhi %s: hakuna nafasi ya kutosha, au folda ya data hairuhusu kuandika."
+
+msgid "Countdown before steady scrolling"
+msgstr "Kuhesabu kurudi nyuma kabla ya kusogeza kwa kasi thabiti"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Kuhesabu kurudi nyuma kabla ya kusogeza kwa kasi thabiti:"
+
+msgid "Dark"
+msgstr "Nyeusi"
+
+msgid "Desktop theme"
+msgstr "Mandhari ya eneo-kazi"
+
+msgid "Done"
+msgstr "Imekamilika"
+
+msgid "Done editing"
+msgstr "Maliza kuhariri"
+
+msgid "Download and use"
+msgstr "Pakua na utumie"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Upakuaji umeghairiwa. Hakuna kilichobadilishwa."
+
+msgid "Download progress"
+msgstr "Maendeleo ya upakuaji"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Inapakua %1: MB %2 kati ya %3"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Inapakua %s: MB %d kati ya %d"
+
+msgid "Edit in Kalipso"
+msgstr "Hariri katika Kalipso"
+
+msgid "Edit script"
+msgstr "Hariri hati ya hotuba"
+
+msgid "End of script · Microphone off"
+msgstr "Mwisho wa hati ya hotuba · Maikrofoni imezimwa"
+
+msgid "English"
+msgstr "Kiingereza"
+
+msgid "Faster"
+msgstr "Haraka zaidi"
+
+msgid "Follow a window's colors…"
+msgstr "Fuata rangi za dirisha…"
+
+msgid "Follow my voice"
+msgstr "Fuata sauti yangu"
+
+msgid "Font:"
+msgstr "Fonti:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Kwa vifaa vyenye kioo kinachopitisha sehemu ya mwanga, vinavyoonyesha maandishi kwa kuakisi."
+
+msgid "French"
+msgstr "Kifaransa"
+
+msgid "German"
+msgstr "Kijerumani"
+
+msgid "Help:"
+msgstr "Msaada:"
+
+msgid "Hide"
+msgstr "Ficha"
+
+msgid "Horizontal"
+msgstr "Mlalo"
+
+msgid "Interface font"
+msgstr "Fonti ya kiolesura"
+
+msgid "Italian"
+msgstr "Kiitaliano"
+
+msgid "Japanese"
+msgstr "Kijapani"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso hupakua modeli za sauti kwenye Linux kwa kompyuta za x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Vitufe: vishale au Page Up/Down husogeza, Space huanza au kusitisha, + na − hubadili kasi thabiti. Ushirikishaji wa skrini unaweza kuonyesha wijeti hii; kagua wanachoona washiriki wengine."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Vitufe: vishale au Page Up/Down husogeza, Space huanza au kusitisha, + na − hubadili kasi thabiti. Dirisha la kusoma linaweza kuonekana katika ushirikishaji wa skrini; kagua wanachoona washiriki wengine."
+
+msgid "Language you speak"
+msgstr "Lugha unayozungumza"
+
+msgid "Language you speak:"
+msgstr "Lugha unayozungumza:"
+
+msgid "Larger"
+msgstr "Kubwa zaidi"
+
+msgid "Light"
+msgstr "Angavu"
+
+msgid "Line spacing"
+msgstr "Nafasi kati ya mistari"
+
+msgid "Line spacing:"
+msgstr "Nafasi kati ya mistari:"
+
+msgid "Listening · On this device"
+msgstr "Inasikiliza · Kwenye kifaa hiki"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Utambuzi wa sauti wa ndani haujasakinishwa. Fungua Usanidi wa sauti ya ndani ili kusakinisha programu saidizi na modeli ya lugha."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Utambuzi wa sauti wa ndani haupatikani. Fungua Usanidi wa sauti ya ndani ili kusakinisha programu saidizi na modeli ya lugha."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Utambuzi wa sauti wa ndani hufuata unachosema."
+
+msgid "Local speech setup"
+msgstr "Usanidi wa sauti ya ndani"
+
+msgid "Local speech setup ↗"
+msgstr "Usanidi wa sauti ya ndani ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Utambuzi wa sauti wa ndani haupatikani. %s Angalia docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Kwa mkono"
+
+msgid "Manual · Microphone off"
+msgstr "Kwa mkono · Maikrofoni imezimwa"
+
+msgid "Microphone stopped"
+msgstr "Maikrofoni imesimamishwa"
+
+msgid "Mirror"
+msgstr "Akisi"
+
+msgid "Mirror:"
+msgstr "Uakisi:"
+
+msgid "More"
+msgstr "Zaidi"
+
+msgid "Next section"
+msgstr "Sehemu inayofuata"
+
+msgid "Next words"
+msgstr "Maneno yanayofuata"
+
+msgid "Normal"
+msgstr "Kawaida"
+
+msgid "Off"
+msgstr "Imezimwa"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Nje ya hati · Kalipso itakufikia utakaporudi kwenye maandishi"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Fungua Hariri hati ya hotuba ili kusoma au kubadili hati nzima."
+
+msgid "Pause"
+msgstr "Sitisha"
+
+msgid "Paused · Microphone off"
+msgstr "Imesitishwa · Maikrofoni imezimwa"
+
+msgid "Previous"
+msgstr "Iliyotangulia"
+
+msgid "Previous section"
+msgstr "Sehemu iliyotangulia"
+
+msgid "Reader colors"
+msgstr "Rangi za dirisha la kusoma"
+
+msgid "Reader colors:"
+msgstr "Rangi za dirisha la kusoma:"
+
+msgid "Reader font"
+msgstr "Fonti ya kusoma"
+
+msgid "Reading"
+msgstr "Usomaji"
+
+msgid "Reading excerpt"
+msgstr "Kipande cha kusoma"
+
+msgid "Reading mode"
+msgstr "Hali ya usomaji"
+
+msgid "Reading mode:"
+msgstr "Hali ya usomaji:"
+
+msgid "Reading mode: %1"
+msgstr "Hali ya usomaji: %1"
+
+msgid "Reading progress"
+msgstr "Maendeleo ya usomaji"
+
+msgid "Reading size"
+msgstr "Ukubwa wa kusoma"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Tayari kusikiliza kwa %1, kwa kutumia %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Tayari kusikiliza kwa %1. Chagua Fuata sauti yangu na uanze kusikiliza."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Tayari kusikiliza kwa %s, kwa kutumia %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Tayari kusikiliza kwa %s. Chagua Fuata sauti yangu na uanze kusikiliza."
+
+msgid "Relaxed"
+msgstr "Nafasi zaidi"
+
+msgid "Reset"
+msgstr "Weka upya"
+
+msgid "SCRIPT"
+msgstr "HATI YA HOTUBA"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Huhifadhiwa kiotomatiki. [Vidokezo kwenye mabano] huonyeshwa lakini havisomwi kwa sauti. Mistari inayoanza na # ni sehemu."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Rangi za skrini hazipatikani. Dirisha la kusoma lisilo wazi huhifadhi utofauti wake."
+
+msgid "Script"
+msgstr "Hati ya hotuba"
+
+msgid "Script: %1"
+msgstr "Hati ya hotuba: %1"
+
+msgid "Scripts"
+msgstr "Hati za hotuba"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Hati za hotuba huandikwa na kubadilishwa kwenye programu ya Kalipso; hapa husomwa."
+
+msgid "Scrolling · Microphone off"
+msgstr "Inasogeza · Maikrofoni imezimwa"
+
+msgid "Section ›"
+msgstr "Sehemu ›"
+
+msgid "Sections"
+msgstr "Sehemu"
+
+msgid "Serif"
+msgstr "Yenye serifi"
+
+msgid "Settings"
+msgstr "Mipangilio"
+
+msgid "Slower"
+msgstr "Polepole zaidi"
+
+msgid "Smaller"
+msgstr "Ndogo zaidi"
+
+msgid "Spanish"
+msgstr "Kihispania"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Sauti haipatikani · Sanidi Kalipso → Sauti"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Sauti haipatikani · Fungua Mipangilio"
+
+msgid "Start"
+msgstr "Anza"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Inaanza baada ya sekunde %1…"
+msgstr[1] "Inaanza baada ya sekunde %1…"
+
+msgid "Starting local speech…"
+msgstr "Inaanzisha utambuzi wa sauti wa ndani…"
+
+msgid "Steady speed"
+msgstr "Kasi thabiti"
+
+msgid "Steady speed:"
+msgstr "Kasi thabiti:"
+
+msgid "Stop following the window"
+msgstr "Acha kufuata dirisha"
+
+msgid "Text size:"
+msgstr "Ukubwa wa maandishi:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%1 iliyopakuliwa haikulingana na alama yake ya kidijitali, kwa hiyo ilifutwa. Jaribu tena baadaye."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Modeli ya %1 haikuweza kufunguliwa kutoka kwenye kifurushi. Jaribu tena baadaye."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%s iliyopakuliwa haikulingana na alama yake ya kidijitali, kwa hiyo ilifutwa. Jaribu tena baadaye."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Modeli ya %s haikuweza kufunguliwa kutoka kwenye kifurushi. Jaribu tena baadaye."
+
+msgid "The microphone turns on when you start"
+msgstr "Maikrofoni huwashwa unapoanza"
+
+msgid "The words advance at the speed below."
+msgstr "Maneno husogea kwa kasi iliyo hapa chini."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Programu hii saidizi ya Kalipso haiwezi kupakua lugha. Isakinishe au isasishe, kisha uondoke kwenye kipindi na uingie tena."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Ili kuchukua rangi za dirisha lililo nyuma ya dirisha la kusoma, chagua Fuata rangi za dirisha… katika menyu yake ya ⋯."
+
+msgid "Try again"
+msgstr "Jaribu tena"
+
+msgid "Use this language"
+msgstr "Tumia lugha hii"
+
+msgid "Vertical"
+msgstr "Wima"
+
+msgid "Voice"
+msgstr "Sauti"
+
+msgid "Wide"
+msgstr "Pana"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Rangi za dirisha hazipatikani. Sakinisha au sasisha programu saidizi ya Kalipso na lango la kushiriki eneo-kazi."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Ushirikishaji wa dirisha umesimamishwa · Chagua dirisha la nyuma ili kuendelea"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Unasogeza kwa vitufe, pedali au kidhibiti cha wasilisho."
+
+msgid "your language"
+msgstr "lugha yako"
+
+msgid "‹ Section"
+msgstr "‹ Sehemu"

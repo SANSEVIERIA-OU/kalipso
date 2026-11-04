@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Shared source-only tracker for the Plasma widget, the GNOME extension and the
 // website. Mirrors src/tracker.cpp; speech comes from the local companion.
 import {characterKind, tokenize as allWords} from './unicode-tokens.mjs';

@@ -1,0 +1,460 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: zh_CN\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=(0);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 已下载。停止聆听后请再次选择。"
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 秒"
+
+msgid "%1 words/min"
+msgstr "%1 词/分钟"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 分钟"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · 下载 %2 MB"
+
+msgid "%d words/min"
+msgstr "%d 词/分钟"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s 已下载。停止聆听后请再次选择。"
+
+msgid "%s · %d min"
+msgstr "%s · %d 分钟"
+
+msgid "%s · download %d MB"
+msgstr "%s · 下载 %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "一点准备，就能让交流更顺畅。[微笑]\n\n慢慢来。留出停顿的空间。准备好时，接下来要说的话就在这里。"
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "一点准备，就能让交流更顺畅。[微笑] 慢慢来。大声读出第一句话，看看文字怎样跟随您。"
+
+msgid "A script written here"
+msgstr "在这里撰写的讲稿"
+
+msgid "Add your script to begin."
+msgstr "添加讲稿以开始。"
+
+msgid "Appearance"
+msgstr "外观"
+
+msgid "Automatic"
+msgstr "自动"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "自动模式会采样阅读窗周围的颜色。不保存图像。"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Cancel download"
+msgstr "取消下载"
+
+msgid "Checking and unpacking %1…"
+msgstr "正在检查并解压 %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "正在检查并解压 %s…"
+
+msgid "Checking local speech components"
+msgstr "正在检查本地语音组件"
+
+msgid "Chinese"
+msgstr "中文"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "选择 Kalipso 讲稿库中的一篇讲稿"
+
+msgid "Choose the language you speak."
+msgstr "选择您使用的口语语言。"
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "选择阅读窗后方的窗口。需要桌面权限。"
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "请在桌面共享对话框中选择阅读窗后面的窗口"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "选择语言后，会从模型发布者处下载一次语音模型，并对照指纹校验。之后识别在这台电脑上进行：您说的话不会被发送出去。"
+
+msgid "Configure Kalipso…"
+msgstr "配置 Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "无法下载 %1。请检查互联网连接后重试。"
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "无法下载 %s。请检查互联网连接后重试。"
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "无法保存 %1：可用空间不足，或数据文件夹不可写入。"
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "无法保存 %s：可用空间不足，或数据文件夹不可写入。"
+
+msgid "Countdown before steady scrolling"
+msgstr "匀速滚动前倒计时"
+
+msgid "Countdown before steady scrolling:"
+msgstr "匀速滚动前倒计时："
+
+msgid "Dark"
+msgstr "深色"
+
+msgid "Desktop theme"
+msgstr "桌面主题"
+
+msgid "Done"
+msgstr "完成"
+
+msgid "Done editing"
+msgstr "完成编辑"
+
+msgid "Download and use"
+msgstr "下载并使用"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "下载已取消。未作任何更改。"
+
+msgid "Download progress"
+msgstr "下载进度"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "正在下载 %1：%2 / %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "正在下载 %s：%d / %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "在 Kalipso 中编辑"
+
+msgid "Edit script"
+msgstr "编辑讲稿"
+
+msgid "End of script · Microphone off"
+msgstr "讲稿结束 · 麦克风已关闭"
+
+msgid "English"
+msgstr "英语"
+
+msgid "Faster"
+msgstr "加快"
+
+msgid "Follow a window's colors…"
+msgstr "跟随窗口颜色…"
+
+msgid "Follow my voice"
+msgstr "跟随我的声音"
+
+msgid "Font:"
+msgstr "字体："
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "用于通过镜面显示阅读窗的分光提词器。"
+
+msgid "French"
+msgstr "法语"
+
+msgid "German"
+msgstr "德语"
+
+msgid "Help:"
+msgstr "帮助："
+
+msgid "Hide"
+msgstr "隐藏"
+
+msgid "Horizontal"
+msgstr "水平"
+
+msgid "Interface font"
+msgstr "界面字体"
+
+msgid "Italian"
+msgstr "意大利语"
+
+msgid "Japanese"
+msgstr "日语"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso 可在 x86_64 电脑的 Linux 系统上下载语音模型。"
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "按键：方向键或 Page Up/Down 逐步推进，空格开始或暂停，+ 和 − 调节匀速。屏幕共享可能会包含此小组件；请检查其他参与者看到的画面。"
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "按键：方向键或 Page Up/Down 逐步推进，空格开始或暂停，+ 和 − 调节匀速。阅读窗可能出现在屏幕共享中；请检查其他参与者看到的画面。"
+
+msgid "Language you speak"
+msgstr "您使用的口语语言"
+
+msgid "Language you speak:"
+msgstr "您使用的口语语言："
+
+msgid "Larger"
+msgstr "放大"
+
+msgid "Light"
+msgstr "浅色"
+
+msgid "Line spacing"
+msgstr "行距"
+
+msgid "Line spacing:"
+msgstr "行距："
+
+msgid "Listening · On this device"
+msgstr "正在聆听 · 此设备本地"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "未安装本地语音。请打开“本地语音设置”以安装配套组件和语言模型。"
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "本地语音不可用。请打开“本地语音设置”以安装配套组件和语言模型。"
+
+msgid "Local speech recognition follows what you say."
+msgstr "本地语音识别跟随您说的话。"
+
+msgid "Local speech setup"
+msgstr "本地语音设置"
+
+msgid "Local speech setup ↗"
+msgstr "本地语音设置 ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "本地语音不可用。%s 请参阅 docs/local-engine.md。"
+
+msgid "Manual"
+msgstr "手动"
+
+msgid "Manual · Microphone off"
+msgstr "手动 · 麦克风已关闭"
+
+msgid "Microphone stopped"
+msgstr "麦克风已停止"
+
+msgid "Mirror"
+msgstr "镜像"
+
+msgid "Mirror:"
+msgstr "镜像："
+
+msgid "More"
+msgstr "更多"
+
+msgid "Next section"
+msgstr "下一章"
+
+msgid "Next words"
+msgstr "接下来的词"
+
+msgid "Normal"
+msgstr "标准"
+
+msgid "Off"
+msgstr "关闭"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "偏离讲稿 · 回到正文后 Kalipso 会跟上"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "打开“编辑讲稿”以阅读或更改完整讲稿。"
+
+msgid "Pause"
+msgstr "暂停"
+
+msgid "Paused · Microphone off"
+msgstr "已暂停 · 麦克风已关闭"
+
+msgid "Previous"
+msgstr "上一个"
+
+msgid "Previous section"
+msgstr "上一章"
+
+msgid "Reader colors"
+msgstr "阅读窗颜色"
+
+msgid "Reader colors:"
+msgstr "阅读窗颜色："
+
+msgid "Reader font"
+msgstr "阅读窗字体"
+
+msgid "Reading"
+msgstr "阅读"
+
+msgid "Reading excerpt"
+msgstr "阅读片段"
+
+msgid "Reading mode"
+msgstr "阅读模式"
+
+msgid "Reading mode:"
+msgstr "阅读模式："
+
+msgid "Reading mode: %1"
+msgstr "阅读模式：%1"
+
+msgid "Reading progress"
+msgstr "阅读进度"
+
+msgid "Reading size"
+msgstr "阅读文字大小"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "已准备好聆听%1，使用 %2。"
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "已准备好聆听%1。请选择“跟随我的声音”并开始聆听。"
+
+msgid "Ready to listen in %s, with %s."
+msgstr "已准备好聆听%s，使用 %s。"
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "已准备好聆听%s。请选择“跟随我的声音”并开始聆听。"
+
+msgid "Relaxed"
+msgstr "宽松"
+
+msgid "Reset"
+msgstr "重置"
+
+msgid "SCRIPT"
+msgstr "讲稿"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "自动保存。[方括号中的提示]会显示，但不朗读。以 # 开头的行是章节。"
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "无法获取屏幕颜色。不透明的阅读窗会保持对比度。"
+
+msgid "Script"
+msgstr "讲稿"
+
+msgid "Script: %1"
+msgstr "讲稿：%1"
+
+msgid "Scripts"
+msgstr "讲稿库"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "在 Kalipso 应用中撰写和修改讲稿，在这里阅读。"
+
+msgid "Scrolling · Microphone off"
+msgstr "正在滚动 · 麦克风已关闭"
+
+msgid "Section ›"
+msgstr "章节 ›"
+
+msgid "Sections"
+msgstr "章节"
+
+msgid "Serif"
+msgstr "衬线字体"
+
+msgid "Settings"
+msgstr "设置"
+
+msgid "Slower"
+msgstr "减慢"
+
+msgid "Smaller"
+msgstr "缩小"
+
+msgid "Spanish"
+msgstr "西班牙语"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "语音不可用 · 配置 Kalipso → 语音"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "语音不可用 · 打开设置"
+
+msgid "Start"
+msgstr "开始"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "%1 秒后开始…"
+
+msgid "Starting local speech…"
+msgstr "正在启动本地语音…"
+
+msgid "Steady speed"
+msgstr "匀速"
+
+msgid "Steady speed:"
+msgstr "匀速："
+
+msgid "Stop following the window"
+msgstr "停止跟随窗口"
+
+msgid "Text size:"
+msgstr "文字大小："
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%1 的下载内容与指纹不符，已被删除。请稍后重试。"
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "无法解压 %1 模型。请稍后重试。"
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%s 的下载内容与指纹不符，已被删除。请稍后重试。"
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "无法解压 %s 模型。请稍后重试。"
+
+msgid "The microphone turns on when you start"
+msgstr "开始时麦克风会开启"
+
+msgid "The words advance at the speed below."
+msgstr "文字以下方设置的速度推进。"
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "此 Kalipso 配套组件无法下载语言。请安装或更新后注销并重新登录。"
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "要使用阅读窗后方窗口的颜色，请在阅读窗的 ⋯ 菜单中选择“跟随窗口颜色…”。"
+
+msgid "Try again"
+msgstr "重试"
+
+msgid "Use this language"
+msgstr "使用此语言"
+
+msgid "Vertical"
+msgstr "垂直"
+
+msgid "Voice"
+msgstr "语音"
+
+msgid "Wide"
+msgstr "宽"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "窗口颜色不可用。请安装或更新 Kalipso 配套组件和桌面共享门户。"
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "窗口共享已停止 · 选择背景窗口以恢复"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "使用按键、脚踏板或翻页器逐步推进。"
+
+msgid "your language"
+msgstr "您的语言"
+
+msgid "‹ Section"
+msgstr "‹ 章节"

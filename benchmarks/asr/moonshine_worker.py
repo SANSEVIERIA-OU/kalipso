@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Run one Moonshine tiny-streaming model on a mono 16 kHz PCM WAV.
 
 The WAV is fed in 100 ms chunks. By default input is unpaced for throughput;

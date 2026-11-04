@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Renders each scene of scenes.html (with the captures in artifacts/scenes/) to a transparent WebP
 // in site/assets/media/. Run with PLAYWRIGHT=/path/to/playwright/index.mjs; needs ffmpeg with libwebp,
 // or Python with Pillow. Scene ids as arguments render only those (for example call-macos), when only

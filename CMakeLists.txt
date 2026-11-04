@@ -75,7 +75,8 @@ if(UNIX AND NOT APPLE)
     io.github.sansevieria_ou.Kalipso.Engine.service @ONLY)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/io.github.sansevieria_ou.Kalipso.Engine.service
     DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/services COMPONENT Engine)
-  install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso-engine COMPONENT Engine)
+  install(FILES LICENSE NOTICE THIRD_PARTY_NOTICES.md DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso-engine COMPONENT Engine)
+  install(DIRECTORY LICENSES/ DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso-engine/LICENSES COMPONENT Engine)
   # kalipso-voice-setup: downloads one language from a terminal, as Settings does.
   install(PROGRAMS packaging/kalipso-voice-setup DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Engine)
 
@@ -96,6 +97,8 @@ if(UNIX AND NOT APPLE)
       COMMAND ${CMAKE_COMMAND} -E touch ${addons}/stamp
       DEPENDS ${addon_sources} ${CMAKE_CURRENT_SOURCE_DIR}/desktop/package.py
         ${CMAKE_CURRENT_SOURCE_DIR}/packaging/io.github.sansevieria_ou.kalipso.svg
+        ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/desktop/LICENSE
+        ${CMAKE_CURRENT_SOURCE_DIR}/THIRD_PARTY_NOTICES.md
       COMMENT "Preparing the Plasma widget, the GNOME Shell extension and the KWin script" VERBATIM)
     add_custom_target(desktop_addons ALL DEPENDS ${addons}/stamp)
     install(DIRECTORY ${addons}/plasma/
@@ -175,7 +178,8 @@ else()
   install(FILES packaging/io.github.sansevieria_ou.kalipso.svg
     DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 endif()
-install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso)
+install(FILES LICENSE NOTICE THIRD_PARTY_NOTICES.md DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso)
+install(DIRECTORY LICENSES/ DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso/LICENSES)
 file(GLOB KALIPSO_FONT_NOTICES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts/*.txt)
 install(FILES ${KALIPSO_FONT_NOTICES} DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso/fonts)
 
@@ -385,7 +389,7 @@ set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "pipewire-bin, xdg-desktop-portal")
 # Fedora and openSUSE: rpmbuild finds the libraries the binaries need; PipeWire's tools are named, since
 # the microphone is recorded with pw-record.
 set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
-set(CPACK_RPM_PACKAGE_LICENSE "AGPL-3.0-or-later")
+set(CPACK_RPM_PACKAGE_LICENSE "LicenseRef-SANSEVIERIA-1.0 AND AGPL-3.0-or-later")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/Multimedia")
 set(CPACK_RPM_PACKAGE_URL "https://sansevieria-ou.github.io/kalipso/")
 set(CPACK_RPM_PACKAGE_AUTOREQ ON)

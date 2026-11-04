@@ -136,10 +136,10 @@ To try `kalipso-bin` before a release, on Arch:
 ## Not done yet
 
 - **Signing.** Windows and macOS packages are unsigned (#9, #10). SmartScreen warns on every new
-  version, and Smart App Control blocks unsigned apps outright. Options for an open-source project:
+  version, and Smart App Control blocks unsigned apps outright. Signing options (eligibility must match the current licence):
   - the SignPath Foundation: free for OSI-licensed projects, on application and approval, with a GitHub
     Actions integration;
-  - a Certum open-source certificate in the developer's name.
+  - a Certum open-source certificate only if the release qualifies; do not assume the current source-available licence meets that requirement.
 
   Azure Artifact Signing: Microsoft's page of 29 August 2026 lists organisations in the European Union
   as eligible, which may include SANSEVIERIA OÜ (not checked). On macOS,

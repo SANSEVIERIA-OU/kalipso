@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Captures the app's reader for the website scenes: a clean profile with one script, the window
 # under the camera (as small as a reader, its shape close to the scenes' frame) with the current word
 # at the start of a given passage, photographed at twice the size.

@@ -1,0 +1,462 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: ha\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(((n == 1)) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "An sauke %1. Sake zaɓansa idan ka dakatar da sauraro."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "daƙiƙa %1"
+msgstr[1] "daƙiƙa %1"
+
+msgid "%1 words/min"
+msgstr "kalmomi %1/minti"
+
+msgid "%1 · %2 min"
+msgstr "%1 · minti %2"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · sauke %2 MB"
+
+msgid "%d words/min"
+msgstr "kalmomi %d/minti"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "An sauke %s. Sake zaɓansa idan ka dakatar da sauraro."
+
+msgid "%s · %d min"
+msgstr "%s · minti %d"
+
+msgid "%s · download %d MB"
+msgstr "%s · sauke %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Ɗan shiri yana ba da damar tattaunawa mafi kyau. [murmushi]\n\nKada ka yi gaggawa. Ba da lokacin dakatawa. Kalmominka na gaba za su kasance a nan idan ka shirya."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Ɗan shiri yana ba da damar tattaunawa mafi kyau. [murmushi] Kada ka yi gaggawa. Karanta jimlar farko da murya ka ga yadda kalmomin suke bin ka."
+
+msgid "A script written here"
+msgstr "Rubutun jawabi da aka yi a nan"
+
+msgid "Add your script to begin."
+msgstr "Ƙara rubutun jawabinka don farawa."
+
+msgid "Appearance"
+msgstr "Kamanni"
+
+msgid "Automatic"
+msgstr "Ta atomatik"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Yanayin atomatik yana ɗaukar samfuran launuka kewaye da tagar karatu. Ba a adana hotuna."
+
+msgid "Cancel"
+msgstr "Soke"
+
+msgid "Cancel download"
+msgstr "Soke saukewa"
+
+msgid "Checking and unpacking %1…"
+msgstr "Ana tabbatarwa da kwance %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Ana tabbatarwa da kwance %s…"
+
+msgid "Checking local speech components"
+msgstr "Ana duba sassan gane magana na cikin na'ura"
+
+msgid "Chinese"
+msgstr "Sinanci"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Zaɓi ɗaya daga rubutun jawabai na Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Zaɓi harshen da kake magana."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Zaɓi tagar da take bayan tagar karatu. Ana buƙatar izinin muhalli na tebur."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Zaɓi tagar da take bayan tagar karatunka a taga ta rabon tebur"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Zaɓen harshe yana sauke samfurin maganarsa sau ɗaya daga mai wallafa shi, yana tabbatar da tambarinsa na dijital. Sannan gane magana yana aiki a wannan kwamfuta: ba a aika abin da ka faɗa."
+
+msgid "Configure Kalipso…"
+msgstr "Saita Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Ba a iya sauke %1 ba. Duba haɗin intanet ka sake gwadawa."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Ba a iya sauke %s ba. Duba haɗin intanet ka sake gwadawa."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Ba a iya adana %1 ba: sarari bai isa ba, ko babban fayil na bayanai bai yarda a rubuta ba."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Ba a iya adana %s ba: sarari bai isa ba, ko babban fayil na bayanai bai yarda a rubuta ba."
+
+msgid "Countdown before steady scrolling"
+msgstr "Ƙidayar baya kafin gungurawa da sauri tsayayye"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Ƙidayar baya kafin gungurawa da sauri tsayayye:"
+
+msgid "Dark"
+msgstr "Mai duhu"
+
+msgid "Desktop theme"
+msgstr "Jigon tebur"
+
+msgid "Done"
+msgstr "An gama"
+
+msgid "Done editing"
+msgstr "Gama gyarawa"
+
+msgid "Download and use"
+msgstr "Sauke ka yi amfani"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "An soke saukewa. Ba a canja komai ba."
+
+msgid "Download progress"
+msgstr "Ci gaban saukewa"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Ana sauke %1: %2 cikin %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Ana sauke %s: %d cikin %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Gyara a Kalipso"
+
+msgid "Edit script"
+msgstr "Gyara rubutun jawabi"
+
+msgid "End of script · Microphone off"
+msgstr "Ƙarshen rubutun jawabi · Makirufo a kashe"
+
+msgid "English"
+msgstr "Turanci"
+
+msgid "Faster"
+msgstr "Da sauri"
+
+msgid "Follow a window's colors…"
+msgstr "Bi launukan taga…"
+
+msgid "Follow my voice"
+msgstr "Bi muryata"
+
+msgid "Font:"
+msgstr "Nau'in rubutu:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Don kayan aiki masu madubi mai ratsa wani ɓangaren haske, waɗanda suke nuna rubutu ta madubi."
+
+msgid "French"
+msgstr "Faransanci"
+
+msgid "German"
+msgstr "Jamusanci"
+
+msgid "Help:"
+msgstr "Taimako:"
+
+msgid "Hide"
+msgstr "Ɓoye"
+
+msgid "Horizontal"
+msgstr "A kwance"
+
+msgid "Interface font"
+msgstr "Nau'in rubutun fuskar amfani"
+
+msgid "Italian"
+msgstr "Italiyanci"
+
+msgid "Japanese"
+msgstr "Japananci"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso yana sauke samfurorin magana a Linux don kwamfutocin x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Maɓallai: kibiyoyi ko Page Up/Down suna matsarwa, Space yana farawa ko dakatawa, + da − suna sauya sauri tsayayye. Ana iya ganin wannan wijet a rabon allo; duba abin da sauran mahalarta suke gani."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Maɓallai: kibiyoyi ko Page Up/Down suna matsarwa, Space yana farawa ko dakatawa, + da − suna sauya sauri tsayayye. Tagar karatu na iya bayyana a rabon allo; duba abin da sauran mahalarta suke gani."
+
+msgid "Language you speak"
+msgstr "Harshen da kake magana"
+
+msgid "Language you speak:"
+msgstr "Harshen da kake magana:"
+
+msgid "Larger"
+msgstr "Mafi girma"
+
+msgid "Light"
+msgstr "Mai haske"
+
+msgid "Line spacing"
+msgstr "Tazara tsakanin layuka"
+
+msgid "Line spacing:"
+msgstr "Tazara tsakanin layuka:"
+
+msgid "Listening · On this device"
+msgstr "Ana sauraro · A wannan na'ura"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Ba a girka gane magana na cikin na'ura ba. Buɗe Saitin magana na cikin na'ura don girka shirin taimako da samfurin harshe."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Ba a samun gane magana na cikin na'ura. Buɗe Saitin magana na cikin na'ura don girka shirin taimako da samfurin harshe."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Gane magana na cikin na'ura yana bin abin da kake faɗa."
+
+msgid "Local speech setup"
+msgstr "Saitin magana na cikin na'ura"
+
+msgid "Local speech setup ↗"
+msgstr "Saitin magana na cikin na'ura ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Ba a samun gane magana na cikin na'ura. %s Duba docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Da hannu"
+
+msgid "Manual · Microphone off"
+msgstr "Da hannu · Makirufo a kashe"
+
+msgid "Microphone stopped"
+msgstr "An dakatar da makirufo"
+
+msgid "Mirror"
+msgstr "Juya kamar madubi"
+
+msgid "Mirror:"
+msgstr "Juyawa kamar madubi:"
+
+msgid "More"
+msgstr "Ƙari"
+
+msgid "Next section"
+msgstr "Sashe na gaba"
+
+msgid "Next words"
+msgstr "Kalmomi na gaba"
+
+msgid "Normal"
+msgstr "Na yau da kullum"
+
+msgid "Off"
+msgstr "A kashe"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "A wajen rubutun · Kalipso zai riske ka idan ka koma rubutun"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Buɗe Gyara rubutun jawabi don karantawa ko sauya dukkan rubutun."
+
+msgid "Pause"
+msgstr "Dakata"
+
+msgid "Paused · Microphone off"
+msgstr "An dakata · Makirufo a kashe"
+
+msgid "Previous"
+msgstr "Na baya"
+
+msgid "Previous section"
+msgstr "Sashe na baya"
+
+msgid "Reader colors"
+msgstr "Launukan tagar karatu"
+
+msgid "Reader colors:"
+msgstr "Launukan tagar karatu:"
+
+msgid "Reader font"
+msgstr "Nau'in rubutun karatu"
+
+msgid "Reading"
+msgstr "Karatu"
+
+msgid "Reading excerpt"
+msgstr "Guntun rubutun karatu"
+
+msgid "Reading mode"
+msgstr "Yanayin karatu"
+
+msgid "Reading mode:"
+msgstr "Yanayin karatu:"
+
+msgid "Reading mode: %1"
+msgstr "Yanayin karatu: %1"
+
+msgid "Reading progress"
+msgstr "Ci gaban karatu"
+
+msgid "Reading size"
+msgstr "Girman karatu"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "An shirya sauraro da %1, ta amfani da %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "An shirya sauraro da %1. Zaɓi Bi muryata ka fara sauraro."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "An shirya sauraro da %s, ta amfani da %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "An shirya sauraro da %s. Zaɓi Bi muryata ka fara sauraro."
+
+msgid "Relaxed"
+msgstr "Mai faɗi kaɗan"
+
+msgid "Reset"
+msgstr "Sake saita"
+
+msgid "SCRIPT"
+msgstr "RUBUTUN JAWABI"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Ana adanawa ta atomatik. Ana nuna [umarnin da ke cikin baka] amma ba a karanta su da murya. Layukan da suka fara da # sashe ne."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Ba a samun launukan allo. Tagar karatu marar nuna abin bayanta tana riƙe bambancin launukanta."
+
+msgid "Script"
+msgstr "Rubutun jawabi"
+
+msgid "Script: %1"
+msgstr "Rubutun jawabi: %1"
+
+msgid "Scripts"
+msgstr "Rubutun jawabai"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Ana rubutawa da gyara rubutun jawabai a manhajar Kalipso; a nan ana karanta su."
+
+msgid "Scrolling · Microphone off"
+msgstr "Ana gungurawa · Makirufo a kashe"
+
+msgid "Section ›"
+msgstr "Sashe ›"
+
+msgid "Sections"
+msgstr "Sashe"
+
+msgid "Serif"
+msgstr "Mai ƙafafun haruffa"
+
+msgid "Settings"
+msgstr "Saituna"
+
+msgid "Slower"
+msgstr "A hankali"
+
+msgid "Smaller"
+msgstr "Mafi ƙanƙanta"
+
+msgid "Spanish"
+msgstr "Sifaniyanci"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Ba a samun magana · Saita Kalipso → Murya"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Ba a samun magana · Buɗe Saituna"
+
+msgid "Start"
+msgstr "Fara"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Za a fara bayan daƙiƙa %1…"
+msgstr[1] "Za a fara bayan daƙiƙa %1…"
+
+msgid "Starting local speech…"
+msgstr "Ana fara gane magana na cikin na'ura…"
+
+msgid "Steady speed"
+msgstr "Sauri tsayayye"
+
+msgid "Steady speed:"
+msgstr "Sauri tsayayye:"
+
+msgid "Stop following the window"
+msgstr "Daina bin taga"
+
+msgid "Text size:"
+msgstr "Girman rubutu:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%1 da aka sauke bai dace da tambarinsa na dijital ba, don haka an goge shi. Sake gwadawa daga baya."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Ba a iya kwance samfurin %1 ba. Sake gwadawa daga baya."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%s da aka sauke bai dace da tambarinsa na dijital ba, don haka an goge shi. Sake gwadawa daga baya."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Ba a iya kwance samfurin %s ba. Sake gwadawa daga baya."
+
+msgid "The microphone turns on when you start"
+msgstr "Makirufo yana kunnawa idan ka fara"
+
+msgid "The words advance at the speed below."
+msgstr "Kalmomi suna motsawa da saurin da ke ƙasa."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Wannan shirin taimako na Kalipso ba zai iya sauke harsuna ba. Girka ko sabunta shi, sannan ka fita daga zaman ka sake shiga."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Don ɗaukar launukan taga da take bayan tagar karatu, zaɓi Bi launukan taga… a menu na ⋯ na tagar karatu."
+
+msgid "Try again"
+msgstr "Sake gwadawa"
+
+msgid "Use this language"
+msgstr "Yi amfani da wannan harshe"
+
+msgid "Vertical"
+msgstr "A tsaye"
+
+msgid "Voice"
+msgstr "Murya"
+
+msgid "Wide"
+msgstr "Mai faɗi sosai"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Ba a samun launukan taga. Girka ko sabunta shirin taimako na Kalipso da ƙofar rabon tebur."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "An dakatar da rabon taga · Zaɓi taga a baya don ci gaba"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Kana matsarwa da maɓallai, fedal ko na'urar sarrafa gabatarwa."
+
+msgid "your language"
+msgstr "harshenka"
+
+msgid "‹ Section"
+msgstr "‹ Sashe"
