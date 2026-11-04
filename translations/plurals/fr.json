@@ -1,0 +1,62 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Notes de %n diapositive importées. Utilisez Sections dans la zone de lecture pour passer d’une diapositive à l’autre.",
+    "Notes de %n diapositives importées. Utilisez Sections dans la zone de lecture pour passer d’une diapositive à l’autre.",
+    "Notes de %n diapositives importées. Utilisez Sections dans la zone de lecture pour passer d’une diapositive à l’autre."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "%n diapositive masquée ignorée.",
+    "%n diapositives masquées ignorées.",
+    "%n diapositives masquées ignorées."
+  ],
+  "MainWindow\u0004about %n min": [
+    "environ %n min",
+    "environ %n min",
+    "environ %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n mot",
+    "%n mots",
+    "%n mots"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n min restante",
+    "%n min restantes",
+    "%n min restantes"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Dernière session : %1 · %n mot",
+    "Dernière session : %1 · %n mots",
+    "Dernière session : %1 · %n mots"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n pause de plus de 3 s",
+    "%n pauses de plus de 3 s",
+    "%n pauses de plus de 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "%n mot de remplissage reconnu",
+    "%n mots de remplissage reconnus",
+    "%n mots de remplissage reconnus"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Mots lus : %n sur %1",
+    "- Mots lus : %n sur %1",
+    "- Mots lus : %n sur %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauses de plus de 3 s : %n",
+    "- Pauses de plus de 3 s : %n",
+    "- Pauses de plus de 3 s : %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Mots de remplissage reconnus : %n (de nombreux moteurs les omettent, il s’agit donc d’un minimum)",
+    "- Mots de remplissage reconnus : %n (de nombreux moteurs les omettent, il s’agit donc d’un minimum)",
+    "- Mots de remplissage reconnus : %n (de nombreux moteurs les omettent, il s’agit donc d’un minimum)"
+  ]
+}

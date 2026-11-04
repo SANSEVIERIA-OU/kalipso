@@ -15,6 +15,17 @@ import {LocalEngine} from './local-engine.js';
 import {tokens as T} from './tokens.js';
 
 const N = T.native;
+// Keep gettext's printf sources stable while formatting integer values for the desktop locale.
+function formatNumbers(pattern, ...values) {
+    let index = 0;
+    const localized = pattern.replace(/%([sd%])/g, (token, type) => {
+        if (type === '%') return token;
+        if (type === 'd') values[index] = Number(values[index]).toLocaleString();
+        index++;
+        return '%s';
+    });
+    return localized.format(...values);
+}
 // Translated when used: translations are only available once the extension is loaded.
 const sample = () => _('A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready.');
 const SETUP_URL = 'https://github.com/SANSEVIERIA-OU/kalipso/blob/main/docs/local-engine.md';
@@ -365,7 +376,7 @@ export default class Kalipso extends Extension {
         this.scriptsBox.destroy_all_children();
         this.scriptButtons = [];
         for (const script of this._library) {
-            const button = this.button(_('%s · %d min').format(script.title, this._minutes(script)), () => {
+            const button = this.button(formatNumbers(_('%s · %d min'), script.title, this._minutes(script)), () => {
                 this.chooseScript(script.id);
                 this.showPane('');
             });
@@ -604,7 +615,7 @@ export default class Kalipso extends Extension {
         this.settingsPane.add_child(this._group(_('Countdown before steady scrolling')));
         const countdown = this._row();
         this.countdownButtons = [0, 3, 5]
-            .map(id => [id, id ? ngettext('%1 second', '%1 seconds', id).replace('%1', id) : _('Off')])
+            .map(id => [id, id ? ngettext('%1 second', '%1 seconds', id).replace('%1', Number(id).toLocaleString()) : _('Off')])
             .map(([id, label]) => [id, label, this.button(label, () => {
                 this._countdown = id;
                 this.state?.update({countdown: id});
@@ -1161,7 +1172,7 @@ export default class Kalipso extends Extension {
             return _('This Kalipso companion cannot download languages. Install or update it, then log out and back in.');
         if (job.active) {
             return job.stage === 'unpacking' ? _('Checking and unpacking %s…').format(name)
-                : _('Downloading %s: %d of %d MB').format(name, megabytes(job.received), megabytes(job.total));
+                : formatNumbers(_('Downloading %s: %d of %d MB'), name, megabytes(job.received), megabytes(job.total));
         }
         if (job.stage === 'done')
             return _('Ready to listen in %s. Choose Follow my voice and start listening.').format(name);
@@ -1183,7 +1194,7 @@ export default class Kalipso extends Extension {
         if (this._mode === 'manual')
             return end ? _('End of script · Microphone off') : _('Manual · Microphone off');
         if (this._mode === 'steady' && this._countdownTimer)
-            return ngettext('Starting in %1 second…', 'Starting in %1 seconds…', this._countdownLeft).replace('%1', this._countdownLeft);
+            return ngettext('Starting in %1 second…', 'Starting in %1 seconds…', this._countdownLeft).replace('%1', this._countdownLeft.toLocaleString());
         if (this._mode === 'steady')
             return this._steadyTimer ? _('Scrolling · Microphone off') : end ? _('End of script · Microphone off') : _('Paused · Microphone off');
         if (pending)
@@ -1201,7 +1212,7 @@ export default class Kalipso extends Extension {
             ? this.tracker.readingMarkup(C.overlayMuted, C.overlayText, scale >= 1.8 ? -1 : scale >= 1.5 ? 0 : 4,
                 {text: C.overlayText, tint: C.tint, line: C.reading})
             : `<span foreground="${C.overlayMuted}">${GLib.markup_escape_text(_('Add your script to begin.'), -1)}</span>`);
-        this.counter.set_text(`${this.tracker.position + 1} / ${this.tracker.words.length}`);
+        this.counter.set_text(`${(this.tracker.position + 1).toLocaleString()} / ${this.tracker.words.length.toLocaleString()}`);
         const words = this.tracker.words.length;
         this.progressFill.width = Math.round(this.mainContent.width * (words ? (this.tracker.position + 1) / words : 0));
         this.title.set_text(title(this.tracker.text) || 'Kalipso');
@@ -1227,7 +1238,7 @@ export default class Kalipso extends Extension {
         this.previousSection.visible = hasSections;
         this.nextSection.visible = hasSections;
         this.speedRow.visible = this._mode === 'steady';
-        this.speedLabel.set_text(_('%d words/min').format(this._speed));
+        this.speedLabel.set_text(formatNumbers(_('%d words/min'), this._speed));
         this.stateLabel.set_text(this._stateText(listening, pending));
         this.scriptsButton.visible = this._library.length > 0;
         this.scriptsPane.visible = this._pane === 'scripts';
@@ -1256,13 +1267,13 @@ export default class Kalipso extends Extension {
         mark(this.countdownButtons, this._countdown);
         mark(this.scriptButtons, this._scriptId);
         this.countdownLabel.visible = this._countdownTimer !== 0;
-        this.countdownLabel.text = String(this._countdownLeft);
+        this.countdownLabel.text = this._countdownLeft.toLocaleString();
         const installing = Boolean(this._install.active);
         const megabytes = bytes => Math.round(bytes / 1048576);
         for (const [code, name, button] of this.languageButtons) {
             const item = this._languages.find(language => language.code === code);
             const chosen = Boolean(item?.ready) && code === this._language;
-            button.label = item?.ready ? name : _('%s · download %d MB').format(name, megabytes(item?.bytes ?? 0));
+            button.label = item?.ready ? name : formatNumbers(_('%s · download %d MB'), name, megabytes(item?.bytes ?? 0));
             button.checked = chosen;
             button.accessible_name = button.label + (chosen ? ', selected' : '');
             setEnabled(button, !listening && !pending && !installing);

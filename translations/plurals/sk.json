@@ -1,0 +1,74 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min",
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Importovali sa poznámky prednášajúceho z %n snímky. Medzi snímkami prechádzajte pomocou Oddielov v okne na čítanie.",
+    "Importovali sa poznámky prednášajúceho z %n snímok. Medzi snímkami prechádzajte pomocou Oddielov v okne na čítanie.",
+    "Importovali sa poznámky prednášajúceho z %n snímky. Medzi snímkami prechádzajte pomocou Oddielov v okne na čítanie.",
+    "Importovali sa poznámky prednášajúceho z %n snímok. Medzi snímkami prechádzajte pomocou Oddielov v okne na čítanie."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "Vynechaná %n skrytá snímka.",
+    "Vynechané %n skryté snímky.",
+    "Vynechané skryté snímky: %n.",
+    "Vynechaných %n skrytých snímok."
+  ],
+  "MainWindow\u0004about %n min": [
+    "približne %n min",
+    "približne %n min",
+    "približne %n min",
+    "približne %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n slovo",
+    "%n slová",
+    "%n slova",
+    "%n slov"
+  ],
+  "MainWindow\u0004%n min left": [
+    "zostáva %n min",
+    "zostáva %n min",
+    "zostáva %n min",
+    "zostáva %n min"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Posledná relácia: %1 · %n slovo",
+    "Posledná relácia: %1 · %n slová",
+    "Posledná relácia: %1 · %n slova",
+    "Posledná relácia: %1 · %n slov"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n pauza dlhšia než 3 s",
+    "%n pauzy dlhšie než 3 s",
+    "%n pauzy dlhšej než 3 s",
+    "%n páuz dlhších než 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "Rozpoznaná %n výplnková vsuvka",
+    "Rozpoznané %n výplnkové vsuvky",
+    "Rozpoznané výplnkové vsuvky: %n",
+    "Rozpoznaných %n výplnkových vsuviek"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Prečítané slová: %n z %1",
+    "- Prečítané slová: %n z %1",
+    "- Prečítané slová: %n z %1",
+    "- Prečítané slová: %n z %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauzy dlhšie než 3 s: %n",
+    "- Pauzy dlhšie než 3 s: %n",
+    "- Pauzy dlhšie než 3 s: %n",
+    "- Pauzy dlhšie než 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Rozpoznané výplnkové vsuvky: %n (mnohé systémy ich vynechávajú, preto ide o dolnú hranicu)",
+    "- Rozpoznané výplnkové vsuvky: %n (mnohé systémy ich vynechávajú, preto ide o dolnú hranicu)",
+    "- Rozpoznané výplnkové vsuvky: %n (mnohé systémy ich vynechávajú, preto ide o dolnú hranicu)",
+    "- Rozpoznané výplnkové vsuvky: %n (mnohé systémy ich vynechávajú, preto ide o dolnú hranicu)"
+  ]
+}

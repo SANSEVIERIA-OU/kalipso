@@ -1,0 +1,50 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Importerade talaranteckningar från %n bild. Använd Avsnitt i läsytan för att hoppa mellan bilder.",
+    "Importerade talaranteckningar från %n bilder. Använd Avsnitt i läsytan för att hoppa mellan bilder."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "%n dold bild utelämnad.",
+    "%n dolda bilder utelämnade."
+  ],
+  "MainWindow\u0004about %n min": [
+    "ungefär %n min",
+    "ungefär %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n ord",
+    "%n ord"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n min kvar",
+    "%n min kvar"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Senaste session: %1 · %n ord",
+    "Senaste session: %1 · %n ord"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n paus över 3 s",
+    "%n pauser över 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "%n utfyllnadsord identifierat",
+    "%n utfyllnadsord identifierade"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Lästa ord: %n av %1",
+    "- Lästa ord: %n av %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauser över 3 s: %n",
+    "- Pauser över 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Identifierade utfyllnadsord: %n (många igenkännare utelämnar dem, så detta är en undre gräns)",
+    "- Identifierade utfyllnadsord: %n (många igenkännare utelämnar dem, så detta är en undre gräns)"
+  ]
+}

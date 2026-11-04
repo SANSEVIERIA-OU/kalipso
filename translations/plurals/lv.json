@@ -1,0 +1,62 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Importētas runātāja piezīmes no %n slaidiem. Izmantojiet lasīšanas loga Sadaļas, lai pārietu starp slaidiem.",
+    "Importētas runātāja piezīmes no %n slaida. Izmantojiet lasīšanas loga Sadaļas, lai pārietu starp slaidiem.",
+    "Importētas runātāja piezīmes no %n slaidiem. Izmantojiet lasīšanas loga Sadaļas, lai pārietu starp slaidiem."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "Izlaisti %n slēptie slaidi.",
+    "Izlaists %n slēptais slaids.",
+    "Izlaisti %n slēptie slaidi."
+  ],
+  "MainWindow\u0004about %n min": [
+    "aptuveni %n min",
+    "aptuveni %n min",
+    "aptuveni %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n vārdu",
+    "%n vārds",
+    "%n vārdi"
+  ],
+  "MainWindow\u0004%n min left": [
+    "atlikušas %n min",
+    "atlikusi %n min",
+    "atlikušas %n min"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Pēdējā sesija: %1 · %n vārdu",
+    "Pēdējā sesija: %1 · %n vārds",
+    "Pēdējā sesija: %1 · %n vārdi"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n paužu virs 3 s",
+    "%n pauze virs 3 s",
+    "%n pauzes virs 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "Atpazīts %n aizpildītājvārdu",
+    "Atpazīts %n aizpildītājvārds",
+    "Atpazīti %n aizpildītājvārdi"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Izlasītie vārdi: %n no %1",
+    "- Izlasītie vārdi: %n no %1",
+    "- Izlasītie vārdi: %n no %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauzes virs 3 s: %n",
+    "- Pauzes virs 3 s: %n",
+    "- Pauzes virs 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Atpazītie aizpildītājvārdi: %n (daudzi atpazinēji tos izlaiž, tāpēc šī ir apakšējā robeža)",
+    "- Atpazītie aizpildītājvārdi: %n (daudzi atpazinēji tos izlaiž, tāpēc šī ir apakšējā robeža)",
+    "- Atpazītie aizpildītājvārdi: %n (daudzi atpazinēji tos izlaiž, tāpēc šī ir apakšējā robeža)"
+  ]
+}

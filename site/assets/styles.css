@@ -280,6 +280,14 @@ details code{font-size:.9em}
 .footer-row>*{min-inline-size:0;max-inline-size:100%}
 /* The languages, each by its own name; the one you are reading is underlined like the place you are in. */
 .languages a[aria-current=page]{background-size:100% 2px;color:var(--site-ink)}
+#language-link[hidden],#site-language[hidden]{display:none}
+.languages{max-inline-size:100%;gap:.5rem 1rem!important}
+#site-language{font:inherit;color:inherit;background:var(--site-paper);border:1px solid var(--site-line);border-radius:.4rem;padding:.4rem;max-inline-size:min(12rem,100%);min-inline-size:0;min-block-size:44px}
+:lang(ja){font-family:var(--site-font-japanese)}
+:lang(ar),:lang(arz),:lang(ur){letter-spacing:normal}
+:lang(zh),:lang(ja){word-break:normal;overflow-wrap:anywhere}
+pre,code{direction:ltr;unicode-bidi:isolate;text-align:start}
+html[dir=rtl] #previous-word .icon,html[dir=rtl] #next-word .icon{scale:-1 1}
 
 /* Entrances (motion.js adds .motion): the first screen rises in on load, the rest as it comes into view.
    Only opacity and transform move, so nothing shifts the layout; with reduced motion nothing is hidden. */

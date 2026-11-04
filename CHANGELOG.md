@@ -4,6 +4,16 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 2.8 — 4 November 2026
+
+- The app, Linux companion, Plasma widget, GNOME extension and website now have interfaces in 39
+  languages. Choose the app language in Settings; the website's language switch keeps your section
+  and reader options. Speech recognition keeps its own language and model availability.
+- Arabic, Egyptian Arabic and Urdu use right-to-left layouts. Bundled Noto fonts cover the added
+  writing systems, including Indic scripts, Chinese and Japanese.
+- Translations share an offline source catalog and CLDR plural rules. Generated translations are
+  marked as awaiting native-speaker review; reviewer and date are recorded separately.
+
 ## 2.7 — 4 November 2026
 
 - Settings, in Kalipso's own look (GNOME, Windows, macOS): the current page is marked like the other

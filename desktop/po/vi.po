@@ -1,0 +1,459 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: vi\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=(0);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "Đã tải %1. Chọn lại sau khi dừng lắng nghe."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 giây"
+
+msgid "%1 words/min"
+msgstr "%1 từ/phút"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 phút"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · tải %2 MB"
+
+msgid "%d words/min"
+msgstr "%d từ/phút"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "Đã tải %s. Chọn lại sau khi dừng lắng nghe."
+
+msgid "%s · %d min"
+msgstr "%s · %d phút"
+
+msgid "%s · download %d MB"
+msgstr "%s · tải %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Chuẩn bị một chút giúp cuộc trò chuyện tốt hơn. [mỉm cười]\n\nCứ thong thả. Hãy dành chỗ cho khoảng nghỉ. Những lời tiếp theo sẽ ở đây khi bạn sẵn sàng."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Chuẩn bị một chút giúp cuộc trò chuyện tốt hơn. [mỉm cười] Cứ thong thả. Đọc to câu đầu tiên và xem các từ theo bạn."
+
+msgid "A script written here"
+msgstr "Bài nói viết ở đây"
+
+msgid "Add your script to begin."
+msgstr "Thêm bài nói để bắt đầu."
+
+msgid "Appearance"
+msgstr "Giao diện"
+
+msgid "Automatic"
+msgstr "Tự động"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Tự động lấy mẫu màu quanh khung đọc. Không lưu ảnh."
+
+msgid "Cancel"
+msgstr "Hủy"
+
+msgid "Cancel download"
+msgstr "Hủy tải"
+
+msgid "Checking and unpacking %1…"
+msgstr "Đang kiểm tra và giải nén %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Đang kiểm tra và giải nén %s…"
+
+msgid "Checking local speech components"
+msgstr "Đang kiểm tra thành phần nhận dạng giọng nói cục bộ"
+
+msgid "Chinese"
+msgstr "Tiếng Trung"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Chọn một bài nói của Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Chọn ngôn ngữ bạn nói."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Chọn cửa sổ phía sau khung đọc. Cần quyền từ môi trường màn hình."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Chọn cửa sổ phía sau khung đọc trong hộp thoại chia sẻ màn hình"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Chọn ngôn ngữ sẽ tải mô hình giọng nói một lần từ nhà phát hành và đối chiếu dấu vân tay số. Sau đó nhận dạng chạy trên máy tính này: không gửi đi lời bạn nói."
+
+msgid "Configure Kalipso…"
+msgstr "Thiết lập Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Không tải được %1. Kiểm tra kết nối internet rồi thử lại."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Không tải được %s. Kiểm tra kết nối internet rồi thử lại."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Không lưu được %1: thiếu dung lượng trống hoặc không ghi được vào thư mục dữ liệu."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Không lưu được %s: thiếu dung lượng trống hoặc không ghi được vào thư mục dữ liệu."
+
+msgid "Countdown before steady scrolling"
+msgstr "Đếm ngược trước khi cuộn đều"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Đếm ngược trước khi cuộn đều:"
+
+msgid "Dark"
+msgstr "Tối"
+
+msgid "Desktop theme"
+msgstr "Chủ đề desktop"
+
+msgid "Done"
+msgstr "Xong"
+
+msgid "Done editing"
+msgstr "Sửa xong"
+
+msgid "Download and use"
+msgstr "Tải và dùng"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Đã hủy tải. Không thay đổi gì."
+
+msgid "Download progress"
+msgstr "Tiến trình tải"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Đang tải %1: %2 trên %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Đang tải %s: %d trên %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Sửa trong Kalipso"
+
+msgid "Edit script"
+msgstr "Sửa bài nói"
+
+msgid "End of script · Microphone off"
+msgstr "Hết bài nói · Micrô tắt"
+
+msgid "English"
+msgstr "Tiếng Anh"
+
+msgid "Faster"
+msgstr "Nhanh hơn"
+
+msgid "Follow a window's colors…"
+msgstr "Theo màu cửa sổ…"
+
+msgid "Follow my voice"
+msgstr "Theo giọng tôi"
+
+msgid "Font:"
+msgstr "Phông chữ:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Dành cho bộ kính chia chùm sáng, hiển thị khung đọc qua gương."
+
+msgid "French"
+msgstr "Tiếng Pháp"
+
+msgid "German"
+msgstr "Tiếng Đức"
+
+msgid "Help:"
+msgstr "Trợ giúp:"
+
+msgid "Hide"
+msgstr "Ẩn"
+
+msgid "Horizontal"
+msgstr "Ngang"
+
+msgid "Interface font"
+msgstr "Phông chữ giao diện"
+
+msgid "Italian"
+msgstr "Tiếng Ý"
+
+msgid "Japanese"
+msgstr "Tiếng Nhật"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso tải mô hình giọng nói trên Linux cho máy tính x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Phím: mũi tên hoặc Page Up/Down để tiến, phím cách để bắt đầu hay tạm dừng, + và − để đổi tốc độ đều. Tiện ích này có thể hiện khi chia sẻ màn hình; kiểm tra hình ảnh phía người tham gia khác."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Phím: mũi tên hoặc Page Up/Down để tiến, phím cách để bắt đầu hay tạm dừng, + và − để đổi tốc độ đều. Khung đọc có thể hiện khi chia sẻ màn hình; kiểm tra hình ảnh phía người tham gia khác."
+
+msgid "Language you speak"
+msgstr "Ngôn ngữ bạn nói"
+
+msgid "Language you speak:"
+msgstr "Ngôn ngữ bạn nói:"
+
+msgid "Larger"
+msgstr "Lớn hơn"
+
+msgid "Light"
+msgstr "Sáng"
+
+msgid "Line spacing"
+msgstr "Giãn dòng"
+
+msgid "Line spacing:"
+msgstr "Giãn dòng:"
+
+msgid "Listening · On this device"
+msgstr "Đang lắng nghe · Trên thiết bị này"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Chưa cài nhận dạng giọng nói cục bộ. Mở Thiết lập giọng nói cục bộ để cài chương trình hỗ trợ và mô hình ngôn ngữ."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Không có nhận dạng giọng nói cục bộ. Mở Thiết lập giọng nói cục bộ để cài chương trình hỗ trợ và mô hình ngôn ngữ."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Nhận dạng giọng nói cục bộ theo những gì bạn nói."
+
+msgid "Local speech setup"
+msgstr "Thiết lập giọng nói cục bộ"
+
+msgid "Local speech setup ↗"
+msgstr "Thiết lập giọng nói cục bộ ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Không có giọng nói cục bộ. %s Xem docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Thủ công"
+
+msgid "Manual · Microphone off"
+msgstr "Thủ công · Micrô tắt"
+
+msgid "Microphone stopped"
+msgstr "Đã dừng micrô"
+
+msgid "Mirror"
+msgstr "Lật gương"
+
+msgid "Mirror:"
+msgstr "Lật gương:"
+
+msgid "More"
+msgstr "Thêm"
+
+msgid "Next section"
+msgstr "Phần tiếp theo"
+
+msgid "Next words"
+msgstr "Các từ tiếp theo"
+
+msgid "Normal"
+msgstr "Bình thường"
+
+msgid "Off"
+msgstr "Tắt"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Ngoài bài nói · Kalipso bắt kịp khi bạn quay lại văn bản"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Mở Sửa bài nói để đọc hoặc thay đổi toàn bộ bài nói."
+
+msgid "Pause"
+msgstr "Tạm dừng"
+
+msgid "Paused · Microphone off"
+msgstr "Tạm dừng · Micrô tắt"
+
+msgid "Previous"
+msgstr "Trước"
+
+msgid "Previous section"
+msgstr "Phần trước"
+
+msgid "Reader colors"
+msgstr "Màu khung đọc"
+
+msgid "Reader colors:"
+msgstr "Màu khung đọc:"
+
+msgid "Reader font"
+msgstr "Phông khung đọc"
+
+msgid "Reading"
+msgstr "Đọc"
+
+msgid "Reading excerpt"
+msgstr "Đoạn đang đọc"
+
+msgid "Reading mode"
+msgstr "Chế độ đọc"
+
+msgid "Reading mode:"
+msgstr "Chế độ đọc:"
+
+msgid "Reading mode: %1"
+msgstr "Chế độ đọc: %1"
+
+msgid "Reading progress"
+msgstr "Tiến trình đọc"
+
+msgid "Reading size"
+msgstr "Cỡ chữ đọc"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Sẵn sàng lắng nghe bằng %1, với %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Sẵn sàng lắng nghe bằng %1. Chọn Theo giọng tôi và bắt đầu lắng nghe."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Sẵn sàng lắng nghe bằng %s, với %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Sẵn sàng lắng nghe bằng %s. Chọn Theo giọng tôi và bắt đầu lắng nghe."
+
+msgid "Relaxed"
+msgstr "Thoáng"
+
+msgid "Reset"
+msgstr "Đặt lại"
+
+msgid "SCRIPT"
+msgstr "BÀI NÓI"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Tự động lưu. [Chỉ dẫn trong ngoặc vuông] hiển thị nhưng không đọc thành tiếng. Dòng bắt đầu bằng # là các phần."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Không có màu màn hình. Khung đọc không trong suốt vẫn giữ độ tương phản."
+
+msgid "Script"
+msgstr "Bài nói"
+
+msgid "Script: %1"
+msgstr "Bài nói: %1"
+
+msgid "Scripts"
+msgstr "Các bài nói"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Bài nói được viết và sửa trong ứng dụng Kalipso; ở đây dùng để đọc."
+
+msgid "Scrolling · Microphone off"
+msgstr "Đang cuộn · Micrô tắt"
+
+msgid "Section ›"
+msgstr "Phần ›"
+
+msgid "Sections"
+msgstr "Các phần"
+
+msgid "Serif"
+msgstr "Có chân"
+
+msgid "Settings"
+msgstr "Cài đặt"
+
+msgid "Slower"
+msgstr "Chậm hơn"
+
+msgid "Smaller"
+msgstr "Nhỏ hơn"
+
+msgid "Spanish"
+msgstr "Tiếng Tây Ban Nha"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Không có nhận dạng giọng nói · Thiết lập Kalipso → Giọng nói"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Không có nhận dạng giọng nói · Mở Cài đặt"
+
+msgid "Start"
+msgstr "Bắt đầu"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Bắt đầu sau %1 giây…"
+
+msgid "Starting local speech…"
+msgstr "Đang bắt đầu nhận dạng giọng nói cục bộ…"
+
+msgid "Steady speed"
+msgstr "Tốc độ đều"
+
+msgid "Steady speed:"
+msgstr "Tốc độ đều:"
+
+msgid "Stop following the window"
+msgstr "Dừng theo cửa sổ"
+
+msgid "Text size:"
+msgstr "Cỡ chữ:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Bản tải %1 không khớp dấu vân tay số nên đã bị xóa. Hãy thử lại sau."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Không giải nén được mô hình %1. Hãy thử lại sau."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Bản tải %s không khớp dấu vân tay số nên đã bị xóa. Hãy thử lại sau."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Không giải nén được mô hình %s. Hãy thử lại sau."
+
+msgid "The microphone turns on when you start"
+msgstr "Micrô bật khi bạn bắt đầu"
+
+msgid "The words advance at the speed below."
+msgstr "Các từ tiến theo tốc độ bên dưới."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Chương trình hỗ trợ Kalipso này không tải được ngôn ngữ. Cài hoặc cập nhật, rồi đăng xuất và đăng nhập lại."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Để lấy màu của cửa sổ phía sau khung đọc, chọn Theo màu cửa sổ… trong menu ⋯ của khung đọc."
+
+msgid "Try again"
+msgstr "Thử lại"
+
+msgid "Use this language"
+msgstr "Dùng ngôn ngữ này"
+
+msgid "Vertical"
+msgstr "Dọc"
+
+msgid "Voice"
+msgstr "Giọng nói"
+
+msgid "Wide"
+msgstr "Rộng"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Không có màu cửa sổ. Cài hoặc cập nhật chương trình hỗ trợ Kalipso và cổng chia sẻ desktop."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Đã dừng chia sẻ cửa sổ · Chọn cửa sổ nền để tiếp tục"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Bạn tiến bằng phím, bàn đạp hoặc bút trình chiếu."
+
+msgid "your language"
+msgstr "ngôn ngữ của bạn"
+
+msgid "‹ Section"
+msgstr "‹ Phần"

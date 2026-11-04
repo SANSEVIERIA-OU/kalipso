@@ -6,6 +6,7 @@
 #include <QAccessibleWidget>
 #include <QApplication>
 #include <QButtonGroup>
+#include <QDir>
 #include <QEvent>
 #include <QFontDatabase>
 #include <QLabel>
@@ -53,12 +54,28 @@ inline QPalette palette(const Design::Palette &p) {
     return result;
 }
 // The interface and default reading font: Atkinson Hyperlegible Next, embedded (OFL), at the system's size.
-// Scripts it does not cover fall back to the system's fonts glyph by glyph. Safe to call more than once.
-inline void useInterfaceFont() {
+// Bundled Noto fallbacks cover the interface's writing systems without host font dependencies.
+inline void useInterfaceFont(const QString &language = {}) {
     static bool loaded = false;
     if (loaded || !qobject_cast<QApplication *>(QCoreApplication::instance()))
         return;
     loaded = true;
+    for (const auto &file : QDir(":/fonts").entryList({"Noto*.ttf", "Noto*.otf"}, QDir::Files))
+        QFontDatabase::addApplicationFont(":/fonts/" + file);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
+    for (auto script : {QChar::Script_Arabic, QChar::Script_Devanagari, QChar::Script_Bengali, QChar::Script_Telugu,
+                        QChar::Script_Greek, QChar::Script_Cyrillic}) {
+        const QString family = script == QChar::Script_Arabic       ? "Noto Sans Arabic"
+                               : script == QChar::Script_Devanagari ? "Noto Sans Devanagari"
+                               : script == QChar::Script_Bengali    ? "Noto Sans Bengali"
+                               : script == QChar::Script_Telugu     ? "Noto Sans Telugu"
+                                                                    : "Noto Sans";
+        QFontDatabase::addApplicationFallbackFontFamily(script, family);
+    }
+    for (auto script : {QChar::Script_Han, QChar::Script_Hiragana, QChar::Script_Katakana})
+        QFontDatabase::addApplicationFallbackFontFamily(script,
+                                                        language == "ja" ? "Noto Sans CJK JP" : "Noto Sans CJK SC");
+#endif
     int id = -1;
     for (const char *style : {"Regular", "Italic", "SemiBold", "Bold", "BoldItalic"})
         id = std::max(id, QFontDatabase::addApplicationFont(
@@ -66,7 +83,10 @@ inline void useInterfaceFont() {
     if (id < 0)
         return; // Keep the system font if the files cannot be loaded.
     QFont font = QApplication::font();
-    font.setFamilies({QStringLiteral("Atkinson Hyperlegible Next")});
+    font.setFamilies({QStringLiteral("Atkinson Hyperlegible Next"), QStringLiteral("Noto Sans"),
+                      QStringLiteral("Noto Sans Arabic"), QStringLiteral("Noto Sans Devanagari"),
+                      QStringLiteral("Noto Sans Bengali"), QStringLiteral("Noto Sans Telugu"),
+                      language == "ja" ? QStringLiteral("Noto Sans CJK JP") : QStringLiteral("Noto Sans CJK SC")});
     QApplication::setFont(font);
 }
 inline bool &nativeLook() {

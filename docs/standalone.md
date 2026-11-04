@@ -112,4 +112,4 @@ Listening only starts when you press **Start**, and stops when you pause, minimi
 
 ## Interface
 
-**Settings** also has light and dark appearances, reader colors (including automatic colors, see [accessibility](accessibility.md)), interface text size up to 200%, reader text size, and the interface language (system, English or Italiano; applies after a restart).
+**Settings** also has light and dark appearances, reader colors (including automatic colors, see [accessibility](accessibility.md)), interface text size up to 200%, reader text size, and the interface language (system or one of 39 languages, listed by their native names; applies after a restart). This choice is independent of the language you speak. New translations await native-speaker review; see [translation guidelines](translations.md).

@@ -1,0 +1,50 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n منٹ",
+    "%n منٹ"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "%n سلائیڈ کے مقرر کے نوٹس درآمد ہوئے۔ سلائیڈوں کے درمیان جانے کے لیے مطالعہ دریچے میں حصے استعمال کریں۔",
+    "%n سلائیڈوں کے مقرر کے نوٹس درآمد ہوئے۔ سلائیڈوں کے درمیان جانے کے لیے مطالعہ دریچے میں حصے استعمال کریں۔"
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "%n پوشیدہ سلائیڈ چھوڑ دی گئی۔",
+    "%n پوشیدہ سلائیڈیں چھوڑ دی گئیں۔"
+  ],
+  "MainWindow\u0004about %n min": [
+    "تقریباً %n منٹ",
+    "تقریباً %n منٹ"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n لفظ",
+    "%n الفاظ"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n منٹ باقی",
+    "%n منٹ باقی"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "پچھلی نشست: %1 · %n لفظ",
+    "پچھلی نشست: %1 · %n الفاظ"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "۳ سیکنڈ سے طویل %n وقفہ",
+    "۳ سیکنڈ سے طویل %n وقفے"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "%n بھراؤ کا لفظ پہچانا گیا",
+    "%n بھراؤ کے الفاظ پہچانے گئے"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- پڑھے گئے الفاظ: %1 میں سے %n",
+    "- پڑھے گئے الفاظ: %1 میں سے %n"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- ۳ سیکنڈ سے طویل وقفے: %n",
+    "- ۳ سیکنڈ سے طویل وقفے: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- پہچانے گئے بھراؤ کے الفاظ: %n (کئی شناخت کنندگان انہیں چھوڑ دیتے ہیں، اس لیے یہ کم از کم تعداد ہے)",
+    "- پہچانے گئے بھراؤ کے الفاظ: %n (کئی شناخت کنندگان انہیں چھوڑ دیتے ہیں، اس لیے یہ کم از کم تعداد ہے)"
+  ]
+}

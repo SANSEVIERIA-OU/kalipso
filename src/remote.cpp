@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "remote.h"
 #include "../third_party/qrcodegen/qrcodegen.hpp"
+#include "interface_language.h"
+#include <QCoreApplication>
 #include <QHostAddress>
 #include <QJsonDocument>
 #include <QNetworkInterface>
@@ -18,9 +20,9 @@ const QStringList kCommands{"toggle", "next",  "previous",         "faster",
 
 // The remote page. Inline script is avoided so a strict CSP can apply.
 constexpr auto kPage = R"(<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="@language@" dir="@direction@" data-number-locale="@locale@"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kalipso remote</title>
+<title>@Kalipso remote@</title>
 <style>
 :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#17191F;color:#F7F8FC}
 body{margin:0;padding:16px;display:grid;gap:12px;max-width:32rem;margin-inline:auto}
@@ -31,13 +33,13 @@ button:focus-visible{outline:3px solid #F7F8FC;outline-offset:2px}
 #toggle{background:#345CF5;border-color:#345CF5;color:#fff;min-height:7rem}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 </style></head><body>
-<h1>Kalipso remote</h1>
-<p id="state" role="status">Connecting…</p>
-<button id="toggle" data-command="toggle">Start or pause</button>
-<div class="row"><button data-command="previous">Previous</button><button data-command="next">Next</button></div>
-<div class="row"><button data-command="section-previous">&#8249; Section</button><button data-command="section-next">Section &#8250;</button></div>
-<div class="row"><button data-command="slower">Slower</button><button data-command="faster">Faster</button></div>
-<button data-command="reset">Back to start</button>
+<h1>@Kalipso remote@</h1>
+<p id="state" role="status">@Connecting…@</p>
+<button id="toggle" data-command="toggle">@Start or pause@</button>
+<div class="row"><button data-command="previous">@Previous@</button><button data-command="next">@Next@</button></div>
+<div class="row"><button data-command="section-previous">@Previous section@</button><button data-command="section-next">@Next section@</button></div>
+<div class="row"><button data-command="slower">@Slower@</button><button data-command="faster">@Faster@</button></div>
+<button data-command="reset">@Back to start@</button>
 <script src="app.js"></script>
 </body></html>)";
 
@@ -45,9 +47,10 @@ constexpr auto kScript = R"(const state=document.getElementById('state');
 async function refresh(){
   try{
     const r=await fetch('state',{cache:'no-store'});const s=await r.json();
-    const mode={manual:'Manual',steady:'Steady speed',voice:'Follow my voice'}[s.mode]||'';
-    state.textContent=`${mode} · ${s.running?'running':'paused'} · word ${s.position} of ${s.total}`+(s.mode==='steady'?` · ${s.speed} words/min`:'');
-  }catch(e){state.textContent='Kalipso is not reachable. Check that remote control is still on.';}
+    const mode={manual:words.manual,steady:words.steady,voice:words.voice}[s.mode]||'';
+    const number = n => new Intl.NumberFormat(document.documentElement.dataset.numberLocale).format(n);
+    state.textContent = [mode, s.running ? words.running : words.paused, words.position.replace('%1',number(s.position)).replace('%2',number(s.total))].join(' · ') + (s.mode==='steady' ? ' · '+words.speed.replace('%1',number(s.speed)) : '');
+  }catch(e){state.textContent=words.unreachable;}
 }
 for(const b of document.querySelectorAll('button[data-command]'))
   b.addEventListener('click',async()=>{await fetch('command/'+b.dataset.command,{method:'POST'}).catch(()=>{});refresh();});
@@ -172,11 +175,40 @@ void RemoteControl::serve(QTcpSocket *socket) {
             const auto prefix = "/" + token_ + "/";
             if (path.startsWith(prefix)) {
                 const auto route = path.mid(prefix.size());
-                if (route.isEmpty() && method == "GET")
-                    reply = response(200, "text/html; charset=utf-8", kPage);
-                else if (route == QLatin1String("app.js") && method == "GET")
-                    reply = response(200, "text/javascript; charset=utf-8", kScript);
-                else if (route == QLatin1String("state") && method == "GET")
+                if (route.isEmpty() && method == "GET") {
+                    QString page = QString::fromUtf8(kPage);
+                    const auto language = InterfaceLanguages::select(
+                        QCoreApplication::instance()->property("interfaceLanguage").toString());
+                    page.replace("@language@", QLatin1String(language.code));
+                    page.replace("@locale@", InterfaceLanguages::formattingLocale(language).bcp47Name());
+                    page.replace("@direction@", language.rtl ? "rtl" : "ltr");
+                    const QPair<const char *, QString> labels[] = {{"Kalipso remote", tr("Kalipso remote")},
+                                                                   {"Connecting…", tr("Connecting…")},
+                                                                   {"Start or pause", tr("Start or pause")},
+                                                                   {"Previous", tr("Previous")},
+                                                                   {"Next", tr("Next")},
+                                                                   {"Previous section", tr("Previous section")},
+                                                                   {"Next section", tr("Next section")},
+                                                                   {"Slower", tr("Slower")},
+                                                                   {"Faster", tr("Faster")},
+                                                                   {"Back to start", tr("Back to start")}};
+                    for (const auto &label : labels)
+                        page.replace('@' + QString::fromUtf8(label.first) + '@', label.second.toHtmlEscaped());
+                    reply = response(200, "text/html; charset=utf-8", page.toUtf8());
+                } else if (route == QLatin1String("app.js") && method == "GET") {
+                    const QJsonObject words{
+                        {"manual", tr("Manual")},
+                        {"steady", tr("Steady speed")},
+                        {"voice", tr("Follow my voice")},
+                        {"running", tr("Running")},
+                        {"paused", tr("Paused")},
+                        {"position", tr("Word %1 of %2")},
+                        {"speed", tr("%1 words/min")},
+                        {"unreachable", tr("Kalipso is not reachable. Check that remote control is still on.")}};
+                    reply = response(200, "text/javascript; charset=utf-8",
+                                     "const words=" + QJsonDocument(words).toJson(QJsonDocument::Compact) + ";\n" +
+                                         kScript);
+                } else if (route == QLatin1String("state") && method == "GET")
                     reply = response(200, "application/json", QJsonDocument(state_).toJson(QJsonDocument::Compact));
                 else if (route.startsWith(QLatin1String("command/")) && kCommands.contains(route.mid(8))) {
                     if (method == "POST") {

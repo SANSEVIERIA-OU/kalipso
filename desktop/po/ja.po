@@ -1,0 +1,459 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: ja\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=(0);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1をダウンロードしました。音声の受け取りを停止したら選び直してください。"
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1秒"
+
+msgid "%1 words/min"
+msgstr "%1語/分"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2分"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · %2 MBをダウンロード"
+
+msgid "%d words/min"
+msgstr "%d語/分"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%sをダウンロードしました。音声の受け取りを停止したら選び直してください。"
+
+msgid "%s · %d min"
+msgstr "%s · %d分"
+
+msgid "%s · download %d MB"
+msgstr "%s · %d MBをダウンロード"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "少し準備するだけで、よりよい会話の余裕が生まれます。[笑顔]\n\nゆっくりで大丈夫です。間を置く余裕を持ちましょう。準備ができたら、次の言葉はここにあります。"
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "少し準備するだけで、よりよい会話の余裕が生まれます。[笑顔] ゆっくりで大丈夫です。最初の文を声に出して読み、言葉がついてくる様子を見てください。"
+
+msgid "A script written here"
+msgstr "ここで書いた原稿"
+
+msgid "Add your script to begin."
+msgstr "原稿を追加して始めてください。"
+
+msgid "Appearance"
+msgstr "外観"
+
+msgid "Automatic"
+msgstr "自動"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "自動では原稿表示画面の周囲の色を取得します。画像は保存しません。"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Cancel download"
+msgstr "ダウンロードをキャンセル"
+
+msgid "Checking and unpacking %1…"
+msgstr "%1を確認・展開中…"
+
+msgid "Checking and unpacking %s…"
+msgstr "%sを確認・展開中…"
+
+msgid "Checking local speech components"
+msgstr "ローカル音声認識の構成要素を確認中"
+
+msgid "Chinese"
+msgstr "中国語"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Kalipsoの原稿を選んでください"
+
+msgid "Choose the language you speak."
+msgstr "話す言語を選んでください。"
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "原稿表示画面の背後のウィンドウを選んでください。デスクトップの許可が必要です。"
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "デスクトップ共有ダイアログで、原稿表示画面の背後のウィンドウを選んでください"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "言語を選ぶと、モデルの配布元から音声モデルを一度だけダウンロードし、フィンガープリントを確認します。その後はこのコンピューターで認識し、話した内容は送信しません。"
+
+msgid "Configure Kalipso…"
+msgstr "Kalipsoを設定…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "%1をダウンロードできませんでした。インターネット接続を確認して再試行してください。"
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "%sをダウンロードできませんでした。インターネット接続を確認して再試行してください。"
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "%1を保存できませんでした。空き容量が不足しているか、データフォルダーに書き込めません。"
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "%sを保存できませんでした。空き容量が不足しているか、データフォルダーに書き込めません。"
+
+msgid "Countdown before steady scrolling"
+msgstr "一定速度のスクロール前にカウントダウン"
+
+msgid "Countdown before steady scrolling:"
+msgstr "一定速度のスクロール前にカウントダウン："
+
+msgid "Dark"
+msgstr "ダーク"
+
+msgid "Desktop theme"
+msgstr "デスクトップのテーマ"
+
+msgid "Done"
+msgstr "完了"
+
+msgid "Done editing"
+msgstr "編集を完了"
+
+msgid "Download and use"
+msgstr "ダウンロードして使用"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "ダウンロードをキャンセルしました。変更はありません。"
+
+msgid "Download progress"
+msgstr "ダウンロードの進行状況"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "%1をダウンロード中：%3 MB中%2 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "%sをダウンロード中：%d / %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Kalipsoで編集"
+
+msgid "Edit script"
+msgstr "原稿を編集"
+
+msgid "End of script · Microphone off"
+msgstr "原稿の終わり · マイクはオフ"
+
+msgid "English"
+msgstr "英語"
+
+msgid "Faster"
+msgstr "速く"
+
+msgid "Follow a window's colors…"
+msgstr "ウィンドウの色に合わせる…"
+
+msgid "Follow my voice"
+msgstr "自分の声に追従"
+
+msgid "Font:"
+msgstr "フォント："
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "原稿表示画面を鏡越しに映すビームスプリッター機材用です。"
+
+msgid "French"
+msgstr "フランス語"
+
+msgid "German"
+msgstr "ドイツ語"
+
+msgid "Help:"
+msgstr "ヘルプ："
+
+msgid "Hide"
+msgstr "隠す"
+
+msgid "Horizontal"
+msgstr "左右"
+
+msgid "Interface font"
+msgstr "インターフェースのフォント"
+
+msgid "Italian"
+msgstr "イタリア語"
+
+msgid "Japanese"
+msgstr "日本語"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipsoはx86_64コンピューターのLinuxで音声モデルをダウンロードします。"
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "キー：矢印またはPage Up/Downで進み、スペースで開始・一時停止、+と−で一定速度を変更します。画面共有にこのウィジェットが含まれる場合があります。他の参加者に何が見えるか確認してください。"
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "キー：矢印またはPage Up/Downで進み、スペースで開始・一時停止、+と−で一定速度を変更します。画面共有に原稿表示画面が映る場合があります。他の参加者に何が見えるか確認してください。"
+
+msgid "Language you speak"
+msgstr "話す言語"
+
+msgid "Language you speak:"
+msgstr "話す言語："
+
+msgid "Larger"
+msgstr "大きく"
+
+msgid "Light"
+msgstr "ライト"
+
+msgid "Line spacing"
+msgstr "行間"
+
+msgid "Line spacing:"
+msgstr "行間："
+
+msgid "Listening · On this device"
+msgstr "音声を受け取り中 · このデバイス内"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "ローカル音声認識がインストールされていません。「ローカル音声認識の設定」を開き、補助プログラムと言語モデルをインストールしてください。"
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "ローカル音声認識を利用できません。「ローカル音声認識の設定」を開き、補助プログラムと言語モデルをインストールしてください。"
+
+msgid "Local speech recognition follows what you say."
+msgstr "ローカル音声認識が話した内容に追従します。"
+
+msgid "Local speech setup"
+msgstr "ローカル音声認識の設定"
+
+msgid "Local speech setup ↗"
+msgstr "ローカル音声認識の設定 ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "ローカル音声認識を利用できません。%s docs/local-engine.mdを参照してください。"
+
+msgid "Manual"
+msgstr "手動"
+
+msgid "Manual · Microphone off"
+msgstr "手動 · マイクはオフ"
+
+msgid "Microphone stopped"
+msgstr "マイクを停止しました"
+
+msgid "Mirror"
+msgstr "反転"
+
+msgid "Mirror:"
+msgstr "反転："
+
+msgid "More"
+msgstr "その他"
+
+msgid "Next section"
+msgstr "次のセクション"
+
+msgid "Next words"
+msgstr "次の言葉"
+
+msgid "Normal"
+msgstr "標準"
+
+msgid "Off"
+msgstr "オフ"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "原稿から外れています · 本文に戻るとKalipsoが追いつきます"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "原稿全体を読む、または変更するには「原稿を編集」を開いてください。"
+
+msgid "Pause"
+msgstr "一時停止"
+
+msgid "Paused · Microphone off"
+msgstr "一時停止中 · マイクはオフ"
+
+msgid "Previous"
+msgstr "前へ"
+
+msgid "Previous section"
+msgstr "前のセクション"
+
+msgid "Reader colors"
+msgstr "原稿表示画面の色"
+
+msgid "Reader colors:"
+msgstr "原稿表示画面の色："
+
+msgid "Reader font"
+msgstr "原稿表示画面のフォント"
+
+msgid "Reading"
+msgstr "読む"
+
+msgid "Reading excerpt"
+msgstr "原稿の抜粋"
+
+msgid "Reading mode"
+msgstr "読み方"
+
+msgid "Reading mode:"
+msgstr "読み方："
+
+msgid "Reading mode: %1"
+msgstr "読み方：%1"
+
+msgid "Reading progress"
+msgstr "読む進行状況"
+
+msgid "Reading size"
+msgstr "読む文字のサイズ"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "%2で%1の音声を受け取る準備ができました。"
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "%1の音声を受け取る準備ができました。「自分の声に追従」を選んで音声の受け取りを開始してください。"
+
+msgid "Ready to listen in %s, with %s."
+msgstr "%sの音声を%sで受け取る準備ができました。"
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "%sの音声を受け取る準備ができました。「自分の声に追従」を選んで音声の受け取りを開始してください。"
+
+msgid "Relaxed"
+msgstr "ゆったり"
+
+msgid "Reset"
+msgstr "リセット"
+
+msgid "SCRIPT"
+msgstr "原稿"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "自動保存されます。[角括弧の指示]は表示されますが、声に出して読みません。#で始まる行はセクションです。"
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "画面の色を取得できません。不透明な原稿表示画面のコントラストは維持されます。"
+
+msgid "Script"
+msgstr "原稿"
+
+msgid "Script: %1"
+msgstr "原稿：%1"
+
+msgid "Scripts"
+msgstr "原稿"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "原稿はKalipsoアプリで書いたり変更したりし、ここで読みます。"
+
+msgid "Scrolling · Microphone off"
+msgstr "スクロール中 · マイクはオフ"
+
+msgid "Section ›"
+msgstr "セクション ›"
+
+msgid "Sections"
+msgstr "セクション"
+
+msgid "Serif"
+msgstr "セリフ体"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Slower"
+msgstr "遅く"
+
+msgid "Smaller"
+msgstr "小さく"
+
+msgid "Spanish"
+msgstr "スペイン語"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "音声認識を利用できません · Kalipsoを設定 → 音声"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "音声認識を利用できません · 設定を開く"
+
+msgid "Start"
+msgstr "開始"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "%1秒後に開始…"
+
+msgid "Starting local speech…"
+msgstr "ローカル音声認識を開始中…"
+
+msgid "Steady speed"
+msgstr "一定速度"
+
+msgid "Steady speed:"
+msgstr "一定速度："
+
+msgid "Stop following the window"
+msgstr "ウィンドウへの追従を停止"
+
+msgid "Text size:"
+msgstr "文字サイズ："
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%1のダウンロードがフィンガープリントと一致しなかったため削除しました。後で再試行してください。"
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "%1のモデルを展開できませんでした。後で再試行してください。"
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%sのダウンロードがフィンガープリントと一致しなかったため削除しました。後で再試行してください。"
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "%sのモデルを展開できませんでした。後で再試行してください。"
+
+msgid "The microphone turns on when you start"
+msgstr "開始するとマイクがオンになります"
+
+msgid "The words advance at the speed below."
+msgstr "以下の速度で言葉が進みます。"
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "このKalipso補助プログラムは言語をダウンロードできません。インストールまたは更新し、ログアウトして再度ログインしてください。"
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "原稿表示画面の背後のウィンドウの色を取り込むには、原稿表示画面の⋯メニューで「ウィンドウの色に合わせる…」を選んでください。"
+
+msgid "Try again"
+msgstr "再試行"
+
+msgid "Use this language"
+msgstr "この言語を使う"
+
+msgid "Vertical"
+msgstr "上下"
+
+msgid "Voice"
+msgstr "音声"
+
+msgid "Wide"
+msgstr "広め"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "ウィンドウの色を取得できません。Kalipso補助プログラムとデスクトップ共有ポータルをインストールまたは更新してください。"
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "ウィンドウ共有が停止しました · 背景ウィンドウを選ぶと再開します"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "キー、ペダル、クリッカーで進めます。"
+
+msgid "your language"
+msgstr "お使いの言語"
+
+msgid "‹ Section"
+msgstr "‹ セクション"

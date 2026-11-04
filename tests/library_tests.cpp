@@ -4,9 +4,12 @@
 #include "remote.h"
 #include "session_stats.h"
 #include "tracker.h"
+#include <QJsonDocument>
+#include <QScopeGuard>
 #include <QSignalSpy>
 #include <QTcpSocket>
 #include <QTemporaryDir>
+#include <QTranslator>
 #include <QtTest>
 #include <atomic>
 #include <thread>
@@ -118,18 +121,17 @@ QByteArray twoSlides(bool hide) {
     const QByteArray rels = R"(<Relationships><Relationship Id="rId1" Type="http://x/relationships/slide" )"
                             R"(Target="slides/slide1.xml"/><Relationship Id="rId2" )"
                             R"(Type="http://x/relationships/slide" Target="slides/slide2.xml"/></Relationships>)";
-    return storedZip({{"ppt/presentation.xml", R"(<p:presentation xmlns:p="p" xmlns:r="r"><p:sldIdLst>)"
-                                               R"(<p:sldId id="256" r:id="rId1"/><p:sldId id="257" r:id="rId2"/>)"
-                                               R"(</p:sldIdLst></p:presentation>)"},
-                      {"ppt/_rels/presentation.xml.rels", rels},
-                      {"ppt/slides/slide1.xml", "<p:sld xmlns:p=\"p\"/>"},
-                      {"ppt/slides/slide2.xml", hide ? "<p:sld xmlns:p=\"p\" show=\"0\"/>" : "<p:sld xmlns:p=\"p\"/>"},
-                      {"ppt/slides/_rels/slide1.xml.rels",
-                       relationships("rId3", "notesSlide", "../notesSlides/notesSlide1.xml")},
-                      {"ppt/slides/_rels/slide2.xml.rels",
-                       relationships("rId4", "notesSlide", "../notesSlides/notesSlide2.xml")},
-                      {"ppt/notesSlides/notesSlide1.xml", notesPart("Shown slide notes")},
-                      {"ppt/notesSlides/notesSlide2.xml", notesPart("Hidden slide notes")}});
+    return storedZip(
+        {{"ppt/presentation.xml", R"(<p:presentation xmlns:p="p" xmlns:r="r"><p:sldIdLst>)"
+                                  R"(<p:sldId id="256" r:id="rId1"/><p:sldId id="257" r:id="rId2"/>)"
+                                  R"(</p:sldIdLst></p:presentation>)"},
+         {"ppt/_rels/presentation.xml.rels", rels},
+         {"ppt/slides/slide1.xml", "<p:sld xmlns:p=\"p\"/>"},
+         {"ppt/slides/slide2.xml", hide ? "<p:sld xmlns:p=\"p\" show=\"0\"/>" : "<p:sld xmlns:p=\"p\"/>"},
+         {"ppt/slides/_rels/slide1.xml.rels", relationships("rId3", "notesSlide", "../notesSlides/notesSlide1.xml")},
+         {"ppt/slides/_rels/slide2.xml.rels", relationships("rId4", "notesSlide", "../notesSlides/notesSlide2.xml")},
+         {"ppt/notesSlides/notesSlide1.xml", notesPart("Shown slide notes")},
+         {"ppt/notesSlides/notesSlide2.xml", notesPart("Hidden slide notes")}});
 }
 
 // Two Impress pages with notes; the second one's drawing-page style hidden when `hide`.
@@ -399,6 +401,44 @@ private slots:
         QVERIFY(!RemoteControl::qrCode(remote.url()).isNull());
     }
 
+    void remoteUsesTheActiveLanguageAndEscapesTranslations() {
+        class Translator : public QTranslator {
+        public:
+            bool isEmpty() const override { return false; }
+            QString translate(const char *context, const char *source, const char *, int) const override {
+                if (qstrcmp(context, "RemoteControl") != 0)
+                    return {};
+                if (qstrcmp(source, "Kalipso remote") == 0)
+                    return QStringLiteral("<جهاز &>");
+                if (qstrcmp(source, "Manual") == 0)
+                    return QStringLiteral("يدوي \"<&>");
+                return {};
+            }
+        } translator;
+        const auto previous = qApp->property("interfaceLanguage");
+        qApp->setProperty("interfaceLanguage", "arz");
+        qApp->installTranslator(&translator);
+        const auto restore = qScopeGuard([&] {
+            qApp->removeTranslator(&translator);
+            qApp->setProperty("interfaceLanguage", previous);
+        });
+        RemoteControl remote;
+        QVERIFY(remote.start(QHostAddress(QHostAddress::LocalHost), 0));
+        const auto base = "/" + remote.token() + "/";
+        const auto page = http(remote.port(), "GET", base);
+        QCOMPARE(page.first, 200);
+        QVERIFY(page.second.contains("lang=\"arz\" dir=\"rtl\""));
+        QVERIFY(page.second.contains("data-number-locale=\"ar"));
+        QVERIFY(page.second.contains(QStringLiteral("&lt;جهاز &amp;&gt;").toUtf8()));
+        QVERIFY(!page.second.contains("@language@"));
+        const auto script = http(remote.port(), "GET", base + "app.js");
+        QCOMPARE(script.first, 200);
+        const auto begin = QByteArray("const words=").size();
+        const auto end = script.second.indexOf(";\n");
+        const auto words = QJsonDocument::fromJson(script.second.mid(begin, end - begin)).object();
+        QCOMPARE(words.value("manual").toString(), QStringLiteral("يدوي \"<&>"));
+    }
+
     void remoteListensOnTheChosenNetworkWithAStablePort() {
         RemoteControl remote;
         QVERIFY(remote.start(QHostAddress(QHostAddress::LocalHost), 0));
@@ -456,7 +496,7 @@ private slots:
         QVERIFY2(report.contains("- At the planned 150 words/min: 0:08 expected, 0:09 taken (11% slower)"),
                  qPrintable(report));
         QCOMPARE(SessionStats::paceAgainstPlan(summary), -11); // 133 words/min against 150.
-        summary.plannedWordsPerMinute = 0; // No plan: no comparison.
+        summary.plannedWordsPerMinute = 0;                     // No plan: no comparison.
         QVERIFY(!SessionStats::report(summary, script, "Launch", QDateTime::currentDateTime()).contains("planned"));
         QVERIFY(report.contains("- Pauses over 3 s: 1 (longest 0:07)"));
         QVERIFY2(report.contains("| Intro | 0:02 | 10 | 300 |"), qPrintable(report));

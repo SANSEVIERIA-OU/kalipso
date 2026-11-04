@@ -1,0 +1,38 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n分"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "%n枚のスライドから発表者ノートをインポートしました。原稿表示画面の「セクション」でスライド間を移動できます。"
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "非表示のスライド%n枚を除外しました。"
+  ],
+  "MainWindow\u0004about %n min": [
+    "約%n分"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n語"
+  ],
+  "MainWindow\u0004%n min left": [
+    "残り%n分"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "前回のセッション：%1 · %n語"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "3秒を超える間：%n回"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "認識したつなぎ言葉：%n語"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- 読んだ語数：%1語中%n語"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- 3秒を超える間：%n回"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- 認識したつなぎ言葉：%n語（多くの認識エンジンが省くため、これは下限です）"
+  ]
+}

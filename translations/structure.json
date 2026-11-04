@@ -1,0 +1,3389 @@
+{
+  "app": [
+    {
+      "context": "Backdrop",
+      "source": "Screen color sampling timed out. The opaque reader keeps its contrast.",
+      "key": "s6ac6ee29f009"
+    },
+    {
+      "context": "Backdrop",
+      "source": "Screen color sampling returned invalid data.",
+      "key": "s6bed84db23e0"
+    },
+    {
+      "context": "Backdrop",
+      "source": "Screen colors are unavailable. The opaque reader keeps its contrast.",
+      "key": "sa1e9856120c6"
+    },
+    {
+      "context": "Backdrop",
+      "source": "Colors behind the reader · macOS screen-recording permission required",
+      "key": "sbeeddf6af600"
+    },
+    {
+      "context": "Backdrop",
+      "source": "Colors around the reader · no recording or saved images",
+      "key": "s3580dee2c11b"
+    },
+    {
+      "context": "Backdrop",
+      "source": "Choose a background window to follow its colors. Desktop permission is required; sharing stops when the reader is hidden.",
+      "key": "s025d51e5e332"
+    },
+    {
+      "context": "Backdrop",
+      "source": "Screen pixels are unavailable here; the reader uses a fixed high-contrast palette.",
+      "key": "s121333586582"
+    },
+    {
+      "context": "Engine",
+      "source": "Local engine ready",
+      "key": "sfb514dddc22f"
+    },
+    {
+      "context": "Engine",
+      "source": "A widget identifier is required.",
+      "key": "s3a51b2cb7b89"
+    },
+    {
+      "context": "Engine",
+      "source": "Another widget is sharing a background window.",
+      "key": "s674039ca21d9"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the sharing widget can read its color state.",
+      "key": "s352e9e94086c"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the sharing widget can stop its session.",
+      "key": "sc903126b0dbd"
+    },
+    {
+      "context": "Engine",
+      "source": "Stop listening before changing the speech engine.",
+      "key": "s28ee07403445"
+    },
+    {
+      "context": "Engine",
+      "source": "Choose Moonshine or Vosk.",
+      "key": "s6367e57ca5cd"
+    },
+    {
+      "context": "Engine",
+      "source": "Cannot save the speech engine selection.",
+      "key": "s3ec456497644"
+    },
+    {
+      "context": "Engine",
+      "source": "Speech engine selected. Start listening when its model is configured.",
+      "key": "s71d9c51589e4"
+    },
+    {
+      "context": "Engine",
+      "source": "Stop listening before changing the language.",
+      "key": "sa4821af3001d"
+    },
+    {
+      "context": "Engine",
+      "source": "Kalipso has no speech model for this language.",
+      "key": "s095ed1b915b5"
+    },
+    {
+      "context": "Engine",
+      "source": "Another language is downloading. Cancel it first.",
+      "key": "s5ddd9ec785c3"
+    },
+    {
+      "context": "Engine",
+      "source": "Cannot save the language.",
+      "key": "s018cec6886e7"
+    },
+    {
+      "context": "Engine",
+      "source": "Another frontend owns the microphone. Stop listening there first.",
+      "key": "sdeb78256cb4c"
+    },
+    {
+      "context": "Engine",
+      "source": "Loading local speech model",
+      "key": "se28e70ad722e"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the listening frontend can stop its session.",
+      "key": "sca6e1c40ba9c"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the listening frontend can set the script.",
+      "key": "sb1973d5084de"
+    },
+    {
+      "context": "Engine",
+      "source": "The script is too long.",
+      "key": "s08e18791f2bd"
+    },
+    {
+      "context": "Engine",
+      "source": "This script is not in Kalipso's library.",
+      "key": "s7362b591df4c"
+    },
+    {
+      "context": "Engine",
+      "source": "Kalipso could not be started. Is the app installed?",
+      "key": "s85486c4af4fc"
+    },
+    {
+      "context": "Engine",
+      "source": "Speech language selected.",
+      "key": "s9e6b4fcc81f9"
+    },
+    {
+      "context": "Engine",
+      "source": "Microphone stopped",
+      "key": "sf72d832c9f06"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "LibreOffice's Python bridge is missing (on Debian and Ubuntu: python3-uno).",
+      "key": "s37b747872c84"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "Stopped following Impress.",
+      "key": "s527b0623d3aa"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "LibreOffice was not found. Install it to follow an Impress slideshow.",
+      "key": "s4657c4a9fd45"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "Cannot prepare the Impress connection.",
+      "key": "s9aff22f75ebc"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "LibreOffice could not be started.",
+      "key": "s4d511974d254"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "Connecting to LibreOffice…",
+      "key": "s4ed1b2cd9a48"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "Waiting for LibreOffice to open the presentation…",
+      "key": "s75231f3b94aa"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "Connected to Impress. Start the slideshow; Kalipso follows its slides.",
+      "key": "s004cfb50fd69"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "The slideshow ended. Start it again to keep following.",
+      "key": "s398cade0514e"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "The presentation was closed. Stopped following Impress.",
+      "key": "s138a98e9b2da"
+    },
+    {
+      "context": "ImpressFollower",
+      "source": "Cannot follow Impress: %1",
+      "key": "s88326412426d"
+    },
+    {
+      "context": "MainWindow",
+      "source": "German",
+      "key": "sa6260760d52e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "English",
+      "key": "sfea288faa0c1"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Spanish",
+      "key": "s5e698d00ee58"
+    },
+    {
+      "context": "MainWindow",
+      "source": "French",
+      "key": "s42964abb5e05"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Italian",
+      "key": "s91fce09c70f0"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Japanese",
+      "key": "s3c6f633d9545"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Chinese",
+      "key": "s21fb82f54cb7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso",
+      "key": "s9c3f36afaa16"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Script",
+      "key": "s0e92fca99d77"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Bold",
+      "key": "sbc037162787b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Italic",
+      "key": "sa8e6d6070c0a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Section heading",
+      "key": "s647ca8f8bd03"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Direction cue, not read aloud",
+      "key": "s24911f17ac78"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 (%2)",
+      "key": "s54f9b52ff06b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso settings",
+      "key": "s4f14ea0b4224"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Close",
+      "key": "s99e01fb5fac5"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Present with Impress…",
+      "key": "s2474a4d6bc77"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Script saved.",
+      "key": "s322437758211"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Scripts",
+      "key": "s97a07955d85b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "New",
+      "key": "s03d9347f2d2b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "New script",
+      "key": "sc9052022da33"
+    },
+    {
+      "context": "MainWindow",
+      "source": "New script (Ctrl+N)",
+      "key": "s126f089fdd90"
+    },
+    {
+      "context": "MainWindow",
+      "source": "More",
+      "key": "sa7323f1db0c0"
+    },
+    {
+      "context": "MainWindow",
+      "source": "More script actions",
+      "key": "sf99dafc8a0e2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Import…",
+      "key": "s61525e12faa0"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Text, Markdown, Word (.docx) and OpenDocument (.odt) documents, or speaker notes from PowerPoint (.pptx) and Impress (.odp)",
+      "key": "sb0644809f8bb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Open a presentation in LibreOffice Impress and follow its slideshow: the reader jumps to the notes of the slide being shown.",
+      "key": "s9fa94903bae6"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Export…",
+      "key": "s056590ac2651"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Save session report…",
+      "key": "s488f0cade670"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Delete script…",
+      "key": "sb01cb62deded"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Present with Impress",
+      "key": "s221736d49837"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Presentations (*.odp *.pptx)",
+      "key": "sc3c658b9c46a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Stop following Impress",
+      "key": "s7c38c0ad109e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Save session report",
+      "key": "sa3ec057e224c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 - session.md",
+      "key": "sada96a97994b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Markdown (*.md);;Text (*.txt)",
+      "key": "s4e6a9714d49e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cannot save the report",
+      "key": "s9be6ae54bb22"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Check the destination and available disk space.",
+      "key": "seb4919051fe3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Session report saved to %1.",
+      "key": "s7e3a01516158"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Paused while the window was minimized · microphone off",
+      "key": "s947053d904fa"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Empty",
+      "key": "sf019701373ea"
+    },
+    {
+      "context": "MainWindow",
+      "source": "under 1 min",
+      "key": "scc9d08326bd9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%n min",
+      "key": "s8ef39f4ae224",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "yesterday",
+      "key": "sd5819060de6b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 · %2",
+      "key": "se4ddb128d486"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cannot save the script. Check the available disk space.",
+      "key": "s5a10e619d498"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cannot create a script in %1.",
+      "key": "se0e2f00da2e9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Import script",
+      "key": "sf08dea1769b4"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cannot import",
+      "key": "sde45183c0593"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cannot save the imported script.",
+      "key": "sfa0a0620bf8c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.",
+      "key": "s91f9147ec35a",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "Script imported.",
+      "key": "s636b5b6744fd"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%n hidden slide(s) left out.",
+      "key": "s04e434ecc1ba",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "The text is as large as it gets.",
+      "key": "s06acc18a99d9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "The text is as small as it gets.",
+      "key": "s633d02d85622"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Text size %1",
+      "key": "s8084ba0093ca"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Export script",
+      "key": "scf8a01ff0142"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Text (*.txt);;Markdown (*.md)",
+      "key": "s2dc57f63cdeb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cannot export",
+      "key": "sd9168c88f800"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Exported to %1.",
+      "key": "sad389f891a08"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Delete script?",
+      "key": "s3a9227f376c7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Delete “%1” from this device?",
+      "key": "s7edebceebb84"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Deleted “%1”.",
+      "key": "s34c4e2f5498c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "# Welcome\n\nThank you for joining today. [Smile]\n\nLet us start with the question that matters most. What would make this project useful to the people who depend on it?\n\n# Next steps\n\nWe can take this one step at a time. [Pause] Listen carefully, check the question, and choose the words we want to share.",
+      "key": "sb7a72b9da775"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Sample script (not saved)",
+      "key": "s81eb8b573fff"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Welcome to Kalipso",
+      "key": "se3d6c583fcec"
+    },
+    {
+      "context": "MainWindow",
+      "source": "A teleprompter that follows your voice and keeps your place. Everything stays on this computer.",
+      "key": "s574632b39f7d"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose language",
+      "key": "s46d01c373f86"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose the language you speak",
+      "key": "s3ae57897f925"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Test the microphone",
+      "key": "s85ad16767d69"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Check that Kalipso hears you",
+      "key": "s9b4ad26740f2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Speak for a moment: a bar moves with your voice. Nothing is recorded or sent.",
+      "key": "sfe1e5b90cb70"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Write",
+      "key": "sa5203de58464"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Try a sample",
+      "key": "s73510d5747fe"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Write or import your script",
+      "key": "sa441dc01f61c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Paste your text, or import a document, Markdown or the speaker notes of a presentation. To read, press Under the camera: the window goes small, at the top of the screen.",
+      "key": "s2f737c4e9db7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Ready: Kalipso listens in %1, on this computer.",
+      "key": "s11b46c5191c7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso downloads the voice model for it once, about 50 MB.",
+      "key": "s75f339952111"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Change language",
+      "key": "se8d6c43b6eaf"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 — Kalipso",
+      "key": "s80a08b9d3097"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso asked the system to hide this reader from screen sharing. Check the view from another participant.",
+      "key": "sdc1155fa3c36"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Screen sharing may include this reader.",
+      "key": "s8dc7d9c96912"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Resumes after your next pause",
+      "key": "s8d9f4e2c9f18"
+    },
+    {
+      "context": "MainWindow",
+      "source": "under a minute",
+      "key": "s0cdf5bfd01a2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "about %n min",
+      "key": "sf4704454126d",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "%n word(s)",
+      "key": "s18497da1693d",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "Word %1 of %2",
+      "key": "sc4b6bad222f2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Paused · microphone off",
+      "key": "sbaa260a3f2c3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "End of script",
+      "key": "s460e72f65d58"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Impress · slide %1 has no notes.",
+      "key": "sf862104df62a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Impress · the notes of slide %1 are not in this script.",
+      "key": "s105c49c5db40"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Following Impress · slide %1",
+      "key": "s2953119e8066"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Manual · microphone off",
+      "key": "s3c9af92754f2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "end of script",
+      "key": "s740a3d8de253"
+    },
+    {
+      "context": "MainWindow",
+      "source": "under a minute left",
+      "key": "s542871fc9200"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%n min left",
+      "key": "s3f985ee1147e",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "Starting…",
+      "key": "sb901e750abf9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Microphone off · no language chosen yet",
+      "key": "s17ad65c1e7dc"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Microphone off until you start",
+      "key": "s3b7aa544a58f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Off script · Kalipso catches up when you return to the text",
+      "key": "sd9d4be5b1251"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Listening",
+      "key": "s0e38194f62bf"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose the language you speak in Settings: Kalipso downloads it once.",
+      "key": "s99347f2c8c5c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Last session: %1 · %n word(s)",
+      "key": "s4fe077a75b0e",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 words/min",
+      "key": "s22c64564a854"
+    },
+    {
+      "context": "MainWindow",
+      "source": "(as planned)",
+      "key": "s707f91836a0b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "(%1% faster than planned)",
+      "key": "s417d712933d9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "(%1% slower than planned)",
+      "key": "s1e6f8875d05d"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%n pause(s) over 3 s",
+      "key": "s78d1d2ecd5e7",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "(longest %1)",
+      "key": "sf6ad8f0567fa"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%n filler word(s) recognized",
+      "key": "s1e65a5a5f49b",
+      "numerus": true
+    },
+    {
+      "context": "MainWindow",
+      "source": "Keys and pedals",
+      "key": "sd75da1017c68"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Start or pause",
+      "key": "sfedb1b3997db"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Next word",
+      "key": "sf65e0e884dea"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Previous word",
+      "key": "s8d56eb05c65f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Next section",
+      "key": "scbafb86fc9da"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Previous section",
+      "key": "s0a8d80d0d854"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Faster",
+      "key": "sbaed573f6042"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Slower",
+      "key": "s011652904f7a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Back to the start",
+      "key": "s553337d48df1"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Press a key",
+      "key": "scd15301875d6"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Built in: %1",
+      "key": "sd56f99b481c4"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Pedals and clickers usually send the arrows, Page Up/Down or Space, which work without any setup. Choose a key here to add one for an action, or to give a built-in key another action, for example the arrows to change speed. Escape always pauses.",
+      "key": "sed387d4177d2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Voice",
+      "key": "sa9edb15f64ee"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Reader",
+      "key": "s6729b1bb0d34"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Appearance",
+      "key": "s7ca70a76d271"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Phone",
+      "key": "s717d125a5b09"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Settings pages",
+      "key": "s9c54085e10f6"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Monitor",
+      "key": "scc38b40eb7a5"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Text size",
+      "key": "s7dba89890a11"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Interface font",
+      "key": "s11d0b6a6d11c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Any installed font, for example one designed for easier reading such as Atkinson Hyperlegible or OpenDyslexic.",
+      "key": "s3658e06f3f45"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Font",
+      "key": "se93d3de86d8f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Normal",
+      "key": "sa49681e12ac3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Relaxed",
+      "key": "sf3da58d33b69"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Wide",
+      "key": "se5a382a0867b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Line spacing",
+      "key": "sbbbcfdbe63f3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Top",
+      "key": "s4a0d1fe42e03"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Upper third",
+      "key": "sc1250a7d79de"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Center",
+      "key": "s2d2373b71883"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Current line position",
+      "key": "sd1d48840e688"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Off",
+      "key": "s5159727dc0c9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Horizontal (beam-splitter glass)",
+      "key": "sfe6dfd7aa071"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Vertical",
+      "key": "s1d1135625500"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Horizontal and vertical",
+      "key": "s6e41b765d4cb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Mirror text",
+      "key": "s0ac962660446"
+    },
+    {
+      "context": "MainWindow",
+      "source": "3 seconds",
+      "key": "s4a470e84012a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "5 seconds",
+      "key": "s4768359557af"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Countdown before steady scrolling",
+      "key": "se38a9b727d6b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Like the system",
+      "key": "sce224452b012"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Light",
+      "key": "s32014874ba89"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Dark",
+      "key": "s8b7db0fb1e89"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Settings and dialogs",
+      "key": "sfe9fa90d80d7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Automatic screen colors",
+      "key": "sb4618852eee6"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso window",
+      "key": "s699d2ad6e172"
+    },
+    {
+      "context": "MainWindow",
+      "source": "The reader can take its colors from a window you choose, even while it covers it. Nothing is saved or sent.",
+      "key": "s18385d91f9a5"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose background window…",
+      "key": "s995cf1fe8ad8"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Stop window sharing",
+      "key": "s00d530113dd9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Interface text size",
+      "key": "sb2427193fada"
+    },
+    {
+      "context": "MainWindow",
+      "source": "System language",
+      "key": "s47e267a84aef"
+    },
+    {
+      "context": "MainWindow",
+      "source": "The interface language changes the next time Kalipso starts.",
+      "key": "s06ffcb47718f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Interface language",
+      "key": "s7a7661b35c7a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Hide the reader's controls while reading",
+      "key": "s6393fbf1ce52"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Hide the reader from screen sharing and recordings",
+      "key": "s3c5fb8864ff4"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Screen sharing apps that use the system capture service leave the reader out. Check the view from another participant before relying on it.",
+      "key": "s3983ae65a0e3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Under the camera, Plasma 6.6 or later leaves the reader out of screen sharing. Check the view from another participant before relying on it.",
+      "key": "s8fd58ac5baef"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Others may see the reader when you share the whole screen. Share a single window, or on Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).",
+      "key": "s6c9360c222f3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "GNOME top bar",
+      "key": "s41f0df98674a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Turn on",
+      "key": "sd764e371dc67"
+    },
+    {
+      "context": "MainWindow",
+      "source": "On: the play icon in the top bar shows Kalipso's reader over any app, with the scripts you write here.",
+      "key": "sa02952f9fb06"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Off. Kalipso's reader can also live in the top bar, over any app, with the scripts you write here.",
+      "key": "sa2ba4af9b201"
+    },
+    {
+      "context": "MainWindow",
+      "source": "GNOME's extensions are switched off. Turn them on in the Extensions app; Kalipso's top bar reader then starts by itself.",
+      "key": "s6e0822b35d76"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Not on this version of GNOME: the top bar reader runs on GNOME Shell 48 and 51.",
+      "key": "sa0da3482fa7d"
+    },
+    {
+      "context": "MainWindow",
+      "source": "GNOME could not start the top bar reader. Log out and back in, then look here again.",
+      "key": "sa1cd36b15aa1"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Installed. Log out and back in, then turn it on here.",
+      "key": "s37d670eaff40"
+    },
+    {
+      "context": "MainWindow",
+      "source": "GNOME did not turn on the top bar reader.",
+      "key": "s76ffaa95588e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 · primary",
+      "key": "sfc3e8900b5d9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Speech",
+      "key": "s8ac184ae3c5f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "System · on-device",
+      "key": "s2fe2eedbe064"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose…",
+      "key": "s3de1515b27c6"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Tiny",
+      "key": "s85ac876fa6e5"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Base",
+      "key": "sf197077a7647"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Small",
+      "key": "s8c7b92b32fa6"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Medium",
+      "key": "s5d8486ef9aa5"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Test microphone",
+      "key": "sd5e79934d799"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Microphone level",
+      "key": "sdccfb13a3267"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Speak: the bar moves when Kalipso hears you through %1.",
+      "key": "s62a3ffff7f13"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso hears you through %1.",
+      "key": "sadefdb3daebb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "No sound from %1. Check that it is not muted in the system sound settings, or choose another microphone.",
+      "key": "s86d7660aaf51"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Download progress",
+      "key": "s33acd3962bf7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso downloads a language once, into %1, and checks it against its pinned fingerprint. The models are free software: Moonshine's under the MIT licence, Vosk's under the Apache 2.0 licence. Then Kalipso listens only on this computer: nothing you say is sent.",
+      "key": "s96cbac2dcaca"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Moonshine and Vosk need a runtime and a model installed by hand: choose Other model installed by hand.",
+      "key": "sfa3e5f073b06"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Download again",
+      "key": "sd65bd028a7ef"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Removes this language and downloads it again, checked against its fingerprint",
+      "key": "sbc9ecdcd74a7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Remove",
+      "key": "sd34ac1e7e9ef"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Speech engine",
+      "key": "s8698a0e44af9"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Language you speak",
+      "key": "scd90d95da2fb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Native library",
+      "key": "s053efe1744be"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Model folder",
+      "key": "sfdf5a01d0c2f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose model folder…",
+      "key": "s0e32d726714a"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Language",
+      "key": "sbc205d8335eb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Moonshine model size",
+      "key": "s61a285ab5748"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose speech model",
+      "key": "sa5226282bde8"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Check availability",
+      "key": "sc56b04991f34"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Install system language",
+      "key": "s9a5b0d012757"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose a language and check its availability. No microphone is opened by this check.",
+      "key": "s3180d76f3c6b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Microphone",
+      "key": "s547d72f6ea7c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Count filler words (um, uh) in the session summary",
+      "key": "sb2193474d5c7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Recognition stays on this computer, and Kalipso never switches to a cloud service. System speech uses the default microphone.",
+      "key": "s243fc8537433"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 is installed: %2 MB in %3, %4 licence.",
+      "key": "sc11291697fd7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Choose a language and check its availability.",
+      "key": "s5e7d5e1955e5"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Downloading %1: %2 of %3 MB",
+      "key": "s5917db0189b1"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Checking and unpacking %1…",
+      "key": "s59e3b0a0e0b7"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Couldn't download %1. Check the internet connection and try again.",
+      "key": "sdc2f208c0509"
+    },
+    {
+      "context": "MainWindow",
+      "source": "The %1 download didn't match its fingerprint, so it was deleted. Try again later.",
+      "key": "sd367fca2469e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "The %1 model couldn't be unpacked. Try again later.",
+      "key": "s03de1bd78aef"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Couldn't save %1: there isn't enough free space, or the data folder can't be written.",
+      "key": "s4d2300c6f056"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.",
+      "key": "s4b3be3692967"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Download cancelled. Nothing was changed.",
+      "key": "s620d3de172ea"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Try again",
+      "key": "s78b2af029f47"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Check availability for the selected language.",
+      "key": "s3c1ebbafd4eb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Checking installed system speech…",
+      "key": "s14741b7adb1f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 · download %2 MB",
+      "key": "s279eaf139c9e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 · ready",
+      "key": "sc35464d612f6"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Other model installed by hand…",
+      "key": "sb11ddff74d1f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Ready to listen in %1. Choose Follow my voice and start the reader.",
+      "key": "s20e3f24bd608"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso removes %1 and downloads it again (%2 MB), checking it against its fingerprint. Until it is done, it cannot follow your voice in this language.",
+      "key": "sc898025a01bd"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Kalipso removes %1 and frees %2 MB. To use it again, choose it here: Kalipso downloads it again, which needs the internet.",
+      "key": "s7c865f722285"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Download %1 again?",
+      "key": "saa2698bd6ea1"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Remove %1?",
+      "key": "sc1a33f8345fa"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Couldn't remove %1: check that its folder can be written.",
+      "key": "s03e65ca53924"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Removed %1: %2 MB freed.",
+      "key": "s1f98adb644c3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Downloading %1…",
+      "key": "se5af6dd08a16"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cancel download",
+      "key": "s11e19a8cacf1"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Phone as a remote",
+      "key": "sac0001cad388"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Allow a phone on this network to control the reader",
+      "key": "s0fc87be3f2fb"
+    },
+    {
+      "context": "MainWindow",
+      "source": "QR code for the remote control link",
+      "key": "s4ca700a1737c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "No network found",
+      "key": "s823c5e55cecc"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Network",
+      "key": "s8896dffd7275"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Anyone on this network who has the link can start, pause and step the reader; the script text is never shared. A new link is created each time you turn this on, and it stops when Kalipso closes.",
+      "key": "s9f45858c92e1"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Remote control could not start on this network.",
+      "key": "sa840f37ab086"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Open on your phone: %1",
+      "key": "s6883a58c3e1c"
+    },
+    {
+      "context": "MainWindow",
+      "source": "System microphone",
+      "key": "s6610f7816205"
+    },
+    {
+      "context": "MainWindow",
+      "source": "System microphone · %1",
+      "key": "sb13d97a19d6e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "No microphone found",
+      "key": "sffd926778641"
+    },
+    {
+      "context": "MainWindow",
+      "source": "%1 · not connected",
+      "key": "sfcc45f12d6f3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Stop the test",
+      "key": "scacd5ac6aeca"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Opening the microphone…",
+      "key": "s4735088b761b"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Test over: Kalipso heard you through %1.",
+      "key": "s958afecac22d"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Test over: Kalipso did not hear a voice through %1. Raise its volume in the system sound settings, or choose another microphone.",
+      "key": "sc77864b723e2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "The test shows whether Kalipso hears you. Nothing is recorded or sent.",
+      "key": "s0791da62bb85"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Close without saving?",
+      "key": "sa7eb92bf7717"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Your latest changes could not be saved. Close Kalipso anyway and lose them?",
+      "key": "s6e634519eca2"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Install pipewire-audio (Arch) or pipewire-bin (Debian) to enable audio capture.",
+      "key": "sa626b511a86e"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "the system microphone",
+      "key": "sc63278a3ba81"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Kalipso finds no microphone. Connect one, or turn it on in the system sound settings.",
+      "key": "s0890ab195266"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "The microphone chosen in Settings is not connected. Connect it, or choose another one.",
+      "key": "s1cbeef68b949"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Unsupported microphone sample format.",
+      "key": "s7892f499a795"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Microphone capture failed. Check device permissions.",
+      "key": "s9146edaa0baa"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Cannot start the microphone.",
+      "key": "s5c1c26feab72"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Audio capture could not start. Check that PipeWire is installed and running.",
+      "key": "sbd51a1145da4"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Audio capture from %1 stopped. Start listening again; if it stops again, check the microphone in the system sound settings.",
+      "key": "s6bc8ed3ce592"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Audio capture from %1 stopped: %2",
+      "key": "s4bc172217d8e"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window colors are unavailable. Choose the window again or use Light or Dark.",
+      "key": "s8c4998ecb0d5"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Following the selected window · Sharing active · No images saved",
+      "key": "s60bdb28ff231"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing timed out. Choose the window again or use Light or Dark.",
+      "key": "s3e98cc335989"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing stopped · Choose a background window to resume",
+      "key": "sf495ec77dca9"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing ended · Choose a background window to resume",
+      "key": "sfd5ba2f7cfae"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Choose the window behind your reader in the desktop sharing dialog",
+      "key": "sc96075b016fe"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Desktop sharing is unavailable. Install a ScreenCast desktop portal.",
+      "key": "sf47fd3456195"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Desktop window sharing is unavailable. Check the desktop portal and try again.",
+      "key": "s1174d23f4c67"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing cancelled · The reader keeps its contrast",
+      "key": "s77c97ecd69ea"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing failed · The reader keeps its contrast",
+      "key": "s34b077478547"
+    },
+    {
+      "context": "PortalColors",
+      "source": "The desktop returned an invalid sharing session.",
+      "key": "s9442a7d4c6f7"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Choose one background window to follow its colors.",
+      "key": "sf9428d6c3202"
+    },
+    {
+      "context": "PortalColors",
+      "source": "The desktop could not open the selected window.",
+      "key": "sd8b292a53849"
+    },
+    {
+      "context": "PortalColors",
+      "source": "The window color stream could not start. Check PipeWire and try again.",
+      "key": "s071d188d090d"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing active · Waiting for its colors",
+      "key": "se2c5d86a44e8"
+    },
+    {
+      "context": "QObject",
+      "source": "Untitled script",
+      "key": "see9ffa5ca1e1"
+    },
+    {
+      "context": "QObject",
+      "source": "Drag to move the reader",
+      "key": "s6e8e550b4eb4"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Kalipso reader",
+      "key": "s32e49307026a"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Your scripts (F9)",
+      "key": "se555fbc40b02"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Scripts",
+      "key": "s97a07955d85b"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Kalipso",
+      "key": "s9c3f36afaa16"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Smaller text (Ctrl+−)",
+      "key": "s8693a54e7e03"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Smaller text",
+      "key": "s78eb103b8dbb"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Larger text (Ctrl++)",
+      "key": "s5fc3255e4d0f"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Larger text",
+      "key": "s7f031a1986d7"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Sections",
+      "key": "sbed0af192da5"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Jump to section",
+      "key": "s993eb1692bb1"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Jump to a section",
+      "key": "s258e75885c92"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Settings",
+      "key": "s277e0df0547c"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Reading progress",
+      "key": "s397575321b5d"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Write or paste your script here.",
+      "key": "sdd66057a77d4"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Previous word (← or Page Up)",
+      "key": "saa3b96120dcd"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Previous word",
+      "key": "s8d56eb05c65f"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Next word (→ or Page Down)",
+      "key": "s79585eeaaaf8"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Next word",
+      "key": "sf65e0e884dea"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Start",
+      "key": "se637763d3a4a"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Start or pause (Space)",
+      "key": "s959d3bdd235a"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "How the reader advances",
+      "key": "s4babe7ef7908"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Manual",
+      "key": "s4cc90d81f150"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Steady speed",
+      "key": "s0d3462e0bd9e"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Follow my voice",
+      "key": "s95d2a9ebe0cd"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Slower (−)",
+      "key": "s0c17dab74443"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Slower",
+      "key": "s011652904f7a"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Faster (+)",
+      "key": "s37fb8960764f"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Faster",
+      "key": "sbaed573f6042"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Microphone off",
+      "key": "s8c23d0992927"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Reading mode: %1",
+      "key": "sb4c5ff5ed7c9"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Pause",
+      "key": "s55b2a63e68fc"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Choose language",
+      "key": "s46d01c373f86"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Steady",
+      "key": "s28887096816e"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Voice",
+      "key": "sa9edb15f64ee"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "%1 words/min",
+      "key": "s22c64564a854"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Choose the language you speak, in Settings",
+      "key": "s6f58e9ce7cfa"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Expand",
+      "key": "s130d2b726a8a"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Under the camera",
+      "key": "s610c5c99fc20"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Larger, to write and manage your scripts",
+      "key": "sd7e0d51f6078"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "Small, at the top of the screen, under the camera",
+      "key": "sbc7b7ed4eadd"
+    },
+    {
+      "context": "ReaderView",
+      "source": "Kalipso script",
+      "key": "s6ed39512966a"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "Slide %1",
+      "key": "sbca81cf2bdb5"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "Slide %1: %2",
+      "key": "s0ecfaa948877"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "Scripts, documents and presentations (*.txt *.md *.markdown *.docx *.odt *.pptx *.odp);;Text (*.txt *.md *.markdown);;Word (*.docx);;OpenDocument text (*.odt);;PowerPoint (*.pptx);;LibreOffice Impress (*.odp);;All files (*)",
+      "key": "s2cfae496270b"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "Cannot open this file.",
+      "key": "s30eae6715f10"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This file is too large to import.",
+      "key": "sa39d6a1b4427"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "Choose a text file smaller than 2 MiB.",
+      "key": "sf299c1543760"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "Choose a UTF-8 text file.",
+      "key": "sa18f63b45659"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This is not a readable PowerPoint (.pptx) file.",
+      "key": "s9ce1a0413239"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "These speaker notes are too long to import.",
+      "key": "s383cd8b8a10f"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This presentation has no speaker notes.",
+      "key": "s2e79f42d8572"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This is not a readable LibreOffice Impress (.odp) file.",
+      "key": "s40bc4bb817c7"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This presentation could not be read.",
+      "key": "sea7b71847a30"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This is not a readable Word (.docx) document.",
+      "key": "s61e56c138622"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This document is too long to import.",
+      "key": "sb56d95850907"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This document could not be read.",
+      "key": "s00e61b7d937b"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This document has no text.",
+      "key": "s3ce20219acce"
+    },
+    {
+      "context": "ScriptImport",
+      "source": "This is not a readable OpenDocument text (.odt) file.",
+      "key": "sd5d15fbd727a"
+    },
+    {
+      "context": "SessionStats",
+      "source": "# Session report: %1",
+      "key": "sc71aa812eff6"
+    },
+    {
+      "context": "SessionStats",
+      "source": "- Duration: %1",
+      "key": "s8f08e7ebc915"
+    },
+    {
+      "context": "SessionStats",
+      "source": "- Words read: %n of %1",
+      "key": "sb9c881f62698",
+      "numerus": true
+    },
+    {
+      "context": "SessionStats",
+      "source": "- Pace: %1 words/min",
+      "key": "sfde501b5ee24"
+    },
+    {
+      "context": "SessionStats",
+      "source": "as planned",
+      "key": "s62acd519317e"
+    },
+    {
+      "context": "SessionStats",
+      "source": "%1% faster",
+      "key": "s6dd7874142b3"
+    },
+    {
+      "context": "SessionStats",
+      "source": "%1% slower",
+      "key": "sa45360890170"
+    },
+    {
+      "context": "SessionStats",
+      "source": "- At the planned %1 words/min: %2 expected, %3 taken (%4)",
+      "key": "s340a9d5e5714"
+    },
+    {
+      "context": "SessionStats",
+      "source": "- Pauses over 3 s: %n",
+      "key": "s40c8eac30120",
+      "numerus": true
+    },
+    {
+      "context": "SessionStats",
+      "source": " (longest %1)",
+      "key": "s182893fafbdc"
+    },
+    {
+      "context": "SessionStats",
+      "source": "- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)",
+      "key": "sf9a6359e6f82",
+      "numerus": true
+    },
+    {
+      "context": "SessionStats",
+      "source": "## Sections",
+      "key": "s601ca755dd5c"
+    },
+    {
+      "context": "SessionStats",
+      "source": "| Section | Time | Words | Words/min |",
+      "key": "s63d3196e1705"
+    },
+    {
+      "context": "SessionStats",
+      "source": "## Long pauses",
+      "key": "s5a85b15fb598"
+    },
+    {
+      "context": "SessionStats",
+      "source": "- %1 before the first word",
+      "key": "se8b79cba8629"
+    },
+    {
+      "context": "SessionStats",
+      "source": "- %1 after “…%2”",
+      "key": "s9d5588ef6af6"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Unsupported speech engine. Choose Moonshine or Vosk.",
+      "key": "s633ed56a5e27"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "PipeWire capture is missing: install pipewire-audio on Arch or pipewire-bin on Debian.",
+      "key": "s0f188eec5515"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Moonshine library or its ONNX Runtime dependency is missing or incompatible. Install/configure the Moonshine runtime.",
+      "key": "sd52710e72e60"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Vosk library is missing or incompatible. Install/configure the Vosk runtime.",
+      "key": "s6cd9bb42d20e"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Moonshine streaming model is missing. Install a language model and configure its extracted folder.",
+      "key": "s373bb1758aa1"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Extracted Vosk model is missing. Install a language model and configure its extracted folder.",
+      "key": "sd0601b77d879"
+    },
+    {
+      "context": "SpeechService",
+      "source": "No sound from %1. If you are speaking, check that it is not muted in the system sound settings.",
+      "key": "sfa0990bbcdff"
+    },
+    {
+      "context": "SpeechService",
+      "source": "System speech is available only on macOS and Windows.",
+      "key": "s45d636fc83a9"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Starting on-device system speech…",
+      "key": "se4b8defef682"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Unsupported speech engine.",
+      "key": "saa267e701615"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Choose an extracted speech model folder in Settings.",
+      "key": "s1b75dae08b9e"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Enable microphone access for Kalipso in System Settings.",
+      "key": "sd5820a54545d"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Waiting for microphone permission…",
+      "key": "sf85fdf406e31"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Microphone access was denied.",
+      "key": "s1b29be5821d2"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Loading the local speech model…",
+      "key": "sb7e9a57749af"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Listening · microphone · on this device",
+      "key": "sae41aca25fce"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Listening · %1 · on this device",
+      "key": "s7964474f7e61"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Recognition cannot keep up on this computer. Listening stopped; try a smaller model.",
+      "key": "s0fcc65d19e47"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Catching up: a moment of audio was skipped. Following continues.",
+      "key": "s88aecb76239a"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Unsupported speech engine.",
+      "key": "saa267e701615"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Cannot load libvosk. Select a valid Vosk library in Settings.",
+      "key": "s0e1e45577b5d"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "This library does not provide the required Vosk API.",
+      "key": "s13a032634426"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Cannot open this speech model. Choose the extracted model folder.",
+      "key": "sbe7dff5a7922"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Not enough resources to start speech recognition.",
+      "key": "s3f8747943821"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "The speech recognizer could not process the audio.",
+      "key": "s5a10a51d4cfa"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Choose a recognition language first.",
+      "key": "sb44cb69814fb"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "The system speech helper is not installed on this platform.",
+      "key": "s24709c1825cd"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Cannot start system speech: %1",
+      "key": "sbad696d8ba92"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech ended. Check the language and microphone, then restart.",
+      "key": "s37ad2883124b"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech availability check timed out. Try again.",
+      "key": "s47da87093d40"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Script updates cannot keep up. Restart listening.",
+      "key": "s458168128d5a"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Invalid system speech response.",
+      "key": "s58c1f5d8d1c2"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech failed.",
+      "key": "s9b1b2e6ebb7e"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech returned too much text.",
+      "key": "s845f432639e4"
+    },
+    {
+      "context": "main",
+      "source": "installed",
+      "key": "s6020e64b68e9"
+    },
+    {
+      "context": "main",
+      "source": "%1 MB to download",
+      "key": "s1c52644ef1bc"
+    },
+    {
+      "context": "main",
+      "source": "Kalipso downloads speech models on Linux for x86_64 computers only.",
+      "key": "sdd89fcad8b02"
+    },
+    {
+      "context": "main",
+      "source": "Downloading %1: %2% of %3 MB",
+      "key": "s5caec1b45cd4"
+    },
+    {
+      "context": "main",
+      "source": "Unpacking and checking",
+      "key": "sd603d4e5bcce"
+    },
+    {
+      "context": "main",
+      "source": "%1 is ready, with %2 (%3). No microphone was opened.\nIn Kalipso, the Plasma widget or the GNOME extension choose Follow my voice, then Start.",
+      "key": "s3b427838e0a5"
+    },
+    {
+      "context": "main",
+      "source": "Kalipso — local teleprompter",
+      "key": "s93a9f424bc13"
+    },
+    {
+      "context": "main",
+      "source": "Kalipso",
+      "key": "s9c3f36afaa16"
+    },
+    {
+      "context": "main",
+      "source": "Kalipso is already open.",
+      "key": "s0b67d606069c"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Kalipso remote",
+      "key": "sc19cfd96f257"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Connecting…",
+      "key": "sae651cb06185"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Start or pause",
+      "key": "sfedb1b3997db"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Previous",
+      "key": "sf825144b00ea"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Next",
+      "key": "s50b7834e7678"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Previous section",
+      "key": "s0a8d80d0d854"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Next section",
+      "key": "scbafb86fc9da"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Slower",
+      "key": "s011652904f7a"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Faster",
+      "key": "sbaed573f6042"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Back to start",
+      "key": "sf5ba4c83c605"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Kalipso is not reachable. Check that remote control is still on.",
+      "key": "s95c9e88c2c64"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Manual",
+      "key": "s4cc90d81f150"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Steady speed",
+      "key": "s0d3462e0bd9e"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Follow my voice",
+      "key": "s95d2a9ebe0cd"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Running",
+      "key": "s6bbd09689e2c"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Paused",
+      "key": "s7a31ad0279b4"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "Word %1 of %2",
+      "key": "sc4b6bad222f2"
+    },
+    {
+      "context": "RemoteControl",
+      "source": "%1 words/min",
+      "key": "s22c64564a854"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Translations",
+      "key": "s84abcd4b868d"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Generated translation; native-speaker review pending.",
+      "key": "sf473757c73ad"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Speech recognition is available only for the languages shown in Voice settings.",
+      "key": "s61f2cc297be8"
+    }
+  ],
+  "engine": [
+    {
+      "context": "Engine",
+      "source": "Local engine ready",
+      "key": "sfb514dddc22f"
+    },
+    {
+      "context": "Engine",
+      "source": "A widget identifier is required.",
+      "key": "s3a51b2cb7b89"
+    },
+    {
+      "context": "Engine",
+      "source": "Another widget is sharing a background window.",
+      "key": "s674039ca21d9"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the sharing widget can read its color state.",
+      "key": "s352e9e94086c"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the sharing widget can stop its session.",
+      "key": "sc903126b0dbd"
+    },
+    {
+      "context": "Engine",
+      "source": "Stop listening before changing the speech engine.",
+      "key": "s28ee07403445"
+    },
+    {
+      "context": "Engine",
+      "source": "Choose Moonshine or Vosk.",
+      "key": "s6367e57ca5cd"
+    },
+    {
+      "context": "Engine",
+      "source": "Cannot save the speech engine selection.",
+      "key": "s3ec456497644"
+    },
+    {
+      "context": "Engine",
+      "source": "Speech engine selected. Start listening when its model is configured.",
+      "key": "s71d9c51589e4"
+    },
+    {
+      "context": "Engine",
+      "source": "Stop listening before changing the language.",
+      "key": "sa4821af3001d"
+    },
+    {
+      "context": "Engine",
+      "source": "Kalipso has no speech model for this language.",
+      "key": "s095ed1b915b5"
+    },
+    {
+      "context": "Engine",
+      "source": "Another language is downloading. Cancel it first.",
+      "key": "s5ddd9ec785c3"
+    },
+    {
+      "context": "Engine",
+      "source": "Cannot save the language.",
+      "key": "s018cec6886e7"
+    },
+    {
+      "context": "Engine",
+      "source": "Another frontend owns the microphone. Stop listening there first.",
+      "key": "sdeb78256cb4c"
+    },
+    {
+      "context": "Engine",
+      "source": "Loading local speech model",
+      "key": "se28e70ad722e"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the listening frontend can stop its session.",
+      "key": "sca6e1c40ba9c"
+    },
+    {
+      "context": "Engine",
+      "source": "Only the listening frontend can set the script.",
+      "key": "sb1973d5084de"
+    },
+    {
+      "context": "Engine",
+      "source": "The script is too long.",
+      "key": "s08e18791f2bd"
+    },
+    {
+      "context": "Engine",
+      "source": "This script is not in Kalipso's library.",
+      "key": "s7362b591df4c"
+    },
+    {
+      "context": "Engine",
+      "source": "Kalipso could not be started. Is the app installed?",
+      "key": "s85486c4af4fc"
+    },
+    {
+      "context": "Engine",
+      "source": "Speech language selected.",
+      "key": "s9e6b4fcc81f9"
+    },
+    {
+      "context": "Engine",
+      "source": "Microphone stopped",
+      "key": "sf72d832c9f06"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Install pipewire-audio (Arch) or pipewire-bin (Debian) to enable audio capture.",
+      "key": "sa626b511a86e"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "the system microphone",
+      "key": "sc63278a3ba81"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Kalipso finds no microphone. Connect one, or turn it on in the system sound settings.",
+      "key": "s0890ab195266"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "The microphone chosen in Settings is not connected. Connect it, or choose another one.",
+      "key": "s1cbeef68b949"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Unsupported microphone sample format.",
+      "key": "s7892f499a795"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Microphone capture failed. Check device permissions.",
+      "key": "s9146edaa0baa"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Cannot start the microphone.",
+      "key": "s5c1c26feab72"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Audio capture could not start. Check that PipeWire is installed and running.",
+      "key": "sbd51a1145da4"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Audio capture from %1 stopped. Start listening again; if it stops again, check the microphone in the system sound settings.",
+      "key": "s6bc8ed3ce592"
+    },
+    {
+      "context": "MicrophoneCapture",
+      "source": "Audio capture from %1 stopped: %2",
+      "key": "s4bc172217d8e"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window colors are unavailable. Choose the window again or use Light or Dark.",
+      "key": "s8c4998ecb0d5"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Following the selected window · Sharing active · No images saved",
+      "key": "s60bdb28ff231"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing timed out. Choose the window again or use Light or Dark.",
+      "key": "s3e98cc335989"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing stopped · Choose a background window to resume",
+      "key": "sf495ec77dca9"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing ended · Choose a background window to resume",
+      "key": "sfd5ba2f7cfae"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Choose the window behind your reader in the desktop sharing dialog",
+      "key": "sc96075b016fe"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Desktop sharing is unavailable. Install a ScreenCast desktop portal.",
+      "key": "sf47fd3456195"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Desktop window sharing is unavailable. Check the desktop portal and try again.",
+      "key": "s1174d23f4c67"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing cancelled · The reader keeps its contrast",
+      "key": "s77c97ecd69ea"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing failed · The reader keeps its contrast",
+      "key": "s34b077478547"
+    },
+    {
+      "context": "PortalColors",
+      "source": "The desktop returned an invalid sharing session.",
+      "key": "s9442a7d4c6f7"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Choose one background window to follow its colors.",
+      "key": "sf9428d6c3202"
+    },
+    {
+      "context": "PortalColors",
+      "source": "The desktop could not open the selected window.",
+      "key": "sd8b292a53849"
+    },
+    {
+      "context": "PortalColors",
+      "source": "The window color stream could not start. Check PipeWire and try again.",
+      "key": "s071d188d090d"
+    },
+    {
+      "context": "PortalColors",
+      "source": "Window sharing active · Waiting for its colors",
+      "key": "se2c5d86a44e8"
+    },
+    {
+      "context": "QObject",
+      "source": "Untitled script",
+      "key": "see9ffa5ca1e1"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Unsupported speech engine. Choose Moonshine or Vosk.",
+      "key": "s633ed56a5e27"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "PipeWire capture is missing: install pipewire-audio on Arch or pipewire-bin on Debian.",
+      "key": "s0f188eec5515"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Moonshine library or its ONNX Runtime dependency is missing or incompatible. Install/configure the Moonshine runtime.",
+      "key": "sd52710e72e60"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Vosk library is missing or incompatible. Install/configure the Vosk runtime.",
+      "key": "s6cd9bb42d20e"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Moonshine streaming model is missing. Install a language model and configure its extracted folder.",
+      "key": "s373bb1758aa1"
+    },
+    {
+      "context": "SpeechConfig",
+      "source": "Extracted Vosk model is missing. Install a language model and configure its extracted folder.",
+      "key": "sd0601b77d879"
+    },
+    {
+      "context": "SpeechService",
+      "source": "No sound from %1. If you are speaking, check that it is not muted in the system sound settings.",
+      "key": "sfa0990bbcdff"
+    },
+    {
+      "context": "SpeechService",
+      "source": "System speech is available only on macOS and Windows.",
+      "key": "s45d636fc83a9"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Starting on-device system speech…",
+      "key": "se4b8defef682"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Unsupported speech engine.",
+      "key": "saa267e701615"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Choose an extracted speech model folder in Settings.",
+      "key": "s1b75dae08b9e"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Enable microphone access for Kalipso in System Settings.",
+      "key": "sd5820a54545d"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Waiting for microphone permission…",
+      "key": "sf85fdf406e31"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Microphone access was denied.",
+      "key": "s1b29be5821d2"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Loading the local speech model…",
+      "key": "sb7e9a57749af"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Listening · microphone · on this device",
+      "key": "sae41aca25fce"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Listening · %1 · on this device",
+      "key": "s7964474f7e61"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Recognition cannot keep up on this computer. Listening stopped; try a smaller model.",
+      "key": "s0fcc65d19e47"
+    },
+    {
+      "context": "SpeechService",
+      "source": "Catching up: a moment of audio was skipped. Following continues.",
+      "key": "s88aecb76239a"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Unsupported speech engine.",
+      "key": "saa267e701615"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Cannot load libvosk. Select a valid Vosk library in Settings.",
+      "key": "s0e1e45577b5d"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "This library does not provide the required Vosk API.",
+      "key": "s13a032634426"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Cannot open this speech model. Choose the extracted model folder.",
+      "key": "sbe7dff5a7922"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "Not enough resources to start speech recognition.",
+      "key": "s3f8747943821"
+    },
+    {
+      "context": "SpeechWorker",
+      "source": "The speech recognizer could not process the audio.",
+      "key": "s5a10a51d4cfa"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Choose a recognition language first.",
+      "key": "sb44cb69814fb"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "The system speech helper is not installed on this platform.",
+      "key": "s24709c1825cd"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Cannot start system speech: %1",
+      "key": "sbad696d8ba92"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech ended. Check the language and microphone, then restart.",
+      "key": "s37ad2883124b"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech availability check timed out. Try again.",
+      "key": "s47da87093d40"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Script updates cannot keep up. Restart listening.",
+      "key": "s458168128d5a"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "Invalid system speech response.",
+      "key": "s58c1f5d8d1c2"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech failed.",
+      "key": "s9b1b2e6ebb7e"
+    },
+    {
+      "context": "SystemSpeechClient",
+      "source": "System speech returned too much text.",
+      "key": "s845f432639e4"
+    },
+    {
+      "context": "main",
+      "source": "installed",
+      "key": "s6020e64b68e9"
+    },
+    {
+      "context": "main",
+      "source": "%1 MB to download",
+      "key": "s1c52644ef1bc"
+    },
+    {
+      "context": "main",
+      "source": "Kalipso downloads speech models on Linux for x86_64 computers only.",
+      "key": "sdd89fcad8b02"
+    },
+    {
+      "context": "main",
+      "source": "Downloading %1: %2% of %3 MB",
+      "key": "s5caec1b45cd4"
+    },
+    {
+      "context": "main",
+      "source": "Unpacking and checking",
+      "key": "sd603d4e5bcce"
+    },
+    {
+      "context": "main",
+      "source": "%1 is ready, with %2 (%3). No microphone was opened.\nIn Kalipso, the Plasma widget or the GNOME extension choose Follow my voice, then Start.",
+      "key": "s3b427838e0a5"
+    }
+  ],
+  "desktop": [
+    {
+      "source": "%1 is downloaded. Choose it again when you stop listening.",
+      "key": "sad07a9de6ea0"
+    },
+    {
+      "source": "%1 second",
+      "key": "sa1d42fb89c03",
+      "plural": "%1 seconds"
+    },
+    {
+      "source": "%1 words/min",
+      "key": "s22c64564a854"
+    },
+    {
+      "source": "%1 · %2 min",
+      "key": "s90630d3977db"
+    },
+    {
+      "source": "%1 · download %2 MB",
+      "key": "s279eaf139c9e"
+    },
+    {
+      "source": "%d words/min",
+      "key": "s3369fc0a31ce"
+    },
+    {
+      "source": "%s is downloaded. Choose it again when you stop listening.",
+      "key": "s3448544cbaa4"
+    },
+    {
+      "source": "%s · %d min",
+      "key": "s13b99cb6c09c"
+    },
+    {
+      "source": "%s · download %d MB",
+      "key": "s7c9fd80111b9"
+    },
+    {
+      "source": "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready.",
+      "key": "s1df036bd84d4"
+    },
+    {
+      "source": "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you.",
+      "key": "s8758fe9c21b8"
+    },
+    {
+      "source": "A script written here",
+      "key": "s294bc63540ce"
+    },
+    {
+      "source": "Add your script to begin.",
+      "key": "s55aebce14210"
+    },
+    {
+      "source": "Appearance",
+      "key": "s7ca70a76d271"
+    },
+    {
+      "source": "Automatic",
+      "key": "s045574b4cd9f"
+    },
+    {
+      "source": "Automatic samples colors around the reader. No images are saved.",
+      "key": "sc4d1e4bac0c9"
+    },
+    {
+      "source": "Cancel",
+      "key": "s89a86adcc181"
+    },
+    {
+      "source": "Cancel download",
+      "key": "s11e19a8cacf1"
+    },
+    {
+      "source": "Checking and unpacking %1…",
+      "key": "s59e3b0a0e0b7"
+    },
+    {
+      "source": "Checking and unpacking %s…",
+      "key": "s261eadbe611a"
+    },
+    {
+      "source": "Checking local speech components",
+      "key": "s0f843022deb9"
+    },
+    {
+      "source": "Chinese",
+      "key": "s21fb82f54cb7"
+    },
+    {
+      "source": "Choose one of Kalipso's scripts",
+      "key": "sb12640d8a07a"
+    },
+    {
+      "source": "Choose the language you speak.",
+      "key": "s965f1d417665"
+    },
+    {
+      "source": "Choose the window behind the reader. Desktop permission is required.",
+      "key": "sd7b939254827"
+    },
+    {
+      "source": "Choose the window behind your reader in the desktop sharing dialog",
+      "key": "sc96075b016fe"
+    },
+    {
+      "source": "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent.",
+      "key": "s79dcbd8c3c53"
+    },
+    {
+      "source": "Configure Kalipso…",
+      "key": "s762e9df840da"
+    },
+    {
+      "source": "Couldn't download %1. Check the internet connection and try again.",
+      "key": "sdc2f208c0509"
+    },
+    {
+      "source": "Couldn't download %s. Check the internet connection and try again.",
+      "key": "s16c58066d670"
+    },
+    {
+      "source": "Couldn't save %1: there isn't enough free space, or the data folder can't be written.",
+      "key": "s4d2300c6f056"
+    },
+    {
+      "source": "Couldn't save %s: there isn't enough free space, or the data folder can't be written.",
+      "key": "s3dee3f441d17"
+    },
+    {
+      "source": "Countdown before steady scrolling",
+      "key": "se38a9b727d6b"
+    },
+    {
+      "source": "Countdown before steady scrolling:",
+      "key": "s6c85653a70c1"
+    },
+    {
+      "source": "Dark",
+      "key": "s8b7db0fb1e89"
+    },
+    {
+      "source": "Desktop theme",
+      "key": "sbe5bb29e3a2a"
+    },
+    {
+      "source": "Done",
+      "key": "s8882688380a5"
+    },
+    {
+      "source": "Done editing",
+      "key": "sddcd7e8caacb"
+    },
+    {
+      "source": "Download and use",
+      "key": "sc7c69be31c75"
+    },
+    {
+      "source": "Download cancelled. Nothing was changed.",
+      "key": "s620d3de172ea"
+    },
+    {
+      "source": "Download progress",
+      "key": "s33acd3962bf7"
+    },
+    {
+      "source": "Downloading %1: %2 of %3 MB",
+      "key": "s5917db0189b1"
+    },
+    {
+      "source": "Downloading %s: %d of %d MB",
+      "key": "s099bff919519"
+    },
+    {
+      "source": "Edit in Kalipso",
+      "key": "s3c2dac95220b"
+    },
+    {
+      "source": "Edit script",
+      "key": "s09d70484e89d"
+    },
+    {
+      "source": "End of script · Microphone off",
+      "key": "s1404d85d2262"
+    },
+    {
+      "source": "English",
+      "key": "sfea288faa0c1"
+    },
+    {
+      "source": "Faster",
+      "key": "sbaed573f6042"
+    },
+    {
+      "source": "Follow a window's colors…",
+      "key": "s97eaca4f89a3"
+    },
+    {
+      "source": "Follow my voice",
+      "key": "s95d2a9ebe0cd"
+    },
+    {
+      "source": "Font:",
+      "key": "s03be3203a89f"
+    },
+    {
+      "source": "For beam-splitter rigs, which show the reader through a mirror.",
+      "key": "s73269e86e9e9"
+    },
+    {
+      "source": "French",
+      "key": "s42964abb5e05"
+    },
+    {
+      "source": "German",
+      "key": "sa6260760d52e"
+    },
+    {
+      "source": "Help:",
+      "key": "s329755e6b9e3"
+    },
+    {
+      "source": "Hide",
+      "key": "s653878b68dd0"
+    },
+    {
+      "source": "Horizontal",
+      "key": "s0dd3beb8057d"
+    },
+    {
+      "source": "Interface font",
+      "key": "s11d0b6a6d11c"
+    },
+    {
+      "source": "Italian",
+      "key": "s91fce09c70f0"
+    },
+    {
+      "source": "Japanese",
+      "key": "s3c6f633d9545"
+    },
+    {
+      "source": "Kalipso",
+      "key": "s9c3f36afaa16"
+    },
+    {
+      "source": "Kalipso downloads speech models on Linux for x86_64 computers.",
+      "key": "s054b7e8dda03"
+    },
+    {
+      "source": "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see.",
+      "key": "s400f96c514a5"
+    },
+    {
+      "source": "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see.",
+      "key": "s1b2c04d9cd0f"
+    },
+    {
+      "source": "Language you speak",
+      "key": "scd90d95da2fb"
+    },
+    {
+      "source": "Language you speak:",
+      "key": "s09970b80f39d"
+    },
+    {
+      "source": "Larger",
+      "key": "s380897d16db2"
+    },
+    {
+      "source": "Light",
+      "key": "s32014874ba89"
+    },
+    {
+      "source": "Line spacing",
+      "key": "sbbbcfdbe63f3"
+    },
+    {
+      "source": "Line spacing:",
+      "key": "s55387a8d7dff"
+    },
+    {
+      "source": "Listening · On this device",
+      "key": "s304a86aa82c3"
+    },
+    {
+      "source": "Local speech is not installed. Open Local speech setup to install a companion and language model.",
+      "key": "sc9c7ed927ed1"
+    },
+    {
+      "source": "Local speech is unavailable. Open Local speech setup to install the companion and a language model.",
+      "key": "s442cbe28be89"
+    },
+    {
+      "source": "Local speech recognition follows what you say.",
+      "key": "sdd2aa672d2fd"
+    },
+    {
+      "source": "Local speech setup",
+      "key": "s0b3652f74301"
+    },
+    {
+      "source": "Local speech setup ↗",
+      "key": "s84aa7b3f36c6"
+    },
+    {
+      "source": "Local speech unavailable. %s See docs/local-engine.md.",
+      "key": "s82ffcc6273de"
+    },
+    {
+      "source": "Manual",
+      "key": "s4cc90d81f150"
+    },
+    {
+      "source": "Manual · Microphone off",
+      "key": "sb2ec145504a5"
+    },
+    {
+      "source": "Microphone stopped",
+      "key": "sf72d832c9f06"
+    },
+    {
+      "source": "Mirror",
+      "key": "s2cc6c7a3fd5f"
+    },
+    {
+      "source": "Mirror:",
+      "key": "s699804262432"
+    },
+    {
+      "source": "More",
+      "key": "sa7323f1db0c0"
+    },
+    {
+      "source": "Next section",
+      "key": "scbafb86fc9da"
+    },
+    {
+      "source": "Next words",
+      "key": "s14b70fa803a7"
+    },
+    {
+      "source": "Normal",
+      "key": "sa49681e12ac3"
+    },
+    {
+      "source": "Off",
+      "key": "s5159727dc0c9"
+    },
+    {
+      "source": "Off script · Kalipso catches up when you return to the text",
+      "key": "sd9d4be5b1251"
+    },
+    {
+      "source": "Open Edit script to read or change the complete script.",
+      "key": "se57608710ceb"
+    },
+    {
+      "source": "Pause",
+      "key": "s55b2a63e68fc"
+    },
+    {
+      "source": "Paused · Microphone off",
+      "key": "s92c24ec083fb"
+    },
+    {
+      "source": "Previous",
+      "key": "sf825144b00ea"
+    },
+    {
+      "source": "Previous section",
+      "key": "s0a8d80d0d854"
+    },
+    {
+      "source": "Reader colors",
+      "key": "sa5ef55470409"
+    },
+    {
+      "source": "Reader colors:",
+      "key": "s196d1265766b"
+    },
+    {
+      "source": "Reader font",
+      "key": "s3255aa183c9b"
+    },
+    {
+      "source": "Reading",
+      "key": "sd71582148b20"
+    },
+    {
+      "source": "Reading excerpt",
+      "key": "s3437dda5b9a4"
+    },
+    {
+      "source": "Reading mode",
+      "key": "s6c91717d4d8d"
+    },
+    {
+      "source": "Reading mode:",
+      "key": "se0c8cb2db493"
+    },
+    {
+      "source": "Reading mode: %1",
+      "key": "sb4c5ff5ed7c9"
+    },
+    {
+      "source": "Reading progress",
+      "key": "s397575321b5d"
+    },
+    {
+      "source": "Reading size",
+      "key": "s1a784a0d2c76"
+    },
+    {
+      "source": "Ready to listen in %1, with %2.",
+      "key": "sd101e8079117"
+    },
+    {
+      "source": "Ready to listen in %1. Choose Follow my voice and start listening.",
+      "key": "sfbdebd21b7ae"
+    },
+    {
+      "source": "Ready to listen in %s, with %s.",
+      "key": "sa6da53e97f73"
+    },
+    {
+      "source": "Ready to listen in %s. Choose Follow my voice and start listening.",
+      "key": "s4a0e4c8f48d7"
+    },
+    {
+      "source": "Relaxed",
+      "key": "sf3da58d33b69"
+    },
+    {
+      "source": "Reset",
+      "key": "s43ed980c95fe"
+    },
+    {
+      "source": "SCRIPT",
+      "key": "s6d6a1931675a"
+    },
+    {
+      "source": "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections.",
+      "key": "s52e0e591008d"
+    },
+    {
+      "source": "Screen colors are unavailable. The opaque reader keeps its contrast.",
+      "key": "sa1e9856120c6"
+    },
+    {
+      "source": "Script",
+      "key": "s0e92fca99d77"
+    },
+    {
+      "source": "Script: %1",
+      "key": "s51b90290f267"
+    },
+    {
+      "source": "Scripts",
+      "key": "s97a07955d85b"
+    },
+    {
+      "source": "Scripts are written and changed in the Kalipso app; here they are read.",
+      "key": "sd7ccd9f52752"
+    },
+    {
+      "source": "Scrolling · Microphone off",
+      "key": "s894c9f9f55aa"
+    },
+    {
+      "source": "Section ›",
+      "key": "scd2f2be53568"
+    },
+    {
+      "source": "Sections",
+      "key": "sbed0af192da5"
+    },
+    {
+      "source": "Serif",
+      "key": "scc95464f88e2"
+    },
+    {
+      "source": "Settings",
+      "key": "s277e0df0547c"
+    },
+    {
+      "source": "Slower",
+      "key": "s011652904f7a"
+    },
+    {
+      "source": "Smaller",
+      "key": "s7176cb4a42b9"
+    },
+    {
+      "source": "Spanish",
+      "key": "s5e698d00ee58"
+    },
+    {
+      "source": "Speech unavailable · Configure Kalipso → Voice",
+      "key": "s2fae26ce645f"
+    },
+    {
+      "source": "Speech unavailable · Open Settings",
+      "key": "sa577654c17ee"
+    },
+    {
+      "source": "Start",
+      "key": "se637763d3a4a"
+    },
+    {
+      "source": "Starting in %1 second…",
+      "key": "s3cb7fdfa1bc8",
+      "plural": "Starting in %1 seconds…"
+    },
+    {
+      "source": "Starting local speech…",
+      "key": "sf3254ad887c9"
+    },
+    {
+      "source": "Steady speed",
+      "key": "s0d3462e0bd9e"
+    },
+    {
+      "source": "Steady speed:",
+      "key": "s5e8e8dcafeee"
+    },
+    {
+      "source": "Stop following the window",
+      "key": "s7f7acccca9ff"
+    },
+    {
+      "source": "Text size:",
+      "key": "s822c4f39e46e"
+    },
+    {
+      "source": "The %1 download didn't match its fingerprint, so it was deleted. Try again later.",
+      "key": "sd367fca2469e"
+    },
+    {
+      "source": "The %1 model couldn't be unpacked. Try again later.",
+      "key": "s03de1bd78aef"
+    },
+    {
+      "source": "The %s download didn't match its fingerprint, so it was deleted. Try again later.",
+      "key": "s3e96480f5af5"
+    },
+    {
+      "source": "The %s model couldn't be unpacked. Try again later.",
+      "key": "s50721e71ce08"
+    },
+    {
+      "source": "The microphone turns on when you start",
+      "key": "s5b42dcc62465"
+    },
+    {
+      "source": "The words advance at the speed below.",
+      "key": "s7b91f72cb5dc"
+    },
+    {
+      "source": "This Kalipso companion cannot download languages. Install or update it, then log out and back in.",
+      "key": "s74116c345d19"
+    },
+    {
+      "source": "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu.",
+      "key": "sdcc08c1daa0b"
+    },
+    {
+      "source": "Try again",
+      "key": "s78b2af029f47"
+    },
+    {
+      "source": "Use this language",
+      "key": "sbeb43022509e"
+    },
+    {
+      "source": "Vertical",
+      "key": "s1d1135625500"
+    },
+    {
+      "source": "Voice",
+      "key": "sa9edb15f64ee"
+    },
+    {
+      "source": "Wide",
+      "key": "se5a382a0867b"
+    },
+    {
+      "source": "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal.",
+      "key": "se187ac4381cd"
+    },
+    {
+      "source": "Window sharing stopped · Choose a background window to resume",
+      "key": "sf495ec77dca9"
+    },
+    {
+      "source": "You step with the keys, a pedal or a clicker.",
+      "key": "s9f1697e6c559"
+    },
+    {
+      "source": "your language",
+      "key": "s4b98c45fa34f"
+    },
+    {
+      "source": "‹ Section",
+      "key": "sb3f9955c0d78"
+    }
+  ],
+  "web": {
+    "emptyScript": "s55aebce14210",
+    "manualState": "sdd246cd79808",
+    "endState": "s1404d85d2262",
+    "editScript": "s09d70484e89d",
+    "doneEditing": "sddcd7e8caacb",
+    "getFor.linux": "s98184932bb07",
+    "getFor.mac": "s08ddb87aced6",
+    "getFor.windows": "se2f5b462ffac",
+    "yourSystem": "sfca010308388",
+    "copy": "sfa37e351f6b4",
+    "copied": "se2c05080b534",
+    "copiedStatus": "s1f4b5b4bb25e",
+    "copyBlocked": "sfb5bbcd8614e",
+    "secondsLeft": "s827a2ca91702",
+    "endOfScript": "s460e72f65d58",
+    "pauseAnimation": "s10d5b5561a91",
+    "playAnimation": "s843a7b58117e"
+  },
+  "metadata": {
+    "Teleprompter that follows your voice, on your device": "sd2eecf543072",
+    "Keep your script next to your camera and read naturally. Kalipso is one window: large, you write your script in it with bold, italic, sections and cues; small, under the camera, it shows the next words and dims the ones you have already read.": "s9ea836e35ae5",
+    "Follow your voice with local speech recognition, scroll at a steady speed, or step with the keyboard, a foot pedal or your phone.": "s0d0405d82100",
+    "Scripts and reading positions are saved automatically on your device.": "s975c7199a246",
+    "Bracketed cues are shown but never read aloud; headings become sections you can jump to.": "s2acba4410f50",
+    "Import speaker notes from PowerPoint and LibreOffice Impress presentations.": "sec0a7fbcb40a",
+    "Mirror the text for beam-splitter teleprompter glass.": "s0e41eeda941e",
+    "Speech recognition runs on this device. Kalipso downloads the voice model for your language once, from its Settings.": "s5f743d0ffb19",
+    "A teleprompter on your desktop: read Kalipso's scripts, or one written here, near your camera, scroll at a steady speed or follow your voice with local speech recognition. Nothing you say leaves your computer.": "sa0a165dde4ec",
+    "A teleprompter in your top bar: read the Kalipso app's scripts or write one here, read near your camera, scroll at a steady speed or follow your voice with local speech recognition (needs the separately installed Kalipso companion). Nothing you say leaves your computer.": "s9749e49a081d",
+    "Teleprompter": "s66aaecfef901",
+    "teleprompter;prompter;script;speech;presentation;autocue;": "s82faf22dce63",
+    "Interface language": "s7a7661b35c7a",
+    "Language": "sbc205d8335eb",
+    "Translations": "s84abcd4b868d",
+    "Generated translation; native-speaker review pending.": "sf473757c73ad",
+    "Speech recognition is available only for the languages shown in Voice settings.": "s61f2cc297be8"
+  }
+}

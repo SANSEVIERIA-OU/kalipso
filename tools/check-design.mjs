@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Run with PLAYWRIGHT=/path/to/playwright/index.mjs and the static site on :8770.
 import assert from 'node:assert/strict';
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 const pw=await import(pathToFileURL(process.env.PLAYWRIGHT).href);
 const base=process.env.DESIGN_URL||'http://localhost:8770';
@@ -29,12 +29,12 @@ for(const engine of ['chromium','firefox','webkit']){
   images:[...document.images].map(i=>i.getAttribute('src').replace(/^\.\.\//,'')),languages:[...document.querySelectorAll('a[data-language]')].map(a=>[a.lang,a.hreflang,a.textContent,a.getAttribute('aria-current')])}));
  await page.setViewportSize({width:1280,height:900});await page.goto(base);const english=await shape();await page.goto(base+'/it/');const italian=await shape();
  for(const key of ['ids','sections','buttons','links','images'])assert.deepEqual(italian[key],english[key],`${engine} the Italian page differs in ${key}`);
- const named={en:'English',it:'Italiano'};
+ const named=Object.fromEntries(JSON.parse(await readFile(new URL('../translations/locales.json',import.meta.url),'utf8')).map(l=>[l.code,l.name]));
  for(const [lang,hreflang,name] of [...english.languages,...italian.languages]){assert.equal(lang,hreflang);assert.equal(name,named[lang],`${engine} each language by its own name`)}
  assert.deepEqual(english.languages.filter(l=>l[3]==='page').map(l=>l[0]),['en']);assert.deepEqual(italian.languages.filter(l=>l[3]==='page').map(l=>l[0]),['it']);
  assert.equal(await page.evaluate(()=>document.documentElement.lang),'it');assert.equal(await page.locator('[data-live-toggle] span').innerText(),"Ferma l'animazione");
  await page.locator('#edit-toggle').click();assert.equal(await page.locator('#edit-toggle').innerText(),'Fine modifiche');await page.locator('#script').fill('');assert.match(await page.locator('#reading-text').innerText(),/Scrivi il tuo copione/);
- await page.goto(base+'/#install');await page.locator('.site-header a[data-language]').click();await page.waitForURL(/\/it\/#install$/);
+ await page.goto(base+'/#install');await page.locator('#site-language').selectOption('it/');await page.waitForURL(/\/it\/#install$/);
  await page.locator('footer a[hreflang=en]').click();await page.waitForURL(u=>new URL(u).pathname==='/'&&new URL(u).hash==='#install');
  // Negative control: an Italian page that lost a section or a control is caught.
  await page.goto(base+'/it/');await page.locator('#try').evaluate(e=>e.remove());assert.notDeepEqual((await shape()).ids,english.ids);

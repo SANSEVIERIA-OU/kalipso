@@ -1,0 +1,62 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Au fost importate notițele vorbitorului de pe %n diapozitiv. Folosește Secțiuni în fereastra de lectură pentru a trece între diapozitive.",
+    "Au fost importate notițele vorbitorului de pe %n diapozitive. Folosește Secțiuni în fereastra de lectură pentru a trece între diapozitive.",
+    "Au fost importate notițele vorbitorului de pe %n de diapozitive. Folosește Secțiuni în fereastra de lectură pentru a trece între diapozitive."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "A fost omis %n diapozitiv ascuns.",
+    "Au fost omise %n diapozitive ascunse.",
+    "Au fost omise %n de diapozitive ascunse."
+  ],
+  "MainWindow\u0004about %n min": [
+    "aproximativ %n min",
+    "aproximativ %n min",
+    "aproximativ %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n cuvânt",
+    "%n cuvinte",
+    "%n de cuvinte"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n min rămas",
+    "%n min rămase",
+    "%n min rămase"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Ultima sesiune: %1 · %n cuvânt",
+    "Ultima sesiune: %1 · %n cuvinte",
+    "Ultima sesiune: %1 · %n de cuvinte"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n pauză de peste 3 s",
+    "%n pauze de peste 3 s",
+    "%n de pauze de peste 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "%n cuvânt de umplutură recunoscut",
+    "%n cuvinte de umplutură recunoscute",
+    "%n de cuvinte de umplutură recunoscute"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Cuvinte citite: %n din %1",
+    "- Cuvinte citite: %n din %1",
+    "- Cuvinte citite: %n din %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauze de peste 3 s: %n",
+    "- Pauze de peste 3 s: %n",
+    "- Pauze de peste 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Cuvinte de umplutură recunoscute: %n (multe sisteme le omit, deci aceasta este o limită inferioară)",
+    "- Cuvinte de umplutură recunoscute: %n (multe sisteme le omit, deci aceasta este o limită inferioară)",
+    "- Cuvinte de umplutură recunoscute: %n (multe sisteme le omit, deci aceasta este o limită inferioară)"
+  ]
+}

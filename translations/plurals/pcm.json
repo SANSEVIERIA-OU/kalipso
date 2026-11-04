@@ -1,0 +1,50 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "E don import speaker notes from %n slide. Use Sections for the read window to jump from one slide to another.",
+    "E don import speaker notes from %n slides. Use Sections for the read window to jump from one slide to another."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "E leave out %n hidden slide.",
+    "E leave out %n hidden slides."
+  ],
+  "MainWindow\u0004about %n min": [
+    "about %n min",
+    "about %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n word",
+    "%n words"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n min remain",
+    "%n min remain"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Last session: %1 · %n word",
+    "Last session: %1 · %n words"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n pause wey pass 3 s",
+    "%n pauses wey pass 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "E recognize %n filler word",
+    "E recognize %n filler words"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Words wey you read: %n out of %1",
+    "- Words wey you read: %n out of %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauses wey pass 3 s: %n",
+    "- Pauses wey pass 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Filler words wey e recognize: %n (many recognizers dey drop them, so the real number fit pass this)",
+    "- Filler words wey e recognize: %n (many recognizers dey drop them, so the real number fit pass this)"
+  ]
+}

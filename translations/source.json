@@ -1,0 +1,4446 @@
+{
+  "s6ac6ee29f009": {
+    "source": "Screen color sampling timed out. The opaque reader keeps its contrast.",
+    "locations": [
+      "app:Backdrop"
+    ]
+  },
+  "s6bed84db23e0": {
+    "source": "Screen color sampling returned invalid data.",
+    "locations": [
+      "app:Backdrop"
+    ]
+  },
+  "sa1e9856120c6": {
+    "source": "Screen colors are unavailable. The opaque reader keeps its contrast.",
+    "locations": [
+      "app:Backdrop",
+      "desktop"
+    ]
+  },
+  "sbeeddf6af600": {
+    "source": "Colors behind the reader · macOS screen-recording permission required",
+    "locations": [
+      "app:Backdrop"
+    ]
+  },
+  "s3580dee2c11b": {
+    "source": "Colors around the reader · no recording or saved images",
+    "locations": [
+      "app:Backdrop"
+    ]
+  },
+  "s025d51e5e332": {
+    "source": "Choose a background window to follow its colors. Desktop permission is required; sharing stops when the reader is hidden.",
+    "locations": [
+      "app:Backdrop"
+    ]
+  },
+  "s121333586582": {
+    "source": "Screen pixels are unavailable here; the reader uses a fixed high-contrast palette.",
+    "locations": [
+      "app:Backdrop"
+    ]
+  },
+  "sfb514dddc22f": {
+    "source": "Local engine ready",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s3a51b2cb7b89": {
+    "source": "A widget identifier is required.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s674039ca21d9": {
+    "source": "Another widget is sharing a background window.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s352e9e94086c": {
+    "source": "Only the sharing widget can read its color state.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "sc903126b0dbd": {
+    "source": "Only the sharing widget can stop its session.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s28ee07403445": {
+    "source": "Stop listening before changing the speech engine.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s6367e57ca5cd": {
+    "source": "Choose Moonshine or Vosk.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s3ec456497644": {
+    "source": "Cannot save the speech engine selection.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s71d9c51589e4": {
+    "source": "Speech engine selected. Start listening when its model is configured.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "sa4821af3001d": {
+    "source": "Stop listening before changing the language.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s095ed1b915b5": {
+    "source": "Kalipso has no speech model for this language.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s5ddd9ec785c3": {
+    "source": "Another language is downloading. Cancel it first.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s018cec6886e7": {
+    "source": "Cannot save the language.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "sdeb78256cb4c": {
+    "source": "Another frontend owns the microphone. Stop listening there first.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "se28e70ad722e": {
+    "source": "Loading local speech model",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "sca6e1c40ba9c": {
+    "source": "Only the listening frontend can stop its session.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "sb1973d5084de": {
+    "source": "Only the listening frontend can set the script.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s08e18791f2bd": {
+    "source": "The script is too long.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s7362b591df4c": {
+    "source": "This script is not in Kalipso's library.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s85486c4af4fc": {
+    "source": "Kalipso could not be started. Is the app installed?",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "s9e6b4fcc81f9": {
+    "source": "Speech language selected.",
+    "locations": [
+      "app:Engine",
+      "engine:Engine"
+    ]
+  },
+  "sf72d832c9f06": {
+    "source": "Microphone stopped",
+    "locations": [
+      "app:Engine",
+      "engine:Engine",
+      "desktop"
+    ]
+  },
+  "s37b747872c84": {
+    "source": "LibreOffice's Python bridge is missing (on Debian and Ubuntu: python3-uno).",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s527b0623d3aa": {
+    "source": "Stopped following Impress.",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s4657c4a9fd45": {
+    "source": "LibreOffice was not found. Install it to follow an Impress slideshow.",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s9aff22f75ebc": {
+    "source": "Cannot prepare the Impress connection.",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s4d511974d254": {
+    "source": "LibreOffice could not be started.",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s4ed1b2cd9a48": {
+    "source": "Connecting to LibreOffice…",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s75231f3b94aa": {
+    "source": "Waiting for LibreOffice to open the presentation…",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s004cfb50fd69": {
+    "source": "Connected to Impress. Start the slideshow; Kalipso follows its slides.",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s398cade0514e": {
+    "source": "The slideshow ended. Start it again to keep following.",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s138a98e9b2da": {
+    "source": "The presentation was closed. Stopped following Impress.",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "s88326412426d": {
+    "source": "Cannot follow Impress: %1",
+    "locations": [
+      "app:ImpressFollower"
+    ]
+  },
+  "sa6260760d52e": {
+    "source": "German",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sfea288faa0c1": {
+    "source": "English",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s5e698d00ee58": {
+    "source": "Spanish",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s42964abb5e05": {
+    "source": "French",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s91fce09c70f0": {
+    "source": "Italian",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s3c6f633d9545": {
+    "source": "Japanese",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s21fb82f54cb7": {
+    "source": "Chinese",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s9c3f36afaa16": {
+    "source": "Kalipso",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage",
+      "app:main",
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s0e92fca99d77": {
+    "source": "Script",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "website:text"
+    ]
+  },
+  "sbc037162787b": {
+    "source": "Bold",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa8e6d6070c0a": {
+    "source": "Italic",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s647ca8f8bd03": {
+    "source": "Section heading",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s24911f17ac78": {
+    "source": "Direction cue, not read aloud",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s54f9b52ff06b": {
+    "source": "%1 (%2)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s4f14ea0b4224": {
+    "source": "Kalipso settings",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s99e01fb5fac5": {
+    "source": "Close",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s2474a4d6bc77": {
+    "source": "Present with Impress…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s322437758211": {
+    "source": "Script saved.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s97a07955d85b": {
+    "source": "Scripts",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "s03d9347f2d2b": {
+    "source": "New",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc9052022da33": {
+    "source": "New script",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s126f089fdd90": {
+    "source": "New script (Ctrl+N)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa7323f1db0c0": {
+    "source": "More",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sf99dafc8a0e2": {
+    "source": "More script actions",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s61525e12faa0": {
+    "source": "Import…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb0644809f8bb": {
+    "source": "Text, Markdown, Word (.docx) and OpenDocument (.odt) documents, or speaker notes from PowerPoint (.pptx) and Impress (.odp)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9fa94903bae6": {
+    "source": "Open a presentation in LibreOffice Impress and follow its slideshow: the reader jumps to the notes of the slide being shown.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s056590ac2651": {
+    "source": "Export…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s488f0cade670": {
+    "source": "Save session report…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb01cb62deded": {
+    "source": "Delete script…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s221736d49837": {
+    "source": "Present with Impress",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc3c658b9c46a": {
+    "source": "Presentations (*.odp *.pptx)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s7c38c0ad109e": {
+    "source": "Stop following Impress",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa3ec057e224c": {
+    "source": "Save session report",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sada96a97994b": {
+    "source": "%1 - session.md",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s4e6a9714d49e": {
+    "source": "Markdown (*.md);;Text (*.txt)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9be6ae54bb22": {
+    "source": "Cannot save the report",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "seb4919051fe3": {
+    "source": "Check the destination and available disk space.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s7e3a01516158": {
+    "source": "Session report saved to %1.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s947053d904fa": {
+    "source": "Paused while the window was minimized · microphone off",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sf019701373ea": {
+    "source": "Empty",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "scc9d08326bd9": {
+    "source": "under 1 min",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8ef39f4ae224": {
+    "source": "%n min",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "%n min"
+  },
+  "sd5819060de6b": {
+    "source": "yesterday",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "se4ddb128d486": {
+    "source": "%1 · %2",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s5a10e619d498": {
+    "source": "Cannot save the script. Check the available disk space.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "se0e2f00da2e9": {
+    "source": "Cannot create a script in %1.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sf08dea1769b4": {
+    "source": "Import script",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sde45183c0593": {
+    "source": "Cannot import",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sfa0a0620bf8c": {
+    "source": "Cannot save the imported script.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s91f9147ec35a": {
+    "source": "Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "Imported speaker notes from %n slides. Use Sections in the reader to jump between slides."
+  },
+  "s636b5b6744fd": {
+    "source": "Script imported.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s04e434ecc1ba": {
+    "source": "%n hidden slide(s) left out.",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "%n hidden slides left out."
+  },
+  "s06acc18a99d9": {
+    "source": "The text is as large as it gets.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s633d02d85622": {
+    "source": "The text is as small as it gets.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8084ba0093ca": {
+    "source": "Text size %1",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "scf8a01ff0142": {
+    "source": "Export script",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s2dc57f63cdeb": {
+    "source": "Text (*.txt);;Markdown (*.md)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd9168c88f800": {
+    "source": "Cannot export",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sad389f891a08": {
+    "source": "Exported to %1.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3a9227f376c7": {
+    "source": "Delete script?",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s7edebceebb84": {
+    "source": "Delete “%1” from this device?",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s34c4e2f5498c": {
+    "source": "Deleted “%1”.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb7a72b9da775": {
+    "source": "# Welcome\n\nThank you for joining today. [Smile]\n\nLet us start with the question that matters most. What would make this project useful to the people who depend on it?\n\n# Next steps\n\nWe can take this one step at a time. [Pause] Listen carefully, check the question, and choose the words we want to share.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s81eb8b573fff": {
+    "source": "Sample script (not saved)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "se3d6c583fcec": {
+    "source": "Welcome to Kalipso",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s574632b39f7d": {
+    "source": "A teleprompter that follows your voice and keeps your place. Everything stays on this computer.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s46d01c373f86": {
+    "source": "Choose language",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage"
+    ]
+  },
+  "s3ae57897f925": {
+    "source": "Choose the language you speak",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s85ad16767d69": {
+    "source": "Test the microphone",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9b4ad26740f2": {
+    "source": "Check that Kalipso hears you",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sfe1e5b90cb70": {
+    "source": "Speak for a moment: a bar moves with your voice. Nothing is recorded or sent.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa5203de58464": {
+    "source": "Write",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s73510d5747fe": {
+    "source": "Try a sample",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa441dc01f61c": {
+    "source": "Write or import your script",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s2f737c4e9db7": {
+    "source": "Paste your text, or import a document, Markdown or the speaker notes of a presentation. To read, press Under the camera: the window goes small, at the top of the screen.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s11b46c5191c7": {
+    "source": "Ready: Kalipso listens in %1, on this computer.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s75f339952111": {
+    "source": "Kalipso downloads the voice model for it once, about 50 MB.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "se8d6c43b6eaf": {
+    "source": "Change language",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s80a08b9d3097": {
+    "source": "%1 — Kalipso",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sdc1155fa3c36": {
+    "source": "Kalipso asked the system to hide this reader from screen sharing. Check the view from another participant.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8dc7d9c96912": {
+    "source": "Screen sharing may include this reader.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8d9f4e2c9f18": {
+    "source": "Resumes after your next pause",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s0cdf5bfd01a2": {
+    "source": "under a minute",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sf4704454126d": {
+    "source": "about %n min",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "about %n min"
+  },
+  "s18497da1693d": {
+    "source": "%n word(s)",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "%n words"
+  },
+  "sc4b6bad222f2": {
+    "source": "Word %1 of %2",
+    "locations": [
+      "app:MainWindow",
+      "app:RemoteControl"
+    ]
+  },
+  "sbaa260a3f2c3": {
+    "source": "Paused · microphone off",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s460e72f65d58": {
+    "source": "End of script",
+    "locations": [
+      "app:MainWindow",
+      "website:dynamic"
+    ]
+  },
+  "sf862104df62a": {
+    "source": "Impress · slide %1 has no notes.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s105c49c5db40": {
+    "source": "Impress · the notes of slide %1 are not in this script.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s2953119e8066": {
+    "source": "Following Impress · slide %1",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3c9af92754f2": {
+    "source": "Manual · microphone off",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s740a3d8de253": {
+    "source": "end of script",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s542871fc9200": {
+    "source": "under a minute left",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3f985ee1147e": {
+    "source": "%n min left",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "%n min left"
+  },
+  "sb901e750abf9": {
+    "source": "Starting…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s17ad65c1e7dc": {
+    "source": "Microphone off · no language chosen yet",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3b7aa544a58f": {
+    "source": "Microphone off until you start",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd9d4be5b1251": {
+    "source": "Off script · Kalipso catches up when you return to the text",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s0e38194f62bf": {
+    "source": "Listening",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s99347f2c8c5c": {
+    "source": "Choose the language you speak in Settings: Kalipso downloads it once.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s4fe077a75b0e": {
+    "source": "Last session: %1 · %n word(s)",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "Last session: %1 · %n words"
+  },
+  "s22c64564a854": {
+    "source": "%1 words/min",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "s707f91836a0b": {
+    "source": "(as planned)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s417d712933d9": {
+    "source": "(%1% faster than planned)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s1e6f8875d05d": {
+    "source": "(%1% slower than planned)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s78d1d2ecd5e7": {
+    "source": "%n pause(s) over 3 s",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "%n pauses over 3 s"
+  },
+  "sf6ad8f0567fa": {
+    "source": "(longest %1)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s1e65a5a5f49b": {
+    "source": "%n filler word(s) recognized",
+    "locations": [
+      "app:MainWindow"
+    ],
+    "plural": "%n filler words recognized"
+  },
+  "sd75da1017c68": {
+    "source": "Keys and pedals",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sfedb1b3997db": {
+    "source": "Start or pause",
+    "locations": [
+      "app:MainWindow",
+      "app:RemoteControl"
+    ]
+  },
+  "sf65e0e884dea": {
+    "source": "Next word",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage"
+    ]
+  },
+  "s8d56eb05c65f": {
+    "source": "Previous word",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage"
+    ]
+  },
+  "scbafb86fc9da": {
+    "source": "Next section",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "s0a8d80d0d854": {
+    "source": "Previous section",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "sbaed573f6042": {
+    "source": "Faster",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "s011652904f7a": {
+    "source": "Slower",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "s553337d48df1": {
+    "source": "Back to the start",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "scd15301875d6": {
+    "source": "Press a key",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd56f99b481c4": {
+    "source": "Built in: %1",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sed387d4177d2": {
+    "source": "Pedals and clickers usually send the arrows, Page Up/Down or Space, which work without any setup. Choose a key here to add one for an action, or to give a built-in key another action, for example the arrows to change speed. Escape always pauses.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa9edb15f64ee": {
+    "source": "Voice",
+    "locations": [
+      "app:MainWindow",
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "s6729b1bb0d34": {
+    "source": "Reader",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s7ca70a76d271": {
+    "source": "Appearance",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s717d125a5b09": {
+    "source": "Phone",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9c54085e10f6": {
+    "source": "Settings pages",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "scc38b40eb7a5": {
+    "source": "Monitor",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s7dba89890a11": {
+    "source": "Text size",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s11d0b6a6d11c": {
+    "source": "Interface font",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s3658e06f3f45": {
+    "source": "Any installed font, for example one designed for easier reading such as Atkinson Hyperlegible or OpenDyslexic.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "se93d3de86d8f": {
+    "source": "Font",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa49681e12ac3": {
+    "source": "Normal",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sf3da58d33b69": {
+    "source": "Relaxed",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "se5a382a0867b": {
+    "source": "Wide",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sbbbcfdbe63f3": {
+    "source": "Line spacing",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s4a0d1fe42e03": {
+    "source": "Top",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc1250a7d79de": {
+    "source": "Upper third",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s2d2373b71883": {
+    "source": "Center",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd1d48840e688": {
+    "source": "Current line position",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s5159727dc0c9": {
+    "source": "Off",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "website:text"
+    ]
+  },
+  "sfe6dfd7aa071": {
+    "source": "Horizontal (beam-splitter glass)",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s1d1135625500": {
+    "source": "Vertical",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s6e41b765d4cb": {
+    "source": "Horizontal and vertical",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s0ac962660446": {
+    "source": "Mirror text",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s4a470e84012a": {
+    "source": "3 seconds",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s4768359557af": {
+    "source": "5 seconds",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "se38a9b727d6b": {
+    "source": "Countdown before steady scrolling",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sce224452b012": {
+    "source": "Like the system",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s32014874ba89": {
+    "source": "Light",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s8b7db0fb1e89": {
+    "source": "Dark",
+    "locations": [
+      "app:MainWindow",
+      "desktop",
+      "website:text"
+    ]
+  },
+  "sfe9fa90d80d7": {
+    "source": "Settings and dialogs",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb4618852eee6": {
+    "source": "Automatic screen colors",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s699d2ad6e172": {
+    "source": "Kalipso window",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s18385d91f9a5": {
+    "source": "The reader can take its colors from a window you choose, even while it covers it. Nothing is saved or sent.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s995cf1fe8ad8": {
+    "source": "Choose background window…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s00d530113dd9": {
+    "source": "Stop window sharing",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb2427193fada": {
+    "source": "Interface text size",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s47e267a84aef": {
+    "source": "System language",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s06ffcb47718f": {
+    "source": "The interface language changes the next time Kalipso starts.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s7a7661b35c7a": {
+    "source": "Interface language",
+    "locations": [
+      "app:MainWindow",
+      "metadata"
+    ]
+  },
+  "s6393fbf1ce52": {
+    "source": "Hide the reader's controls while reading",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3c5fb8864ff4": {
+    "source": "Hide the reader from screen sharing and recordings",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3983ae65a0e3": {
+    "source": "Screen sharing apps that use the system capture service leave the reader out. Check the view from another participant before relying on it.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8fd58ac5baef": {
+    "source": "Under the camera, Plasma 6.6 or later leaves the reader out of screen sharing. Check the view from another participant before relying on it.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s6c9360c222f3": {
+    "source": "Others may see the reader when you share the whole screen. Share a single window, or on Plasma 6.6 or later hide the reader from screen sharing in its window menu (Alt+F3).",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s41f0df98674a": {
+    "source": "GNOME top bar",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd764e371dc67": {
+    "source": "Turn on",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa02952f9fb06": {
+    "source": "On: the play icon in the top bar shows Kalipso's reader over any app, with the scripts you write here.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa2ba4af9b201": {
+    "source": "Off. Kalipso's reader can also live in the top bar, over any app, with the scripts you write here.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s6e0822b35d76": {
+    "source": "GNOME's extensions are switched off. Turn them on in the Extensions app; Kalipso's top bar reader then starts by itself.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa0da3482fa7d": {
+    "source": "Not on this version of GNOME: the top bar reader runs on GNOME Shell 48 and 51.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa1cd36b15aa1": {
+    "source": "GNOME could not start the top bar reader. Log out and back in, then look here again.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s37d670eaff40": {
+    "source": "Installed. Log out and back in, then turn it on here.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s76ffaa95588e": {
+    "source": "GNOME did not turn on the top bar reader.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sfc3e8900b5d9": {
+    "source": "%1 · primary",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8ac184ae3c5f": {
+    "source": "Speech",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s2fe2eedbe064": {
+    "source": "System · on-device",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3de1515b27c6": {
+    "source": "Choose…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s85ac876fa6e5": {
+    "source": "Tiny",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sf197077a7647": {
+    "source": "Base",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8c7b92b32fa6": {
+    "source": "Small",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s5d8486ef9aa5": {
+    "source": "Medium",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd5e79934d799": {
+    "source": "Test microphone",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sdccfb13a3267": {
+    "source": "Microphone level",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s62a3ffff7f13": {
+    "source": "Speak: the bar moves when Kalipso hears you through %1.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sadefdb3daebb": {
+    "source": "Kalipso hears you through %1.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s86d7660aaf51": {
+    "source": "No sound from %1. Check that it is not muted in the system sound settings, or choose another microphone.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s33acd3962bf7": {
+    "source": "Download progress",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s96cbac2dcaca": {
+    "source": "Kalipso downloads a language once, into %1, and checks it against its pinned fingerprint. The models are free software: Moonshine's under the MIT licence, Vosk's under the Apache 2.0 licence. Then Kalipso listens only on this computer: nothing you say is sent.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sfa3e5f073b06": {
+    "source": "Moonshine and Vosk need a runtime and a model installed by hand: choose Other model installed by hand.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd65bd028a7ef": {
+    "source": "Download again",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sbc9ecdcd74a7": {
+    "source": "Removes this language and downloads it again, checked against its fingerprint",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sd34ac1e7e9ef": {
+    "source": "Remove",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8698a0e44af9": {
+    "source": "Speech engine",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "scd90d95da2fb": {
+    "source": "Language you speak",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s053efe1744be": {
+    "source": "Native library",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sfdf5a01d0c2f": {
+    "source": "Model folder",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s0e32d726714a": {
+    "source": "Choose model folder…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sbc205d8335eb": {
+    "source": "Language",
+    "locations": [
+      "app:MainWindow",
+      "website:attribute",
+      "metadata"
+    ]
+  },
+  "s61a285ab5748": {
+    "source": "Moonshine model size",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa5226282bde8": {
+    "source": "Choose speech model",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc56b04991f34": {
+    "source": "Check availability",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9a5b0d012757": {
+    "source": "Install system language",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3180d76f3c6b": {
+    "source": "Choose a language and check its availability. No microphone is opened by this check.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s547d72f6ea7c": {
+    "source": "Microphone",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb2193474d5c7": {
+    "source": "Count filler words (um, uh) in the session summary",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s243fc8537433": {
+    "source": "Recognition stays on this computer, and Kalipso never switches to a cloud service. System speech uses the default microphone.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc11291697fd7": {
+    "source": "%1 is installed: %2 MB in %3, %4 licence.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s5e7d5e1955e5": {
+    "source": "Choose a language and check its availability.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s5917db0189b1": {
+    "source": "Downloading %1: %2 of %3 MB",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s59e3b0a0e0b7": {
+    "source": "Checking and unpacking %1…",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sdc2f208c0509": {
+    "source": "Couldn't download %1. Check the internet connection and try again.",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sd367fca2469e": {
+    "source": "The %1 download didn't match its fingerprint, so it was deleted. Try again later.",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s03de1bd78aef": {
+    "source": "The %1 model couldn't be unpacked. Try again later.",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s4d2300c6f056": {
+    "source": "Couldn't save %1: there isn't enough free space, or the data folder can't be written.",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s4b3be3692967": {
+    "source": "Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s620d3de172ea": {
+    "source": "Download cancelled. Nothing was changed.",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s78b2af029f47": {
+    "source": "Try again",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "s3c1ebbafd4eb": {
+    "source": "Check availability for the selected language.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s14741b7adb1f": {
+    "source": "Checking installed system speech…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s279eaf139c9e": {
+    "source": "%1 · download %2 MB",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sc35464d612f6": {
+    "source": "%1 · ready",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb11ddff74d1f": {
+    "source": "Other model installed by hand…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s20e3f24bd608": {
+    "source": "Ready to listen in %1. Choose Follow my voice and start the reader.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc898025a01bd": {
+    "source": "Kalipso removes %1 and downloads it again (%2 MB), checking it against its fingerprint. Until it is done, it cannot follow your voice in this language.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s7c865f722285": {
+    "source": "Kalipso removes %1 and frees %2 MB. To use it again, choose it here: Kalipso downloads it again, which needs the internet.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "saa2698bd6ea1": {
+    "source": "Download %1 again?",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc1a33f8345fa": {
+    "source": "Remove %1?",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s03e65ca53924": {
+    "source": "Couldn't remove %1: check that its folder can be written.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s1f98adb644c3": {
+    "source": "Removed %1: %2 MB freed.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "se5af6dd08a16": {
+    "source": "Downloading %1…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s11e19a8cacf1": {
+    "source": "Cancel download",
+    "locations": [
+      "app:MainWindow",
+      "desktop"
+    ]
+  },
+  "sac0001cad388": {
+    "source": "Phone as a remote",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s0fc87be3f2fb": {
+    "source": "Allow a phone on this network to control the reader",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s4ca700a1737c": {
+    "source": "QR code for the remote control link",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s823c5e55cecc": {
+    "source": "No network found",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s8896dffd7275": {
+    "source": "Network",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9f45858c92e1": {
+    "source": "Anyone on this network who has the link can start, pause and step the reader; the script text is never shared. A new link is created each time you turn this on, and it stops when Kalipso closes.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa840f37ab086": {
+    "source": "Remote control could not start on this network.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s6883a58c3e1c": {
+    "source": "Open on your phone: %1",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s6610f7816205": {
+    "source": "System microphone",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sb13d97a19d6e": {
+    "source": "System microphone · %1",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sffd926778641": {
+    "source": "No microphone found",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sfcc45f12d6f3": {
+    "source": "%1 · not connected",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "scacd5ac6aeca": {
+    "source": "Stop the test",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s4735088b761b": {
+    "source": "Opening the microphone…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s958afecac22d": {
+    "source": "Test over: Kalipso heard you through %1.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc77864b723e2": {
+    "source": "Test over: Kalipso did not hear a voice through %1. Raise its volume in the system sound settings, or choose another microphone.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s0791da62bb85": {
+    "source": "The test shows whether Kalipso hears you. Nothing is recorded or sent.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa7eb92bf7717": {
+    "source": "Close without saving?",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s6e634519eca2": {
+    "source": "Your latest changes could not be saved. Close Kalipso anyway and lose them?",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa626b511a86e": {
+    "source": "Install pipewire-audio (Arch) or pipewire-bin (Debian) to enable audio capture.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "sc63278a3ba81": {
+    "source": "the system microphone",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s0890ab195266": {
+    "source": "Kalipso finds no microphone. Connect one, or turn it on in the system sound settings.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s1cbeef68b949": {
+    "source": "The microphone chosen in Settings is not connected. Connect it, or choose another one.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s7892f499a795": {
+    "source": "Unsupported microphone sample format.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s9146edaa0baa": {
+    "source": "Microphone capture failed. Check device permissions.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s5c1c26feab72": {
+    "source": "Cannot start the microphone.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "sbd51a1145da4": {
+    "source": "Audio capture could not start. Check that PipeWire is installed and running.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s6bc8ed3ce592": {
+    "source": "Audio capture from %1 stopped. Start listening again; if it stops again, check the microphone in the system sound settings.",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s4bc172217d8e": {
+    "source": "Audio capture from %1 stopped: %2",
+    "locations": [
+      "app:MicrophoneCapture",
+      "engine:MicrophoneCapture"
+    ]
+  },
+  "s8c4998ecb0d5": {
+    "source": "Window colors are unavailable. Choose the window again or use Light or Dark.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "s60bdb28ff231": {
+    "source": "Following the selected window · Sharing active · No images saved",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "s3e98cc335989": {
+    "source": "Window sharing timed out. Choose the window again or use Light or Dark.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "sf495ec77dca9": {
+    "source": "Window sharing stopped · Choose a background window to resume",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors",
+      "desktop"
+    ]
+  },
+  "sfd5ba2f7cfae": {
+    "source": "Window sharing ended · Choose a background window to resume",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "sc96075b016fe": {
+    "source": "Choose the window behind your reader in the desktop sharing dialog",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors",
+      "desktop"
+    ]
+  },
+  "sf47fd3456195": {
+    "source": "Desktop sharing is unavailable. Install a ScreenCast desktop portal.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "s1174d23f4c67": {
+    "source": "Desktop window sharing is unavailable. Check the desktop portal and try again.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "s77c97ecd69ea": {
+    "source": "Window sharing cancelled · The reader keeps its contrast",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "s34b077478547": {
+    "source": "Window sharing failed · The reader keeps its contrast",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "s9442a7d4c6f7": {
+    "source": "The desktop returned an invalid sharing session.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "sf9428d6c3202": {
+    "source": "Choose one background window to follow its colors.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "sd8b292a53849": {
+    "source": "The desktop could not open the selected window.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "s071d188d090d": {
+    "source": "The window color stream could not start. Check PipeWire and try again.",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "se2c5d86a44e8": {
+    "source": "Window sharing active · Waiting for its colors",
+    "locations": [
+      "app:PortalColors",
+      "engine:PortalColors"
+    ]
+  },
+  "see9ffa5ca1e1": {
+    "source": "Untitled script",
+    "locations": [
+      "app:QObject",
+      "engine:QObject"
+    ]
+  },
+  "s6e8e550b4eb4": {
+    "source": "Drag to move the reader",
+    "locations": [
+      "app:QObject"
+    ]
+  },
+  "s32e49307026a": {
+    "source": "Kalipso reader",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "se555fbc40b02": {
+    "source": "Your scripts (F9)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s8693a54e7e03": {
+    "source": "Smaller text (Ctrl+−)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s78eb103b8dbb": {
+    "source": "Smaller text",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s5fc3255e4d0f": {
+    "source": "Larger text (Ctrl++)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s7f031a1986d7": {
+    "source": "Larger text",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "sbed0af192da5": {
+    "source": "Sections",
+    "locations": [
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "s993eb1692bb1": {
+    "source": "Jump to section",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s258e75885c92": {
+    "source": "Jump to a section",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s277e0df0547c": {
+    "source": "Settings",
+    "locations": [
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "s397575321b5d": {
+    "source": "Reading progress",
+    "locations": [
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "sdd66057a77d4": {
+    "source": "Write or paste your script here.",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "saa3b96120dcd": {
+    "source": "Previous word (← or Page Up)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s79585eeaaaf8": {
+    "source": "Next word (→ or Page Down)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "se637763d3a4a": {
+    "source": "Start",
+    "locations": [
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "s959d3bdd235a": {
+    "source": "Start or pause (Space)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s4babe7ef7908": {
+    "source": "How the reader advances",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s4cc90d81f150": {
+    "source": "Manual",
+    "locations": [
+      "app:ReaderPage",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "s0d3462e0bd9e": {
+    "source": "Steady speed",
+    "locations": [
+      "app:ReaderPage",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "s95d2a9ebe0cd": {
+    "source": "Follow my voice",
+    "locations": [
+      "app:ReaderPage",
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "s0c17dab74443": {
+    "source": "Slower (−)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s37fb8960764f": {
+    "source": "Faster (+)",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s8c23d0992927": {
+    "source": "Microphone off",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "sb4c5ff5ed7c9": {
+    "source": "Reading mode: %1",
+    "locations": [
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "s55b2a63e68fc": {
+    "source": "Pause",
+    "locations": [
+      "app:ReaderPage",
+      "desktop"
+    ]
+  },
+  "s28887096816e": {
+    "source": "Steady",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s6f58e9ce7cfa": {
+    "source": "Choose the language you speak, in Settings",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s130d2b726a8a": {
+    "source": "Expand",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s610c5c99fc20": {
+    "source": "Under the camera",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "sd7e0d51f6078": {
+    "source": "Larger, to write and manage your scripts",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "sbc7b7ed4eadd": {
+    "source": "Small, at the top of the screen, under the camera",
+    "locations": [
+      "app:ReaderPage"
+    ]
+  },
+  "s6ed39512966a": {
+    "source": "Kalipso script",
+    "locations": [
+      "app:ReaderView"
+    ]
+  },
+  "sbca81cf2bdb5": {
+    "source": "Slide %1",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s0ecfaa948877": {
+    "source": "Slide %1: %2",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s2cfae496270b": {
+    "source": "Scripts, documents and presentations (*.txt *.md *.markdown *.docx *.odt *.pptx *.odp);;Text (*.txt *.md *.markdown);;Word (*.docx);;OpenDocument text (*.odt);;PowerPoint (*.pptx);;LibreOffice Impress (*.odp);;All files (*)",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s30eae6715f10": {
+    "source": "Cannot open this file.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "sa39d6a1b4427": {
+    "source": "This file is too large to import.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "sf299c1543760": {
+    "source": "Choose a text file smaller than 2 MiB.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "sa18f63b45659": {
+    "source": "Choose a UTF-8 text file.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s9ce1a0413239": {
+    "source": "This is not a readable PowerPoint (.pptx) file.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s383cd8b8a10f": {
+    "source": "These speaker notes are too long to import.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s2e79f42d8572": {
+    "source": "This presentation has no speaker notes.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s40bc4bb817c7": {
+    "source": "This is not a readable LibreOffice Impress (.odp) file.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "sea7b71847a30": {
+    "source": "This presentation could not be read.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s61e56c138622": {
+    "source": "This is not a readable Word (.docx) document.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "sb56d95850907": {
+    "source": "This document is too long to import.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s00e61b7d937b": {
+    "source": "This document could not be read.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "s3ce20219acce": {
+    "source": "This document has no text.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "sd5d15fbd727a": {
+    "source": "This is not a readable OpenDocument text (.odt) file.",
+    "locations": [
+      "app:ScriptImport"
+    ]
+  },
+  "sc71aa812eff6": {
+    "source": "# Session report: %1",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s8f08e7ebc915": {
+    "source": "- Duration: %1",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "sb9c881f62698": {
+    "source": "- Words read: %n of %1",
+    "locations": [
+      "app:SessionStats"
+    ],
+    "plural": "- Words read: %n of %1"
+  },
+  "sfde501b5ee24": {
+    "source": "- Pace: %1 words/min",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s62acd519317e": {
+    "source": "as planned",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s6dd7874142b3": {
+    "source": "%1% faster",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "sa45360890170": {
+    "source": "%1% slower",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s340a9d5e5714": {
+    "source": "- At the planned %1 words/min: %2 expected, %3 taken (%4)",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s40c8eac30120": {
+    "source": "- Pauses over 3 s: %n",
+    "locations": [
+      "app:SessionStats"
+    ],
+    "plural": "- Pauses over 3 s: %n"
+  },
+  "s182893fafbdc": {
+    "source": " (longest %1)",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "sf9a6359e6f82": {
+    "source": "- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)",
+    "locations": [
+      "app:SessionStats"
+    ],
+    "plural": "- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)"
+  },
+  "s601ca755dd5c": {
+    "source": "## Sections",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s63d3196e1705": {
+    "source": "| Section | Time | Words | Words/min |",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s5a85b15fb598": {
+    "source": "## Long pauses",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "se8b79cba8629": {
+    "source": "- %1 before the first word",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s9d5588ef6af6": {
+    "source": "- %1 after “…%2”",
+    "locations": [
+      "app:SessionStats"
+    ]
+  },
+  "s633ed56a5e27": {
+    "source": "Unsupported speech engine. Choose Moonshine or Vosk.",
+    "locations": [
+      "app:SpeechConfig",
+      "engine:SpeechConfig"
+    ]
+  },
+  "s0f188eec5515": {
+    "source": "PipeWire capture is missing: install pipewire-audio on Arch or pipewire-bin on Debian.",
+    "locations": [
+      "app:SpeechConfig",
+      "engine:SpeechConfig"
+    ]
+  },
+  "sd52710e72e60": {
+    "source": "Moonshine library or its ONNX Runtime dependency is missing or incompatible. Install/configure the Moonshine runtime.",
+    "locations": [
+      "app:SpeechConfig",
+      "engine:SpeechConfig"
+    ]
+  },
+  "s6cd9bb42d20e": {
+    "source": "Vosk library is missing or incompatible. Install/configure the Vosk runtime.",
+    "locations": [
+      "app:SpeechConfig",
+      "engine:SpeechConfig"
+    ]
+  },
+  "s373bb1758aa1": {
+    "source": "Moonshine streaming model is missing. Install a language model and configure its extracted folder.",
+    "locations": [
+      "app:SpeechConfig",
+      "engine:SpeechConfig"
+    ]
+  },
+  "sd0601b77d879": {
+    "source": "Extracted Vosk model is missing. Install a language model and configure its extracted folder.",
+    "locations": [
+      "app:SpeechConfig",
+      "engine:SpeechConfig"
+    ]
+  },
+  "sfa0990bbcdff": {
+    "source": "No sound from %1. If you are speaking, check that it is not muted in the system sound settings.",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "s45d636fc83a9": {
+    "source": "System speech is available only on macOS and Windows.",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "se4b8defef682": {
+    "source": "Starting on-device system speech…",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "saa267e701615": {
+    "source": "Unsupported speech engine.",
+    "locations": [
+      "app:SpeechService",
+      "app:SpeechWorker",
+      "engine:SpeechService",
+      "engine:SpeechWorker"
+    ]
+  },
+  "s1b75dae08b9e": {
+    "source": "Choose an extracted speech model folder in Settings.",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "sd5820a54545d": {
+    "source": "Enable microphone access for Kalipso in System Settings.",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "sf85fdf406e31": {
+    "source": "Waiting for microphone permission…",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "s1b29be5821d2": {
+    "source": "Microphone access was denied.",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "sb7e9a57749af": {
+    "source": "Loading the local speech model…",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "sae41aca25fce": {
+    "source": "Listening · microphone · on this device",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "s7964474f7e61": {
+    "source": "Listening · %1 · on this device",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "s0fcc65d19e47": {
+    "source": "Recognition cannot keep up on this computer. Listening stopped; try a smaller model.",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "s88aecb76239a": {
+    "source": "Catching up: a moment of audio was skipped. Following continues.",
+    "locations": [
+      "app:SpeechService",
+      "engine:SpeechService"
+    ]
+  },
+  "s0e1e45577b5d": {
+    "source": "Cannot load libvosk. Select a valid Vosk library in Settings.",
+    "locations": [
+      "app:SpeechWorker",
+      "engine:SpeechWorker"
+    ]
+  },
+  "s13a032634426": {
+    "source": "This library does not provide the required Vosk API.",
+    "locations": [
+      "app:SpeechWorker",
+      "engine:SpeechWorker"
+    ]
+  },
+  "sbe7dff5a7922": {
+    "source": "Cannot open this speech model. Choose the extracted model folder.",
+    "locations": [
+      "app:SpeechWorker",
+      "engine:SpeechWorker"
+    ]
+  },
+  "s3f8747943821": {
+    "source": "Not enough resources to start speech recognition.",
+    "locations": [
+      "app:SpeechWorker",
+      "engine:SpeechWorker"
+    ]
+  },
+  "s5a10a51d4cfa": {
+    "source": "The speech recognizer could not process the audio.",
+    "locations": [
+      "app:SpeechWorker",
+      "engine:SpeechWorker"
+    ]
+  },
+  "sb44cb69814fb": {
+    "source": "Choose a recognition language first.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s24709c1825cd": {
+    "source": "The system speech helper is not installed on this platform.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "sbad696d8ba92": {
+    "source": "Cannot start system speech: %1",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s37ad2883124b": {
+    "source": "System speech ended. Check the language and microphone, then restart.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s47da87093d40": {
+    "source": "System speech availability check timed out. Try again.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s458168128d5a": {
+    "source": "Script updates cannot keep up. Restart listening.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s58c1f5d8d1c2": {
+    "source": "Invalid system speech response.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s9b1b2e6ebb7e": {
+    "source": "System speech failed.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s845f432639e4": {
+    "source": "System speech returned too much text.",
+    "locations": [
+      "app:SystemSpeechClient",
+      "engine:SystemSpeechClient"
+    ]
+  },
+  "s6020e64b68e9": {
+    "source": "installed",
+    "locations": [
+      "app:main",
+      "engine:main"
+    ]
+  },
+  "s1c52644ef1bc": {
+    "source": "%1 MB to download",
+    "locations": [
+      "app:main",
+      "engine:main"
+    ]
+  },
+  "sdd89fcad8b02": {
+    "source": "Kalipso downloads speech models on Linux for x86_64 computers only.",
+    "locations": [
+      "app:main",
+      "engine:main"
+    ]
+  },
+  "s5caec1b45cd4": {
+    "source": "Downloading %1: %2% of %3 MB",
+    "locations": [
+      "app:main",
+      "engine:main"
+    ]
+  },
+  "sd603d4e5bcce": {
+    "source": "Unpacking and checking",
+    "locations": [
+      "app:main",
+      "engine:main"
+    ]
+  },
+  "s3b427838e0a5": {
+    "source": "%1 is ready, with %2 (%3). No microphone was opened.\nIn Kalipso, the Plasma widget or the GNOME extension choose Follow my voice, then Start.",
+    "locations": [
+      "app:main",
+      "engine:main"
+    ]
+  },
+  "s93a9f424bc13": {
+    "source": "Kalipso — local teleprompter",
+    "locations": [
+      "app:main"
+    ]
+  },
+  "s0b67d606069c": {
+    "source": "Kalipso is already open.",
+    "locations": [
+      "app:main"
+    ]
+  },
+  "sad07a9de6ea0": {
+    "source": "%1 is downloaded. Choose it again when you stop listening.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sa1d42fb89c03": {
+    "source": "%1 second",
+    "locations": [
+      "desktop"
+    ],
+    "plural": "%1 seconds"
+  },
+  "s90630d3977db": {
+    "source": "%1 · %2 min",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3369fc0a31ce": {
+    "source": "%d words/min",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3448544cbaa4": {
+    "source": "%s is downloaded. Choose it again when you stop listening.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s13b99cb6c09c": {
+    "source": "%s · %d min",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s7c9fd80111b9": {
+    "source": "%s · download %d MB",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s1df036bd84d4": {
+    "source": "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready.",
+    "locations": [
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s8758fe9c21b8": {
+    "source": "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s294bc63540ce": {
+    "source": "A script written here",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s55aebce14210": {
+    "source": "Add your script to begin.",
+    "locations": [
+      "desktop",
+      "website:dynamic"
+    ]
+  },
+  "s045574b4cd9f": {
+    "source": "Automatic",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sc4d1e4bac0c9": {
+    "source": "Automatic samples colors around the reader. No images are saved.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s89a86adcc181": {
+    "source": "Cancel",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s261eadbe611a": {
+    "source": "Checking and unpacking %s…",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s0f843022deb9": {
+    "source": "Checking local speech components",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sb12640d8a07a": {
+    "source": "Choose one of Kalipso's scripts",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s965f1d417665": {
+    "source": "Choose the language you speak.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sd7b939254827": {
+    "source": "Choose the window behind the reader. Desktop permission is required.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s79dcbd8c3c53": {
+    "source": "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s762e9df840da": {
+    "source": "Configure Kalipso…",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s16c58066d670": {
+    "source": "Couldn't download %s. Check the internet connection and try again.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3dee3f441d17": {
+    "source": "Couldn't save %s: there isn't enough free space, or the data folder can't be written.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s6c85653a70c1": {
+    "source": "Countdown before steady scrolling:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sbe5bb29e3a2a": {
+    "source": "Desktop theme",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s8882688380a5": {
+    "source": "Done",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sddcd7e8caacb": {
+    "source": "Done editing",
+    "locations": [
+      "desktop",
+      "website:dynamic"
+    ]
+  },
+  "sc7c69be31c75": {
+    "source": "Download and use",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s099bff919519": {
+    "source": "Downloading %s: %d of %d MB",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3c2dac95220b": {
+    "source": "Edit in Kalipso",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s09d70484e89d": {
+    "source": "Edit script",
+    "locations": [
+      "desktop",
+      "website:text",
+      "website:dynamic"
+    ]
+  },
+  "s1404d85d2262": {
+    "source": "End of script · Microphone off",
+    "locations": [
+      "desktop",
+      "website:dynamic"
+    ]
+  },
+  "s97eaca4f89a3": {
+    "source": "Follow a window's colors…",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s03be3203a89f": {
+    "source": "Font:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s73269e86e9e9": {
+    "source": "For beam-splitter rigs, which show the reader through a mirror.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s329755e6b9e3": {
+    "source": "Help:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s653878b68dd0": {
+    "source": "Hide",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s0dd3beb8057d": {
+    "source": "Horizontal",
+    "locations": [
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s054b7e8dda03": {
+    "source": "Kalipso downloads speech models on Linux for x86_64 computers.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s400f96c514a5": {
+    "source": "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s1b2c04d9cd0f": {
+    "source": "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s09970b80f39d": {
+    "source": "Language you speak:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s380897d16db2": {
+    "source": "Larger",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s55387a8d7dff": {
+    "source": "Line spacing:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s304a86aa82c3": {
+    "source": "Listening · On this device",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sc9c7ed927ed1": {
+    "source": "Local speech is not installed. Open Local speech setup to install a companion and language model.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s442cbe28be89": {
+    "source": "Local speech is unavailable. Open Local speech setup to install the companion and a language model.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sdd2aa672d2fd": {
+    "source": "Local speech recognition follows what you say.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s0b3652f74301": {
+    "source": "Local speech setup",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s84aa7b3f36c6": {
+    "source": "Local speech setup ↗",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s82ffcc6273de": {
+    "source": "Local speech unavailable. %s See docs/local-engine.md.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sb2ec145504a5": {
+    "source": "Manual · Microphone off",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s2cc6c7a3fd5f": {
+    "source": "Mirror",
+    "locations": [
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s699804262432": {
+    "source": "Mirror:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s14b70fa803a7": {
+    "source": "Next words",
+    "locations": [
+      "desktop",
+      "website:text"
+    ]
+  },
+  "se57608710ceb": {
+    "source": "Open Edit script to read or change the complete script.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s92c24ec083fb": {
+    "source": "Paused · Microphone off",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sf825144b00ea": {
+    "source": "Previous",
+    "locations": [
+      "desktop",
+      "app:RemoteControl"
+    ]
+  },
+  "sa5ef55470409": {
+    "source": "Reader colors",
+    "locations": [
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s196d1265766b": {
+    "source": "Reader colors:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3255aa183c9b": {
+    "source": "Reader font",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sd71582148b20": {
+    "source": "Reading",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3437dda5b9a4": {
+    "source": "Reading excerpt",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s6c91717d4d8d": {
+    "source": "Reading mode",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "se0c8cb2db493": {
+    "source": "Reading mode:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s1a784a0d2c76": {
+    "source": "Reading size",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sd101e8079117": {
+    "source": "Ready to listen in %1, with %2.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sfbdebd21b7ae": {
+    "source": "Ready to listen in %1. Choose Follow my voice and start listening.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sa6da53e97f73": {
+    "source": "Ready to listen in %s, with %s.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s4a0e4c8f48d7": {
+    "source": "Ready to listen in %s. Choose Follow my voice and start listening.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s43ed980c95fe": {
+    "source": "Reset",
+    "locations": [
+      "desktop",
+      "website:text"
+    ]
+  },
+  "s6d6a1931675a": {
+    "source": "SCRIPT",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s52e0e591008d": {
+    "source": "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s51b90290f267": {
+    "source": "Script: %1",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sd7ccd9f52752": {
+    "source": "Scripts are written and changed in the Kalipso app; here they are read.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s894c9f9f55aa": {
+    "source": "Scrolling · Microphone off",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "scd2f2be53568": {
+    "source": "Section ›",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "scc95464f88e2": {
+    "source": "Serif",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s7176cb4a42b9": {
+    "source": "Smaller",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s2fae26ce645f": {
+    "source": "Speech unavailable · Configure Kalipso → Voice",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sa577654c17ee": {
+    "source": "Speech unavailable · Open Settings",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3cb7fdfa1bc8": {
+    "source": "Starting in %1 second…",
+    "locations": [
+      "desktop"
+    ],
+    "plural": "Starting in %1 seconds…"
+  },
+  "sf3254ad887c9": {
+    "source": "Starting local speech…",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s5e8e8dcafeee": {
+    "source": "Steady speed:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s7f7acccca9ff": {
+    "source": "Stop following the window",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s822c4f39e46e": {
+    "source": "Text size:",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s3e96480f5af5": {
+    "source": "The %s download didn't match its fingerprint, so it was deleted. Try again later.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s50721e71ce08": {
+    "source": "The %s model couldn't be unpacked. Try again later.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s5b42dcc62465": {
+    "source": "The microphone turns on when you start",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s7b91f72cb5dc": {
+    "source": "The words advance at the speed below.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s74116c345d19": {
+    "source": "This Kalipso companion cannot download languages. Install or update it, then log out and back in.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sdcc08c1daa0b": {
+    "source": "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sbeb43022509e": {
+    "source": "Use this language",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "se187ac4381cd": {
+    "source": "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s9f1697e6c559": {
+    "source": "You step with the keys, a pedal or a clicker.",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s4b98c45fa34f": {
+    "source": "your language",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "sb3f9955c0d78": {
+    "source": "‹ Section",
+    "locations": [
+      "desktop"
+    ]
+  },
+  "s79b9b113ba17": {
+    "source": "Kalipso — the teleprompter that keeps your place",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s8a3f34f21be6": {
+    "source": "A free, open-source teleprompter for your desktop. Read next to your webcam while Kalipso follows your voice with speech recognition that stays on your computer, scrolls at a steady pace, or waits for your pedal.",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "s84f4e9e5a9a5": {
+    "source": "Skip to content",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf99cfeb7f192": {
+    "source": "Main",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "sc0635f5b1a6b": {
+    "source": "How it works",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s984fd4304724": {
+    "source": "Install",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s69c587fb2ce0": {
+    "source": "GitHub",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s84ce80aa3a42": {
+    "source": "Italiano",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3787a70e8818": {
+    "source": "Free and open source · version {version}",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf7f276524289": {
+    "source": "Look at the camera.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s29c9a9e9f0f9": {
+    "source": "Kalipso keeps",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sfb1dca09b816": {
+    "source": "your place.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s79362666eeb5": {
+    "source": "A teleprompter for your desktop. Put a small reader next to your webcam and speak: Kalipso follows your voice with speech recognition that stays on your computer, scrolls at a steady pace, or waits for your pedal.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s947d7000d90c": {
+    "source": "Get Kalipso",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s8785b535141d": {
+    "source": "Try it here",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sac209127fcc4": {
+    "source": "Linux, with versions for KDE Plasma and GNOME. Windows and macOS: experimental. No account, no cloud.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sa3fdead771dc": {
+    "source": "Opening remarks",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s70d1eabce622": {
+    "source": "Voice following · demo",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s03baf6777b45": {
+    "source": "Thank you all for being here. [smile] Today I want to share one simple idea. A teleprompter should follow you, not the other way round. Speak at your own pace, pause when you need to, and pick up again. The line you are on stays right here, at the same height.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sb6ca567b1485": {
+    "source": "165 words/min",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s10d5b5561a91": {
+    "source": "Pause animation",
+    "locations": [
+      "website:text",
+      "website:dynamic"
+    ]
+  },
+  "scec07792c1ec": {
+    "source": "A demonstration of voice following: the current word is marked, words already said fade, and your line stays at the same height.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sd337d2f367c0": {
+    "source": "Three ways to keep your place",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s782bbad5edb0": {
+    "source": "You speak. The script keeps up.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s240647e86dcd": {
+    "source": "Follow your voice",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf93b24bf8733": {
+    "source": "Words you have said fade, and the line you are on stays at the same height. Recognition runs on your computer, with Moonshine or Vosk, or the system's own on Windows and macOS.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s58c6682bfd24": {
+    "source": "Scroll at a steady pace",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sb12274f2210d": {
+    "source": "It starts at 150 words per minute,",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sc836f77de657": {
+    "source": "a pace drawn from studies of reading aloud",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s6a29f35e6140": {
+    "source": "; faster or slower while you read. A countdown first, and the time left as you go.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3cfb8c015043": {
+    "source": "Step by hand",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s93e229c610ad": {
+    "source": "Arrow keys, a foot pedal, a presentation clicker or your phone. Each key can do what you choose.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s875e88db088b": {
+    "source": "Try the reader",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s95377c92b7aa": {
+    "source": "See how your place is kept.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sc248eb265e10": {
+    "source": "This is the reader from the app, in your browser. Advance a few words, change the colors or mirror it for teleprompter glass, then edit the script. The browser version never records audio or saves your script.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s0940fd602227": {
+    "source": "Sample script",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s2acef1eea31d": {
+    "source": "A little preparation makes room for a better conversation. Take your time. Leave space for a pause.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s65a967ab33d4": {
+    "source": "Previous words",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "saadb6eea5b98": {
+    "source": "Words read",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "s626297e1f091": {
+    "source": "Manual demo · Microphone off",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s10c9080859a6": {
+    "source": "Changes appear immediately. [Bracketed cues] are shown but never read. This demo resets on reload; the desktop apps save your script.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s18c26ff97f8a": {
+    "source": "Enable JavaScript to try the reader. Everything else on this page works without it.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s69e1e73a24bc": {
+    "source": "In real use",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s0dfad444a570": {
+    "source": "Right under your camera, on top of any app.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s347f761a38b1": {
+    "source": "On a call, while recording, while presenting: the reader stays where your eyes should be, on Linux, Windows and macOS.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sfa698708e814": {
+    "source": "Simulated macOS desktop during a video call: four participant tiles below, and the Kalipso reader just under the camera notch, scrolling a team check-in script at 150 words per minute.",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "s88125a927a93": {
+    "source": "On a video call · macOS",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s63937846a87f": {
+    "source": "The reader sits just under the camera, so you keep eye contact while you talk.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf47f38b70c9f": {
+    "source": "Simulated Windows desktop on a monitor with a webcam: a recorder window shows the camera preview and REC 00:42, and the Kalipso reader in light colors sits just under the webcam, scrolling the script of a video episode.",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "s3eefe95a75a0": {
+    "source": "Recording a video · Windows",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s070e2c23e105": {
+    "source": "Steady scrolling at your speed while you record, in light colors here.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s392b19a75212": {
+    "source": "Simulated KDE Plasma desktop on a laptop: a presenter console shows slide 3 of 12 with a bar chart, and the Kalipso Plasma widget above it shows the notes for that slide with the current word marked.",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "sf613c4e96ad9": {
+    "source": "Presenting slides · KDE Plasma",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s0b9f1ac3b3d1": {
+    "source": "The Plasma widget keeps your notes, one section per slide; step with a clicker or the arrow keys.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s8f7ba7ee7dff": {
+    "source": "Simulated GNOME desktop on a laptop: an online lesson about photosynthesis with a list of students, and the Kalipso GNOME extension, opened from the top bar, just under the camera with the lesson script.",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "s80916dfe4ff6": {
+    "source": "Teaching online · GNOME",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "se5690e1d3592": {
+    "source": "The GNOME extension opens from the top bar, on top of any app.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s0c866b04167a": {
+    "source": "Simulated desktops and apps, drawn for illustration. The Kalipso windows in them are real captures of the current version.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s7588f6ec1d3f": {
+    "source": "Private by design",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "se5fd5206acf0": {
+    "source": "Your words stay on your computer.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s4a70f9c0a30f": {
+    "source": "No account, no cloud.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sbba33c5c8447": {
+    "source": "Scripts are plain text files in a folder on your computer.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s790a57a93094": {
+    "source": "Speech recognition runs locally.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s879b026ecb61": {
+    "source": "Audio never leaves your computer and nothing is recorded.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s0acdefff0993": {
+    "source": "The phone remote never sees your script.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s057faff1bd32": {
+    "source": "It only sends commands such as start, pause and step, over your own network.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s62a06c874889": {
+    "source": "Open source under the AGPL.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "saea39d83dfd8": {
+    "source": "Read the code, build it yourself, check what it does.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "saac6caf1c44b": {
+    "source": "What else it does",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s7f80dd5a7d0b": {
+    "source": "Made for the way you present.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s488bad6d24c3": {
+    "source": "Speaker notes and documents",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s5c93235cc365": {
+    "source": "Import notes from PowerPoint and Impress, one section per slide, or Word, Writer and Markdown documents.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s8d36ddf33461": {
+    "source": "Follows Impress live",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s63ad5d29be77": {
+    "source": "Present with LibreOffice Impress and the reader jumps to the notes of the slide on screen. On Linux, Windows and macOS.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sea3b02880b57": {
+    "source": "Mirror for glass",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "scb63c2ae5eca": {
+    "source": "Flip the text horizontally or vertically for a",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s2b9b3c3bc68f": {
+    "source": "beam-splitter",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf1c1b2314d15": {
+    "source": "teleprompter. The controls stay readable.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3eec9c84806f": {
+    "source": "Easier reading",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sbc79ac0b7b57": {
+    "source": "Larger or smaller text with A− and A+, any font you have, including ones made for dyslexia, wide line spacing and lines that fade at the edges.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s14fed92ea294": {
+    "source": "Write where you read",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sc269969d8c41": {
+    "source": "One window: in a large one you write in the reader itself, with buttons for bold, italic, sections to jump to and [cues] like [smile] that are never read. Under the camera, it shows only the reader.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "saf2c1c181575": {
+    "source": "How it went",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s905b0f95811d": {
+    "source": "After a voice session: pace, long pauses and time per section, saved as a report if you want one.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s6ab1d197a47a": {
+    "source": "Get Kalipso {version}.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s878d0320b63c": {
+    "source": "Free packages for Linux, Windows and macOS on the",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sfb069215a633": {
+    "source": "release page",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s63ea981e05d2": {
+    "source": ". They are not signed yet, so your system asks you to confirm the first time;",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sc76df32a7554": {
+    "source": "there lets you check each download.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s285a338858cf": {
+    "source": "Linux app",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sfc8d7dde76cb": {
+    "source": "Arch and EndeavourOS · Debian 13, Ubuntu 24.04 or newer · Fedora",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf0bcbbe70264": {
+    "source": "The full app: write and read in one window, a script library, imports, a movable and mirrorable reader, phone remote and voice following. Every package also brings the Plasma widget, the GNOME extension and the KWin script.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sc6356170c778": {
+    "source": "Arch Linux and EndeavourOS, ready to run (",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sbac074f0c127": {
+    "source": "builds it on your computer):",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sfa37e351f6b4": {
+    "source": "Copy",
+    "locations": [
+      "website:text",
+      "website:dynamic"
+    ]
+  },
+  "s583c74057487": {
+    "source": "Debian and Ubuntu, in the folder where you saved the",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3a5fb91f3564": {
+    "source": "from the release page:",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "se26e48142588": {
+    "source": "Fedora, in the folder where you saved the",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3caec7311c78": {
+    "source": "Other distributions: build from source",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s2de3b2154663": {
+    "source": "KDE Plasma",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s68d057dc72af": {
+    "source": "Plasma 6 widget",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sd2522aaa3cb1": {
+    "source": "A reader on your desktop or panel, with the scripts you write in the app. It comes with every Linux package of the app; without the app, add the",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s78093c999ee6": {
+    "source": "from the release page. Voice following needs the Kalipso companion.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sec3a26fa7d6a": {
+    "source": "KDE setup guide",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3aae6f4b1804": {
+    "source": "GNOME",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sfd2d6aac8789": {
+    "source": "GNOME Shell 48 and 51 extension",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s95bf22cefac6": {
+    "source": "A reader from the top bar, with the scripts you write in the app. It comes with every Linux package of the app: log out and back in, then turn it on in Kalipso's Settings. Without the app, install its",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sc6ffd669eaa3": {
+    "source": "from the release page. It declares Shell 48 and 51, the versions it is tested with.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s51cd6483f01a": {
+    "source": "GNOME setup guide",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "saac9820b06ed": {
+    "source": "macOS",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s76cdc26e96f1": {
+    "source": "Apple Silicon · macOS 14.4 or later · experimental",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sdd02e8349f5b": {
+    "source": "The app, as a",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s953c4be33adb": {
+    "source": ": open it and drag Kalipso to Applications. The first time, choose",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3aa6eff90ae0": {
+    "source": "Open Anyway",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sbd31fd34598d": {
+    "source": "in System Settings → Privacy & Security.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "se521a2c57daf": {
+    "source": "On-device",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s6a9acd194841": {
+    "source": "system speech needs macOS 26.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s7561b715a1f9": {
+    "source": "Download for macOS",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s6b54b32f7d37": {
+    "source": "Windows",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sb7c3c51ca0b1": {
+    "source": "Windows 10 or 11, x64 · experimental",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "se103b2f72486": {
+    "source": "The app, as an",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s3ce1f46d70f5": {
+    "source": "installer or a portable",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sff624b9a50f0": {
+    "source": ". If SmartScreen stops it, choose",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s74aeae463f5b": {
+    "source": "More info",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sd9213805ffec": {
+    "source": ", then",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s5280aed51dc0": {
+    "source": "Run anyway",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s2f2ec70dac97": {
+    "source": ". Voice following uses the speech recognizers installed in Windows.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s42ffa6c704d2": {
+    "source": "Download for Windows",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s324fd2975741": {
+    "source": "Before you use it.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s2261034d7372": {
+    "source": "Does it work with my call or recording app?",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s5eb0ad982e2e": {
+    "source": "Kalipso is a separate reading window; it does not need to be embedded in a particular meeting app. Window placement and capture behavior vary by desktop. Test your actual call or recording setup before relying on it.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sfb4a0cb74917": {
+    "source": "Will others see it when I share my screen?",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf8976216242d": {
+    "source": "On Windows the app asks the system to leave the reader out of screen shares and recordings. On KDE Plasma 6.6 or later, the window is left out while it is under the camera. macOS offers no reliable way for an app to do this, so share a single window there. In every case, check the view from another participant, or the recorded video, before your presentation.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s2efe59d8e070": {
+    "source": "Can it read PowerPoint or Impress notes?",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s0e75305ecb0e": {
+    "source": "Yes. The standalone app imports the speaker notes of",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s552baf3c0130": {
+    "source": "and",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s47be1bc9d66c": {
+    "source": "files, one section per slide. It can also follow a LibreOffice Impress slideshow while you present, moving to the notes of the slide on screen.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sa6e77ea933d8": {
+    "source": "Which languages can it follow?",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s037933df9f69": {
+    "source": "The download catalog has Moonshine models for English, German, Spanish, Japanese and Chinese, and Vosk models for those plus Italian. Recognition quality differs by language and model. Manual and steady reading work in any language. The interface is available in 39 languages.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s68595e5962ac": {
+    "source": "Is my script saved automatically?",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s993cfe234319": {
+    "source": "Yes. The standalone app, the Plasma widget and the GNOME extension save your script and reading position on your computer as you type. Nothing is uploaded. Only this browser demo resets when you reload it.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s13df6e5194d1": {
+    "source": "Is it ready for an important live presentation?",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sadb508f8e67b": {
+    "source": "Kalipso 2.0 is the first public release. Recognition can still lose your place, and testing on real computers and microphones is still limited. Keep a copy of your notes, learn the manual controls and rehearse on your own hardware first.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s98d65bdd9071": {
+    "source": "Help make the next version better.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sf1f2bc0244ab": {
+    "source": "Tell us what worked, what did not, and what you need for your next talk or recording.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "se7baac1027ba": {
+    "source": "Share feedback",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "se61c21ca716b": {
+    "source": "A",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sb09ae4500817": {
+    "source": "local-first",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s95500ffc929f": {
+    "source": "desktop teleprompter. Free software under the GNU AGPL, version 3 or later.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s62cd7c5eec82": {
+    "source": "Independent of KDE, GNOME, Apple and Microsoft.",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s7f669a79fff7": {
+    "source": "Footer",
+    "locations": [
+      "website:attribute"
+    ]
+  },
+  "s3c3071c190f0": {
+    "source": "Source code",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "s506a29aafc12": {
+    "source": "License",
+    "locations": [
+      "website:text"
+    ]
+  },
+  "sdd246cd79808": {
+    "source": "Manual demo · Microphone off",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "s98184932bb07": {
+    "source": "Get Kalipso for Linux",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "s08ddb87aced6": {
+    "source": "Get Kalipso for macOS",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "se2f5b462ffac": {
+    "source": "Get Kalipso for Windows",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "sfca010308388": {
+    "source": "Your system",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "se2c05080b534": {
+    "source": "Copied",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "s1f4b5b4bb25e": {
+    "source": "Command copied to the clipboard.",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "sfb5bbcd8614e": {
+    "source": "Copying is not allowed here: select the command and copy it.",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "s827a2ca91702": {
+    "source": "{seconds} s left",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "s843a7b58117e": {
+    "source": "Play animation",
+    "locations": [
+      "website:dynamic"
+    ]
+  },
+  "sa0a165dde4ec": {
+    "source": "A teleprompter on your desktop: read Kalipso's scripts, or one written here, near your camera, scroll at a steady speed or follow your voice with local speech recognition. Nothing you say leaves your computer.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "sd2eecf543072": {
+    "source": "Teleprompter that follows your voice, on your device",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s9ea836e35ae5": {
+    "source": "Keep your script next to your camera and read naturally. Kalipso is one window: large, you write your script in it with bold, italic, sections and cues; small, under the camera, it shows the next words and dims the ones you have already read.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s0d0405d82100": {
+    "source": "Follow your voice with local speech recognition, scroll at a steady speed, or step with the keyboard, a foot pedal or your phone.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s975c7199a246": {
+    "source": "Scripts and reading positions are saved automatically on your device.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s2acba4410f50": {
+    "source": "Bracketed cues are shown but never read aloud; headings become sections you can jump to.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "sec0a7fbcb40a": {
+    "source": "Import speaker notes from PowerPoint and LibreOffice Impress presentations.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s0e41eeda941e": {
+    "source": "Mirror the text for beam-splitter teleprompter glass.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s5f743d0ffb19": {
+    "source": "Speech recognition runs on this device. Kalipso downloads the voice model for your language once, from its Settings.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s9749e49a081d": {
+    "source": "A teleprompter in your top bar: read the Kalipso app's scripts or write one here, read near your camera, scroll at a steady speed or follow your voice with local speech recognition (needs the separately installed Kalipso companion). Nothing you say leaves your computer.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s66aaecfef901": {
+    "source": "Teleprompter",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s82faf22dce63": {
+    "source": "teleprompter;prompter;script;speech;presentation;autocue;",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s84abcd4b868d": {
+    "source": "Translations",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "sf473757c73ad": {
+    "source": "Generated translation; native-speaker review pending.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "s61f2cc297be8": {
+    "source": "Speech recognition is available only for the languages shown in Voice settings.",
+    "locations": [
+      "metadata"
+    ]
+  },
+  "sc19cfd96f257": {
+    "source": "Kalipso remote",
+    "locations": [
+      "app:RemoteControl"
+    ]
+  },
+  "sae651cb06185": {
+    "source": "Connecting…",
+    "locations": [
+      "app:RemoteControl"
+    ]
+  },
+  "s50b7834e7678": {
+    "source": "Next",
+    "locations": [
+      "app:RemoteControl"
+    ]
+  },
+  "sf5ba4c83c605": {
+    "source": "Back to start",
+    "locations": [
+      "app:RemoteControl"
+    ]
+  },
+  "s95c9e88c2c64": {
+    "source": "Kalipso is not reachable. Check that remote control is still on.",
+    "locations": [
+      "app:RemoteControl"
+    ]
+  },
+  "s6bbd09689e2c": {
+    "source": "Running",
+    "locations": [
+      "app:RemoteControl"
+    ]
+  },
+  "s7a31ad0279b4": {
+    "source": "Paused",
+    "locations": [
+      "app:RemoteControl"
+    ]
+  }
+}

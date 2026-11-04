@@ -1,0 +1,50 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n मि.",
+    "%n मि."
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "%n स्लाइडमधील वक्त्याच्या नोंदी आयात केल्या. स्लाइडमध्ये जाण्यासाठी वाचन चौकटीतील विभाग वापरा.",
+    "%n स्लाइडमधील वक्त्याच्या नोंदी आयात केल्या. स्लाइडमध्ये जाण्यासाठी वाचन चौकटीतील विभाग वापरा."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "%n लपवलेली स्लाइड वगळली.",
+    "%n लपवलेल्या स्लाइड वगळल्या."
+  ],
+  "MainWindow\u0004about %n min": [
+    "सुमारे %n मि.",
+    "सुमारे %n मि."
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n शब्द",
+    "%n शब्द"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n मि. बाकी",
+    "%n मि. बाकी"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "मागील सत्र: %1 · %n शब्द",
+    "मागील सत्र: %1 · %n शब्द"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "३ सेकंदांपेक्षा मोठा %n विराम",
+    "३ सेकंदांपेक्षा मोठे %n विराम"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "%n भरतीचा शब्द ओळखला",
+    "%n भरतीचे शब्द ओळखले"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- वाचलेले शब्द: %1 पैकी %n",
+    "- वाचलेले शब्द: %1 पैकी %n"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- ३ सेकंदांपेक्षा मोठे विराम: %n",
+    "- ३ सेकंदांपेक्षा मोठे विराम: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- ओळखलेले भरतीचे शब्द: %n (अनेक ओळख इंजिने ते वगळतात, म्हणून ही किमान संख्या आहे)",
+    "- ओळखलेले भरतीचे शब्द: %n (अनेक ओळख इंजिने ते वगळतात, म्हणून ही किमान संख्या आहे)"
+  ]
+}

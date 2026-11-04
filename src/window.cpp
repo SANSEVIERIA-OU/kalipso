@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "window.h"
+#include "app_bridge.h"
 #include "design_tokens.h"
 #include "icons.h"
 #include "import.h"
 #include "impress.h"
+#include "interface_language.h"
 #include "platform/capture_exclusion.h"
-#include "app_bridge.h"
 #include "platform/gnome_extension.h"
 #include "platform/kwin_placement.h"
 #include "remote.h"
@@ -31,7 +32,6 @@
 #include <QKeySequenceEdit>
 #include <QLineEdit>
 #include <QListWidget>
-#include <QStyledItemDelegate>
 #include <QMenu>
 #include <QMessageBox>
 #include <QPainter>
@@ -48,6 +48,7 @@
 #include <QSpinBox>
 #include <QSplitter>
 #include <QStackedWidget>
+#include <QStyledItemDelegate>
 #include <QTabWidget>
 #include <QTextBlock>
 #include <QToolButton>
@@ -188,10 +189,10 @@ public:
         // Fields take the row's width (the combo boxes are only a letter wide on their own), whatever
         // the desktop style would choose.
         form->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
-        form->setFormAlignment(Qt::AlignLeft | Qt::AlignTop);
+        form->setFormAlignment(Qt::AlignLeading | Qt::AlignTop);
         form->setHorizontalSpacing(Design::Metric::space4);
         form->setVerticalSpacing(Design::Metric::space3);
-        form->setLabelAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        form->setLabelAlignment(Qt::AlignLeading | Qt::AlignVCenter);
         layout->addLayout(form);
     }
     QFormLayout *form;
@@ -207,8 +208,18 @@ public:
         labelWidth_ = width;
         adaptForm();
     }
+    void fitViewport(QWidget *viewport) {
+        viewport_ = viewport;
+        viewport_->installEventFilter(this);
+        adaptForm();
+    }
 
 protected:
+    bool eventFilter(QObject *object, QEvent *event) override {
+        if (object == viewport_ && event->type() == QEvent::Resize)
+            adaptForm();
+        return QWidget::eventFilter(object, event);
+    }
     void resizeEvent(QResizeEvent *event) override {
         QWidget::resizeEvent(event);
         adaptForm();
@@ -221,25 +232,32 @@ protected:
 
 private:
     void adaptForm() {
-        const int available = std::max(1, contentsRect().width());
+        int available = std::max(1, contentsRect().width());
+        if (viewport_) {
+            int margins = 0;
+            for (auto *parent = parentWidget(); parent && parent != viewport_; parent = parent->parentWidget())
+                if (parent->layout()) {
+                    const auto insets = parent->layout()->contentsMargins();
+                    margins += insets.left() + insets.right();
+                }
+            available = std::max(1, std::min(available, viewport_->width() - margins));
+        }
         const bool narrow = available < fontMetrics().horizontalAdvance(QStringLiteral("Settings and dialogs")) + 350;
         form->setRowWrapPolicy(narrow ? QFormLayout::WrapAllRows : QFormLayout::WrapLongRows);
+        form->setLabelAlignment(Qt::AlignLeading | Qt::AlignVCenter);
         for (int row = 0; row < form->rowCount(); ++row)
             if (auto *item = form->itemAt(row, QFormLayout::LabelRole))
                 if (auto *label = qobject_cast<QLabel *>(item->widget())) {
                     label->setWordWrap(narrow);
+                    label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
                     label->setMaximumWidth(narrow ? available : QWIDGETSIZE_MAX);
-                    // Above its field, a label takes its text's width on one line, and wraps only when
-                    // the row is narrower: the form would otherwise give it a word-wrapped label's
-                    // narrow width ("Start or" / "pause").
-                    // Room for a vertical scroll bar that may appear: the width it takes must not
-                    // leave the label wider than the page.
-                    const int oneLine = label->fontMetrics().horizontalAdvance(label->text()) + 4;
-                    const int room = std::max(0, available - style()->pixelMetric(QStyle::PM_ScrollBarExtent, nullptr, this));
-                    label->setMinimumWidth(narrow ? std::min(oneLine, room) : std::min(labelWidth_, available / 2));
+                    // Above its field, use the real viewport width. Subtracting a hypothetical scroll
+                    // bar twice wastes room, while a wrapped label's size hint can split short words.
+                    label->setMinimumWidth(narrow ? available : std::min(labelWidth_, available / 2));
                 }
     }
     int labelWidth_ = 0;
+    QWidget *viewport_ = nullptr;
 };
 
 // A script in the list: its title, and under it how long it takes to read and when it changed,
@@ -283,7 +301,7 @@ public:
             style->drawControl(QStyle::CE_ItemViewItem, &item, painter, item.widget);
             const auto group = !(item.state & QStyle::State_Enabled) ? QPalette::Disabled
                                : (item.state & QStyle::State_Active) ? QPalette::Active
-                                                                      : QPalette::Inactive;
+                                                                     : QPalette::Inactive;
             text = item.palette.color(group, selected ? QPalette::HighlightedText : QPalette::Text);
             secondary = selected ? text : Accessibility::muted(item.palette);
         }
@@ -297,13 +315,14 @@ public:
         painter->setFont(strong);
         painter->setPen(text);
         painter->drawText(QRect(area.topLeft(), QSize(area.width(), titleMetrics.height())),
-                          Qt::AlignLeft | Qt::AlignVCenter, titleMetrics.elidedText(title, Qt::ElideRight, area.width()));
+                          Qt::AlignLeft | Qt::AlignVCenter,
+                          titleMetrics.elidedText(title, Qt::ElideRight, area.width()));
         const QFont small = metaFont(item.font);
         const QFontMetrics metaMetrics(small);
         painter->setFont(small);
         painter->setPen(secondary);
-        painter->drawText(QRect(area.left(), area.top() + titleMetrics.height() + Design::Metric::space1 / 2, area.width(),
-                                metaMetrics.height()),
+        painter->drawText(QRect(area.left(), area.top() + titleMetrics.height() + Design::Metric::space1 / 2,
+                                area.width(), metaMetrics.height()),
                           Qt::AlignLeft | Qt::AlignVCenter,
                           metaMetrics.elidedText(index.data(MetaRole).toString(), Qt::ElideRight, area.width()));
         painter->restore();
@@ -311,8 +330,8 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const override {
         QFont strong = option.font;
         strong.setWeight(QFont::DemiBold);
-        return {0, QFontMetrics(strong).height() + Design::Metric::space1 / 2 + QFontMetrics(metaFont(option.font)).height() +
-                       2 * Design::Metric::space2};
+        return {0, QFontMetrics(strong).height() + Design::Metric::space1 / 2 +
+                       QFontMetrics(metaFont(option.font)).height() + 2 * Design::Metric::space2};
     }
 
 private:
@@ -387,7 +406,9 @@ QString listedName(const QString &code) {
 
 QString duration(qint64 ms) {
     const qint64 seconds = (ms + 500) / 1000;
-    return QStringLiteral("%1:%2").arg(seconds / 60).arg(seconds % 60, 2, 10, QLatin1Char('0'));
+    const auto remainder = QLocale().toString(seconds % 60);
+    return QStringLiteral("%1:%2").arg(QLocale().toString(seconds / 60),
+                                       seconds % 60 < 10 ? QLocale().toString(0) + remainder : remainder);
 }
 
 const char *modeKey(ReadingMode mode) {
@@ -600,9 +621,9 @@ MainWindow::MainWindow(const QString &libraryDirectory)
             toggleRunning();
     });
     // The text size, as in word processors and browsers.
-    for (const auto &[keys, direction] : {std::pair{QKeySequence(QKeySequence::ZoomIn), 1},
-                                          std::pair{QKeySequence(QStringLiteral("Ctrl+=")), 1},
-                                          std::pair{QKeySequence(QKeySequence::ZoomOut), -1}}) {
+    for (const auto &[keys, direction] :
+         {std::pair{QKeySequence(QKeySequence::ZoomIn), 1}, std::pair{QKeySequence(QStringLiteral("Ctrl+=")), 1},
+          std::pair{QKeySequence(QKeySequence::ZoomOut), -1}}) {
         auto *shortcut = new QShortcut(keys, this);
         connect(shortcut, &QShortcut::activated, this, [this, direction] { stepTextSize(direction); });
     }
@@ -657,7 +678,7 @@ QWidget *MainWindow::makeDrawer() {
     add->setToolTip(tr("New script (Ctrl+N)"));
     add->setProperty("quiet", true);
     add->setProperty("label", add->text()); // The reader shortens it to its icon in a narrow panel.
-    add->setFocusPolicy(Qt::TabFocus); // A click leaves the keys, and the pedals, with the script.
+    add->setFocusPolicy(Qt::TabFocus);      // A click leaves the keys, and the pedals, with the script.
     // The menu of everything else, at the end of the row like in the desktop's own apps.
     auto *more = new AccessibleButton(QString());
     more->setObjectName("scriptActions");
@@ -683,7 +704,8 @@ QWidget *MainWindow::makeDrawer() {
     auto *remove = menu->addAction(tr("Delete script…"));
     remove->setObjectName("deleteScript");
     menu->setToolTipsVisible(true);
-    connect(more, &QPushButton::clicked, menu, [more, menu] { menu->popup(more->mapToGlobal(QPoint(0, more->height()))); });
+    connect(more, &QPushButton::clicked, menu,
+            [more, menu] { menu->popup(more->mapToGlobal(QPoint(0, more->height()))); });
     header->addWidget(title, 1);
     header->addWidget(add);
     header->addWidget(more);
@@ -717,8 +739,7 @@ QWidget *MainWindow::makeDrawer() {
             return;
         }
         for (int row = 0; row < scriptList_->count(); ++row)
-            if (scriptList_->item(row)->data(Qt::UserRole).toString() == currentId_ ||
-                (!persist_ && row == 0))
+            if (scriptList_->item(row)->data(Qt::UserRole).toString() == currentId_ || (!persist_ && row == 0))
                 scriptList_->setCurrentRow(row);
     });
     // Over the text, in a small window, the panel goes once a script is chosen.
@@ -835,7 +856,7 @@ void MainWindow::comeForward(const QString &token) {
     // The desktop lets a window take the focus with the token it gave the start that asked.
     if (!token.isEmpty())
         qputenv(QGuiApplication::platformName().startsWith(QLatin1String("wayland")) ? "XDG_ACTIVATION_TOKEN"
-                                                                                       : "DESKTOP_STARTUP_ID",
+                                                                                     : "DESKTOP_STARTUP_ID",
                 token.toUtf8());
     if (isMinimized())
         setWindowState(windowState() & ~Qt::WindowMinimized);
@@ -876,10 +897,11 @@ QString MainWindow::scriptMeta(const ScriptLibrary::Entry &entry) const {
     const auto length = words == 0 ? tr("Empty") : minutes <= 1 ? tr("under 1 min") : tr("%n min", nullptr, minutes);
     const auto when = entry.modified.toLocalTime();
     const auto today = QDate::currentDate();
-    const auto date = when.date() == today                ? QLocale().toString(when.time(), QLocale::ShortFormat)
+    const auto date = when.date() == today               ? QLocale().toString(when.time(), QLocale::ShortFormat)
                       : when.date() == today.addDays(-1) ? tr("yesterday")
-                      : when.date().year() == today.year() ? QLocale().toString(when.date(), QStringLiteral("d MMM"))
-                                                          : QLocale().toString(when.date(), QStringLiteral("d MMM yyyy"));
+                      : when.date().year() == today.year()
+                          ? QLocale().toString(when.date(), QStringLiteral("d MMM"))
+                          : QLocale().toString(when.date(), QStringLiteral("d MMM yyyy"));
     return when.isValid() ? tr("%1 · %2").arg(length, date) : length;
 }
 
@@ -1131,10 +1153,9 @@ void MainWindow::updateFormatState() {
         return;
     const auto cursor = script_->textCursor();
     const bool both = spanAround(cursor, strongEmphasisMarks()).found();
-    const bool states[] = {both || spanAround(cursor, strongMarks()).found(),
-                           both || spanAround(cursor, emphasisMarks()).found(),
-                           script_->highlighter()->headingMarks(cursor.block()) > 0,
-                           spanAround(cursor, cueMarks()).found()};
+    const bool states[] = {
+        both || spanAround(cursor, strongMarks()).found(), both || spanAround(cursor, emphasisMarks()).found(),
+        script_->highlighter()->headingMarks(cursor.block()) > 0, spanAround(cursor, cueMarks()).found()};
     for (int i = 0; i < 4; ++i)
         formatActions_[i]->setChecked(states[i]);
 }
@@ -1166,7 +1187,7 @@ void MainWindow::stepTextSize(int direction) {
         return;
     }
     textSize_->setValue(next); // Saved, and the same as in Settings.
-    notify(tr("Text size %1").arg(next));
+    notify(tr("Text size %1").arg(QLocale().toString(next)));
 }
 
 void MainWindow::exportScript() {
@@ -1640,7 +1661,9 @@ void MainWindow::refreshReading() {
     }
     // Before reading: how long the script is. Once reading started: where it stopped.
     const auto where = tracker_.position() < 0 ? tr("%n word(s)", nullptr, tracker_.count())
-                                               : tr("Word %1 of %2").arg(tracker_.position() + 1).arg(tracker_.count());
+                                               : tr("Word %1 of %2")
+                                                     .arg(QLocale().toString(tracker_.position() + 1),
+                                                          QLocale().toString(tracker_.count()));
     positionText_ = length.isEmpty() ? where : tr("%1 · %2").arg(where, length);
     prompter_->setStatus(statusText());
 }
@@ -1728,12 +1751,12 @@ void MainWindow::followSlide(int number, const QString &notes) {
     const auto first =
         std::find_if(lines.begin(), lines.end(), [](const QString &line) { return !line.trimmed().isEmpty(); });
     if (first == lines.end()) {
-        notify(tr("Impress · slide %1 has no notes.").arg(number));
+        notify(tr("Impress · slide %1 has no notes.").arg(QLocale().toString(number)));
         return;
     }
     const int at = int(script_->toPlainText().indexOf(first->trimmed()));
     if (at < 0) {
-        notify(tr("Impress · the notes of slide %1 are not in this script.").arg(number));
+        notify(tr("Impress · the notes of slide %1 are not in this script.").arg(QLocale().toString(number)));
         return;
     }
     if (at == 0)
@@ -1741,7 +1764,7 @@ void MainWindow::followSlide(int number, const QString &notes) {
     else
         tracker_.seekCharacter(at - 1);
     seekWord(tracker_.position());
-    notify(tr("Following Impress · slide %1").arg(number));
+    notify(tr("Following Impress · slide %1").arg(QLocale().toString(number)));
 }
 
 void MainWindow::jumpSection(int direction) {
@@ -1849,11 +1872,11 @@ void MainWindow::finishSession() {
     summary.plannedWordsPerMinute = wordsPerMinute_; // The steady speed: what the rehearsal aims at.
     QString text = tr("Last session: %1 · %n word(s)", nullptr, summary.words).arg(duration(summary.durationMs));
     if (summary.wordsPerMinute > 0) {
-        text += " · " + tr("%1 words/min").arg(qRound(summary.wordsPerMinute));
+        text += " · " + tr("%1 words/min").arg(QLocale().toString(qRound(summary.wordsPerMinute)));
         const int difference = SessionStats::paceAgainstPlan(summary);
         text += " " + (std::abs(difference) < 3 ? tr("(as planned)")
-                       : difference > 0       ? tr("(%1% faster than planned)").arg(difference)
-                                              : tr("(%1% slower than planned)").arg(-difference));
+                       : difference > 0         ? tr("(%1% faster than planned)").arg(QLocale().toString(difference))
+                                                : tr("(%1% slower than planned)").arg(QLocale().toString(-difference)));
     }
     text += " · " + tr("%n pause(s) over 3 s", nullptr, summary.longPauses);
     if (summary.longPauses)
@@ -1890,6 +1913,7 @@ QWidget *MainWindow::makeKeySettings() {
         edit->setProperty("keyId", id);
         edit->setProperty("action", int(action));
         edit->setClearButtonEnabled(true);
+        edit->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
         QStringList names;
         for (const int key : builtIn)
             names << QKeySequence(key).toString(QKeySequence::NativeText);
@@ -1902,6 +1926,7 @@ QWidget *MainWindow::makeKeySettings() {
                                "any setup. Choose a key here to add one for an action, or to give a built-in key "
                                "another action, for example the arrows to change speed. Escape always pauses."));
     note->setWordWrap(true);
+    note->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
     note->setProperty("role", "muted");
     group->form->addRow(note);
 
@@ -2016,6 +2041,8 @@ QWidget *MainWindow::makeSettings() {
         scroll->setWidgetResizable(true);
         scroll->setFrameShape(QFrame::NoFrame);
         scroll->setWidget(contents[i]);
+        for (auto *section : contents[i]->findChildren<QWidget *>(QStringLiteral("settingsSection")))
+            static_cast<SettingsSection *>(section)->fitViewport(scroll->viewport());
         scroll->setMinimumSize(0, 0);
         stack->addWidget(scroll);
     }
@@ -2231,14 +2258,17 @@ QWidget *MainWindow::makeReadingSettings() {
     auto *language = new SettingsComboBox;
     language->setObjectName("interfaceLanguage");
     language->addItem(tr("System language"), QString());
-    language->addItem("English", "en");
-    language->addItem("Italiano", "it");
+    for (const auto &entry : InterfaceLanguages::all)
+        language->addItem(QString::fromUtf8(entry.name), QString::fromLatin1(entry.code));
     language->setCurrentIndex(std::max(0, language->findData(settings.value("appearance/language").toString())));
     connect(language, &QComboBox::currentIndexChanged, this, [this, language] {
         QSettings().setValue("appearance/language", language->currentData());
         notify(tr("The interface language changes the next time Kalipso starts."));
     });
     form->addRow(tr("Interface language"), language);
+    if (!InterfaceLanguages::select(settings.value("appearance/language").toString()).reviewed)
+        form->addRow(tr("Translations"), note(tr("Generated translation; native-speaker review pending.")));
+    form->addRow(note(tr("Speech recognition is available only for the languages shown in Voice settings.")));
 
     auto *fadeRow = new WrappingCheckBox(tr("Hide the reader's controls while reading"));
     fadeRow->box->setObjectName("autoHideControls");
@@ -2291,9 +2321,9 @@ QWidget *MainWindow::makeReadingSettings() {
 QWidget *MainWindow::makeGnomeExtensionSection() {
     gnomeExtension_ = new GnomeExtension(this);
     const auto installedOnDisk = [] {
-        return !QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                       QStringLiteral("gnome-shell/extensions/%1/metadata.json")
-                                           .arg(QLatin1String(GnomeExtension::uuid)))
+        return !QStandardPaths::locate(
+                    QStandardPaths::GenericDataLocation,
+                    QStringLiteral("gnome-shell/extensions/%1/metadata.json").arg(QLatin1String(GnomeExtension::uuid)))
                     .isEmpty();
     };
     const auto first = gnomeExtension_->state();
@@ -2336,9 +2366,7 @@ QWidget *MainWindow::makeGnomeExtensionSection() {
                                "again."));
             break;
         case State::NotInstalled:
-        case State::Unavailable:
-            status->setText(tr("Installed. Log out and back in, then turn it on here."));
-            break;
+        case State::Unavailable: status->setText(tr("Installed. Log out and back in, then turn it on here.")); break;
         }
         turnOn->setVisible(state == State::Off);
     };
@@ -2376,7 +2404,8 @@ void MainWindow::refreshScreens() {
 void MainWindow::applyInterfaceScale(double scale) {
     // Scales the controls of both views; the script's own size in the reader is set separately.
     auto widgets = findChildren<QWidget *>();
-    widgets.removeIf([this](QWidget *child) { return child == prompter_->text || prompter_->text->isAncestorOf(child); });
+    widgets.removeIf(
+        [this](QWidget *child) { return child == prompter_->text || prompter_->text->isAncestorOf(child); });
     // Every size at 100% first, before any changes: a control that inherits its parent's font would
     // otherwise take the parent's new size as its own and grow again, level after level. One made
     // since the last change inherits that size, so it is brought back to 100%.
@@ -2634,7 +2663,8 @@ QWidget *MainWindow::makeSpeechSettings() {
         if (!installed.backend.isEmpty()) {
             const auto code = voiceLanguage_->currentData().toMap().value("code").toString();
             installedStatus_->setText(tr("%1 is installed: %2 MB in %3, %4 licence.")
-                                          .arg(spokenName(code), megabytes(SpeechCatalog::installedBytes(installed.model)),
+                                          .arg(spokenName(code),
+                                               megabytes(SpeechCatalog::installedBytes(installed.model)),
                                                QDir::toNativeSeparators(installed.model),
                                                SpeechCatalog::modelLicense(installed.backend, code)));
         }
@@ -2661,7 +2691,7 @@ QWidget *MainWindow::makeSpeechSettings() {
     // in the interface language if there is one.
     const auto installed = installedSpeech();
     if (profile_ != QLatin1String("system") && modelPath_->text().isEmpty() && !installed.isEmpty()) {
-        const auto preferred = SpeechCatalog::installedFor(QLocale().name().left(2));
+        const auto preferred = SpeechCatalog::installedFor(QLocale::system().name().left(2));
         useInstalledSpeech(preferred.backend.isEmpty() ? installed.first() : preferred, false);
     }
     updateSpeechFields_();
@@ -2891,10 +2921,12 @@ void MainWindow::removeLanguage(bool downloadAgain) {
                       : tr("Kalipso removes %1 and frees %2 MB. To use it again, choose it here: Kalipso downloads it "
                            "again, which needs the internet.")
                             .arg(name, size);
-    if (QMessageBox::question(settings_, downloadAgain ? tr("Download %1 again?").arg(name) : tr("Remove %1?").arg(name),
-                              question, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+    if (QMessageBox::question(settings_,
+                              downloadAgain ? tr("Download %1 again?").arg(name) : tr("Remove %1?").arg(name), question,
+                              QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
         return;
-    const bool inUse = QFileInfo(modelPath_->text()).canonicalFilePath() == QFileInfo(installed.model).canonicalFilePath();
+    const bool inUse =
+        QFileInfo(modelPath_->text()).canonicalFilePath() == QFileInfo(installed.model).canonicalFilePath();
     if (!SpeechCatalog::removeDownloaded(installed)) {
         downloadStatus_->setText(tr("Couldn't remove %1: check that its folder can be written.").arg(name));
         updateSpeechFields_();
