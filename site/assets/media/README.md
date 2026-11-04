@@ -13,3 +13,10 @@ The captures are made from the current build with clean profiles and the scripts
 does not scale reliably), the others at twice the size. Rebuild them whenever the interface shown
 changes: `tools/scenes/build.sh build/kalipso` (see that script for what it needs). When only some
 captures change, render those scenes alone: `node tools/scenes/render.mjs call-macos recording-windows`.
+
+
+The `social-<language>.png` cards are 1200 × 630 Open Graph preview images. They contain each page's
+localized title, the Kalipso mark, platform names and language name; no fabricated product ratings.
+Rebuild after changing the website title or branding with `node tools/render-social-cards.mjs`
+(uses the Playwright dependency in `tools/browser/`, or set `PLAYWRIGHT`). Fonts and colors come from
+the shipped website. These PNGs are public product assets; diagnostic captures remain in `artifacts/`.

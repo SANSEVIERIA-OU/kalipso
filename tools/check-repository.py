@@ -25,7 +25,8 @@ for name in tracked():
     # Curated product captures are shipped website content, explicitly requested
     # by the owner. Diagnostic screenshots must still remain in ignored artifacts/.
     product_media = path.parent == PurePosixPath('site/assets/media') and path.suffix in {'.webp', '.mp4', '.webm'}
-    if path.suffix in generated_suffixes and not product_media:
+    social_card = path.parent == PurePosixPath('site/assets/media') and path.name.startswith('social-') and path.suffix == '.png'
+    if path.suffix in generated_suffixes and not (product_media or social_card):
         errors.add(name)
 if errors:
     raise SystemExit('Files excluded from source distribution:\n' + '\n'.join(sorted(errors)))

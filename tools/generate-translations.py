@@ -130,7 +130,43 @@ def website(locale, catalog, version):
     links = f'<link rel="canonical" href="{url}">\n'
     links += '<link rel="alternate" hreflang="x-default" href="' + BASE + '">\n'
     for other in LOCALES:
+        if not other['web']['hreflang']:
+            continue
         links += f'<link rel="alternate" hreflang="{other["code"]}" href="{BASE}{"" if other["code"]=="en" else other["code"]+"/"}">\n'
+    title = catalog['s79b9b113ba17']
+    description = catalog['s8a3f34f21be6']
+    image_url = BASE + f'assets/media/social-{code}.png'
+    social = {
+        'og:type': 'website', 'og:site_name': 'Kalipso', 'og:url': url,
+        'og:title': title, 'og:description': description,
+        'og:locale': locale['web']['openGraphLocale'],
+        'og:image': image_url, 'og:image:secure_url': image_url,
+        'og:image:type': 'image/png', 'og:image:width': '1200', 'og:image:height': '630',
+        'og:image:alt': title,
+    }
+    for name, value in social.items():
+        links += f'<meta property="{name}" content="{html.escape(value, quote=True)}">\n'
+    for other in LOCALES:
+        if other['code'] != code:
+            links += f'<meta property="og:locale:alternate" content="{other["web"]["openGraphLocale"]}">\n'
+    for name, value in {'card': 'summary_large_image', 'title': title, 'description': description,
+                        'image': image_url, 'image:alt': title}.items():
+        links += f'<meta name="twitter:{name}" content="{html.escape(value, quote=True)}">\n'
+    # Factual software metadata, without invented reviews or ratings. This alone does not qualify
+    # the page for Google's software-app review rich result.
+    application = {
+        '@context': 'https://schema.org', '@type': 'SoftwareApplication',
+        '@id': BASE + '#software', 'name': 'Kalipso', 'url': url, 'description': description,
+        'applicationCategory': 'MultimediaApplication',
+        'operatingSystem': ['Linux', 'Windows 10 or later (x64)', 'macOS 14.4 or later (Apple Silicon)'],
+        'softwareVersion': version, 'inLanguage': code, 'image': image_url,
+        'downloadUrl': 'https://github.com/SANSEVIERIA-OU/kalipso/releases/latest',
+        'sameAs': 'https://github.com/SANSEVIERIA-OU/kalipso',
+        'license': 'https://spdx.org/licenses/AGPL-3.0-or-later.html',
+        'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'},
+    }
+    data = encoded(application).replace('<', '\\u003c')
+    links += '<script type="application/ld+json">' + data + '</script>\n'
     text = text.replace('<meta name="color-scheme"', links + '<meta name="color-scheme"')
     label = catalog[next(k for k, v in SOURCE.items() if v['source'] == 'Language')]
     options = []
@@ -155,6 +191,25 @@ def website(locale, catalog, version):
     return '<!-- Generated from translations/site.html and translations/catalogs. -->\n' + text
 
 
+def sitemap():
+    # No fabricated lastmod dates: omit them until content-change dates are maintained explicitly.
+    namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
+    xhtml = 'http://www.w3.org/1999/xhtml'
+    ET.register_namespace('', namespace)
+    ET.register_namespace('xhtml', xhtml)
+    root = ET.Element(f'{{{namespace}}}urlset')
+    for locale in LOCALES:
+        entry = ET.SubElement(root, f'{{{namespace}}}url')
+        ET.SubElement(entry, f'{{{namespace}}}loc').text = BASE + ('' if locale['code'] == 'en' else locale['code'] + '/')
+        for other in LOCALES:
+            if other['web']['hreflang']:
+                ET.SubElement(entry, f'{{{xhtml}}}link', rel='alternate', hreflang=other['web']['hreflang'],
+                              href=BASE + ('' if other['code'] == 'en' else other['code'] + '/'))
+        ET.SubElement(entry, f'{{{xhtml}}}link', rel='alternate', hreflang='x-default', href=BASE)
+    ET.indent(root, space='  ')
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(root, encoding='unicode') + '\n'
+
+
 def web_strings(catalog):
     flat = {name: catalog[key] for name, key in STRUCTURE['web'].items()}
     nested = {}
@@ -176,7 +231,7 @@ def main():
     parser.add_argument('--available', action='store_true', help=argparse.SUPPRESS)
     args = parser.parse_args()
     version = re.search(r'project\(Kalipso VERSION ([0-9.]+)', (ROOT / 'CMakeLists.txt').read_text(encoding='utf-8'))[1]
-    outputs = {ROOT / 'src/interface_languages.h': native_registry()}
+    outputs = {ROOT / 'src/interface_languages.h': native_registry(), ROOT / 'site/sitemap.xml': sitemap()}
     catalogs = {}
     for locale in LOCALES:
         code = locale['code']; path = I18N / 'catalogs' / (code + '.json')

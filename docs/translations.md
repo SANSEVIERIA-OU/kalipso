@@ -76,3 +76,23 @@ language names; user-authored text outside those subsets can use system fonts. R
 CJK characters using `python3 tools/build-translation-fonts.py` with Debian's `fonts-noto-core`,
 `fonts-noto-cjk`, `python3-fonttools` and `python3-brotli`. Font copyright and OFL texts accompany both
 copies. GNOME uses the desktop's Pango font fallback; install the system Noto fonts for all scripts.
+
+
+## Website discovery and sharing
+
+The generator also writes localized Open Graph and X/Twitter Card metadata, factual
+`SoftwareApplication` JSON-LD, and `site/sitemap.xml`. It does not invent reviews, ratings or
+`lastmod` dates. Without a real review or aggregate rating, the schema does not by itself meet
+Google's software-app rich-result requirements. Social previews are not a search-ranking guarantee.
+
+`web` in the locale manifest records Open Graph locales separately from search-engine `hreflang`.
+Google documents ISO 639-1 language codes and Chinese script variants; `arz` and `pcm` remain valid
+HTML languages and crawlable pages but have no supported Google hreflang equivalent. Their sitemap
+URLs, canonical URLs and visible language links remain intact. Open Graph uses `arz_EG` and `pcm_NG`
+without pretending either is another language; individual social platforms may not support those locales.
+
+After changing page titles, run `node tools/render-social-cards.mjs`, then
+`python3 tests/site_metadata_test.py`. Images are PNGs with localized text and alt descriptions.
+No social account handle is claimed. Actual social-platform previews may be cached and need a re-scrape.
+The sitemap can be submitted to Search Console and Bing Webmaster Tools. A robots.txt, if needed,
+belongs at the host root, not under `/kalipso/`; a missing robots.txt does not prohibit crawling.

@@ -64,6 +64,6 @@ for locale in gen.LOCALES:
     html=(ROOT/'site'/('' if code=='en' else code)/'index.html').read_text(encoding='utf-8')
     assert f'lang="{code}" dir="{locale["direction"]}"' in html
     assert 'data-number-locale="'+locale['qt'].replace('_','-')+'"' in html
-    assert html.count('hreflang=')==79,(code,html.count('hreflang='))
+    assert html.count('hreflang=')==len(gen.LOCALES)+1+sum(bool(l['web']['hreflang']) for l in gen.LOCALES),(code,html.count('hreflang='))
     assert '{{s' not in html and '{version}' not in html
 print(f'{len(gen.LOCALES)} complete catalogs; gettext decoding and ICU plural checks passed.')

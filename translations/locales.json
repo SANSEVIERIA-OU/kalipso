@@ -18,7 +18,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "bg",
+      "openGraphLocale": "bg_BG"
+    }
   },
   {
     "code": "hr",
@@ -41,7 +45,11 @@
       "one",
       "few",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "hr",
+      "openGraphLocale": "hr_HR"
+    }
   },
   {
     "code": "cs",
@@ -65,7 +73,11 @@
       "one",
       "few",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "cs",
+      "openGraphLocale": "cs_CZ"
+    }
   },
   {
     "code": "da",
@@ -86,7 +98,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "da",
+      "openGraphLocale": "da_DK"
+    }
   },
   {
     "code": "nl",
@@ -107,7 +123,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "nl",
+      "openGraphLocale": "nl_NL"
+    }
   },
   {
     "code": "en",
@@ -128,7 +148,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "en",
+      "openGraphLocale": "en_US"
+    }
   },
   {
     "code": "et",
@@ -149,7 +173,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "et",
+      "openGraphLocale": "et_EE"
+    }
   },
   {
     "code": "fi",
@@ -170,7 +198,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "fi",
+      "openGraphLocale": "fi_FI"
+    }
   },
   {
     "code": "fr",
@@ -192,7 +224,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "fr",
+      "openGraphLocale": "fr_FR"
+    }
   },
   {
     "code": "de",
@@ -213,7 +249,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "de",
+      "openGraphLocale": "de_DE"
+    }
   },
   {
     "code": "el",
@@ -234,7 +274,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "el",
+      "openGraphLocale": "el_GR"
+    }
   },
   {
     "code": "hu",
@@ -254,7 +298,11 @@
     },
     "qtPluralCategories": [
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "hu",
+      "openGraphLocale": "hu_HU"
+    }
   },
   {
     "code": "ga",
@@ -279,7 +327,11 @@
       "one",
       "two",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "ga",
+      "openGraphLocale": "ga_IE"
+    }
   },
   {
     "code": "it",
@@ -301,7 +353,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "it",
+      "openGraphLocale": "it_IT"
+    }
   },
   {
     "code": "lv",
@@ -324,7 +380,11 @@
       "one",
       "other",
       "zero"
-    ]
+    ],
+    "web": {
+      "hreflang": "lv",
+      "openGraphLocale": "lv_LV"
+    }
   },
   {
     "code": "lt",
@@ -348,7 +408,11 @@
       "one",
       "few",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "lt",
+      "openGraphLocale": "lt_LT"
+    }
   },
   {
     "code": "mt",
@@ -374,7 +438,11 @@
       "other",
       "many",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "mt",
+      "openGraphLocale": "mt_MT"
+    }
   },
   {
     "code": "pl",
@@ -398,7 +466,11 @@
       "one",
       "few",
       "many"
-    ]
+    ],
+    "web": {
+      "hreflang": "pl",
+      "openGraphLocale": "pl_PL"
+    }
   },
   {
     "code": "pt",
@@ -420,7 +492,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "pt",
+      "openGraphLocale": "pt_PT"
+    }
   },
   {
     "code": "ro",
@@ -443,7 +519,11 @@
       "one",
       "few",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "ro",
+      "openGraphLocale": "ro_RO"
+    }
   },
   {
     "code": "sk",
@@ -467,7 +547,11 @@
       "one",
       "few",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "sk",
+      "openGraphLocale": "sk_SK"
+    }
   },
   {
     "code": "sl",
@@ -492,7 +576,11 @@
       "two",
       "few",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "sl",
+      "openGraphLocale": "sl_SI"
+    }
   },
   {
     "code": "es",
@@ -514,7 +602,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "es",
+      "openGraphLocale": "es_ES"
+    }
   },
   {
     "code": "sv",
@@ -535,7 +627,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "sv",
+      "openGraphLocale": "sv_SE"
+    }
   },
   {
     "code": "zh-Hans",
@@ -554,7 +650,11 @@
     },
     "qtPluralCategories": [
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "zh-Hans",
+      "openGraphLocale": "zh_CN"
+    }
   },
   {
     "code": "hi",
@@ -575,7 +675,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "hi",
+      "openGraphLocale": "hi_IN"
+    }
   },
   {
     "code": "ar",
@@ -604,7 +708,11 @@
       "few",
       "many",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "ar",
+      "openGraphLocale": "ar_EG"
+    }
   },
   {
     "code": "bn",
@@ -625,7 +733,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "bn",
+      "openGraphLocale": "bn_BD"
+    }
   },
   {
     "code": "id",
@@ -644,7 +756,11 @@
     },
     "qtPluralCategories": [
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "id",
+      "openGraphLocale": "id_ID"
+    }
   },
   {
     "code": "ur",
@@ -665,7 +781,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "ur",
+      "openGraphLocale": "ur_PK"
+    }
   },
   {
     "code": "ru",
@@ -689,7 +809,11 @@
       "one",
       "few",
       "many"
-    ]
+    ],
+    "web": {
+      "hreflang": "ru",
+      "openGraphLocale": "ru_RU"
+    }
   },
   {
     "code": "ja",
@@ -708,7 +832,11 @@
     },
     "qtPluralCategories": [
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "ja",
+      "openGraphLocale": "ja_JP"
+    }
   },
   {
     "code": "pcm",
@@ -729,7 +857,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": null,
+      "openGraphLocale": "pcm_NG"
+    }
   },
   {
     "code": "arz",
@@ -758,7 +890,11 @@
       "few",
       "many",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": null,
+      "openGraphLocale": "arz_EG"
+    }
   },
   {
     "code": "mr",
@@ -779,7 +915,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "mr",
+      "openGraphLocale": "mr_IN"
+    }
   },
   {
     "code": "vi",
@@ -798,7 +938,11 @@
     },
     "qtPluralCategories": [
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "vi",
+      "openGraphLocale": "vi_VN"
+    }
   },
   {
     "code": "te",
@@ -819,7 +963,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "te",
+      "openGraphLocale": "te_IN"
+    }
   },
   {
     "code": "sw",
@@ -840,7 +988,11 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "sw",
+      "openGraphLocale": "sw_KE"
+    }
   },
   {
     "code": "ha",
@@ -861,6 +1013,10 @@
     "qtPluralCategories": [
       "one",
       "other"
-    ]
+    ],
+    "web": {
+      "hreflang": "ha",
+      "openGraphLocale": "ha_NG"
+    }
   }
 ]
