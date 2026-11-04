@@ -213,8 +213,10 @@ QStringList backendsFor(const QString &code, const QJsonObject &catalog) {
 
 InstalledSpeech installedFor(const QString &code, const QString &preferred) {
     QStringList order{"moonshine", "vosk"};
-    if (order.removeAll(preferred))
-        order.prepend(preferred);
+    // An explicit engine choice must not silently select a different installed engine.
+    // Languages it cannot supply (for example Italian in Moonshine) still use the alternative.
+    if (backendsFor(code).contains(preferred))
+        order = {preferred};
     const auto installed = installedSpeech();
     for (const auto &backend : order) {
         // A catalog model first, then any model marked with the language.

@@ -33,8 +33,8 @@ QStringList languages(const QJsonObject &catalog = builtIn());
 QString languageName(const QString &code);
 // The engines with a model for the language, Moonshine first: it follows speech more closely.
 QStringList backendsFor(const QString &code, const QJsonObject &catalog = builtIn());
-// An installed model for the language: with the preferred engine if it has one, then Moonshine,
-// then Vosk. An empty backend when none is installed.
+// An installed model for the chosen engine when it supports this language; otherwise Moonshine,
+// then Vosk. An empty backend when that model is not installed.
 InstalledSpeech installedFor(const QString &code, const QString &preferred = {});
 // The engine to download for the language: the preferred one if the catalog has the language for
 // it, otherwise the first of backendsFor().

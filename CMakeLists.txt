@@ -20,7 +20,7 @@ target_link_libraries(prompter_core PUBLIC Qt6::Core)
 target_compile_options(prompter_core PRIVATE ${KALIPSO_WARNINGS})
 
 # --- Speech recognition ---------------------------------------------------------
-add_library(kalipso_speech STATIC src/speech.cpp src/microphone.cpp src/moonshine.cpp src/system_speech/client.cpp)
+add_library(kalipso_speech STATIC src/speech.cpp src/speech_library.cpp src/microphone.cpp src/moonshine.cpp src/system_speech/client.cpp)
 target_link_libraries(kalipso_speech PUBLIC prompter_core Qt6::Core)
 target_compile_options(kalipso_speech PRIVATE ${KALIPSO_WARNINGS})
 if(APPLE OR WIN32)

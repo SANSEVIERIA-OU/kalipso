@@ -208,6 +208,32 @@ private slots:
         }
     }
 
+    void choosingAnEngineDoesNotReuseAnotherEnginesModel() {
+        if (!SpeechCatalog::backendsFor("en").contains("moonshine"))
+            QSKIP("No Moonshine download on this platform");
+        const auto root = SpeechCatalog::writableRoot();
+        const auto cleanup = qScopeGuard([root] { QDir(root).removeRecursively(); });
+        const auto plan = SpeechCatalog::plan("vosk", "en", root);
+        for (const auto &path : {plan.library, plan.modelDir + "/am/final.mdl", plan.modelDir + "/conf/mfcc.conf"}) {
+            QVERIFY(QDir().mkpath(QFileInfo(path).absolutePath()));
+            QFile file(path);
+            QVERIFY(file.open(QIODevice::WriteOnly));
+        }
+        QCOMPARE(SpeechCatalog::installedFor("en", "vosk").backend, QString("vosk"));
+        QVERIFY(SpeechCatalog::installedFor("en", "moonshine").backend.isEmpty());
+        QCOMPARE(SpeechCatalog::installedFor("en").backend, QString("vosk"));
+        if (SystemSpeechClient::platformSupported()) {
+            QSettings().setValue("speech/backend", "system");
+            MainWindow window(scripts_.path());
+            auto *engine = window.findChild<QComboBox *>("speechBackend");
+            auto *languages = window.findChild<QComboBox *>("voiceLanguage");
+            engine->setCurrentIndex(engine->findData("moonshine"));
+            QVERIFY(languages->findText("English · download", Qt::MatchStartsWith) > 0);
+            engine->setCurrentIndex(engine->findData("vosk"));
+            QVERIFY(languages->findText("English · ready", Qt::MatchStartsWith) > 0);
+        }
+    }
+
     void voiceLanguagesUseInstalledModelsAndDownloadOnlyWhenChosen() {
         // A Vosk runtime and the Italian model, where a download leaves them.
         const auto root = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kalipso";

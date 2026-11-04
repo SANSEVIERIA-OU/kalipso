@@ -412,6 +412,12 @@ private slots:
         source.write(QJsonDocument(QJsonObject{{"target", speechPlatform()}}).toJson());
         source.close();
         QCOMPARE(installedRuntime(root.path(), "vosk"), plan.library);
+        QVERIFY(source.open(QIODevice::WriteOnly | QIODevice::Truncate));
+        source.write(QJsonDocument(QJsonObject{{"target", speechPlatform()},
+                                              {"nativeFiles", QJsonArray{plan.runtime.value("library"),
+                                                                         "missing-dependency"}}}).toJson());
+        source.close();
+        QVERIFY(installedRuntime(root.path(), "vosk").isEmpty());
     }
 };
 

@@ -4,7 +4,9 @@
 #include "speech_platform.h"
 #include <QDir>
 #include <QDirIterator>
+#include <QJsonArray>
 #include <QJsonDocument>
+#include <QOperatingSystemVersion>
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QVector>
@@ -54,8 +56,23 @@ inline QString installedRuntime(const QString &root, const QString &backend) {
     for (const auto &name : names) {
         QFile source(runtimes.filePath(name) + "/source.json");
         if (source.open(QIODevice::ReadOnly)) {
-            const auto target = QJsonDocument::fromJson(source.readAll()).object().value("target").toString();
+            const auto metadata = QJsonDocument::fromJson(source.readAll()).object();
+            const auto target = metadata.value("target").toString();
             if (!target.isEmpty() && target != speechPlatform())
+                continue;
+#ifdef Q_OS_MACOS
+            if (metadata.contains("minimumMacOS")) {
+                const auto minimum = metadata.value("minimumMacOS").toString().split('.');
+                if (QOperatingSystemVersion::current() < QOperatingSystemVersion(QOperatingSystemVersion::MacOS,
+                                                                                 minimum.value(0).toInt(),
+                                                                                 minimum.value(1).toInt()))
+                    continue;
+            }
+#endif
+            bool complete = true;
+            for (const auto &file : metadata.value("nativeFiles").toArray())
+                complete &= QFileInfo(runtimes.filePath(name) + "/" + file.toString()).isFile();
+            if (!complete)
                 continue;
         }
         QDirIterator it(runtimes.filePath(name), libraryNames, QDir::Files, QDirIterator::Subdirectories);
