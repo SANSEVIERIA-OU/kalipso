@@ -4,7 +4,7 @@
     "Name": "Kalipso companion",
     "Description": "Keeps the Kalipso reader on top near the camera and asks KWin to leave it out of screen captures",
     "Version": "3.0",
-    "License": "AGPL-3.0-or-later",
+    "License": "LicenseRef-SANSEVIERIA-1.0",
     "Authors": [
       {
         "Name": "Kalipso contributors"

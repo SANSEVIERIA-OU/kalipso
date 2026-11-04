@@ -1,0 +1,462 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: et\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 on alla laaditud. Vali see uuesti pärast kuulamise lõpetamist."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekund"
+msgstr[1] "%1 sekundit"
+
+msgid "%1 words/min"
+msgstr "%1 sõna/min"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · laadi alla %2 MB"
+
+msgid "%d words/min"
+msgstr "%d sõna/min"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s on alla laaditud. Vali see uuesti pärast kuulamise lõpetamist."
+
+msgid "%s · %d min"
+msgstr "%s · %d min"
+
+msgid "%s · download %d MB"
+msgstr "%s · laadi alla %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Väike ettevalmistus jätab ruumi paremaks vestluseks. [naerata]\n\nVõta aega. Jäta ruumi pausile. Järgmised sõnad on siin, kui oled valmis."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Väike ettevalmistus jätab ruumi paremaks vestluseks. [naerata] Võta aega. Loe esimene lause ette ja vaata, kuidas sõnad sind järgivad."
+
+msgid "A script written here"
+msgstr "Siin kirjutatud kõnetekst"
+
+msgid "Add your script to begin."
+msgstr "Alustamiseks lisa oma kõnetekst."
+
+msgid "Appearance"
+msgstr "Välimus"
+
+msgid "Automatic"
+msgstr "Automaatne"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Automaatne võtab värvid lugemisala ümbert. Pilte ei salvestata."
+
+msgid "Cancel"
+msgstr "Tühista"
+
+msgid "Cancel download"
+msgstr "Tühista allalaadimine"
+
+msgid "Checking and unpacking %1…"
+msgstr "Kontrollimine ja lahtipakkimine: %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Kontrollimine ja lahtipakkimine: %s…"
+
+msgid "Checking local speech components"
+msgstr "Kohalike kõnekomponentide kontrollimine"
+
+msgid "Chinese"
+msgstr "Hiina"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Vali üks Kalipso kõnetekstidest"
+
+msgid "Choose the language you speak."
+msgstr "Vali keel, mida räägid."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Vali lugemisala taga olev aken. Vaja on töölaua luba."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Vali töölaua jagamisdialoogis lugemisala taga olev aken"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Keele valimisel laaditakse selle kõnemudel ühe korra mudeli avaldajalt alla ja kontrollitakse sõrmejälge. Seejärel töötab tuvastus selles arvutis: midagi sinu öeldust ei saadeta."
+
+msgid "Configure Kalipso…"
+msgstr "Seadista Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Ei saanud alla laadida: %1. Kontrolli internetiühendust ja proovi uuesti."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Ei saanud alla laadida: %s. Kontrolli internetiühendust ja proovi uuesti."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Ei saanud salvestada: %1. Vaba ruumi pole piisavalt või andmekausta ei saa kirjutada."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Ei saanud salvestada: %s. Vaba ruumi pole piisavalt või andmekausta ei saa kirjutada."
+
+msgid "Countdown before steady scrolling"
+msgstr "Pöördloendus enne ühtlast kerimist"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Pöördloendus enne ühtlast kerimist:"
+
+msgid "Dark"
+msgstr "Tume"
+
+msgid "Desktop theme"
+msgstr "Töölaua teema"
+
+msgid "Done"
+msgstr "Valmis"
+
+msgid "Done editing"
+msgstr "Lõpeta muutmine"
+
+msgid "Download and use"
+msgstr "Laadi alla ja kasuta"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Allalaadimine tühistatud. Midagi ei muudetud."
+
+msgid "Download progress"
+msgstr "Allalaadimise edenemine"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Allalaadimine: %1, %2 / %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Allalaadimine: %s, %d / %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Muuda Kalipsos"
+
+msgid "Edit script"
+msgstr "Muuda kõneteksti"
+
+msgid "End of script · Microphone off"
+msgstr "Kõneteksti lõpp · Mikrofon väljas"
+
+msgid "English"
+msgstr "Inglise"
+
+msgid "Faster"
+msgstr "Kiiremini"
+
+msgid "Follow a window's colors…"
+msgstr "Jälgi akna värve…"
+
+msgid "Follow my voice"
+msgstr "Jälgi minu häält"
+
+msgid "Font:"
+msgstr "Font:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Poolläbipaistva peegliga teleprompteritele, mis näitavad lugemisala peegli kaudu."
+
+msgid "French"
+msgstr "Prantsuse"
+
+msgid "German"
+msgstr "Saksa"
+
+msgid "Help:"
+msgstr "Abi:"
+
+msgid "Hide"
+msgstr "Peida"
+
+msgid "Horizontal"
+msgstr "Rõhtsalt"
+
+msgid "Interface font"
+msgstr "Kasutajaliidese font"
+
+msgid "Italian"
+msgstr "Itaalia"
+
+msgid "Japanese"
+msgstr "Jaapani"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso laadib kõnemudeleid alla Linuxis x86_64-arvutitele."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Klahvid: nooled või Page Up/Down liigutavad teksti, tühik alustab või peatab, + ja − muudavad ühtlast kiirust. Vidin võib ekraani jagamisel nähtav olla; kontrolli, mida teised osalejad näevad."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Klahvid: nooled või Page Up/Down liigutavad teksti, tühik alustab või peatab, + ja − muudavad ühtlast kiirust. Lugemisala võib ekraani jagamisel nähtav olla; kontrolli, mida teised osalejad näevad."
+
+msgid "Language you speak"
+msgstr "Keel, mida räägid"
+
+msgid "Language you speak:"
+msgstr "Keel, mida räägid:"
+
+msgid "Larger"
+msgstr "Suurem"
+
+msgid "Light"
+msgstr "Hele"
+
+msgid "Line spacing"
+msgstr "Reavahe"
+
+msgid "Line spacing:"
+msgstr "Reavahe:"
+
+msgid "Listening · On this device"
+msgstr "Kuulamine · Selles seadmes"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Kohalik kõnetuvastus pole paigaldatud. Ava Kohaliku kõne seadistus, et paigaldada abiteenus ja keelemudel."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Kohalik kõnetuvastus pole saadaval. Ava Kohaliku kõne seadistus, et paigaldada abiteenus ja keelemudel."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Kohalik kõnetuvastus jälgib seda, mida ütled."
+
+msgid "Local speech setup"
+msgstr "Kohaliku kõne seadistus"
+
+msgid "Local speech setup ↗"
+msgstr "Kohaliku kõne seadistus ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Kohalik kõnetuvastus pole saadaval. %s Vaata docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Käsitsi"
+
+msgid "Manual · Microphone off"
+msgstr "Käsitsi · Mikrofon väljas"
+
+msgid "Microphone stopped"
+msgstr "Mikrofon on peatatud"
+
+msgid "Mirror"
+msgstr "Peegelda"
+
+msgid "Mirror:"
+msgstr "Peegeldus:"
+
+msgid "More"
+msgstr "Veel"
+
+msgid "Next section"
+msgstr "Järgmine jaotis"
+
+msgid "Next words"
+msgstr "Järgmised sõnad"
+
+msgid "Normal"
+msgstr "Tavaline"
+
+msgid "Off"
+msgstr "Väljas"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Kõnetekstist väljas · Kalipso jõuab järele, kui naased teksti juurde"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Kogu kõneteksti lugemiseks või muutmiseks ava Muuda kõneteksti."
+
+msgid "Pause"
+msgstr "Peata"
+
+msgid "Paused · Microphone off"
+msgstr "Peatatud · Mikrofon väljas"
+
+msgid "Previous"
+msgstr "Eelmine"
+
+msgid "Previous section"
+msgstr "Eelmine jaotis"
+
+msgid "Reader colors"
+msgstr "Lugemisala värvid"
+
+msgid "Reader colors:"
+msgstr "Lugemisala värvid:"
+
+msgid "Reader font"
+msgstr "Lugemisfont"
+
+msgid "Reading"
+msgstr "Lugemine"
+
+msgid "Reading excerpt"
+msgstr "Loetav katkend"
+
+msgid "Reading mode"
+msgstr "Lugemisrežiim"
+
+msgid "Reading mode:"
+msgstr "Lugemisrežiim:"
+
+msgid "Reading mode: %1"
+msgstr "Lugemisrežiim: %1"
+
+msgid "Reading progress"
+msgstr "Lugemise edenemine"
+
+msgid "Reading size"
+msgstr "Lugemissuurus"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Kuulamiseks valmis. Keel: %1, kasutusel %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Kuulamiseks valmis. Keel: %1. Vali Jälgi minu häält ja alusta kuulamist."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Kuulamiseks valmis. Keel: %s, kasutusel %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Kuulamiseks valmis. Keel: %s. Vali Jälgi minu häält ja alusta kuulamist."
+
+msgid "Relaxed"
+msgstr "Avar"
+
+msgid "Reset"
+msgstr "Lähtesta"
+
+msgid "SCRIPT"
+msgstr "KÕNETEKST"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Salvestatakse automaatselt. [Nurksulgudes juhised] kuvatakse, kuid neid ei loeta ette. Märgiga # algavad read on jaotised."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Ekraanivärvid pole saadaval. Läbipaistmatu lugemisala säilitab oma kontrasti."
+
+msgid "Script"
+msgstr "Kõnetekst"
+
+msgid "Script: %1"
+msgstr "Kõnetekst: %1"
+
+msgid "Scripts"
+msgstr "Kõnetekstid"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Kõnetekste kirjutatakse ja muudetakse Kalipso rakenduses; siin neid loetakse."
+
+msgid "Scrolling · Microphone off"
+msgstr "Kerimine · Mikrofon väljas"
+
+msgid "Section ›"
+msgstr "Jaotis ›"
+
+msgid "Sections"
+msgstr "Jaotised"
+
+msgid "Serif"
+msgstr "Seriifidega"
+
+msgid "Settings"
+msgstr "Sätted"
+
+msgid "Slower"
+msgstr "Aeglasemalt"
+
+msgid "Smaller"
+msgstr "Väiksem"
+
+msgid "Spanish"
+msgstr "Hispaania"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Kõnetuvastus pole saadaval · Seadista Kalipso → Hääl"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Kõnetuvastus pole saadaval · Ava Sätted"
+
+msgid "Start"
+msgstr "Alusta"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Algab %1 sekundi pärast…"
+msgstr[1] "Algab %1 sekundi pärast…"
+
+msgid "Starting local speech…"
+msgstr "Kohaliku kõnetuvastuse käivitamine…"
+
+msgid "Steady speed"
+msgstr "Ühtlane kiirus"
+
+msgid "Steady speed:"
+msgstr "Ühtlane kiirus:"
+
+msgid "Stop following the window"
+msgstr "Lõpeta akna jälgimine"
+
+msgid "Text size:"
+msgstr "Teksti suurus:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Allalaaditud %1 ei vastanud sõrmejäljele ja kustutati. Proovi hiljem uuesti."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Mudelit %1 ei saanud lahti pakkida. Proovi hiljem uuesti."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Allalaaditud %s ei vastanud sõrmejäljele ja kustutati. Proovi hiljem uuesti."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Mudelit %s ei saanud lahti pakkida. Proovi hiljem uuesti."
+
+msgid "The microphone turns on when you start"
+msgstr "Mikrofon lülitub sisse, kui alustad"
+
+msgid "The words advance at the speed below."
+msgstr "Sõnad liiguvad edasi alltoodud kiirusega."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "See Kalipso abiteenus ei saa keeli alla laadida. Paigalda või uuenda see ning logi siis välja ja uuesti sisse."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Lugemisala taga oleva akna värvide kasutamiseks vali lugemisala ⋯-menüüst Jälgi akna värve…"
+
+msgid "Try again"
+msgstr "Proovi uuesti"
+
+msgid "Use this language"
+msgstr "Kasuta seda keelt"
+
+msgid "Vertical"
+msgstr "Püstiselt"
+
+msgid "Voice"
+msgstr "Hääl"
+
+msgid "Wide"
+msgstr "Lai"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Akna värvid pole saadaval. Paigalda või uuenda Kalipso abiteenus ja töölaua jagamisportaal."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Akna jagamine peatatud · Jätkamiseks vali taustaaken"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Liigud edasi klahvide, pedaali või esitluspuldiga."
+
+msgid "your language"
+msgstr "sinu keel"
+
+msgid "‹ Section"
+msgstr "‹ Jaotis"

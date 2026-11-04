@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Configure Kalipso → Voice: the language you speak. Choosing one downloads its model once, through
 // the Kalipso companion; listening then runs on this computer.
 import QtQuick

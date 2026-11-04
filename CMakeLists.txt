@@ -97,7 +97,8 @@ if(UNIX AND NOT APPLE)
       COMMAND ${CMAKE_COMMAND} -E touch ${addons}/stamp
       DEPENDS ${addon_sources} ${CMAKE_CURRENT_SOURCE_DIR}/desktop/package.py
         ${CMAKE_CURRENT_SOURCE_DIR}/packaging/io.github.sansevieria_ou.kalipso.svg
-        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/THIRD_PARTY_NOTICES.md
+        ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/desktop/LICENSE
+        ${CMAKE_CURRENT_SOURCE_DIR}/THIRD_PARTY_NOTICES.md
       COMMENT "Preparing the Plasma widget, the GNOME Shell extension and the KWin script" VERBATIM)
     add_custom_target(desktop_addons ALL DEPENDS ${addons}/stamp)
     install(DIRECTORY ${addons}/plasma/

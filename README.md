@@ -163,14 +163,17 @@ reproduce in [Issues](https://github.com/SANSEVIERIA-OU/kalipso/issues). Release
 
 ## License
 
-The current standalone application and companion source use **SANSEVIERIA License 1.0**.
+The current original application, companion, Plasma widget, KWin script and website
+use **SANSEVIERIA License 1.0**, with the component exceptions identified below.
 It permits free use, modification and compliant forks, with source reciprocity; the commercial
 offerings defined in the licence require written authorization from SANSEVIERIA OÜ.
 This is a source-available licence, not an OSI-approved open-source licence.
 
-Published versions through **2.9** retain their original AGPL-3.0-or-later terms. The desktop
-integrations and original website code also retain their existing AGPL terms as separately
-identified components. They do not provide an AGPL alternative for new application code.
+The rights holder may offer earlier versions under this licence too. Any permissions already
+validly granted on copies under other terms remain unaffected; a version number alone does not
+fix the licence of every copy. The GNOME extension currently retains its separate AGPL terms,
+including its own module and translation snapshots. This is not an AGPL alternative for the
+application, website, Plasma widget or shared code.
 See [LICENSE](LICENSE), the exact [scope and release notice](NOTICE),
 [third-party notices](THIRD_PARTY_NOTICES.md), and bundled font licences.
 AppStream metadata remains CC0-1.0. Kalipso is independent of KDE and GNOME.

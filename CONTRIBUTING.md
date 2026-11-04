@@ -1,12 +1,13 @@
 # Contributing
 
-Original application and companion code uses [SANSEVIERIA License 1.0](LICENSE).
+Original project code uses [SANSEVIERIA License 1.0](LICENSE), except for the GNOME component
+and other separately licensed material listed in [NOTICE](NOTICE).
 Contributors retain their copyright; no assignment is requested. Preserve third-party notices.
-The separately licensed integrations and website keep the terms identified in [NOTICE](NOTICE).
+The GNOME extension retains its existing terms while its licensing scope is resolved.
 
-## Licence assent for application contributions
+## Licence assent for contributions under SANSEVIERIA License
 
-Before submitting application code, read the complete licence. Include this express declaration
+Before submitting code covered by SANSEVIERIA License 1.0, read the complete licence. Include this express declaration
 in your PR or an associated signed record, identifying the contribution and licence version:
 
 > I intentionally submit the identified Contribution under the SANSEVIERIA License 1.0, whose complete text has been provided to me. I have the authority necessary to make the copyright and patent grants applicable to this Contribution. I expressly agree to the limited authority in section 7 allowing SANSEVIERIA OÜ to authorize specified commercial offerings and charge for those authorizations while preserving the source, reciprocity, notice and recipient-rights conditions. I retain my rights and do not grant a general proprietary relicensing power. I have identified separately licensed material and other rights holders whose permission is relevant, and I do not purport to grant rights they have not authorized me to grant.
@@ -31,7 +32,7 @@ its licence and notices and verifying the grants; no compulsory PR is imposed on
 | `tools/` | Installers, generators and repository checks |
 | `translations/` | Qt Linguist translations of the standalone app |
 
-The tracker exists twice, in C++ (`src/tracker.cpp`) and JavaScript (`desktop/tracker.mjs`); change both and their tests together. `desktop/*.mjs` are the sources for the copies in `desktop/plasma/contents/ui/` and `site/assets/`: edit them, then run `python3 tools/sync-shared.py`. Design values live in `design/tokens.json`; regenerate derived files with `python3 tools/generate-design-tokens.py`.
+The maintained tracker implementations are C++ (`src/tracker.cpp`) and JavaScript (`desktop/tracker.mjs`); change both and their tests together. GNOME currently uses its separate snapshot in `desktop/gnome/`; changes there require GPL-compatible rights and a separate review. `desktop/*.mjs` are the sources for the copies in `desktop/plasma/contents/ui/` and `site/assets/`: edit them, then run `python3 tools/sync-shared.py`. Design values live in `design/tokens.json`; regenerate derived files with `python3 tools/generate-design-tokens.py`.
 
 C++ follows `.clang-format` (`clang-format -i` on the files you touch).
 
@@ -67,17 +68,22 @@ lupdate -no-obsolete -locations none src -ts translations/kalipso_it.ts
 
 Open the `.ts` file in Qt Linguist, translate, and rebuild. Add a language by creating `translations/kalipso_<code>.ts` and listing it in Settings → Interface language (`src/window.cpp`).
 
-The Plasma widget (`i18n()`) and GNOME extension (`_()`) share one gettext catalog in `desktop/po/`:
+The Plasma widget (`i18n()`) uses `desktop/po/`. The GNOME extension (`_()`) keeps a separately
+licensed snapshot in `desktop/gnome/po/`. The common generator does not overwrite that snapshot.
+Update GNOME code and translations only with rights compatible with its component licence;
+do not copy new SANSEVIERIA-only contributions into it without a separate sufficient grant.
+
+For the Plasma catalog:
 
 ```sh
 cd desktop
 xgettext --from-code=UTF-8 --language=JavaScript --keyword=i18n --keyword=i18np:1,2 --keyword=_ \
   --keyword=ngettext:1,2 --no-location \
-  -o po/kalipso-desktop.pot plasma/contents/ui/*.qml gnome/*.js
+  -o po/kalipso-desktop.pot plasma/contents/ui/*.qml
 msgmerge --update po/it.po po/kalipso-desktop.pot
 ```
 
-`desktop/package.py` compiles every `po/<language>.po` into both packages.
+`desktop/package.py` compiles the relevant component’s catalogs into its own package.
 
 ## Dependencies and CI
 

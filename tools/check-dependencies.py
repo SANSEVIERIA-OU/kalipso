@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Report newer stable build tools and speech runtimes. Never rewrites pins or resolves releases at build
 time. The speech runtimes are the wheels the speech catalog downloads (tools/data/speech-catalog.json):
 a newer one is reported here, then checked by hand (fingerprint, size, native files) before the catalog

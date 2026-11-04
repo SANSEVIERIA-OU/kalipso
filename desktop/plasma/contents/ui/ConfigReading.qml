@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Configure Kalipso → Reading: how the reader advances, and how it looks on a beam-splitter rig.
 import QtQuick
 import QtQuick.Controls as QQC2

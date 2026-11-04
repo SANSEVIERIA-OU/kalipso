@@ -1,0 +1,466 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: lt\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=4; plural=(((((n % 10) >= 2 && (n % 10) <= 9)) && (!(((n % 100) >= 11 && (n % 100) <= 19)))) ? 1 : (!((0 == 0))) ? 2 : ((((n % 10) == 1)) && (!(((n % 100) >= 11 && (n % 100) <= 19)))) ? 0 : 3);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 atsisiųstas. Pasirinkite jį dar kartą, kai sustabdysite klausymą."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekundė"
+msgstr[1] "%1 sekundės"
+msgstr[2] "%1 sekundės"
+msgstr[3] "%1 sekundžių"
+
+msgid "%1 words/min"
+msgstr "%1 žodžiai/min."
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min."
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · atsisiųsti %2 MB"
+
+msgid "%d words/min"
+msgstr "%d žodžiai/min."
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s atsisiųstas. Pasirinkite jį dar kartą, kai sustabdysite klausymą."
+
+msgid "%s · %d min"
+msgstr "%s · %d min."
+
+msgid "%s · download %d MB"
+msgstr "%s · atsisiųsti %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Šiek tiek pasiruošimo suteikia erdvės geresniam pokalbiui. [šypsena]\n\nNeskubėkite. Palikite vietos pauzei. Kiti žodžiai bus čia, kai būsite pasiruošę."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Šiek tiek pasiruošimo suteikia erdvės geresniam pokalbiui. [šypsena] Neskubėkite. Perskaitykite pirmą sakinį garsiai ir stebėkite, kaip žodžiai jus seka."
+
+msgid "A script written here"
+msgstr "Čia parašytas tekstas"
+
+msgid "Add your script to begin."
+msgstr "Norėdami pradėti pridėkite tekstą."
+
+msgid "Appearance"
+msgstr "Išvaizda"
+
+msgid "Automatic"
+msgstr "Automatiškai"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Automatinis režimas nuskaito spalvas aplink skaitymo langą. Vaizdai neišsaugomi."
+
+msgid "Cancel"
+msgstr "Atsisakyti"
+
+msgid "Cancel download"
+msgstr "Atšaukti atsisiuntimą"
+
+msgid "Checking and unpacking %1…"
+msgstr "Tikrinamas ir išpakuojamas %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Tikrinamas ir išpakuojamas %s…"
+
+msgid "Checking local speech components"
+msgstr "Tikrinami vietiniai kalbos komponentai"
+
+msgid "Chinese"
+msgstr "Kinų"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Pasirinkite vieną iš Kalipso tekstų"
+
+msgid "Choose the language you speak."
+msgstr "Pasirinkite kalbą, kuria kalbate."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Pasirinkite langą už skaitymo lango. Reikia darbalaukio leidimo."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Darbalaukio bendrinimo dialoge pasirinkite langą už skaitymo lango"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Pasirinkus kalbą, jos modelis vieną kartą atsisiunčiamas iš leidėjo ir patikrinamas pagal skaitmeninį atspaudą. Tada atpažinimas veikia šiame kompiuteryje: niekas, ką sakote, nesiunčiama."
+
+msgid "Configure Kalipso…"
+msgstr "Konfigūruoti Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Nepavyko atsisiųsti %1. Patikrinkite interneto ryšį ir bandykite dar kartą."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Nepavyko atsisiųsti %s. Patikrinkite interneto ryšį ir bandykite dar kartą."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Nepavyko išsaugoti %1: nepakanka laisvos vietos arba negalima rašyti į duomenų aplanką."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Nepavyko išsaugoti %s: nepakanka laisvos vietos arba negalima rašyti į duomenų aplanką."
+
+msgid "Countdown before steady scrolling"
+msgstr "Atgalinis skaičiavimas prieš tolygų slinkimą"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Atgalinis skaičiavimas prieš tolygų slinkimą:"
+
+msgid "Dark"
+msgstr "Tamsi"
+
+msgid "Desktop theme"
+msgstr "Darbalaukio apipavidalinimas"
+
+msgid "Done"
+msgstr "Atlikta"
+
+msgid "Done editing"
+msgstr "Baigti redagavimą"
+
+msgid "Download and use"
+msgstr "Atsisiųsti ir naudoti"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Atsisiuntimas atšauktas. Niekas nepakeista."
+
+msgid "Download progress"
+msgstr "Atsisiuntimo eiga"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Siunčiamas %1: %2 iš %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Siunčiamas %s: %d iš %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Redaguoti Kalipso"
+
+msgid "Edit script"
+msgstr "Redaguoti tekstą"
+
+msgid "End of script · Microphone off"
+msgstr "Teksto pabaiga · Mikrofonas išjungtas"
+
+msgid "English"
+msgstr "Anglų"
+
+msgid "Faster"
+msgstr "Greičiau"
+
+msgid "Follow a window's colors…"
+msgstr "Sekti lango spalvas…"
+
+msgid "Follow my voice"
+msgstr "Sekti mano balsą"
+
+msgid "Font:"
+msgstr "Šriftas:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Įrangai su pusiau pralaidžiu veidrodžiu, rodančiai tekstą atspindyje."
+
+msgid "French"
+msgstr "Prancūzų"
+
+msgid "German"
+msgstr "Vokiečių"
+
+msgid "Help:"
+msgstr "Pagalba:"
+
+msgid "Hide"
+msgstr "Slėpti"
+
+msgid "Horizontal"
+msgstr "Horizontaliai"
+
+msgid "Interface font"
+msgstr "Sąsajos šriftas"
+
+msgid "Italian"
+msgstr "Italų"
+
+msgid "Japanese"
+msgstr "Japonų"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso atsisiunčia kalbos modelius Linux x86_64 kompiuteriams."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Klavišai: rodyklės arba Page Up/Down pastumia tekstą, Space pradeda arba pristabdo, + ir − keičia pastovų greitį. Bendrinant ekraną gali būti matomas šis valdiklis; patikrinkite, ką mato kiti dalyviai."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Klavišai: rodyklės arba Page Up/Down pastumia tekstą, Space pradeda arba pristabdo, + ir − keičia pastovų greitį. Skaitymo langas gali būti matomas bendrinant ekraną; patikrinkite, ką mato kiti dalyviai."
+
+msgid "Language you speak"
+msgstr "Kalba, kuria kalbate"
+
+msgid "Language you speak:"
+msgstr "Kalba, kuria kalbate:"
+
+msgid "Larger"
+msgstr "Didesnis"
+
+msgid "Light"
+msgstr "Šviesi"
+
+msgid "Line spacing"
+msgstr "Tarpas tarp eilučių"
+
+msgid "Line spacing:"
+msgstr "Tarpas tarp eilučių:"
+
+msgid "Listening · On this device"
+msgstr "Klausomasi · Šiame įrenginyje"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Vietinis kalbos atpažinimas neįdiegtas. Atverkite Vietinės kalbos nustatymą, kad įdiegtumėte pagalbinę programą ir kalbos modelį."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Vietinis kalbos atpažinimas nepasiekiamas. Atverkite Vietinės kalbos nustatymą, kad įdiegtumėte pagalbinę programą ir kalbos modelį."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Vietinis kalbos atpažinimas seka, ką sakote."
+
+msgid "Local speech setup"
+msgstr "Vietinės kalbos nustatymas"
+
+msgid "Local speech setup ↗"
+msgstr "Vietinės kalbos nustatymas ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Vietinis kalbos atpažinimas nepasiekiamas. %s Žr. docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Rankiniu būdu"
+
+msgid "Manual · Microphone off"
+msgstr "Rankiniu būdu · Mikrofonas išjungtas"
+
+msgid "Microphone stopped"
+msgstr "Mikrofonas sustabdytas"
+
+msgid "Mirror"
+msgstr "Atspindėti"
+
+msgid "Mirror:"
+msgstr "Atspindėjimas:"
+
+msgid "More"
+msgstr "Daugiau"
+
+msgid "Next section"
+msgstr "Kitas skyrius"
+
+msgid "Next words"
+msgstr "Kiti žodžiai"
+
+msgid "Normal"
+msgstr "Įprastas"
+
+msgid "Off"
+msgstr "Išjungta"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Nukrypta nuo teksto · Kalipso pasivys, kai grįšite prie teksto"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Atverkite Redaguoti tekstą, kad perskaitytumėte ar pakeistumėte visą tekstą."
+
+msgid "Pause"
+msgstr "Pristabdyti"
+
+msgid "Paused · Microphone off"
+msgstr "Pristabdyta · Mikrofonas išjungtas"
+
+msgid "Previous"
+msgstr "Ankstesnis"
+
+msgid "Previous section"
+msgstr "Ankstesnis skyrius"
+
+msgid "Reader colors"
+msgstr "Skaitymo lango spalvos"
+
+msgid "Reader colors:"
+msgstr "Skaitymo lango spalvos:"
+
+msgid "Reader font"
+msgstr "Skaitymo šriftas"
+
+msgid "Reading"
+msgstr "Skaitymas"
+
+msgid "Reading excerpt"
+msgstr "Skaitoma ištrauka"
+
+msgid "Reading mode"
+msgstr "Skaitymo režimas"
+
+msgid "Reading mode:"
+msgstr "Skaitymo režimas:"
+
+msgid "Reading mode: %1"
+msgstr "Skaitymo režimas: %1"
+
+msgid "Reading progress"
+msgstr "Skaitymo eiga"
+
+msgid "Reading size"
+msgstr "Skaitymo dydis"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Paruošta klausytis %1 kalba su %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Paruošta klausytis %1 kalba. Pasirinkite Sekti mano balsą ir pradėkite klausymą."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Paruošta klausytis %s kalba su %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Paruošta klausytis %s kalba. Pasirinkite Sekti mano balsą ir pradėkite klausymą."
+
+msgid "Relaxed"
+msgstr "Laisvesnis"
+
+msgid "Reset"
+msgstr "Atkurti"
+
+msgid "SCRIPT"
+msgstr "TEKSTAS"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Išsaugoma automatiškai. [Nuorodos skliaustuose] rodomos, bet neskaitomos garsiai. Eilutės, prasidedančios #, yra skyriai."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Ekrano spalvos nepasiekiamos. Nepermatomas skaitymo langas išlaiko kontrastą."
+
+msgid "Script"
+msgstr "Tekstas"
+
+msgid "Script: %1"
+msgstr "Tekstas: %1"
+
+msgid "Scripts"
+msgstr "Tekstai"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Tekstai rašomi ir keičiami Kalipso programoje; čia jie skaitomi."
+
+msgid "Scrolling · Microphone off"
+msgstr "Slenkama · Mikrofonas išjungtas"
+
+msgid "Section ›"
+msgstr "Skyrius ›"
+
+msgid "Sections"
+msgstr "Skyriai"
+
+msgid "Serif"
+msgstr "Su užraitais"
+
+msgid "Settings"
+msgstr "Nuostatos"
+
+msgid "Slower"
+msgstr "Lėčiau"
+
+msgid "Smaller"
+msgstr "Mažesnis"
+
+msgid "Spanish"
+msgstr "Ispanų"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Kalbos atpažinimas nepasiekiamas · Konfigūruoti Kalipso → Balsas"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Kalbos atpažinimas nepasiekiamas · Atverkite Nuostatas"
+
+msgid "Start"
+msgstr "Pradėti"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Bus pradėta po %1 sekundės…"
+msgstr[1] "Bus pradėta po %1 sekundžių…"
+msgstr[2] "Bus pradėta po %1 sekundės…"
+msgstr[3] "Bus pradėta po %1 sekundžių…"
+
+msgid "Starting local speech…"
+msgstr "Paleidžiamas vietinis kalbos atpažinimas…"
+
+msgid "Steady speed"
+msgstr "Pastovus greitis"
+
+msgid "Steady speed:"
+msgstr "Pastovus greitis:"
+
+msgid "Stop following the window"
+msgstr "Sustabdyti lango sekimą"
+
+msgid "Text size:"
+msgstr "Teksto dydis:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Atsisiųstas %1 neatitiko savo skaitmeninio atspaudo, todėl buvo ištrintas. Bandykite vėliau."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Nepavyko išpakuoti %1 modelio. Bandykite vėliau."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Atsisiųstas %s neatitiko savo skaitmeninio atspaudo, todėl buvo ištrintas. Bandykite vėliau."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Nepavyko išpakuoti %s modelio. Bandykite vėliau."
+
+msgid "The microphone turns on when you start"
+msgstr "Mikrofonas įsijungia pradėjus"
+
+msgid "The words advance at the speed below."
+msgstr "Žodžiai juda toliau nurodytu greičiu."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Ši Kalipso pagalbinė programa negali atsisiųsti kalbų. Įdiekite arba atnaujinkite ją, tada atsijunkite ir prisijunkite iš naujo."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Norėdami perimti už skaitymo lango esančio lango spalvas, skaitymo lango meniu ⋯ pasirinkite Sekti lango spalvas…"
+
+msgid "Try again"
+msgstr "Bandyti dar kartą"
+
+msgid "Use this language"
+msgstr "Naudoti šią kalbą"
+
+msgid "Vertical"
+msgstr "Vertikaliai"
+
+msgid "Voice"
+msgstr "Balsas"
+
+msgid "Wide"
+msgstr "Platus"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Lango spalvos nepasiekiamos. Įdiekite arba atnaujinkite Kalipso pagalbinę programą ir darbalaukio bendrinimo portalą."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Lango bendrinimas sustabdytas · Norėdami tęsti pasirinkite fono langą"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Tekstą pastumiate klavišais, pedalu arba pateikties pulteliu."
+
+msgid "your language"
+msgstr "jūsų kalba"
+
+msgid "‹ Section"
+msgstr "‹ Skyrius"

@@ -7,7 +7,8 @@ The generated character classification tables in `desktop/unicode-tokens.mjs`
 and its Plasma package and website copies derive from Unicode Character Database 15.1.0 through Python
 3.13's `unicodedata`. Unicode data © 1991–2026 Unicode, Inc.; distributed under
 [Unicode License v3](LICENSES/Unicode-3.0.txt). The generation and tokenization code written
-for this project remains AGPL-3.0-or-later. Python is used only for generation, not by either
+for this project uses SANSEVIERIA License 1.0; the separately preserved GNOME
+snapshot remains under its component licence. Python is used only for generation, not by either
 frontend at runtime.
 
 Moonshine, ONNX Runtime, Vosk, language models, Qt and PipeWire are separate runtime dependencies and retain their

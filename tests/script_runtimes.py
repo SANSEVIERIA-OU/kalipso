@@ -50,7 +50,7 @@ def main():
     environment = dict(os.environ, QT_QPA_PLATFORM='offscreen')
     with tempfile.TemporaryDirectory(prefix='kalipso-runtimes-') as directory:
         for runtime, tracker in (('qml', ROOT / 'desktop/plasma/contents/ui/tracker.mjs'),
-                                 ('gjs', ROOT / 'desktop/tracker.mjs')):
+                                 ('gjs', ROOT / 'desktop/gnome/tracker.mjs')):
             path = Path(directory) / ('tst_tracker.qml' if runtime == 'qml' else 'tracker.js')
             command = [qmltestrunner, '-input', str(path)] if runtime == 'qml' else [gjs, '-m', str(path)]
             path.write_text(source(runtime, tracker.as_uri(), FIXTURES))

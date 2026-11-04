@@ -1,0 +1,462 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# GNOME snapshot; update only with contributions under this component licence.
+# Native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: mr\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(((n == 1)) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 डाउनलोड झाले. ऐकणे थांबवल्यावर ते पुन्हा निवडा."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 सेकंद"
+msgstr[1] "%1 सेकंद"
+
+msgid "%1 words/min"
+msgstr "%1 शब्द/मि."
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 मि."
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · %2 MB डाउनलोड"
+
+msgid "%d words/min"
+msgstr "%d शब्द/मि."
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s डाउनलोड झाले. ऐकणे थांबवल्यावर ते पुन्हा निवडा."
+
+msgid "%s · %d min"
+msgstr "%s · %d मि."
+
+msgid "%s · download %d MB"
+msgstr "%s · %d MB डाउनलोड"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "थोडी तयारी चांगल्या संवादासाठी जागा निर्माण करते. [हसा]\n\nनिवांत बोला. विरामासाठी वेळ ठेवा. तुम्ही तयार व्हाल तेव्हा पुढचे शब्द येथेच असतील."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "थोडी तयारी चांगल्या संवादासाठी जागा निर्माण करते. [हसा] निवांत बोला. पहिले वाक्य मोठ्याने वाचा आणि शब्द तुमच्याबरोबर कसे येतात ते पाहा."
+
+msgid "A script written here"
+msgstr "येथे लिहिलेला भाषणाचा मजकूर"
+
+msgid "Add your script to begin."
+msgstr "सुरू करण्यासाठी भाषणाचा मजकूर जोडा."
+
+msgid "Appearance"
+msgstr "दिसणे"
+
+msgid "Automatic"
+msgstr "स्वयंचलित"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "स्वयंचलित पद्धतीत वाचन चौकटीभोवतालच्या रंगांचे नमुने घेतले जातात. चित्रे जतन केली जात नाहीत."
+
+msgid "Cancel"
+msgstr "रद्द करा"
+
+msgid "Cancel download"
+msgstr "डाउनलोड रद्द करा"
+
+msgid "Checking and unpacking %1…"
+msgstr "%1 तपासत आणि उलगडत आहे…"
+
+msgid "Checking and unpacking %s…"
+msgstr "%s तपासत आणि उलगडत आहे…"
+
+msgid "Checking local speech components"
+msgstr "स्थानिक वाणी घटक तपासत आहे"
+
+msgid "Chinese"
+msgstr "चिनी"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Kalipso मधील भाषणाचा मजकूर निवडा"
+
+msgid "Choose the language you speak."
+msgstr "तुम्ही बोलता ती भाषा निवडा."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "वाचन चौकटीमागची खिडकी निवडा. डेस्कटॉपची परवानगी आवश्यक आहे."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "डेस्कटॉप सामायिकरण संवादात वाचन चौकटीमागची खिडकी निवडा"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "भाषा निवडल्यावर तिचे वाणी मॉडेल प्रकाशकाकडून एकदाच डाउनलोड होते आणि डिजिटल ठशाशी पडताळले जाते. मग ओळख याच संगणकावर होते: तुमचे बोलणे पाठवले जात नाही."
+
+msgid "Configure Kalipso…"
+msgstr "Kalipso सेट करा…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "%1 डाउनलोड करता आले नाही. इंटरनेट जोडणी तपासून पुन्हा प्रयत्न करा."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "%s डाउनलोड करता आले नाही. इंटरनेट जोडणी तपासून पुन्हा प्रयत्न करा."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "%1 जतन करता आले नाही: पुरेशी रिकामी जागा नाही, किंवा डेटा फोल्डरमध्ये लिहिता येत नाही."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "%s जतन करता आले नाही: पुरेशी रिकामी जागा नाही, किंवा डेटा फोल्डरमध्ये लिहिता येत नाही."
+
+msgid "Countdown before steady scrolling"
+msgstr "स्थिर गतीने सरकण्यापूर्वी उलट गणना"
+
+msgid "Countdown before steady scrolling:"
+msgstr "स्थिर गतीने सरकण्यापूर्वी उलट गणना:"
+
+msgid "Dark"
+msgstr "गडद"
+
+msgid "Desktop theme"
+msgstr "डेस्कटॉप थीम"
+
+msgid "Done"
+msgstr "झाले"
+
+msgid "Done editing"
+msgstr "संपादन पूर्ण"
+
+msgid "Download and use"
+msgstr "डाउनलोड करून वापरा"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "डाउनलोड रद्द केले. काहीही बदलले नाही."
+
+msgid "Download progress"
+msgstr "डाउनलोडची प्रगती"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "%1 डाउनलोड होत आहे: %3 MB पैकी %2"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "%s डाउनलोड होत आहे: %d / %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Kalipso मध्ये संपादित करा"
+
+msgid "Edit script"
+msgstr "भाषणाचा मजकूर संपादित करा"
+
+msgid "End of script · Microphone off"
+msgstr "भाषणाचा मजकूर संपला · मायक्रोफोन बंद"
+
+msgid "English"
+msgstr "इंग्रजी"
+
+msgid "Faster"
+msgstr "वेग वाढवा"
+
+msgid "Follow a window's colors…"
+msgstr "खिडकीचे रंग वापरा…"
+
+msgid "Follow my voice"
+msgstr "माझ्या आवाजानुसार चला"
+
+msgid "Font:"
+msgstr "फॉन्ट:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "आरशातून वाचन चौकट दाखवणाऱ्या बीम-स्प्लिटर उपकरणांसाठी."
+
+msgid "French"
+msgstr "फ्रेंच"
+
+msgid "German"
+msgstr "जर्मन"
+
+msgid "Help:"
+msgstr "मदत:"
+
+msgid "Hide"
+msgstr "लपवा"
+
+msgid "Horizontal"
+msgstr "आडवे"
+
+msgid "Interface font"
+msgstr "इंटरफेसचा फॉन्ट"
+
+msgid "Italian"
+msgstr "इटालियन"
+
+msgid "Japanese"
+msgstr "जपानी"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso x86_64 संगणकांवर Linux मध्ये वाणी मॉडेल डाउनलोड करते."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "कळा: बाण किंवा Page Up/Down ने पुढे जा, Space ने सुरू करा किंवा विराम द्या, + व − ने स्थिर गती बदला. पडदा सामायिकरणात हे विजेट दिसू शकते; इतरांना काय दिसते ते तपासा."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "कळा: बाण किंवा Page Up/Down ने पुढे जा, Space ने सुरू करा किंवा विराम द्या, + व − ने स्थिर गती बदला. पडदा सामायिकरणात वाचन चौकट दिसू शकते; इतरांना काय दिसते ते तपासा."
+
+msgid "Language you speak"
+msgstr "तुम्ही बोलता ती भाषा"
+
+msgid "Language you speak:"
+msgstr "तुम्ही बोलता ती भाषा:"
+
+msgid "Larger"
+msgstr "मोठे"
+
+msgid "Light"
+msgstr "फिकट"
+
+msgid "Line spacing"
+msgstr "ओळींतील अंतर"
+
+msgid "Line spacing:"
+msgstr "ओळींतील अंतर:"
+
+msgid "Listening · On this device"
+msgstr "ऐकत आहे · याच उपकरणावर"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "स्थानिक वाणी ओळख स्थापित नाही. सहायक व भाषा मॉडेल स्थापित करण्यासाठी स्थानिक वाणी मांडणी उघडा."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "स्थानिक वाणी ओळख उपलब्ध नाही. सहायक व भाषा मॉडेल स्थापित करण्यासाठी स्थानिक वाणी मांडणी उघडा."
+
+msgid "Local speech recognition follows what you say."
+msgstr "स्थानिक वाणी ओळख तुम्ही बोलता त्याचा मागोवा घेते."
+
+msgid "Local speech setup"
+msgstr "स्थानिक वाणी मांडणी"
+
+msgid "Local speech setup ↗"
+msgstr "स्थानिक वाणी मांडणी ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "स्थानिक वाणी ओळख उपलब्ध नाही. %s docs/local-engine.md पाहा."
+
+msgid "Manual"
+msgstr "हाताने"
+
+msgid "Manual · Microphone off"
+msgstr "हाताने · मायक्रोफोन बंद"
+
+msgid "Microphone stopped"
+msgstr "मायक्रोफोन थांबवला"
+
+msgid "Mirror"
+msgstr "आरशातील प्रतिमा"
+
+msgid "Mirror:"
+msgstr "आरशातील प्रतिमा:"
+
+msgid "More"
+msgstr "आणखी"
+
+msgid "Next section"
+msgstr "पुढचा विभाग"
+
+msgid "Next words"
+msgstr "पुढचे शब्द"
+
+msgid "Normal"
+msgstr "सामान्य"
+
+msgid "Off"
+msgstr "बंद"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "मजकुराबाहेर · मजकुराकडे परतल्यावर Kalipso पुन्हा जुळवून घेईल"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "पूर्ण मजकूर वाचण्यासाठी किंवा बदलण्यासाठी भाषणाचा मजकूर संपादित करा उघडा."
+
+msgid "Pause"
+msgstr "विराम द्या"
+
+msgid "Paused · Microphone off"
+msgstr "विराम दिला · मायक्रोफोन बंद"
+
+msgid "Previous"
+msgstr "मागचे"
+
+msgid "Previous section"
+msgstr "मागचा विभाग"
+
+msgid "Reader colors"
+msgstr "वाचन चौकटीचे रंग"
+
+msgid "Reader colors:"
+msgstr "वाचन चौकटीचे रंग:"
+
+msgid "Reader font"
+msgstr "वाचन चौकटीचा फॉन्ट"
+
+msgid "Reading"
+msgstr "वाचन"
+
+msgid "Reading excerpt"
+msgstr "वाचनातील उतारा"
+
+msgid "Reading mode"
+msgstr "वाचन पद्धत"
+
+msgid "Reading mode:"
+msgstr "वाचन पद्धत:"
+
+msgid "Reading mode: %1"
+msgstr "वाचन पद्धत: %1"
+
+msgid "Reading progress"
+msgstr "वाचनाची प्रगती"
+
+msgid "Reading size"
+msgstr "वाचनाचा आकार"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "%2 सह %1 भाषेत ऐकायला तयार."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "%1 भाषेत ऐकायला तयार. माझ्या आवाजानुसार चला निवडून ऐकणे सुरू करा."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "%s भाषेत %s सह ऐकायला तयार."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "%s भाषेत ऐकायला तयार. माझ्या आवाजानुसार चला निवडून ऐकणे सुरू करा."
+
+msgid "Relaxed"
+msgstr "मोकळे"
+
+msgid "Reset"
+msgstr "पुन्हा ठरवा"
+
+msgid "SCRIPT"
+msgstr "भाषणाचा मजकूर"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "आपोआप जतन होते. [कंसातील सूचना] दिसतात पण मोठ्याने वाचायच्या नसतात. # ने सुरू होणाऱ्या ओळी म्हणजे विभाग."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "पडद्यावरील रंग उपलब्ध नाहीत. अपारदर्शक वाचन चौकटीचा कॉन्ट्रास्ट कायम राहील."
+
+msgid "Script"
+msgstr "भाषणाचा मजकूर"
+
+msgid "Script: %1"
+msgstr "भाषणाचा मजकूर: %1"
+
+msgid "Scripts"
+msgstr "भाषणांचे मजकूर"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "भाषणांचे मजकूर Kalipso ॲपमध्ये लिहिले व बदलले जातात; येथे ते वाचले जातात."
+
+msgid "Scrolling · Microphone off"
+msgstr "सरकत आहे · मायक्रोफोन बंद"
+
+msgid "Section ›"
+msgstr "विभाग ›"
+
+msgid "Sections"
+msgstr "विभाग"
+
+msgid "Serif"
+msgstr "सेरिफ"
+
+msgid "Settings"
+msgstr "सेटिंग्ज"
+
+msgid "Slower"
+msgstr "वेग कमी करा"
+
+msgid "Smaller"
+msgstr "लहान"
+
+msgid "Spanish"
+msgstr "स्पॅनिश"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "वाणी ओळख उपलब्ध नाही · Kalipso सेट करा → आवाज"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "वाणी ओळख उपलब्ध नाही · सेटिंग्ज उघडा"
+
+msgid "Start"
+msgstr "सुरू करा"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "%1 सेकंदात सुरू होईल…"
+msgstr[1] "%1 सेकंदात सुरू होईल…"
+
+msgid "Starting local speech…"
+msgstr "स्थानिक वाणी ओळख सुरू होत आहे…"
+
+msgid "Steady speed"
+msgstr "स्थिर गती"
+
+msgid "Steady speed:"
+msgstr "स्थिर गती:"
+
+msgid "Stop following the window"
+msgstr "खिडकीचा मागोवा थांबवा"
+
+msgid "Text size:"
+msgstr "मजकुराचा आकार:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%1 चे डाउनलोड डिजिटल ठशाशी जुळले नाही म्हणून हटवले. नंतर पुन्हा प्रयत्न करा."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "%1 मॉडेल उलगडता आले नाही. नंतर पुन्हा प्रयत्न करा."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%s चे डाउनलोड डिजिटल ठशाशी जुळले नाही म्हणून हटवले. नंतर पुन्हा प्रयत्न करा."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "%s मॉडेल उलगडता आले नाही. नंतर पुन्हा प्रयत्न करा."
+
+msgid "The microphone turns on when you start"
+msgstr "सुरू केल्यावर मायक्रोफोन चालू होतो"
+
+msgid "The words advance at the speed below."
+msgstr "शब्द खालील गतीने पुढे जातात."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "हा Kalipso सहायक भाषा डाउनलोड करू शकत नाही. तो स्थापित किंवा अद्यतनित करा, मग बाहेर पडून पुन्हा प्रवेश करा."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "वाचन चौकटीमागच्या खिडकीचे रंग घेण्यासाठी वाचन चौकटीच्या ⋯ मेनूमधून खिडकीचे रंग वापरा… निवडा."
+
+msgid "Try again"
+msgstr "पुन्हा प्रयत्न करा"
+
+msgid "Use this language"
+msgstr "ही भाषा वापरा"
+
+msgid "Vertical"
+msgstr "उभे"
+
+msgid "Voice"
+msgstr "आवाज"
+
+msgid "Wide"
+msgstr "रुंद"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "खिडकीचे रंग उपलब्ध नाहीत. Kalipso सहायक आणि डेस्कटॉप सामायिकरण पोर्टल स्थापित किंवा अद्यतनित करा."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "खिडकी सामायिकरण थांबले · पुन्हा सुरू करण्यासाठी मागची खिडकी निवडा"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "कळा, पेडल किंवा क्लिकरने पुढे जा."
+
+msgid "your language"
+msgstr "तुमची भाषा"
+
+msgid "‹ Section"
+msgstr "‹ विभाग"
