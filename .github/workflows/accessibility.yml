@@ -2,7 +2,7 @@ name: Browser accessibility
 on:
   push:
     branches: [main, feature/**]
-    paths: ['translations/**', 'tools/generate-translations.py', 'tools/check-translations.mjs', 'site/**', 'design/**', 'tools/browser/**', 'tools/dependency-versions.json', '.github/actions/**', 'desktop/contrast.mjs', 'tests/contrast.test.mjs', 'tools/check-accessibility.mjs', 'tools/check-design.mjs', '.github/workflows/accessibility.yml']
+    paths: ['translations/**', 'tools/generate-translations.py', 'tools/check-translations.mjs', 'tools/render-social-cards.mjs', 'tests/site_metadata_test.py', 'site/**', 'design/**', 'tools/browser/**', 'tools/dependency-versions.json', '.github/actions/**', 'desktop/contrast.mjs', 'tests/contrast.test.mjs', 'tools/check-accessibility.mjs', 'tools/check-design.mjs', '.github/workflows/accessibility.yml']
   pull_request:
   workflow_call: # The website deploy runs these checks first.
 permissions:
@@ -28,6 +28,7 @@ jobs:
         run: |
           python3 tools/generate-translations.py --check
           python3 tests/translations_test.py
+          python3 tests/site_metadata_test.py
           node tests/contrast.test.mjs
           python3 -m http.server 8770 --directory site > /tmp/kalipso-site.log 2>&1 &
           timeout 30 bash -c 'until curl -fs http://127.0.0.1:8770/ >/dev/null; do sleep 0.5; done'
