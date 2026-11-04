@@ -1,0 +1,467 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: ga\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=5; plural=(((n >= 3 && n <= 6)) ? 2 : ((n >= 7 && n <= 10)) ? 3 : ((n == 1)) ? 0 : ((n == 2)) ? 1 : 4);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "Tá %1 íoslódáilte. Roghnaigh arís é nuair a stopann tú ag éisteacht."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 soicind"
+msgstr[1] "%1 shoicind"
+msgstr[2] "%1 shoicind"
+msgstr[3] "%1 soicind"
+msgstr[4] "%1 soicind"
+
+msgid "%1 words/min"
+msgstr "%1 focal/nóim."
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 nóim."
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · íoslódáil %2 MB"
+
+msgid "%d words/min"
+msgstr "%d focal/nóim."
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "Tá %s íoslódáilte. Roghnaigh arís é nuair a stopann tú ag éisteacht."
+
+msgid "%s · %d min"
+msgstr "%s · %d nóim."
+
+msgid "%s · download %d MB"
+msgstr "%s · íoslódáil %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Cruthaíonn beagán ullmhúcháin spás do chomhrá níos fearr. [déan meangadh gáire]\n\nTóg do chuid ama. Fág spás do shos. Beidh do chéad fhocail eile anseo nuair a bheidh tú réidh."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Cruthaíonn beagán ullmhúcháin spás do chomhrá níos fearr. [déan meangadh gáire] Tóg do chuid ama. Léigh an chéad abairt os ard agus féach ar na focail ag leanúint thú."
+
+msgid "A script written here"
+msgstr "Téacs cainte scríofa anseo"
+
+msgid "Add your script to begin."
+msgstr "Cuir do théacs cainte leis chun tosú."
+
+msgid "Appearance"
+msgstr "Cuma"
+
+msgid "Automatic"
+msgstr "Uathoibríoch"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Tógann Uathoibríoch samplaí de na dathanna timpeall an limistéir léitheoireachta. Ní shábháiltear íomhánna."
+
+msgid "Cancel"
+msgstr "Cealaigh"
+
+msgid "Cancel download"
+msgstr "Cealaigh íoslódáil"
+
+msgid "Checking and unpacking %1…"
+msgstr "%1 á sheiceáil agus á dhíphacáil…"
+
+msgid "Checking and unpacking %s…"
+msgstr "%s á sheiceáil agus á dhíphacáil…"
+
+msgid "Checking local speech components"
+msgstr "Comhpháirteanna cainte áitiúla á seiceáil"
+
+msgid "Chinese"
+msgstr "Sínis"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Roghnaigh ceann de théacsanna cainte Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Roghnaigh an teanga a labhraíonn tú."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Roghnaigh an fhuinneog taobh thiar den limistéar léitheoireachta. Tá cead ón deasc de dhíth."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Roghnaigh an fhuinneog taobh thiar den limistéar léitheoireachta i ndialóg comhroinnte na deisce"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Nuair a roghnaíonn tú teanga, íoslódáiltear a samhail chainte uair amháin óna foilsitheoir agus seiceáltar í in aghaidh méarloirg. Ansin ritheann an aithint ar an ríomhaire seo: ní sheoltar aon rud a deir tú."
+
+msgid "Configure Kalipso…"
+msgstr "Cumraigh Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Níorbh fhéidir %1 a íoslódáil. Seiceáil an nasc idirlín agus bain triail eile as."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Níorbh fhéidir %s a íoslódáil. Seiceáil an nasc idirlín agus bain triail eile as."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Níorbh fhéidir %1 a shábháil: níl go leor spáis saor nó ní féidir scríobh san fhillteán sonraí."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Níorbh fhéidir %s a shábháil: níl go leor spáis saor nó ní féidir scríobh san fhillteán sonraí."
+
+msgid "Countdown before steady scrolling"
+msgstr "Comhaireamh síos roimh scrollú seasta"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Comhaireamh síos roimh scrollú seasta:"
+
+msgid "Dark"
+msgstr "Dorcha"
+
+msgid "Desktop theme"
+msgstr "Téama deisce"
+
+msgid "Done"
+msgstr "Déanta"
+
+msgid "Done editing"
+msgstr "Críochnaigh eagarthóireacht"
+
+msgid "Download and use"
+msgstr "Íoslódáil agus úsáid"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Íoslódáil cealaithe. Níor athraíodh aon rud."
+
+msgid "Download progress"
+msgstr "Dul chun cinn an íoslódála"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "%1 á íoslódáil: %2 as %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "%s á íoslódáil: %d as %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Cuir in eagar in Kalipso"
+
+msgid "Edit script"
+msgstr "Cuir an téacs cainte in eagar"
+
+msgid "End of script · Microphone off"
+msgstr "Deireadh an téacs cainte · Micreafón as"
+
+msgid "English"
+msgstr "Béarla"
+
+msgid "Faster"
+msgstr "Níos tapúla"
+
+msgid "Follow a window's colors…"
+msgstr "Lean dathanna fuinneoige…"
+
+msgid "Follow my voice"
+msgstr "Lean mo ghuth"
+
+msgid "Font:"
+msgstr "Cló:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Do theiliphrompters le scáthán leaththrédhearcach a thaispeánann an limistéar léitheoireachta trí scáthán."
+
+msgid "French"
+msgstr "Fraincis"
+
+msgid "German"
+msgstr "Gearmáinis"
+
+msgid "Help:"
+msgstr "Cabhair:"
+
+msgid "Hide"
+msgstr "Ceil"
+
+msgid "Horizontal"
+msgstr "Cothrománach"
+
+msgid "Interface font"
+msgstr "Cló an chomhéadain"
+
+msgid "Italian"
+msgstr "Iodáilis"
+
+msgid "Japanese"
+msgstr "Seapáinis"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Íoslódálann Kalipso samhlacha cainte ar Linux do ríomhairí x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Eochracha: bogann saigheada nó Page Up/Down ar aghaidh, tosaíonn nó cuireann Spás ar sos, athraíonn + agus − an luas seasta. D'fhéadfadh an ghiuirléid a bheith sa chomhroinnt scáileáin; seiceáil cad a fheiceann rannpháirtithe eile."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Eochracha: bogann saigheada nó Page Up/Down ar aghaidh, tosaíonn nó cuireann Spás ar sos, athraíonn + agus − an luas seasta. D'fhéadfadh an limistéar léitheoireachta a bheith sa chomhroinnt scáileáin; seiceáil cad a fheiceann rannpháirtithe eile."
+
+msgid "Language you speak"
+msgstr "An teanga a labhraíonn tú"
+
+msgid "Language you speak:"
+msgstr "An teanga a labhraíonn tú:"
+
+msgid "Larger"
+msgstr "Níos mó"
+
+msgid "Light"
+msgstr "Geal"
+
+msgid "Line spacing"
+msgstr "Spásáil línte"
+
+msgid "Line spacing:"
+msgstr "Spásáil línte:"
+
+msgid "Listening · On this device"
+msgstr "Ag éisteacht · Ar an ngléas seo"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Níl aithint cainte áitiúil suiteáilte. Oscail Socrú cainte áitiúla chun seirbhís chúnta agus samhail teanga a shuiteáil."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Níl aithint cainte áitiúil ar fáil. Oscail Socrú cainte áitiúla chun an tseirbhís chúnta agus samhail teanga a shuiteáil."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Leanann aithint cainte áitiúil an méid a deir tú."
+
+msgid "Local speech setup"
+msgstr "Socrú cainte áitiúla"
+
+msgid "Local speech setup ↗"
+msgstr "Socrú cainte áitiúla ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Níl aithint cainte áitiúil ar fáil. %s Féach docs/local-engine.md."
+
+msgid "Manual"
+msgstr "De láimh"
+
+msgid "Manual · Microphone off"
+msgstr "De láimh · Micreafón as"
+
+msgid "Microphone stopped"
+msgstr "Micreafón stoptha"
+
+msgid "Mirror"
+msgstr "Scáthánaigh"
+
+msgid "Mirror:"
+msgstr "Scáthánú:"
+
+msgid "More"
+msgstr "Tuilleadh"
+
+msgid "Next section"
+msgstr "An chéad rannán eile"
+
+msgid "Next words"
+msgstr "Na chéad fhocail eile"
+
+msgid "Normal"
+msgstr "Gnáth"
+
+msgid "Off"
+msgstr "As"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Lasmuigh den téacs · aimsíonn Kalipso d'áit arís nuair a fhilleann tú ar an téacs"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Oscail Cuir an téacs cainte in eagar chun an téacs iomlán a léamh nó a athrú."
+
+msgid "Pause"
+msgstr "Sos"
+
+msgid "Paused · Microphone off"
+msgstr "Ar sos · Micreafón as"
+
+msgid "Previous"
+msgstr "Roimhe"
+
+msgid "Previous section"
+msgstr "An rannán roimhe"
+
+msgid "Reader colors"
+msgstr "Dathanna an limistéir léitheoireachta"
+
+msgid "Reader colors:"
+msgstr "Dathanna an limistéir léitheoireachta:"
+
+msgid "Reader font"
+msgstr "Cló léitheoireachta"
+
+msgid "Reading"
+msgstr "Léitheoireacht"
+
+msgid "Reading excerpt"
+msgstr "Sliocht léitheoireachta"
+
+msgid "Reading mode"
+msgstr "Mód léitheoireachta"
+
+msgid "Reading mode:"
+msgstr "Mód léitheoireachta:"
+
+msgid "Reading mode: %1"
+msgstr "Mód léitheoireachta: %1"
+
+msgid "Reading progress"
+msgstr "Dul chun cinn na léitheoireachta"
+
+msgid "Reading size"
+msgstr "Méid léitheoireachta"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Réidh le héisteacht. Teanga: %1, le %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Réidh le héisteacht. Teanga: %1. Roghnaigh Lean mo ghuth agus tosaigh ag éisteacht."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Réidh le héisteacht. Teanga: %s, le %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Réidh le héisteacht. Teanga: %s. Roghnaigh Lean mo ghuth agus tosaigh ag éisteacht."
+
+msgid "Relaxed"
+msgstr "Fairsing"
+
+msgid "Reset"
+msgstr "Athshocraigh"
+
+msgid "SCRIPT"
+msgstr "TÉACS CAINTE"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Sábháilte go huathoibríoch. Taispeántar [treoracha i lúibíní cearnacha] ach ní léitear os ard iad. Is rannáin iad línte a thosaíonn le #."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Níl dathanna an scáileáin ar fáil. Coinníonn an limistéar léitheoireachta teimhneach a chodarsnacht."
+
+msgid "Script"
+msgstr "Téacs cainte"
+
+msgid "Script: %1"
+msgstr "Téacs cainte: %1"
+
+msgid "Scripts"
+msgstr "Téacsanna cainte"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Scríobhtar agus athraítear téacsanna cainte san aip Kalipso; léitear anseo iad."
+
+msgid "Scrolling · Microphone off"
+msgstr "Ag scrollú · Micreafón as"
+
+msgid "Section ›"
+msgstr "Rannán ›"
+
+msgid "Sections"
+msgstr "Rannáin"
+
+msgid "Serif"
+msgstr "Le serifí"
+
+msgid "Settings"
+msgstr "Socruithe"
+
+msgid "Slower"
+msgstr "Níos moille"
+
+msgid "Smaller"
+msgstr "Níos lú"
+
+msgid "Spanish"
+msgstr "Spáinnis"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Aithint cainte gan fáil · Cumraigh Kalipso → Guth"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Aithint cainte gan fáil · Oscail Socruithe"
+
+msgid "Start"
+msgstr "Tosaigh"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Ag tosú i gceann %1 soicind…"
+msgstr[1] "Ag tosú i gceann %1 shoicind…"
+msgstr[2] "Ag tosú i gceann %1 shoicind…"
+msgstr[3] "Ag tosú i gceann %1 soicind…"
+msgstr[4] "Ag tosú i gceann %1 soicind…"
+
+msgid "Starting local speech…"
+msgstr "Aithint cainte áitiúil á tosú…"
+
+msgid "Steady speed"
+msgstr "Luas seasta"
+
+msgid "Steady speed:"
+msgstr "Luas seasta:"
+
+msgid "Stop following the window"
+msgstr "Stop ag leanúint na fuinneoige"
+
+msgid "Text size:"
+msgstr "Méid an téacs:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Níor mheaitseáil íoslódáil %1 a méarlorg, mar sin scriosadh í. Bain triail eile as níos déanaí."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Níorbh fhéidir samhail %1 a dhíphacáil. Bain triail eile as níos déanaí."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Níor mheaitseáil íoslódáil %s a méarlorg, mar sin scriosadh í. Bain triail eile as níos déanaí."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Níorbh fhéidir samhail %s a dhíphacáil. Bain triail eile as níos déanaí."
+
+msgid "The microphone turns on when you start"
+msgstr "Casann an micreafón air nuair a thosaíonn tú"
+
+msgid "The words advance at the speed below."
+msgstr "Bogann na focail ar aghaidh ag an luas thíos."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Ní féidir leis an tseirbhís chúnta Kalipso seo teangacha a íoslódáil. Suiteáil nó nuashonraigh í, ansin logáil amach agus isteach arís."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Chun dathanna fuinneoige taobh thiar den limistéar léitheoireachta a úsáid, roghnaigh Lean dathanna fuinneoige… ina roghchlár ⋯."
+
+msgid "Try again"
+msgstr "Bain triail eile as"
+
+msgid "Use this language"
+msgstr "Úsáid an teanga seo"
+
+msgid "Vertical"
+msgstr "Ingearach"
+
+msgid "Voice"
+msgstr "Guth"
+
+msgid "Wide"
+msgstr "Leathan"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Níl dathanna fuinneoige ar fáil. Suiteáil nó nuashonraigh seirbhís chúnta Kalipso agus tairseach comhroinnte na deisce."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Comhroinnt fuinneoige stoptha · Roghnaigh fuinneog chúlra chun leanúint"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Bogann tú ar aghaidh leis na heochracha, troitheán nó cianrialtán cur i láthair."
+
+msgid "your language"
+msgstr "do theanga"
+
+msgid "‹ Section"
+msgstr "‹ Rannán"

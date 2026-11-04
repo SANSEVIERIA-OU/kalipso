@@ -60,6 +60,8 @@ jobs:
           macdeployqt build/kalipso.app
           mkdir -p build/kalipso.app/Contents/Resources/licenses
           cp -R artifacts/runtime-notices/. build/kalipso.app/Contents/Resources/licenses/
+          mkdir -p build/kalipso.app/Contents/Resources/licenses/fonts
+          cp src/fonts/*.txt build/kalipso.app/Contents/Resources/licenses/fonts/
           codesign --force --deep --sign - --entitlements packaging/macos/entitlements.plist build/kalipso.app
           build/kalipso.app/Contents/MacOS/kalipso --demo --quit-after 1000
           mkdir -p artifacts

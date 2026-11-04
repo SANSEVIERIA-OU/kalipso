@@ -1,0 +1,74 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min",
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Zaimportowano notatki prelegenta z %n slajdu. Użyj Sekcji w oknie czytania, aby przechodzić między slajdami.",
+    "Zaimportowano notatki prelegenta z %n slajdów. Użyj Sekcji w oknie czytania, aby przechodzić między slajdami.",
+    "Zaimportowano notatki prelegenta z %n slajdów. Użyj Sekcji w oknie czytania, aby przechodzić między slajdami.",
+    "Zaimportowano notatki prelegenta z %n slajdu. Użyj Sekcji w oknie czytania, aby przechodzić między slajdami."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "Pominięto %n ukryty slajd.",
+    "Pominięto %n ukryte slajdy.",
+    "Pominięto %n ukrytych slajdów.",
+    "Pominięto %n ukrytego slajdu."
+  ],
+  "MainWindow\u0004about %n min": [
+    "około %n min",
+    "około %n min",
+    "około %n min",
+    "około %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n słowo",
+    "%n słowa",
+    "%n słów",
+    "%n słowa"
+  ],
+  "MainWindow\u0004%n min left": [
+    "pozostało %n min",
+    "pozostało %n min",
+    "pozostało %n min",
+    "pozostało %n min"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Ostatnia sesja: %1 · %n słowo",
+    "Ostatnia sesja: %1 · %n słowa",
+    "Ostatnia sesja: %1 · %n słów",
+    "Ostatnia sesja: %1 · %n słowa"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n pauza ponad 3 s",
+    "%n pauzy ponad 3 s",
+    "%n pauz ponad 3 s",
+    "%n pauzy ponad 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "Rozpoznano %n wypełniacz",
+    "Rozpoznano %n wypełniacze",
+    "Rozpoznano %n wypełniaczy",
+    "Rozpoznano %n wypełniacza"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Przeczytane słowa: %n z %1",
+    "- Przeczytane słowa: %n z %1",
+    "- Przeczytane słowa: %n z %1",
+    "- Przeczytane słowa: %n z %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauzy ponad 3 s: %n",
+    "- Pauzy ponad 3 s: %n",
+    "- Pauzy ponad 3 s: %n",
+    "- Pauzy ponad 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Rozpoznane wypełniacze: %n (wiele systemów je pomija, więc to dolna granica)",
+    "- Rozpoznane wypełniacze: %n (wiele systemów je pomija, więc to dolna granica)",
+    "- Rozpoznane wypełniacze: %n (wiele systemów je pomija, więc to dolna granica)",
+    "- Rozpoznane wypełniacze: %n (wiele systemów je pomija, więc to dolna granica)"
+  ]
+}

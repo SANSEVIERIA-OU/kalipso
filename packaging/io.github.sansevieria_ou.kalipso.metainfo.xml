@@ -5,7 +5,47 @@
   <project_license>AGPL-3.0-or-later</project_license>
   <name>Kalipso</name>
   <summary>Teleprompter that follows your voice, on your device</summary>
-  <developer id="io.github.sansevieria_ou"><name>Davide Briani and contributors</name></developer>
+  <developer id="io.github.sansevieria_ou">
+    <name>Davide Briani and contributors</name>
+  </developer>
+  <summary xml:lang="bg">Аутокю, което следва гласа ви на вашето устройство</summary>
+  <summary xml:lang="hr">Teleprompter koji prati vaš glas na vašem uređaju</summary>
+  <summary xml:lang="cs">Čtecí zařízení, které sleduje váš hlas na vašem zařízení</summary>
+  <summary xml:lang="da">Teleprompter, der følger din stemme, på din enhed</summary>
+  <summary xml:lang="nl">Teleprompter die je stem volgt, op je apparaat</summary>
+  <summary xml:lang="et">Teleprompter, mis jälgib sinu häält sinu seadmes</summary>
+  <summary xml:lang="fi">Ääntäsi seuraava teleprompteri omalla laitteellasi</summary>
+  <summary xml:lang="fr">Un prompteur qui suit votre voix, sur votre appareil</summary>
+  <summary xml:lang="de">Teleprompter, der Ihrer Stimme folgt, auf Ihrem Gerät</summary>
+  <summary xml:lang="el">Υποβολέας που ακολουθεί τη φωνή σας, στη συσκευή σας</summary>
+  <summary xml:lang="hu">A hangodat követő súgógép a saját eszközödön</summary>
+  <summary xml:lang="ga">Teiliphrompter a leanann do ghuth, ar do ghléas</summary>
+  <summary xml:lang="it">Il teleprompter che segue la tua voce, sul tuo dispositivo</summary>
+  <summary xml:lang="lv">Telesuflieris, kas seko jūsu balsij jūsu ierīcē</summary>
+  <summary xml:lang="lt">Telesufleris, kuris seka jūsų balsą jūsų įrenginyje</summary>
+  <summary xml:lang="mt">Teleprompter li jsegwi leħnek, fuq l-apparat tiegħek</summary>
+  <summary xml:lang="pl">Prompter, który podąża za głosem na Twoim urządzeniu</summary>
+  <summary xml:lang="pt">Teleponto que acompanha a sua voz, no seu dispositivo</summary>
+  <summary xml:lang="ro">Prompter care îți urmărește vocea, pe dispozitivul tău</summary>
+  <summary xml:lang="sk">Čítacie zariadenie, ktoré sleduje váš hlas vo vašom zariadení</summary>
+  <summary xml:lang="sl">Teleprompter, ki sledi vašemu glasu v vaši napravi</summary>
+  <summary xml:lang="es">Teleprónter que sigue tu voz, en tu dispositivo</summary>
+  <summary xml:lang="sv">Teleprompter som följer din röst, på din enhet</summary>
+  <summary xml:lang="zh-Hans">在您设备上跟随声音的提词器</summary>
+  <summary xml:lang="hi">आपके डिवाइस पर आपकी आवाज़ का अनुसरण करने वाला टेलीप्रॉम्प्टर</summary>
+  <summary xml:lang="ar">ملقّن يتابع صوتك على جهازك</summary>
+  <summary xml:lang="bn">আপনার যন্ত্রে কণ্ঠ অনুসরণ করে যে টেলিপ্রম্পটার</summary>
+  <summary xml:lang="id">Teleprompter yang mengikuti suara Anda di perangkat Anda</summary>
+  <summary xml:lang="ur">آپ کے آلے پر آواز کی پیروی کرنے والا ٹیلی پرامپٹر</summary>
+  <summary xml:lang="ru">Телесуфлёр, который следует за голосом на вашем устройстве</summary>
+  <summary xml:lang="ja">デバイス内であなたの声に追従するテレプロンプター</summary>
+  <summary xml:lang="pcm">Teleprompter wey dey follow your voice, for your device</summary>
+  <summary xml:lang="arz">تليبرومبتر بيتابع صوتك، على جهازك</summary>
+  <summary xml:lang="mr">तुमच्या उपकरणावर आवाजाचा मागोवा घेणारा टेलिप्रॉम्प्टर</summary>
+  <summary xml:lang="vi">Máy nhắc lời theo giọng bạn ngay trên thiết bị</summary>
+  <summary xml:lang="te">మీ పరికరంలో మీ స్వరాన్ని అనుసరించే టెలిప్రాంప్టర్</summary>
+  <summary xml:lang="sw">Teleprompta inayofuata sauti yako kwenye kifaa chako</summary>
+  <summary xml:lang="ha">Mai nuna rubutun jawabi wanda yake bin muryarka a na'urarka</summary>
   <description>
     <p>Keep your script next to your camera and read naturally. Kalipso is one window: large, you write your script in it with bold, italic, sections and cues; small, under the camera, it shows the next words and dims the ones you have already read.</p>
     <ul>
@@ -14,37 +54,327 @@
       <li>Bracketed cues are shown but never read aloud; headings become sections you can jump to.</li>
       <li>Import speaker notes from PowerPoint and LibreOffice Impress presentations.</li>
       <li>Mirror the text for beam-splitter teleprompter glass.</li>
+      <li xml:lang="bg">Следвайте гласа си с локално разпознаване на реч, превъртайте с постоянна скорост или се придвижвайте с клавиатура, педал или телефон.</li>
+      <li xml:lang="bg">Текстовете и позициите на четене се запазват автоматично на устройството ви.</li>
+      <li xml:lang="bg">Указанията в скоби се показват, но никога не се четат на глас; заглавията стават раздели, към които можете да прескачате.</li>
+      <li xml:lang="bg">Импортирайте бележки на говорителя от презентации PowerPoint и LibreOffice Impress.</li>
+      <li xml:lang="bg">Обърнете текста огледално за аутокю с полупрозрачно огледало.</li>
+      <li xml:lang="hr">Pratite glas lokalnim prepoznavanjem govora, pomičite tekst stalnom brzinom ili korak po korak tipkovnicom, nožnom pedalom ili telefonom.</li>
+      <li xml:lang="hr">Tekstovi i položaji čitanja automatski se spremaju na uređaj.</li>
+      <li xml:lang="hr">Upute u zagradama prikazuju se, ali nikad se ne čitaju naglas; naslovi postaju odjeljci na koje možete prijeći.</li>
+      <li xml:lang="hr">Uvezite bilješke govornika iz prezentacija PowerPointa i LibreOffice Impressa.</li>
+      <li xml:lang="hr">Zrcalite tekst za polupropusno staklo telepromptera.</li>
+      <li xml:lang="cs">Sledujte svůj hlas místním rozpoznáváním řeči, posouvejte text stálou rychlostí nebo jej ovládejte klávesnicí, nožním pedálem či telefonem.</li>
+      <li xml:lang="cs">Texty a pozice čtení se automaticky ukládají na vašem zařízení.</li>
+      <li xml:lang="cs">Pokyny v závorkách se zobrazují, ale nikdy nečtou nahlas; z nadpisů se stávají oddíly, na které můžete přeskakovat.</li>
+      <li xml:lang="cs">Importujte poznámky přednášejícího z prezentací PowerPoint a LibreOffice Impress.</li>
+      <li xml:lang="cs">Zrcadlete text pro polopropustné sklo čtecího zařízení.</li>
+      <li xml:lang="da">Følg din stemme med lokal talegenkendelse, rul med fast hastighed, eller flyt frem med tastaturet, en fodpedal eller din telefon.</li>
+      <li xml:lang="da">Manuskripter og læsepositioner gemmes automatisk på din enhed.</li>
+      <li xml:lang="da">Anvisninger i kantede parenteser vises, men læses aldrig højt; overskrifter bliver til afsnit, du kan springe til.</li>
+      <li xml:lang="da">Importer talernoter fra PowerPoint- og LibreOffice Impress-præsentationer.</li>
+      <li xml:lang="da">Spejlvend teksten til telepromptere med halvgennemsigtigt spejl.</li>
+      <li xml:lang="nl">Volg je stem met lokale spraakherkenning, scrol gelijkmatig of ga verder met het toetsenbord, een voetpedaal of je telefoon.</li>
+      <li xml:lang="nl">Spreekteksten en leesposities worden automatisch op je apparaat opgeslagen.</li>
+      <li xml:lang="nl">Aanwijzingen tussen haken worden getoond maar nooit hardop gelezen; koppen worden secties waar je naartoe kunt springen.</li>
+      <li xml:lang="nl">Importeer sprekersnotities uit PowerPoint- en LibreOffice Impress-presentaties.</li>
+      <li xml:lang="nl">Spiegel de tekst voor teleprompters met een halfdoorlatende spiegel.</li>
+      <li xml:lang="et">Jälgi oma häält kohaliku kõnetuvastusega, keri ühtlase kiirusega või liigu edasi klaviatuuri, jalapedaali või telefoniga.</li>
+      <li xml:lang="et">Kõnetekstid ja lugemiskohad salvestatakse automaatselt sinu seadmesse.</li>
+      <li xml:lang="et">Nurksulgudes juhised kuvatakse, kuid neid ei loeta kunagi ette; pealkirjad muutuvad jaotisteks, kuhu saab liikuda.</li>
+      <li xml:lang="et">Impordi esineja märkmed PowerPointi ja LibreOffice Impressi esitlustest.</li>
+      <li xml:lang="et">Peegelda tekst poolläbipaistva klaasiga teleprompteri jaoks.</li>
+      <li xml:lang="fi">Seuraa ääntäsi paikallisella puheentunnistuksella, vieritä tasaisesti tai etene näppäimistöllä, jalkapolkimella tai puhelimella.</li>
+      <li xml:lang="fi">Käsikirjoitukset ja lukukohdat tallennetaan automaattisesti laitteellesi.</li>
+      <li xml:lang="fi">Hakasulkeissa olevat ohjeet näytetään, mutta niitä ei koskaan lueta ääneen; otsikoista tulee osioita, joihin voit siirtyä.</li>
+      <li xml:lang="fi">Tuo puhujan muistiinpanot PowerPoint- ja LibreOffice Impress -esityksistä.</li>
+      <li xml:lang="fi">Peilaa teksti teleprompterin puoliläpäisevää lasia varten.</li>
+      <li xml:lang="fr">Suivez votre voix grâce à la reconnaissance vocale locale, faites défiler à vitesse constante ou avancez avec le clavier, une pédale ou votre téléphone.</li>
+      <li xml:lang="fr">Les textes et les positions de lecture sont enregistrés automatiquement sur votre appareil.</li>
+      <li xml:lang="fr">Les indications entre crochets sont affichées mais jamais lues à voix haute ; les titres deviennent des sections auxquelles vous pouvez accéder directement.</li>
+      <li xml:lang="fr">Importez les notes de présentation de PowerPoint et LibreOffice Impress.</li>
+      <li xml:lang="fr">Inversez le texte pour un prompteur à miroir semi-transparent.</li>
+      <li xml:lang="de">Folgen Sie Ihrer Stimme mit lokaler Spracherkennung, scrollen Sie gleichmäßig oder schalten Sie mit Tastatur, Fußpedal oder Telefon weiter.</li>
+      <li xml:lang="de">Redetexte und Lesepositionen werden automatisch auf Ihrem Gerät gespeichert.</li>
+      <li xml:lang="de">Anweisungen in Klammern werden angezeigt, aber nie vorgelesen; Überschriften werden zu Abschnitten, die Sie anspringen können.</li>
+      <li xml:lang="de">Importieren Sie Vortragsnotizen aus PowerPoint- und LibreOffice-Impress-Präsentationen.</li>
+      <li xml:lang="de">Spiegeln Sie den Text für Teleprompter mit Strahlteilerglas.</li>
+      <li xml:lang="el">Ακολουθήστε τη φωνή σας με τοπική αναγνώριση ομιλίας, κυλήστε με σταθερή ταχύτητα ή προχωρήστε με πληκτρολόγιο, πεντάλ ή τηλέφωνο.</li>
+      <li xml:lang="el">Τα κείμενα και οι θέσεις ανάγνωσης αποθηκεύονται αυτόματα στη συσκευή σας.</li>
+      <li xml:lang="el">Οι οδηγίες σε αγκύλες εμφανίζονται αλλά δεν διαβάζονται ποτέ φωναχτά· οι επικεφαλίδες γίνονται ενότητες στις οποίες μπορείτε να μεταβείτε.</li>
+      <li xml:lang="el">Εισαγάγετε σημειώσεις ομιλητή από παρουσιάσεις PowerPoint και LibreOffice Impress.</li>
+      <li xml:lang="el">Κατοπτρίστε το κείμενο για ημιδιαφανές γυαλί υποβολέα.</li>
+      <li xml:lang="hu">Kövesd a hangod helyi beszédfelismeréssel, görgess állandó sebességgel, vagy léptess billentyűzettel, lábpedállal vagy telefonnal.</li>
+      <li xml:lang="hu">A beszédszövegek és az olvasási helyek automatikusan az eszközödre mentődnek.</li>
+      <li xml:lang="hu">A szögletes zárójeles utasítások megjelennek, de soha nem olvasandók fel; a címsorok ugrással elérhető szakaszokká válnak.</li>
+      <li xml:lang="hu">Importálj előadói jegyzeteket PowerPoint- és LibreOffice Impress-bemutatókból.</li>
+      <li xml:lang="hu">Tükrözd a szöveget a súgógép féligáteresztő üvegéhez.</li>
+      <li xml:lang="ga">Lean do ghuth le haithint cainte áitiúil, scrollaigh ar luas seasta nó bog ar aghaidh leis an méarchlár, troitheán coise nó d'fhón.</li>
+      <li xml:lang="ga">Sábháiltear téacsanna cainte agus suíomhanna léitheoireachta go huathoibríoch ar do ghléas.</li>
+      <li xml:lang="ga">Taispeántar treoracha i lúibíní cearnacha ach ní léitear os ard iad riamh; déantar rannáin de cheannteidil ar féidir leat léim chucu.</li>
+      <li xml:lang="ga">Iompórtáil nótaí cainteora ó chuir i láthair PowerPoint agus LibreOffice Impress.</li>
+      <li xml:lang="ga">Scáthánaigh an téacs do ghloine leaththrédhearcach teiliphrompter.</li>
+      <li xml:lang="it">Segui la voce con il riconoscimento vocale locale, scorri a velocità costante oppure avanza con la tastiera, un pedale o il telefono.</li>
+      <li xml:lang="it">I copioni e le posizioni di lettura vengono salvati automaticamente sul tuo dispositivo.</li>
+      <li xml:lang="it">Le indicazioni tra parentesi quadre vengono mostrate ma non lette ad alta voce; i titoli diventano sezioni a cui puoi saltare.</li>
+      <li xml:lang="it">Importa le note del relatore dalle presentazioni PowerPoint e LibreOffice Impress.</li>
+      <li xml:lang="it">Rifletti il testo per il vetro semiriflettente di un teleprompter.</li>
+      <li xml:lang="lv">Sekojiet balsij ar lokālu runas atpazīšanu, ritiniet ar nemainīgu ātrumu vai virziet tekstu ar tastatūru, kājas pedāli vai tālruni.</li>
+      <li xml:lang="lv">Teksti un lasīšanas pozīcijas tiek automātiski saglabāti jūsu ierīcē.</li>
+      <li xml:lang="lv">Norādes iekavās tiek rādītas, bet nekad netiek lasītas skaļi; virsraksti kļūst par sadaļām, uz kurām var pāriet.</li>
+      <li xml:lang="lv">Importējiet runātāja piezīmes no PowerPoint un LibreOffice Impress prezentācijām.</li>
+      <li xml:lang="lv">Spoguļojiet tekstu telesufliera puscaurlaidīgajam stiklam.</li>
+      <li xml:lang="lt">Sekite balsą naudodami vietinį kalbos atpažinimą, slinkite pastoviu greičiu arba pastumkite tekstą klaviatūra, kojiniu pedalu ar telefonu.</li>
+      <li xml:lang="lt">Tekstai ir skaitymo vietos automatiškai išsaugomi jūsų įrenginyje.</li>
+      <li xml:lang="lt">Nuorodos skliaustuose rodomos, bet niekada neskaitomos garsiai; antraštės tampa skyriais, į kuriuos galite pereiti.</li>
+      <li xml:lang="lt">Importuokite pranešėjo pastabas iš PowerPoint ir LibreOffice Impress pateikčių.</li>
+      <li xml:lang="lt">Atspindėkite tekstą telesuflerio pusiau pralaidžiam stiklui.</li>
+      <li xml:lang="mt">Segwi leħnek b'rikonoxximent lokali tad-diskors, skrollja b'veloċità kostanti jew mexxi bit-tastiera, b'pedala jew bit-telefon tiegħek.</li>
+      <li xml:lang="mt">It-testi u l-pożizzjonijiet tal-qari jiġu ssejvjati awtomatikament fuq l-apparat tiegħek.</li>
+      <li xml:lang="mt">L-indikazzjonijiet fil-parentesi kwadri jintwerew iżda qatt ma jinqraw b'leħen għoli; it-titli jsiru taqsimiet fejn tista' taqbeż.</li>
+      <li xml:lang="mt">Importa n-noti tal-kelliem minn preżentazzjonijiet PowerPoint u LibreOffice Impress.</li>
+      <li xml:lang="mt">Aqleb it-test bħala mera għall-ħġieġ semitrasparenti tat-teleprompter.</li>
+      <li xml:lang="pl">Podążaj za głosem dzięki lokalnemu rozpoznawaniu mowy, przewijaj ze stałą szybkością lub przesuwaj tekst klawiaturą, pedałem nożnym albo telefonem.</li>
+      <li xml:lang="pl">Teksty i pozycje czytania zapisują się automatycznie na urządzeniu.</li>
+      <li xml:lang="pl">Wskazówki w nawiasach są widoczne, ale nigdy nie czyta się ich na głos; nagłówki stają się sekcjami, do których można przeskoczyć.</li>
+      <li xml:lang="pl">Importuj notatki prelegenta z prezentacji PowerPoint i LibreOffice Impress.</li>
+      <li xml:lang="pl">Odbij tekst dla półprzepuszczalnego szkła promptera.</li>
+      <li xml:lang="pt">Acompanhe a sua voz com reconhecimento local, avance a uma velocidade constante ou use o teclado, um pedal ou o telefone para avançar.</li>
+      <li xml:lang="pt">Os guiões e as posições de leitura são guardados automaticamente no seu dispositivo.</li>
+      <li xml:lang="pt">As indicações entre parênteses retos são mostradas, mas nunca lidas em voz alta; os títulos tornam-se secções para onde pode saltar.</li>
+      <li xml:lang="pt">Importe notas do orador de apresentações PowerPoint e LibreOffice Impress.</li>
+      <li xml:lang="pt">Espelhe o texto para telepontos com vidro semirrefletor.</li>
+      <li xml:lang="ro">Urmărește vocea cu recunoaștere vocală locală, derulează cu viteză constantă sau avansează cu tastatura, o pedală de picior ori telefonul.</li>
+      <li xml:lang="ro">Textele și pozițiile de lectură sunt salvate automat pe dispozitiv.</li>
+      <li xml:lang="ro">Indicațiile între paranteze sunt afișate, dar nu sunt citite cu voce tare; titlurile devin secțiuni la care poți sări.</li>
+      <li xml:lang="ro">Importă notițele vorbitorului din prezentări PowerPoint și LibreOffice Impress.</li>
+      <li xml:lang="ro">Oglindește textul pentru sticla semitransparentă a prompterului.</li>
+      <li xml:lang="sk">Sledujte hlas miestnym rozpoznávaním reči, posúvajte text stálou rýchlosťou alebo ho ovládajte klávesnicou, nožným pedálom či telefónom.</li>
+      <li xml:lang="sk">Texty a polohy čítania sa automaticky ukladajú vo vašom zariadení.</li>
+      <li xml:lang="sk">Pokyny v zátvorkách sa zobrazujú, ale nikdy sa nečítajú nahlas; nadpisy sa menia na oddiely, na ktoré môžete preskakovať.</li>
+      <li xml:lang="sk">Importujte poznámky prednášajúceho z prezentácií PowerPoint a LibreOffice Impress.</li>
+      <li xml:lang="sk">Zrkadlite text pre polopriepustné sklo čítacieho zariadenia.</li>
+      <li xml:lang="sl">Sledite glasu z lokalnim prepoznavanjem govora, pomikajte s stalno hitrostjo ali napredujte s tipkovnico, nožnim pedalom ali telefonom.</li>
+      <li xml:lang="sl">Besedila in položaji branja se samodejno shranjujejo v napravi.</li>
+      <li xml:lang="sl">Napotki v oklepajih so prikazani, vendar se nikoli ne berejo na glas; naslovi postanejo razdelki, na katere lahko preskočite.</li>
+      <li xml:lang="sl">Uvozite opombe govorca iz predstavitev PowerPoint in LibreOffice Impress.</li>
+      <li xml:lang="sl">Zrcalite besedilo za polprepustno steklo teleprompterja.</li>
+      <li xml:lang="es">Sigue tu voz con reconocimiento local, desplázate a velocidad constante o avanza con el teclado, un pedal o tu teléfono.</li>
+      <li xml:lang="es">Los guiones y las posiciones de lectura se guardan automáticamente en tu dispositivo.</li>
+      <li xml:lang="es">Las indicaciones entre corchetes se muestran, pero nunca se leen en voz alta; los títulos se convierten en secciones a las que puedes saltar.</li>
+      <li xml:lang="es">Importa las notas del orador de presentaciones de PowerPoint y LibreOffice Impress.</li>
+      <li xml:lang="es">Refleja el texto para teleprónteres con cristal semirreflectante.</li>
+      <li xml:lang="sv">Följ din röst med lokal taligenkänning, rulla med jämn hastighet eller gå framåt med tangentbordet, en fotpedal eller din telefon.</li>
+      <li xml:lang="sv">Manus och läspositioner sparas automatiskt på din enhet.</li>
+      <li xml:lang="sv">Anvisningar inom hakparenteser visas men läses aldrig högt; rubriker blir avsnitt som du kan hoppa till.</li>
+      <li xml:lang="sv">Importera talaranteckningar från PowerPoint- och LibreOffice Impress-presentationer.</li>
+      <li xml:lang="sv">Spegla texten för telepromptrar med halvgenomskinligt glas.</li>
+      <li xml:lang="zh-Hans">通过本地语音识别跟随您的声音、匀速滚动，或使用键盘、脚踏板或手机逐步推进。</li>
+      <li xml:lang="zh-Hans">讲稿和阅读位置会自动保存在您的设备上。</li>
+      <li xml:lang="zh-Hans">方括号中的提示会显示，但从不朗读；标题会成为可跳转的章节。</li>
+      <li xml:lang="zh-Hans">从 PowerPoint 和 LibreOffice Impress 演示文稿导入演讲者备注。</li>
+      <li xml:lang="zh-Hans">为分光提词器玻璃镜像文字。</li>
+      <li xml:lang="hi">स्थानीय वाक् पहचान से अपनी आवाज़ का अनुसरण करें, निश्चित गति से स्क्रॉल करें, या कीबोर्ड, पैर के पैडल या फ़ोन से आगे बढ़ें।</li>
+      <li xml:lang="hi">भाषण-पाठ और पढ़ने की जगह आपके डिवाइस पर अपने आप सहेजे जाते हैं।</li>
+      <li xml:lang="hi">कोष्ठकों के संकेत दिखते हैं लेकिन कभी ज़ोर से नहीं पढ़े जाते; शीर्षक ऐसे खंड बन जाते हैं जिन पर आप सीधे जा सकते हैं।</li>
+      <li xml:lang="hi">PowerPoint और LibreOffice Impress प्रस्तुतियों से वक्ता नोट्स आयात करें।</li>
+      <li xml:lang="hi">बीम-स्प्लिटर टेलीप्रॉम्प्टर शीशे के लिए पाठ का दर्पण प्रतिबिंब बनाएँ।</li>
+      <li xml:lang="ar">تابع صوتك بالتعرف المحلي على الكلام، أو مرر بسرعة ثابتة، أو تقدم بلوحة المفاتيح أو دواسة القدم أو الهاتف.</li>
+      <li xml:lang="ar">تُحفظ نصوص الإلقاء ومواضع القراءة تلقائيًا على جهازك.</li>
+      <li xml:lang="ar">تظهر الإشارات بين الأقواس ولا تُقرأ بصوت عالٍ؛ وتصبح العناوين أقسامًا يمكنك الانتقال إليها.</li>
+      <li xml:lang="ar">استورد ملاحظات المتحدث من عروض PowerPoint وLibreOffice Impress.</li>
+      <li xml:lang="ar">اعكس النص لزجاج الملقّن ذي تقسيم الشعاع.</li>
+      <li xml:lang="bn">স্থানীয় কথা শনাক্তকরণ দিয়ে কণ্ঠ অনুসরণ করুন, স্থির গতিতে স্ক্রল করুন, বা কিবোর্ড, পায়ের প্যাডেল অথবা ফোন দিয়ে এগোন।</li>
+      <li xml:lang="bn">বক্তব্যের পাঠ ও পড়ার স্থান যন্ত্রে স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়।</li>
+      <li xml:lang="bn">বন্ধনীর নির্দেশনা দেখানো হয় কিন্তু কখনও জোরে পড়া হয় না; শিরোনাম সরাসরি যাওয়া যায় এমন অংশ হয়।</li>
+      <li xml:lang="bn">PowerPoint ও LibreOffice Impress উপস্থাপনা থেকে বক্তার নোট আমদানি করুন।</li>
+      <li xml:lang="bn">বিম-স্প্লিটার টেলিপ্রম্পটার কাচের জন্য লেখার প্রতিচ্ছবি করুন।</li>
+      <li xml:lang="id">Ikuti suara Anda dengan pengenalan ucapan lokal, gulir dengan kecepatan tetap, atau melangkah dengan papan ketik, pedal kaki atau ponsel.</li>
+      <li xml:lang="id">Naskah dan posisi baca disimpan otomatis di perangkat Anda.</li>
+      <li xml:lang="id">Petunjuk dalam kurung siku ditampilkan tetapi tidak pernah dibaca keras-keras; judul menjadi bagian yang dapat dilompati.</li>
+      <li xml:lang="id">Impor catatan pembicara dari presentasi PowerPoint dan LibreOffice Impress.</li>
+      <li xml:lang="id">Cerminkan teks untuk kaca teleprompter pembagi berkas.</li>
+      <li xml:lang="ur">مقامی گفتار شناخت سے آواز کی پیروی کریں، یکساں رفتار سے اسکرول کریں، یا کی بورڈ، پاؤں کے پیڈل یا فون سے قدم بڑھائیں۔</li>
+      <li xml:lang="ur">تقریر کے متون اور پڑھنے کی جگہیں آلے پر خود محفوظ ہوتی ہیں۔</li>
+      <li xml:lang="ur">قوسین کے اشارے دکھتے ہیں مگر کبھی بلند آواز سے نہیں پڑھے جاتے؛ سرخیاں ایسے حصے بنتی ہیں جہاں براہ راست جا سکتے ہیں۔</li>
+      <li xml:lang="ur">PowerPoint اور LibreOffice Impress پیشکشوں سے مقرر کے نوٹس درآمد کریں۔</li>
+      <li xml:lang="ur">بیم اسپلٹر ٹیلی پرامپٹر شیشے کے لیے متن کا آئینہ عکس بنائیں۔</li>
+      <li xml:lang="ru">Следуйте за голосом с локальным распознаванием речи, прокручивайте с постоянной скоростью или продвигайте текст клавиатурой, ножной педалью либо телефоном.</li>
+      <li xml:lang="ru">Тексты и позиции чтения автоматически сохраняются на устройстве.</li>
+      <li xml:lang="ru">Ремарки в скобках видны, но никогда не читаются вслух; заголовки становятся разделами, к которым можно переходить.</li>
+      <li xml:lang="ru">Импортируйте заметки докладчика из презентаций PowerPoint и LibreOffice Impress.</li>
+      <li xml:lang="ru">Отразите текст для полупрозрачного стекла телесуфлёра.</li>
+      <li xml:lang="ja">ローカル音声認識で声に追従、一定速度でスクロール、またはキーボード、フットペダル、スマートフォンで進められます。</li>
+      <li xml:lang="ja">原稿と読む位置はデバイスに自動保存されます。</li>
+      <li xml:lang="ja">角括弧の指示は表示されますが、声に出して読みません。見出しは移動先にできるセクションになります。</li>
+      <li xml:lang="ja">PowerPointとLibreOffice Impressのプレゼンテーションから発表者ノートをインポートできます。</li>
+      <li xml:lang="ja">ビームスプリッター式テレプロンプターのガラス用に文字を反転します。</li>
+      <li xml:lang="pcm">Follow your voice with local speech recognition, scroll with steady speed, or step with keyboard, foot pedal or your phone.</li>
+      <li xml:lang="pcm">Scripts and reading places dey save by themselves for your device.</li>
+      <li xml:lang="pcm">Cues inside brackets dey show but no read them aloud; headings become sections wey you fit jump to.</li>
+      <li xml:lang="pcm">Import speaker notes wey come from PowerPoint and LibreOffice Impress presentations.</li>
+      <li xml:lang="pcm">Mirror text for beam-splitter teleprompter glass.</li>
+      <li xml:lang="arz">تابع صوتك بالتعرّف المحلي على الكلام، أو مرّر بسرعة ثابتة، أو اتقدم بالكيبورد أو دواسة الرجل أو التليفون.</li>
+      <li xml:lang="arz">نصوص الكلام وأماكن القراية بتتحفظ لوحدها على جهازك.</li>
+      <li xml:lang="arz">الإشارات بين الأقواس بتظهر بس عمرها ما بتتقري بصوت عالي؛ العناوين بتبقى أجزاء تقدر تروح لها.</li>
+      <li xml:lang="arz">استورد ملاحظات المتكلم من عروض PowerPoint وLibreOffice Impress.</li>
+      <li xml:lang="arz">اعكس النص لإزاز تليبرومبتر تقسيم الشعاع.</li>
+      <li xml:lang="mr">स्थानिक वाणी ओळखीने आवाजाचा मागोवा घ्या, स्थिर गतीने सरकवा किंवा कीबोर्ड, पायाचे पेडल अथवा फोनने पुढे जा.</li>
+      <li xml:lang="mr">भाषणांचे मजकूर आणि वाचनाच्या जागा उपकरणावर आपोआप जतन होतात.</li>
+      <li xml:lang="mr">कंसातील सूचना दिसतात पण मोठ्याने वाचायच्या नसतात; शीर्षके थेट जाता येणारे विभाग बनतात.</li>
+      <li xml:lang="mr">PowerPoint आणि LibreOffice Impress सादरीकरणांतून वक्त्याच्या नोंदी आयात करा.</li>
+      <li xml:lang="mr">बीम-स्प्लिटर टेलिप्रॉम्प्टर काचेसाठी मजकुराची आरशातील प्रतिमा करा.</li>
+      <li xml:lang="vi">Theo giọng bằng nhận dạng cục bộ, cuộn đều hoặc tiến bằng bàn phím, bàn đạp chân hay điện thoại.</li>
+      <li xml:lang="vi">Bài nói và vị trí đọc tự động lưu trên thiết bị.</li>
+      <li xml:lang="vi">Chỉ dẫn trong ngoặc vuông hiển thị nhưng không bao giờ đọc thành tiếng; tiêu đề thành các phần có thể chuyển tới.</li>
+      <li xml:lang="vi">Nhập ghi chú diễn giả từ bản trình bày PowerPoint và LibreOffice Impress.</li>
+      <li xml:lang="vi">Lật gương văn bản cho kính chia chùm sáng của máy nhắc lời.</li>
+      <li xml:lang="te">స్థానిక మాటల గుర్తింపుతో స్వరాన్ని అనుసరించండి, స్థిరంగా స్క్రోల్ చేయండి లేదా కీబోర్డ్, పాద పెడల్, ఫోన్‌తో ముందుకు వెళ్లండి.</li>
+      <li xml:lang="te">ప్రసంగ పాఠాలు, చదివే స్థానాలు పరికరంలో స్వయంగా భద్రపడతాయి.</li>
+      <li xml:lang="te">బ్రాకెట్లలో సూచనలు కనిపిస్తాయి కానీ బిగ్గరగా చదవరు; శీర్షికలు నేరుగా వెళ్లగల విభాగాలవుతాయి.</li>
+      <li xml:lang="te">PowerPoint, LibreOffice Impress ప్రదర్శనల నుంచి వక్త గమనికలు దిగుమతి చేయండి.</li>
+      <li xml:lang="te">బీమ్-స్ప్లిటర్ టెలిప్రాంప్టర్ గాజు కోసం పాఠం అద్దం ప్రతిబింబం చేయండి.</li>
+      <li xml:lang="sw">Fuata sauti yako kwa utambuzi wa sauti wa ndani, sogeza kwa kasi thabiti, au tumia kibodi, pedali ya mguu au simu yako.</li>
+      <li xml:lang="sw">Hati na nafasi za kusoma huhifadhiwa kiotomatiki kwenye kifaa chako.</li>
+      <li xml:lang="sw">Vidokezo kwenye mabano huonyeshwa lakini havisomwi kwa sauti; vichwa hubadilika kuwa sehemu unazoweza kurukia.</li>
+      <li xml:lang="sw">Leta madokezo ya mzungumzaji kutoka mawasilisho ya PowerPoint na LibreOffice Impress.</li>
+      <li xml:lang="sw">Akisi maandishi kwa kioo cha teleprompta kinachopitisha sehemu ya mwanga.</li>
+      <li xml:lang="ha">Bi muryarka da gane magana a cikin na'ura, gungura da sauri tsayayye, ko matsar da madannai, fedal na ƙafa ko wayarka.</li>
+      <li xml:lang="ha">Ana adana rubutun jawabai da wuraren karatu ta atomatik a na'urarka.</li>
+      <li xml:lang="ha">Ana nuna umarnin da ke cikin baka amma ba a karanta su da murya; taken suna zama sashe da za ka iya tsallakawa zuwa gare su.</li>
+      <li xml:lang="ha">Shigo da bayanan mai magana daga gabatarwar PowerPoint da LibreOffice Impress.</li>
+      <li xml:lang="ha">Juya rubutu don gilashin mai nuna jawabi mai ratsa wani ɓangaren haske.</li>
     </ul>
     <p>Speech recognition runs on this device. Kalipso downloads the voice model for your language once, from its Settings.</p>
+    <p xml:lang="bg">Дръжте текста до камерата и четете естествено. Kalipso е един прозорец: когато е голям, пишете текста в него с получер, курсив, раздели и указания; когато е малък под камерата, показва следващите думи и затъмнява вече прочетените.</p>
+    <p xml:lang="bg">Разпознаването на реч работи на това устройство. Kalipso изтегля речевия модел за езика ви еднократно от настройките.</p>
+    <p xml:lang="hr">Držite tekst uz kameru i čitajte prirodno. Kalipso je jedan prozor: kad je velik, pišete tekst uz podebljanje, kurziv, odjeljke i upute; kad je malen ispod kamere, prikazuje sljedeće riječi i prigušuje već pročitane.</p>
+    <p xml:lang="hr">Prepoznavanje govora radi na ovom uređaju. Kalipso jednokratno preuzima govorni model za vaš jezik iz Postavki.</p>
+    <p xml:lang="cs">Mějte text vedle kamery a čtěte přirozeně. Kalipso je jediné okno: když je velké, píšete v něm text s tučným písmem, kurzívou, oddíly a pokyny; když je malé pod kamerou, zobrazuje další slova a tlumí ta, která jste už přečetli.</p>
+    <p xml:lang="cs">Rozpoznávání řeči běží na tomto zařízení. Kalipso jednorázově stáhne řečový model pro váš jazyk z Nastavení.</p>
+    <p xml:lang="da">Hold manuskriptet ved siden af kameraet, og læs naturligt. Kalipso er ét vindue: stort skriver du dit manuskript med fed, kursiv, afsnit og anvisninger; lille under kameraet viser det de næste ord og toner dem ned, du allerede har læst.</p>
+    <p xml:lang="da">Talegenkendelsen kører på denne enhed. Kalipso henter talemodellen til dit sprog én gang fra Indstillinger.</p>
+    <p xml:lang="nl">Houd je spreektekst naast je camera en lees natuurlijk. Kalipso is één venster: groot schrijf je er je spreektekst in met vet, cursief, secties en aanwijzingen; klein onder de camera toont het de volgende woorden en dimt het de al gelezen woorden.</p>
+    <p xml:lang="nl">Spraakherkenning werkt op dit apparaat. Kalipso downloadt het spraakmodel voor je taal eenmalig via de instellingen.</p>
+    <p xml:lang="et">Hoia kõnetekst kaamera kõrval ja loe loomulikult. Kalipso on üks aken: suures kirjutad kõneteksti paksu kirja, kaldkirja, jaotiste ja juhistega; väikesena kaamera all näitab see järgmisi sõnu ja tuhmistab juba loetud sõnad.</p>
+    <p xml:lang="et">Kõnetuvastus töötab selles seadmes. Kalipso laadib sinu keele kõnemudeli ühe korra sätete kaudu alla.</p>
+    <p xml:lang="fi">Pidä käsikirjoitus kameran vieressä ja lue luontevasti. Kalipso on yksi ikkuna: suuressa kirjoitat käsikirjoituksen lihavoinneilla, kursivoinneilla, osioilla ja ohjeilla; pienenä kameran alla se näyttää seuraavat sanat ja himmentää jo lukemasi.</p>
+    <p xml:lang="fi">Puheentunnistus toimii tällä laitteella. Kalipso lataa kielesi puhemallin kerran asetuksista.</p>
+    <p xml:lang="fr">Gardez votre texte près de la caméra et lisez naturellement. Kalipso est une seule fenêtre : agrandie, vous y écrivez avec du gras, de l’italique, des sections et des indications ; petite, sous la caméra, elle affiche les prochains mots et atténue ceux que vous avez déjà lus.</p>
+    <p xml:lang="fr">La reconnaissance vocale s’exécute sur cet appareil. Kalipso télécharge une seule fois le modèle vocal de votre langue depuis ses paramètres.</p>
+    <p xml:lang="de">Halten Sie Ihren Redetext neben der Kamera und lesen Sie natürlich. Kalipso ist ein einziges Fenster: Groß schreiben Sie darin Ihren Redetext mit Fett, Kursiv, Abschnitten und Anweisungen; klein unter der Kamera zeigt es die nächsten Wörter und dimmt die bereits gelesenen.</p>
+    <p xml:lang="de">Die Spracherkennung läuft auf diesem Gerät. Kalipso lädt das Sprachmodell für Ihre Sprache einmalig über die Einstellungen herunter.</p>
+    <p xml:lang="el">Κρατήστε το κείμενο δίπλα στην κάμερα και διαβάστε φυσικά. Το Kalipso είναι ένα παράθυρο: μεγάλο, γράφετε το κείμενό σας με έντονα, πλάγια, ενότητες και οδηγίες· μικρό, κάτω από την κάμερα, δείχνει τις επόμενες λέξεις και αχνίζει όσες έχετε ήδη διαβάσει.</p>
+    <p xml:lang="el">Η αναγνώριση ομιλίας εκτελείται σε αυτή τη συσκευή. Το Kalipso κατεβάζει μία φορά το μοντέλο ομιλίας για τη γλώσσα σας από τις Ρυθμίσεις του.</p>
+    <p xml:lang="hu">Tartsd a beszédszöveget a kamera mellett, és olvass természetesen. A Kalipso egyetlen ablak: nagy méretben félkövér és dőlt formázással, szakaszokkal és utasításokkal írhatsz benne; kicsiben, a kamera alatt a következő szavakat mutatja, és elhalványítja a már elolvasottakat.</p>
+    <p xml:lang="hu">A beszédfelismerés ezen az eszközön fut. A Kalipso egyszer tölti le a nyelved beszédmodelljét a Beállításokból.</p>
+    <p xml:lang="ga">Coinnigh do théacs in aice leis an gceamara agus léigh go nádúrtha. Is fuinneog amháin é Kalipso: mór, scríobhann tú do théacs le cló trom, iodálach, rannáin agus treoracha; beag faoin gceamara, taispeánann sé na chéad fhocail eile agus maolaíonn na focail a léigh tú cheana.</p>
+    <p xml:lang="ga">Ritheann aithint cainte ar an ngléas seo. Íoslódálann Kalipso samhail chainte do theanga uair amháin óna Shocruithe.</p>
+    <p xml:lang="it">Tieni il copione vicino alla videocamera e leggi in modo naturale. Kalipso è una sola finestra: grande, ci scrivi il copione con grassetto, corsivo, sezioni e indicazioni; piccola, sotto la videocamera, mostra le prossime parole e attenua quelle che hai già letto.</p>
+    <p xml:lang="it">Il riconoscimento vocale avviene su questo dispositivo. Kalipso scarica una sola volta il modello vocale per la tua lingua dalle Impostazioni.</p>
+    <p xml:lang="lv">Turiet tekstu pie kameras un lasiet dabiski. Kalipso ir viens logs: lielā logā rakstāt tekstu ar treknrakstu, slīprakstu, sadaļām un norādēm; mazā logā zem kameras redzat nākamos vārdus, bet jau izlasītie kļūst blāvāki.</p>
+    <p xml:lang="lv">Runas atpazīšana darbojas šajā ierīcē. Kalipso vienu reizi lejupielādē jūsu valodas runas modeli no Iestatījumiem.</p>
+    <p xml:lang="lt">Laikykite tekstą šalia kameros ir skaitykite natūraliai. Kalipso yra vienas langas: dideliame rašote tekstą su pusjuodžiu šriftu, kursyvu, skyriais ir nuorodomis; mažame po kamera rodomi kiti žodžiai, o jau perskaityti pritemdomi.</p>
+    <p xml:lang="lt">Kalbos atpažinimas veikia šiame įrenginyje. Kalipso vieną kartą atsisiunčia jūsų kalbos modelį iš Nuostatų.</p>
+    <p xml:lang="mt">Żomm it-test ħdejn il-kamera u aqra b'mod naturali. Kalipso huwa tieqa waħda: kbira, tikteb it-test bi grassa, korsiv, taqsimiet u indikazzjonijiet; żgħira taħt il-kamera, turi l-kliem li jmiss u tbaxxi dak li diġà qrajt.</p>
+    <p xml:lang="mt">Ir-rikonoxximent tad-diskors jaħdem fuq dan l-apparat. Kalipso jniżżel il-mudell tad-diskors għal-lingwa tiegħek darba waħda mis-Issettjar.</p>
+    <p xml:lang="pl">Trzymaj tekst obok kamery i czytaj naturalnie. Kalipso to jedno okno: w dużym piszesz tekst z pogrubieniem, kursywą, sekcjami i wskazówkami; małe, pod kamerą, pokazuje następne słowa i przyciemnia te już przeczytane.</p>
+    <p xml:lang="pl">Rozpoznawanie mowy działa na tym urządzeniu. Kalipso jednorazowo pobiera model mowy dla wybranego języka ze swoich Ustawień.</p>
+    <p xml:lang="pt">Mantenha o guião junto à câmara e leia naturalmente. O Kalipso é uma só janela: em grande, escreve o guião com negrito, itálico, secções e indicações; pequena, debaixo da câmara, mostra as próximas palavras e esbate as que já leu.</p>
+    <p xml:lang="pt">O reconhecimento de voz funciona neste dispositivo. O Kalipso transfere o modelo de voz do seu idioma uma única vez, a partir das Definições.</p>
+    <p xml:lang="ro">Ține textul lângă cameră și citește natural. Kalipso este o singură fereastră: mare, scrii textul cu aldin, cursiv, secțiuni și indicații; mică, sub cameră, arată următoarele cuvinte și le estompează pe cele deja citite.</p>
+    <p xml:lang="ro">Recunoașterea vocală rulează pe acest dispozitiv. Kalipso descarcă o singură dată modelul vocal pentru limba ta, din Setări.</p>
+    <p xml:lang="sk">Majte text vedľa kamery a čítajte prirodzene. Kalipso je jedno okno: vo veľkom píšete text s tučným písmom, kurzívou, oddielmi a pokynmi; malé pod kamerou zobrazuje ďalšie slová a tlmí tie, ktoré ste už prečítali.</p>
+    <p xml:lang="sk">Rozpoznávanie reči beží v tomto zariadení. Kalipso jednorazovo stiahne model reči pre váš jazyk z Nastavení.</p>
+    <p xml:lang="sl">Imejte besedilo ob kameri in berite naravno. Kalipso je eno okno: v velikem pišete besedilo s krepko in ležečo pisavo, razdelki ter napotki; majhno pod kamero prikazuje naslednje besede in zatemni že prebrane.</p>
+    <p xml:lang="sl">Prepoznavanje govora deluje v tej napravi. Kalipso enkrat prenese govorni model za vaš jezik iz Nastavitev.</p>
+    <p xml:lang="es">Mantén tu guion junto a la cámara y lee con naturalidad. Kalipso es una sola ventana: en grande, escribes tu guion con negrita, cursiva, secciones e indicaciones; pequeña, debajo de la cámara, muestra las próximas palabras y atenúa las que ya has leído.</p>
+    <p xml:lang="es">El reconocimiento de voz se ejecuta en este dispositivo. Kalipso descarga una sola vez el modelo de voz de tu idioma desde sus ajustes.</p>
+    <p xml:lang="sv">Ha manuset bredvid kameran och läs naturligt. Kalipso är ett enda fönster: stort skriver du ditt manus med fetstil, kursiv, avsnitt och anvisningar; litet under kameran visar det nästa ord och tonar ned dem du redan har läst.</p>
+    <p xml:lang="sv">Taligenkänningen körs på den här enheten. Kalipso hämtar talmodellen för ditt språk en gång via Inställningar.</p>
+    <p xml:lang="zh-Hans">把讲稿放在摄像头旁，自然地朗读。Kalipso 只有一个窗口：展开时，可使用粗体、斜体、章节和提示来撰写讲稿；缩小到摄像头下方时，显示接下来的词，并淡化已读过的词。</p>
+    <p xml:lang="zh-Hans">语音识别在此设备上运行。Kalipso 在“设置”中为您的语言下载一次语音模型。</p>
+    <p xml:lang="hi">अपना भाषण-पाठ कैमरे के पास रखें और सहजता से पढ़ें। Kalipso एक विंडो है: बड़े आकार में मोटे, तिरछे पाठ, खंडों और संकेतों के साथ भाषण-पाठ लिखें; कैमरे के नीचे छोटे आकार में यह अगले शब्द दिखाता है और पढ़े हुए शब्द हल्के करता है।</p>
+    <p xml:lang="hi">वाक् पहचान इसी डिवाइस पर चलती है। Kalipso अपनी सेटिंग से आपकी भाषा का वाक् मॉडल एक बार डाउनलोड करता है।</p>
+    <p xml:lang="ar">ضع نص الإلقاء قرب الكاميرا واقرأ بطبيعتك. Kalipso نافذة واحدة: عندما تكون كبيرة تكتب نصك فيها بالعريض والمائل والأقسام والإشارات؛ وعندما تكون صغيرة تحت الكاميرا تعرض الكلمات التالية وتخفت الكلمات التي قرأتها.</p>
+    <p xml:lang="ar">يعمل التعرف على الكلام على هذا الجهاز. ينزّل Kalipso نموذج الكلام للغتك مرة واحدة من إعداداته.</p>
+    <p xml:lang="bn">ক্যামেরার পাশে বক্তব্যের পাঠ রেখে স্বাভাবিকভাবে পড়ুন। Kalipso এক জানালা: বড় হলে গাঢ়, তির্যক, অংশ ও নির্দেশনাসহ লিখুন; ক্যামেরার নিচে ছোট হলে পরের শব্দ দেখায় ও পড়া শব্দ ম্লান করে।</p>
+    <p xml:lang="bn">কথা শনাক্তকরণ এই যন্ত্রেই চলে। Kalipso সেটিংস থেকে আপনার ভাষার কণ্ঠ মডেল একবার ডাউনলোড করে।</p>
+    <p xml:lang="id">Letakkan naskah di dekat kamera dan baca dengan alami. Kalipso adalah satu jendela: saat besar, tulis naskah dengan tebal, miring, bagian dan petunjuk; saat kecil di bawah kamera, tampilkan kata berikutnya dan redupkan kata yang sudah dibaca.</p>
+    <p xml:lang="id">Pengenalan ucapan berjalan di perangkat ini. Kalipso mengunduh model suara untuk bahasa Anda sekali dari Pengaturan.</p>
+    <p xml:lang="ur">تقریر کا متن کیمرے کے پاس رکھ کر فطری انداز میں پڑھیں۔ Kalipso ایک ونڈو ہے: بڑی ہو تو موٹے، ترچھے متن، حصوں اور اشاروں کے ساتھ لکھیں؛ کیمرے کے نیچے چھوٹی ہو تو اگلے الفاظ دکھاتی ہے اور پڑھے ہوئے الفاظ مدھم کرتی ہے۔</p>
+    <p xml:lang="ur">گفتار کی شناخت اسی آلے پر چلتی ہے۔ Kalipso اپنی ترتیبات سے آپ کی زبان کا آواز ماڈل ایک بار ڈاؤن لوڈ کرتا ہے۔</p>
+    <p xml:lang="ru">Держите текст рядом с камерой и читайте естественно. Kalipso — одно окно: в большом вы пишете текст с полужирным шрифтом, курсивом, разделами и ремарками; маленькое под камерой показывает следующие слова и приглушает уже прочитанные.</p>
+    <p xml:lang="ru">Распознавание речи работает на этом устройстве. Kalipso однократно загружает речевую модель для вашего языка из настроек.</p>
+    <p xml:lang="ja">原稿をカメラの近くに置き、自然に読んでください。Kalipsoは一つのウィンドウです。大きいときは太字、斜体、セクション、指示を使って原稿を書けます。カメラの下で小さくすると、次の言葉を表示し、読み終えた言葉を薄くします。</p>
+    <p xml:lang="ja">音声認識はこのデバイスで動作します。Kalipsoの設定から、お使いの言語の音声モデルを一度だけダウンロードします。</p>
+    <p xml:lang="pcm">Keep your script near camera and read naturally. Kalipso na one window: when e big, write script inside with bold, slant text, sections and cues; when e small under camera, e show next words and dim the ones wey you don read.</p>
+    <p xml:lang="pcm">Speech recognition dey run for this device. Kalipso dey download voice model for your language once from im Settings.</p>
+    <p xml:lang="arz">خلّي نص الكلام جنب الكاميرا واقرا بطبيعتك. Kalipso شباك واحد: وهو كبير بتكتب نصك بالعريض والمايل والأجزاء والإشارات؛ وهو صغير تحت الكاميرا بيعرض الكلام الجاي وبيبهّت اللي قريته.</p>
+    <p xml:lang="arz">التعرّف على الكلام بيشتغل على الجهاز ده. Kalipso بينزّل موديل الصوت للغتك مرة واحدة من الإعدادات.</p>
+    <p xml:lang="mr">भाषणाचा मजकूर कॅमेऱ्याजवळ ठेवून सहज वाचा. Kalipso एक खिडकी आहे: मोठी असताना ठळक, तिरपे, विभाग आणि सूचनांसह लिहा; कॅमेऱ्याखाली लहान असताना पुढचे शब्द दाखवते आणि वाचलेले शब्द फिकट करते.</p>
+    <p xml:lang="mr">वाणी ओळख याच उपकरणावर होते. Kalipso सेटिंग्जमधून तुमच्या भाषेचे वाणी मॉडेल एकदाच डाउनलोड करते.</p>
+    <p xml:lang="vi">Đặt bài nói cạnh camera và đọc tự nhiên. Kalipso là một cửa sổ: khi lớn, viết với chữ đậm, nghiêng, phần và chỉ dẫn; khi nhỏ dưới camera, hiện từ tiếp theo và làm mờ từ đã đọc.</p>
+    <p xml:lang="vi">Nhận dạng giọng nói chạy trên thiết bị này. Kalipso tải mô hình cho ngôn ngữ của bạn một lần từ Cài đặt.</p>
+    <p xml:lang="te">ప్రసంగ పాఠం కెమెరా పక్కన పెట్టి సహజంగా చదవండి. Kalipso ఒక్క కిటికీ: పెద్దగా ఉన్నప్పుడు బోల్డ్, వాలు, విభాగాలు, సూచనలతో రాయండి; కెమెరా కింద చిన్నగా ఉన్నప్పుడు తదుపరి పదాలు చూపించి చదివిన పదాలను మసకబారుస్తుంది.</p>
+    <p xml:lang="te">మాటల గుర్తింపు ఈ పరికరంలో నడుస్తుంది. Kalipso సెట్టింగ్‌ల నుంచి మీ భాష స్వర మోడల్‌ను ఒక్కసారే డౌన్‌లోడ్ చేస్తుంది.</p>
+    <p xml:lang="sw">Weka hati yako karibu na kamera na usome kawaida. Kalipso ni dirisha moja: likiwa kubwa unaandika hati yenye herufi nzito, herufi za mlalo, sehemu na vidokezo; likiwa dogo chini ya kamera huonyesha maneno yanayofuata na kufifisha yaliyosomwa.</p>
+    <p xml:lang="sw">Utambuzi wa sauti hufanya kazi kwenye kifaa hiki. Kalipso hupakua modeli ya sauti ya lugha yako mara moja kutoka Mipangilio yake.</p>
+    <p xml:lang="ha">Sanya rubutunka kusa da kyamara ka karanta yadda ka saba. Kalipso taga ɗaya ce: idan tana da girma, kana rubuta jawabi da rubutu mai kauri, karkatacce, sashe da umarni; idan tana ƙarama ƙarƙashin kyamara, tana nuna kalmomi na gaba kuma tana dusashe waɗanda ka riga ka karanta.</p>
+    <p xml:lang="ha">Gane magana yana aiki a wannan na'ura. Kalipso yana sauke samfurin magana na harshenka sau ɗaya daga Saitunansa.</p>
   </description>
   <launchable type="desktop-id">io.github.sansevieria_ou.kalipso.desktop</launchable>
-  <provides><binary>kalipso</binary></provides>
-  <categories><category>Office</category><category>Presentation</category></categories>
+  <provides>
+    <binary>kalipso</binary>
+  </provides>
+  <categories>
+    <category>Office</category>
+    <category>Presentation</category>
+  </categories>
   <url type="homepage">https://sansevieria-ou.github.io/kalipso/</url>
   <url type="bugtracker">https://github.com/SANSEVIERIA-OU/kalipso/issues</url>
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
-  <content_rating type="oars-1.1"/>
+  <content_rating type="oars-1.1" />
   <releases>
+    <release version="2.8" date="2026-11-04" type="development">
+      <description>
+        <p>Interfaces in 39 languages across the app, desktop integrations and website, with right-to-left layouts, bundled writing-system fonts and shared plural rules. Generated translations await native-speaker review.</p>
+      </description>
+    </release>
     <release version="2.7" date="2026-11-04" type="stable">
-      <description><p>Settings: the current page and the labels above fields look tidier.</p></description>
+      <description>
+        <p>Settings: the current page and the labels above fields look tidier.</p>
+      </description>
     </release>
     <release version="2.6" date="2026-11-03" type="stable">
-      <description><p>Present with Impress finds the presentation however its folder path is written.</p></description>
+      <description>
+        <p>Present with Impress finds the presentation however its folder path is written.</p>
+      </description>
     </release>
     <release version="2.5" date="2026-11-03" type="stable">
-      <description><p>On GNOME, Settings turns on Kalipso's top bar reader.</p></description>
+      <description>
+        <p>On GNOME, Settings turns on Kalipso's top bar reader.</p>
+      </description>
     </release>
     <release version="2.4" date="2026-11-03" type="stable">
-      <description><p>On Windows, upgrading with the installer no longer leaves Kalipso unable to start.</p></description>
+      <description>
+        <p>On Windows, upgrading with the installer no longer leaves Kalipso unable to start.</p>
+      </description>
     </release>
     <release version="2.3" date="2026-11-03" type="stable">
-      <description><p>On Debian and Ubuntu, check boxes and drop-down lists show their marks again outside KDE.</p></description>
+      <description>
+        <p>On Debian and Ubuntu, check boxes and drop-down lists show their marks again outside KDE.</p>
+      </description>
     </release>
     <release version="2.2" date="2026-11-03" type="stable">
-      <description><p>Voice commands are removed: words you say only ever follow the script.</p></description>
+      <description>
+        <p>Voice commands are removed: words you say only ever follow the script.</p>
+      </description>
     </release>
     <release version="2.1" date="2026-11-03" type="stable">
-      <description><p>The selected script in the scripts panel keeps the reader's colours on light desktops.</p></description>
+      <description>
+        <p>The selected script in the scripts panel keeps the reader's colours on light desktops.</p>
+      </description>
     </release>
     <release version="2.0" date="2026-11-03" type="stable">
       <description>

@@ -1,0 +1,465 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: sl\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=4; plural=(((((0 == 0)) && (((n % 100) >= 3 && (n % 100) <= 4))) || (!((0 == 0)))) ? 2 : (((0 == 0)) && (((n % 100) == 1))) ? 0 : (((0 == 0)) && (((n % 100) == 2))) ? 1 : 3);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 je prenesen. Znova ga izberite, ko ustavite poslušanje."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekunda"
+msgstr[1] "%1 sekundi"
+msgstr[2] "%1 sekunde"
+msgstr[3] "%1 sekund"
+
+msgid "%1 words/min"
+msgstr "%1 besed/min"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · prenos %2 MB"
+
+msgid "%d words/min"
+msgstr "%d besed/min"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s je prenesen. Znova ga izberite, ko ustavite poslušanje."
+
+msgid "%s · %d min"
+msgstr "%s · %d min"
+
+msgid "%s · download %d MB"
+msgstr "%s · prenos %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Malo priprave ustvari prostor za boljši pogovor. [nasmeh]\n\nVzemite si čas. Pustite prostor za premor. Naslednje besede bodo tu, ko boste pripravljeni."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Malo priprave ustvari prostor za boljši pogovor. [nasmeh] Vzemite si čas. Preberite prvi stavek na glas in opazujte, kako vam besede sledijo."
+
+msgid "A script written here"
+msgstr "Besedilo, napisano tukaj"
+
+msgid "Add your script to begin."
+msgstr "Za začetek dodajte besedilo."
+
+msgid "Appearance"
+msgstr "Videz"
+
+msgid "Automatic"
+msgstr "Samodejno"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Samodejni način zajema barve okoli bralnega okna. Slike se ne shranjujejo."
+
+msgid "Cancel"
+msgstr "Prekliči"
+
+msgid "Cancel download"
+msgstr "Prekliči prenos"
+
+msgid "Checking and unpacking %1…"
+msgstr "Preverjanje in razširjanje %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Preverjanje in razširjanje %s…"
+
+msgid "Checking local speech components"
+msgstr "Preverjanje lokalnih govornih komponent"
+
+msgid "Chinese"
+msgstr "Kitajščina"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Izberite eno od besedil Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Izberite jezik, ki ga govorite."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Izberite okno za bralnim oknom. Potrebno je dovoljenje namiznega okolja."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "V pogovornem oknu za deljenje namizja izberite okno za bralnim oknom"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Izbira jezika enkrat prenese njegov govorni model od izdajatelja in preveri digitalni prstni odtis. Prepoznavanje nato deluje na tem računalniku: nič od povedanega se ne pošilja."
+
+msgid "Configure Kalipso…"
+msgstr "Nastavi Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "%1 ni bilo mogoče prenesti. Preverite internetno povezavo in poskusite znova."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "%s ni bilo mogoče prenesti. Preverite internetno povezavo in poskusite znova."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "%1 ni bilo mogoče shraniti: ni dovolj prostora ali mapa s podatki ne dovoljuje pisanja."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "%s ni bilo mogoče shraniti: ni dovolj prostora ali mapa s podatki ne dovoljuje pisanja."
+
+msgid "Countdown before steady scrolling"
+msgstr "Odštevanje pred enakomernim drsenjem"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Odštevanje pred enakomernim drsenjem:"
+
+msgid "Dark"
+msgstr "Temno"
+
+msgid "Desktop theme"
+msgstr "Tema namizja"
+
+msgid "Done"
+msgstr "Končano"
+
+msgid "Done editing"
+msgstr "Končaj urejanje"
+
+msgid "Download and use"
+msgstr "Prenesi in uporabi"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Prenos preklican. Nič se ni spremenilo."
+
+msgid "Download progress"
+msgstr "Napredek prenosa"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Prenašanje %1: %2 od %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Prenašanje %s: %d od %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Uredi v Kalipso"
+
+msgid "Edit script"
+msgstr "Uredi besedilo"
+
+msgid "End of script · Microphone off"
+msgstr "Konec besedila · Mikrofon izklopljen"
+
+msgid "English"
+msgstr "Angleščina"
+
+msgid "Faster"
+msgstr "Hitreje"
+
+msgid "Follow a window's colors…"
+msgstr "Sledi barvam okna…"
+
+msgid "Follow my voice"
+msgstr "Sledi mojemu glasu"
+
+msgid "Font:"
+msgstr "Pisava:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Za naprave s polprepustnim zrcalom, ki prikazujejo besedilo z odsevom."
+
+msgid "French"
+msgstr "Francoščina"
+
+msgid "German"
+msgstr "Nemščina"
+
+msgid "Help:"
+msgstr "Pomoč:"
+
+msgid "Hide"
+msgstr "Skrij"
+
+msgid "Horizontal"
+msgstr "Vodoravno"
+
+msgid "Interface font"
+msgstr "Pisava vmesnika"
+
+msgid "Italian"
+msgstr "Italijanščina"
+
+msgid "Japanese"
+msgstr "Japonščina"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso prenaša govorne modele v Linuxu za računalnike x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Tipke: puščice ali Page Up/Down pomikajo besedilo, Space zažene ali začasno ustavi, + in − spreminjata stalno hitrost. Deljenje zaslona lahko vključuje ta gradnik; preverite, kaj vidijo drugi udeleženci."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Tipke: puščice ali Page Up/Down pomikajo besedilo, Space zažene ali začasno ustavi, + in − spreminjata stalno hitrost. Bralno okno se lahko pojavi pri deljenju zaslona; preverite, kaj vidijo drugi udeleženci."
+
+msgid "Language you speak"
+msgstr "Jezik, ki ga govorite"
+
+msgid "Language you speak:"
+msgstr "Jezik, ki ga govorite:"
+
+msgid "Larger"
+msgstr "Večje"
+
+msgid "Light"
+msgstr "Svetlo"
+
+msgid "Line spacing"
+msgstr "Razmik med vrsticami"
+
+msgid "Line spacing:"
+msgstr "Razmik med vrsticami:"
+
+msgid "Listening · On this device"
+msgstr "Poslušanje · V tej napravi"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Lokalno prepoznavanje govora ni nameščeno. Odprite Nastavitev lokalnega govora, da namestite pomožni program in jezikovni model."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Lokalno prepoznavanje govora ni na voljo. Odprite Nastavitev lokalnega govora, da namestite pomožni program in jezikovni model."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Lokalno prepoznavanje govora sledi temu, kar govorite."
+
+msgid "Local speech setup"
+msgstr "Nastavitev lokalnega govora"
+
+msgid "Local speech setup ↗"
+msgstr "Nastavitev lokalnega govora ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Lokalno prepoznavanje govora ni na voljo. %s Glejte docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Ročno"
+
+msgid "Manual · Microphone off"
+msgstr "Ročno · Mikrofon izklopljen"
+
+msgid "Microphone stopped"
+msgstr "Mikrofon ustavljen"
+
+msgid "Mirror"
+msgstr "Zrcali"
+
+msgid "Mirror:"
+msgstr "Zrcaljenje:"
+
+msgid "More"
+msgstr "Več"
+
+msgid "Next section"
+msgstr "Naslednji razdelek"
+
+msgid "Next words"
+msgstr "Naslednje besede"
+
+msgid "Normal"
+msgstr "Običajen"
+
+msgid "Off"
+msgstr "Izklopljeno"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Zunaj besedila · Kalipso vas dohiti, ko se vrnete k besedilu"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Odprite Uredi besedilo za branje ali spreminjanje celotnega besedila."
+
+msgid "Pause"
+msgstr "Začasno ustavi"
+
+msgid "Paused · Microphone off"
+msgstr "Začasno ustavljeno · Mikrofon izklopljen"
+
+msgid "Previous"
+msgstr "Prejšnje"
+
+msgid "Previous section"
+msgstr "Prejšnji razdelek"
+
+msgid "Reader colors"
+msgstr "Barve bralnega okna"
+
+msgid "Reader colors:"
+msgstr "Barve bralnega okna:"
+
+msgid "Reader font"
+msgstr "Pisava za branje"
+
+msgid "Reading"
+msgstr "Branje"
+
+msgid "Reading excerpt"
+msgstr "Bralni odlomek"
+
+msgid "Reading mode"
+msgstr "Način branja"
+
+msgid "Reading mode:"
+msgstr "Način branja:"
+
+msgid "Reading mode: %1"
+msgstr "Način branja: %1"
+
+msgid "Reading progress"
+msgstr "Napredek branja"
+
+msgid "Reading size"
+msgstr "Velikost za branje"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Pripravljeno na poslušanje v jeziku %1 z %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Pripravljeno na poslušanje v jeziku %1. Izberite Sledi mojemu glasu in začnite poslušanje."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Pripravljeno na poslušanje v jeziku %s z %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Pripravljeno na poslušanje v jeziku %s. Izberite Sledi mojemu glasu in začnite poslušanje."
+
+msgid "Relaxed"
+msgstr "Zračen"
+
+msgid "Reset"
+msgstr "Ponastavi"
+
+msgid "SCRIPT"
+msgstr "BESEDILO"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Shranjuje se samodejno. [Napotki v oklepajih] so prikazani, vendar se ne berejo na glas. Vrstice, ki se začnejo z #, so razdelki."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Barve zaslona niso na voljo. Neprozorno bralno okno ohrani kontrast."
+
+msgid "Script"
+msgstr "Besedilo"
+
+msgid "Script: %1"
+msgstr "Besedilo: %1"
+
+msgid "Scripts"
+msgstr "Besedila"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Besedila se pišejo in spreminjajo v aplikaciji Kalipso; tukaj se berejo."
+
+msgid "Scrolling · Microphone off"
+msgstr "Drsenje · Mikrofon izklopljen"
+
+msgid "Section ›"
+msgstr "Razdelek ›"
+
+msgid "Sections"
+msgstr "Razdelki"
+
+msgid "Serif"
+msgstr "Serifna"
+
+msgid "Settings"
+msgstr "Nastavitve"
+
+msgid "Slower"
+msgstr "Počasneje"
+
+msgid "Smaller"
+msgstr "Manjše"
+
+msgid "Spanish"
+msgstr "Španščina"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Govor ni na voljo · Nastavi Kalipso → Glas"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Govor ni na voljo · Odpri Nastavitve"
+
+msgid "Start"
+msgstr "Začni"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Začetek čez %1 sekundo…"
+msgstr[1] "Začetek čez %1 sekundi…"
+msgstr[2] "Začetek čez %1 sekunde…"
+msgstr[3] "Začetek čez %1 sekund…"
+
+msgid "Starting local speech…"
+msgstr "Zaganjanje lokalnega prepoznavanja govora…"
+
+msgid "Steady speed"
+msgstr "Stalna hitrost"
+
+msgid "Steady speed:"
+msgstr "Stalna hitrost:"
+
+msgid "Stop following the window"
+msgstr "Ustavi sledenje oknu"
+
+msgid "Text size:"
+msgstr "Velikost besedila:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Preneseni %1 se ni ujemal s svojim digitalnim prstnim odtisom, zato je bil izbrisan. Poskusite pozneje."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Modela %1 ni bilo mogoče razširiti. Poskusite pozneje."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Preneseni %s se ni ujemal s svojim digitalnim prstnim odtisom, zato je bil izbrisan. Poskusite pozneje."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Modela %s ni bilo mogoče razširiti. Poskusite pozneje."
+
+msgid "The microphone turns on when you start"
+msgstr "Mikrofon se vklopi, ko začnete"
+
+msgid "The words advance at the speed below."
+msgstr "Besede se pomikajo s spodaj navedeno hitrostjo."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Ta pomožni program Kalipso ne more prenašati jezikov. Namestite ali posodobite ga, nato se odjavite in znova prijavite."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Za prevzem barv okna za bralnim oknom izberite Sledi barvam okna… v njegovem meniju ⋯."
+
+msgid "Try again"
+msgstr "Poskusi znova"
+
+msgid "Use this language"
+msgstr "Uporabi ta jezik"
+
+msgid "Vertical"
+msgstr "Navpično"
+
+msgid "Voice"
+msgstr "Glas"
+
+msgid "Wide"
+msgstr "Širok"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Barve okna niso na voljo. Namestite ali posodobite pomožni program Kalipso in portal za deljenje namizja."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Deljenje okna ustavljeno · Za nadaljevanje izberite okno v ozadju"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Besedilo pomikate s tipkami, pedalom ali predstavitvenim daljincem."
+
+msgid "your language"
+msgstr "vaš jezik"
+
+msgid "‹ Section"
+msgstr "‹ Razdelek"

@@ -11,6 +11,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QKeyEvent>
 #include <QLinearGradient>
+#include <QLocale>
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
@@ -41,7 +42,8 @@ bool wayland() { return QGuiApplication::platformName().startsWith(QLatin1String
 
 // Draws its text on one line, cut with "…" when it does not fit; the whole text is in the
 // tooltip. A label that wrapped would make its bar taller and push the controls about.
-template <class Label> class OneLine : public Label {
+template <class Label>
+class OneLine : public Label {
 public:
     explicit OneLine(const QString &text = {}) : Label(text) {
         Label::setWordWrap(false);
@@ -267,8 +269,7 @@ void ReaderView::scrollToCharacter(int character, bool animate) {
     // Through the glass, a mirrored line appears where the unmirrored one would. In a low window the
     // reading line stays below the top bar, which covers the text until it fades.
     const int reading = std::max(int(viewport()->height() * readingLine_), topInset_ + line.height() / 2 + 2);
-    const int target =
-        std::clamp(center - reading, verticalScrollBar()->minimum(), verticalScrollBar()->maximum());
+    const int target = std::clamp(center - reading, verticalScrollBar()->minimum(), verticalScrollBar()->maximum());
     scroll_->stop();
     if (!animate || Motion::reduced() || std::abs(target - verticalScrollBar()->value()) > viewport()->height()) {
         verticalScrollBar()->setValue(target);
@@ -433,7 +434,6 @@ void ReaderView::mouseReleaseEvent(QMouseEvent *event) {
     if (isReadOnly() && event->button() == Qt::LeftButton && !textCursor().hasSelection())
         emit characterClicked(cursorForPosition(unmirrored(event->position().toPoint())).position());
 }
-
 
 namespace {
 // A quiet button whose label goes away when the bar is short of room; the icon and the
@@ -607,9 +607,10 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     controls->addStretch(0); // Keeps the controls together on the left when the status is hidden.
     steps_ = {previous, next};
     controlBar->setParent(this);
-    icons_ = {{previous, "previous"},       {next, "next"},           {sections_, "sections"},
-              {settings_, "settings"},      {drawerButton_, "sidebar"}, {smaller_, "text-smaller"},
-              {larger_, "text-larger"},     {place_, "camera-top"}};
+    icons_ = {{previous, "previous"},     {next, "next"},
+              {sections_, "sections"},    {settings_, "settings"},
+              {drawerButton_, "sidebar"}, {smaller_, "text-smaller"},
+              {larger_, "text-larger"},   {place_, "camera-top"}};
     setUnderCamera(false);
 
     // The menus are the desktop's own, in the reader's colours: without a parent they keep the
@@ -855,7 +856,7 @@ void ReaderPage::updateLabels() {
             if (auto *widget = bar->layout()->itemAt(i)->widget();
                 widget && widget != status_ && (!widget->isHidden() || extra.contains(widget))) {
                 width += widget == static_cast<QWidget *>(handle_) ? handle_->minimumSizeHint().width()
-                                                                    : widget->sizeHint().width();
+                                                                   : widget->sizeHint().width();
                 ++visible;
             }
         return width + std::max(0, visible - 1) * bar->layout()->spacing();
@@ -874,22 +875,27 @@ void ReaderPage::updateLabels() {
     // Bottom bar, measured with the speed shown and the longest mode name.
     QString longest;
     for (auto *action : modes_->menu()->actions())
-        if (action->text().size() > longest.size())
+        if (modes_->fontMetrics().horizontalAdvance(action->text()) > modes_->fontMetrics().horizontalAdvance(longest))
             longest = action->text();
+    QString longestShort;
+    for (const auto &label : {tr("Manual"), tr("Steady"), tr("Voice")})
+        if (modes_->fontMetrics().horizontalAdvance(label) > modes_->fontMetrics().horizontalAdvance(longestShort))
+            longestShort = label;
     QString widest;
     for (const auto &label : {tr("Start"), tr("Pause"), tr("Choose language")})
         if (fontMetrics().horizontalAdvance(label) > fontMetrics().horizontalAdvance(widest))
             widest = label;
-    const auto apply = [this, &longest, &widest](int level, bool measuring) {
+    const auto apply = [this, &longest, &longestShort, &widest](int level, bool measuring) {
         compact_ = level;
         const auto mode = modes_->property("label").toString();
-        modes_->setText(level == 0 ? (measuring ? longest : mode)
-                        : measuring || readingMode_ == ReadingMode::Steady ? tr("Steady")
-                        : readingMode_ == ReadingMode::Voice                ? tr("Voice")
-                                                                            : mode);
+        modes_->setText(level == 0                            ? (measuring ? longest : mode)
+                        : measuring                           ? longestShort
+                        : readingMode_ == ReadingMode::Steady ? tr("Steady")
+                        : readingMode_ == ReadingMode::Voice  ? tr("Voice")
+                                                              : mode);
         primary_->setText(level >= 2 ? QString() : measuring ? widest : primary_->property("label").toString());
-        speed_->setText(level >= 2 ? QString::number(speed_->property("wpm").toInt())
-                                   : tr("%1 words/min").arg(speed_->property("wpm").toInt()));
+        const auto number = QLocale().toString(speed_->property("wpm").toInt());
+        speed_->setText(level >= 2 ? number : tr("%1 words/min").arg(number));
         for (auto *step : steps_)
             step->setVisible(level < 3);
         speedBox_->setVisible(readingMode_ == ReadingMode::Steady && level < 4); // + and − keys still work.
@@ -924,9 +930,7 @@ void ReaderPage::updatePrimary() {
     primary_->updateGeometry();
 }
 
-void ReaderPage::setTitle(const QString &title) {
-    handle_->title->setLine(title.isEmpty() ? tr("Kalipso") : title);
-}
+void ReaderPage::setTitle(const QString &title) { handle_->title->setLine(title.isEmpty() ? tr("Kalipso") : title); }
 
 void ReaderPage::setProgress(int read, int total) {
     progress_->setRange(0, std::max(1, total));
@@ -935,8 +939,9 @@ void ReaderPage::setProgress(int read, int total) {
 
 void ReaderPage::setSpeed(int wordsPerMinute) {
     speed_->setProperty("wpm", wordsPerMinute);
-    speed_->setText(compact_ >= 2 ? QString::number(wordsPerMinute) : tr("%1 words/min").arg(wordsPerMinute));
-    speed_->setAccessibleName(tr("%1 words/min").arg(wordsPerMinute));
+    speed_->setText(compact_ >= 2 ? QLocale().toString(wordsPerMinute)
+                                  : tr("%1 words/min").arg(QLocale().toString(wordsPerMinute)));
+    speed_->setAccessibleName(tr("%1 words/min").arg(QLocale().toString(wordsPerMinute)));
     speed_->setToolTip(speed_->accessibleName());
     updateLabels();
 }
@@ -1080,7 +1085,8 @@ void ReaderPage::setDrawer(QWidget *drawer) {
     connect(drawerSlide_, &QPropertyAnimation::valueChanged, this, [this] {
         // The scrim follows the panel: fully there when it is all in.
         auto *scrim = static_cast<Scrim *>(scrim_);
-        const double shown = 1.0 + double(drawer_->x()) / std::max(1, drawer_->width());
+        const double shown = isRightToLeft() ? double(width() - drawer_->x()) / std::max(1, drawer_->width())
+                                             : 1.0 + double(drawer_->x()) / std::max(1, drawer_->width());
         QColor color(colors_.background);
         color.setAlphaF(float(0.6 * std::clamp(shown, 0.0, 1.0)));
         scrim->color = color;
@@ -1093,6 +1099,7 @@ void ReaderPage::setDrawer(QWidget *drawer) {
             placeDrawer(); // The text takes back the panel's room.
             emit drawerShown(false);
         }
+        placeDrawer(); // Resizing during the slide may have moved the RTL leading edge.
     });
     auto *toggle = new QAction(this);
     toggle->setShortcut(Qt::Key_F9); // Like the panels of the desktop's own apps.
@@ -1111,7 +1118,7 @@ int ReaderPage::drawerWidth() const {
     return std::max(std::min(200, width()), std::min(wanted, limit));
 }
 
-// The panel comes in from the left and goes back the same way, a little faster. In a large window it
+// The panel comes in from the leading edge and goes back the same way. In a large window it
 // sits beside the text, which makes room for it; in a small one it lies over the text until a script
 // is chosen, the text is touched or Esc is pressed.
 void ReaderPage::setDrawerOpen(bool open) {
@@ -1127,7 +1134,8 @@ void ReaderPage::setDrawerOpen(bool open) {
         text->setFocus();
     placeDrawer();
     const int width = drawerWidth();
-    const QPoint shown(0, drawer_->y()), hidden(-width, drawer_->y());
+    const QPoint shown(isRightToLeft() ? this->width() - width : 0, drawer_->y());
+    const QPoint hidden(isRightToLeft() ? this->width() : -width, drawer_->y());
     drawerSlide_->stop();
     auto *scrim = static_cast<Scrim *>(scrim_);
     if (open) {
@@ -1167,9 +1175,10 @@ void ReaderPage::placeDrawer() {
     const bool docked = drawer_ && roomy_ && drawerOpen_;
     const int width = drawerWidth();
     const auto margins = pageLayout_->contentsMargins();
-    const int left = space4 + (docked ? width : 0);
-    if (margins.left() != left)
-        pageLayout_->setContentsMargins(left, margins.top(), margins.right(), margins.bottom());
+    const int left = (isRightToLeft() ? space5 : space4) + (docked && !isRightToLeft() ? width : 0);
+    const int right = (isRightToLeft() ? space4 : space5) + (docked && isRightToLeft() ? width : 0);
+    if (margins.left() != left || margins.right() != right)
+        pageLayout_->setContentsMargins(left, margins.top(), right, margins.bottom());
     if (!drawer_ || bars_.size() < 2)
         return;
     const int top = progress_->height() + bars_.first()->sizeHint().height();
@@ -1178,8 +1187,10 @@ void ReaderPage::placeDrawer() {
     // Closed, the panel takes no room at all: assistive technology does not report its rows as on
     // the screen (Qt decides that from their rectangles, not from the panel being hidden).
     const bool closed = !drawer_->isVisible() && !drawerOpen_;
-    drawer_->setGeometry(sliding || !drawer_->isVisible() ? drawer_->x() : 0, top, closed ? 0 : width,
-                         std::max(0, bottom - top));
+    drawer_->setGeometry(sliding || !drawer_->isVisible() ? drawer_->x()
+                         : isRightToLeft()                ? this->width() - width
+                                                          : 0,
+                         top, closed ? 0 : width, std::max(0, bottom - top));
     scrim_->setGeometry(0, top, this->width(), std::max(0, bottom - top));
     if (roomy_ && scrim_->isVisible())
         scrim_->hide(); // Beside the text, nothing is behind the scripts.
@@ -1194,6 +1205,8 @@ void ReaderPage::placeDrawer() {
             if (header->layout()->minimumSize().width() + fontMetrics().averageCharWidth() * 6 <= width)
                 break;
         }
+        header->setMinimumHeight(
+            std::max(header->layout()->minimumSize().height(), header->layout()->heightForWidth(header->width())));
     }
 }
 

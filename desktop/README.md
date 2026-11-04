@@ -61,4 +61,4 @@ gnome-extensions uninstall kalipso@sansevieria-ou.github.io
 - **Mirror** flips the text for beam-splitter teleprompter glass.
 - Keys (for foot pedals and clickers): arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed, Home returns to the start.
 
-The interface follows your desktop language (English or Italian). Hiding the reader stops the microphone. The reader can appear in screen sharing; check what other participants see.
+The interface follows your desktop language, with catalogs for 39 languages. Generated translations await native-speaker review; see the [translation guidelines](../docs/translations.md). Hiding the reader stops the microphone. The reader can appear in screen sharing; check what other participants see.

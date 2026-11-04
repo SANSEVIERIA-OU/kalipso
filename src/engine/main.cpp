@@ -2,8 +2,9 @@
 // Optional session D-Bus companion: local speech recognition, speech model downloads and
 // window-color sampling for the Plasma widget and GNOME extension.
 #include "config.h"
-#include "scripts.h"
+#include "interface_language.h"
 #include "screen_colors/portal.h"
+#include "scripts.h"
 #include "settings_migration.h"
 #include "speech.h"
 #include "speech_download.h"
@@ -18,8 +19,8 @@
 #include <QElapsedTimer>
 #include <QJsonDocument>
 #include <QSocketNotifier>
-#include <QTranslator>
 #include <QTimer>
+#include <QTranslator>
 #include <cerrno>
 #include <csignal>
 #include <cstdio>
@@ -505,17 +506,16 @@ bool listening() {
 int listModels() {
     for (const auto &value : languageChoices()) {
         const auto item = value.toObject();
-        const auto state = item.value("ready").toBool()
-                               ? QCoreApplication::translate("main", "installed")
-                               : QCoreApplication::translate("main", "%1 MB to download")
-                                     .arg((item.value("bytes").toInteger() + 524288) >> 20);
+        const auto state = item.value("ready").toBool() ? QCoreApplication::translate("main", "installed")
+                                                        : QCoreApplication::translate("main", "%1 MB to download")
+                                                              .arg((item.value("bytes").toInteger() + 524288) >> 20);
         std::printf("%s  %s  %s · %s\n", qPrintable(item.value("code").toString()),
                     qPrintable(item.value("name").toString()), qPrintable(item.value("backend").toString()),
                     qPrintable(state));
     }
     if (!SpeechCatalog::downloadsSupported())
         std::printf("%s\n", qPrintable(QCoreApplication::translate(
-                                 "main", "Kalipso downloads speech models on Linux for x86_64 computers only.")));
+                                "main", "Kalipso downloads speech models on Linux for x86_64 computers only.")));
     return 0;
 }
 
@@ -552,9 +552,9 @@ int download(const QCommandLineParser &args, QCoreApplication &app) {
             if (now != tenth) {
                 tenth = now;
                 std::printf("%s\n", qPrintable(QCoreApplication::translate("main", "Downloading %1: %2% of %3 MB")
-                                                     .arg(SpeechCatalog::languageName(code))
-                                                     .arg(now * 10)
-                                                     .arg((total + 524288) >> 20)));
+                                                   .arg(SpeechCatalog::languageName(code))
+                                                   .arg(now * 10)
+                                                   .arg((total + 524288) >> 20)));
                 std::fflush(stdout);
             }
         });
@@ -637,8 +637,10 @@ int main(int argc, char **argv) {
     QCoreApplication::setApplicationName("engine");
     importLegacySettings("Teleprompter", "engine");
     // Messages in the session's language: frontends show the companion's words as they are.
-    QTranslator translator;
-    if (translator.load(QLocale(), QStringLiteral("kalipso-engine"), QStringLiteral("_"), QStringLiteral(":/i18n")))
+    const auto language = InterfaceLanguages::select();
+    QLocale::setDefault(InterfaceLanguages::formattingLocale(language));
+    InterfaceLanguages::Translator translator;
+    if (translator.loadLanguage(language, QStringLiteral("kalipso-engine")))
         app.installTranslator(&translator);
 
     QCommandLineParser args;

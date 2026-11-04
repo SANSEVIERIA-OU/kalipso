@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Every screen in every combination: the one window large (writing) and small (the teleprompter),
-// the scripts open and closed, each reading mode idle and running, light and dark, interface text at 100% and 200%, wide and narrow, and every Settings
-// page. Each state is checked for what breaks a layout (controls overlapping or outside their bar,
-// labels cut, bars changing height or moving with the mode, the current line under a bar, anything
+// the scripts open and closed, each reading mode idle and running, light and dark, interface text at 100% and 200%,
+// wide and narrow, and every Settings page. Each state is checked for what breaks a layout (controls overlapping or
+// outside their bar, labels cut, bars changing height or moving with the mode, the current line under a bar, anything
 // wider than the window) and, with a directory argument, photographed for a person to look at.
 //
 //   layout_matrix [directory]     exit status: the number of problems found
 //
 // Run it under the desktop being checked (Breeze light, Breeze dark, the drawn style).
 #include "accessibility.h"
+#include "interface_language.h"
 #include "reader.h"
 #include "window.h"
 #include <QAbstractButton>
@@ -25,9 +26,10 @@
 #include <QStackedWidget>
 #include <QStandardPaths>
 #include <QTemporaryDir>
+#include <QTest>
 #include <QTextBlock>
 #include <QTextEdit>
-#include <QTest>
+#include <QTextLayout>
 #include <QToolButton>
 #include <QTranslator>
 #include <QWindow>
@@ -76,8 +78,8 @@ void checkBar(const QString &state, QWidget *bar) {
                                .arg(QDebug::toString(widget->geometry()))
                                .arg(bar->width())
                                .arg(bar->height()));
-        if (auto *button = qobject_cast<QAbstractButton *>(widget); button && !button->text().isEmpty() &&
-                                                                    button->sizeHint().width() > button->width() + 1)
+        if (auto *button = qobject_cast<QAbstractButton *>(widget);
+            button && !button->text().isEmpty() && button->sizeHint().width() > button->width() + 1)
             problem(state, QString("%1 label cut (needs %2, has %3)")
                                .arg(describe(button))
                                .arg(button->sizeHint().width())
@@ -105,19 +107,36 @@ void checkWindow(const QString &state, QWidget *root) {
                                .arg(describe(widget))
                                .arg(area.right())
                                .arg(root->width()));
-        if (auto *scroll = qobject_cast<QScrollArea *>(widget); scroll && scroll->horizontalScrollBar()->maximum() > 0 &&
-                                                              scroll->horizontalScrollBarPolicy() != Qt::ScrollBarAlwaysOff)
+        if (auto *scroll = qobject_cast<QScrollArea *>(widget);
+            scroll && scroll->horizontalScrollBar()->maximum() > 0 &&
+            scroll->horizontalScrollBarPolicy() != Qt::ScrollBarAlwaysOff)
             problem(state, describe(widget) + " scrolls sideways");
-        if (auto *label = qobject_cast<QLabel *>(widget);
-            label && label->wordWrap() && !label->text().isEmpty() && label->heightForWidth(label->width()) > label->height() + 1)
+        if (auto *label = qobject_cast<QLabel *>(widget); label && label->wordWrap() && !label->text().isEmpty() &&
+                                                          label->heightForWidth(label->width()) > label->height() + 1)
             problem(state, describe(label) + " cut at the bottom");
         // A field's label ("Start or" / "pause") that breaks over lines although its row has room for
         // it on one: it reads as two things.
         if (auto *label = qobject_cast<QLabel *>(widget); label && label->buddy() && !label->text().isEmpty()) {
             const int oneLine = label->fontMetrics().horizontalAdvance(label->text());
-            const int room = label->parentWidget()->contentsRect().right() - label->geometry().left();
-            const int textHeight = label->wordWrap() ? label->heightForWidth(label->width()) : label->fontMetrics().height();
-            if (textHeight > label->fontMetrics().lineSpacing() * 3 / 2 && oneLine + 4 <= room)
+            const int room = label->isRightToLeft()
+                                 ? label->geometry().right() - label->parentWidget()->contentsRect().left()
+                                 : label->parentWidget()->contentsRect().right() - label->geometry().left();
+            // Shaping can select a taller fallback font (Arabic/Indic): height alone is not a line count.
+            QTextLayout shaped(label->text(), label->font());
+            QTextOption option;
+            option.setWrapMode(QTextOption::WordWrap);
+            shaped.setTextOption(option);
+            shaped.beginLayout();
+            int lines = 0;
+            while (true) {
+                auto line = shaped.createLine();
+                if (!line.isValid())
+                    break;
+                line.setLineWidth(label->wordWrap() ? label->width() : 100000);
+                ++lines;
+            }
+            shaped.endLayout();
+            if (lines > 1 && oneLine + 4 <= room)
                 problem(state, QString("%1 breaks over lines (needs %2 on one, has %3 in its row, is %4 wide)")
                                    .arg(describe(label))
                                    .arg(oneLine)
@@ -158,7 +177,8 @@ void checkScrollBars(const QString &state, QWidget *root) {
     for (auto *area : root->findChildren<QAbstractScrollArea *>()) {
         if (!area->isVisible() || !area->verticalScrollBar()->isVisible() || area->verticalScrollBar()->maximum() == 0)
             continue;
-        for (auto *parent = area->parentWidget(); parent && parent != root->parentWidget(); parent = parent->parentWidget())
+        for (auto *parent = area->parentWidget(); parent && parent != root->parentWidget();
+             parent = parent->parentWidget())
             if (auto *outer = qobject_cast<QAbstractScrollArea *>(parent);
                 outer && outer->verticalScrollBar()->isVisible() && outer->verticalScrollBar()->maximum() > 0)
                 problem(state, QString("two scroll bars: %1 inside %2").arg(describe(area), describe(outer)));
@@ -173,8 +193,8 @@ const char *modeName(ReadingMode mode) {
 // and small (the teleprompter), in each mode, idle and reading.
 void readerStates(MainWindow &window, const QString &prefix) {
     auto *reader = window.prompter();
-    for (const QSize size : {QSize(1280, 800), QSize(1100, 760), QSize(960, 600), QSize(624, 384), QSize(480, 300),
-                             QSize(320, 240)}) {
+    for (const QSize size :
+         {QSize(1280, 800), QSize(1100, 760), QSize(960, 600), QSize(624, 384), QSize(480, 300), QSize(320, 240)}) {
         window.resize(size);
         settle();
         QHash<QString, QList<QRect>> topBar;
@@ -224,14 +244,16 @@ void readerStates(MainWindow &window, const QString &prefix) {
                     if (!heights.contains(name))
                         heights[name] = bar->height();
                     else if (heights[name] != bar->height())
-                        problem(state, QString("%1 changed height: %2 → %3").arg(name).arg(heights[name]).arg(bar->height()));
+                        problem(state,
+                                QString("%1 changed height: %2 → %3").arg(name).arg(heights[name]).arg(bar->height()));
                 }
-                const QRect view = reader->text->viewport()->geometry().translated(
-                    reader->text->mapTo(reader, QPoint()));
+                const QRect view =
+                    reader->text->viewport()->geometry().translated(reader->text->mapTo(reader, QPoint()));
                 if (reader->editing()) {
                     // Writing: the text between the bars, never under them, so the caret is never hidden.
                     if (view.top() < top->geometry().bottom() || view.bottom() > bottom->geometry().top())
-                        problem(state, QString("the text (%1) goes under a bar while writing").arg(QDebug::toString(view)));
+                        problem(state,
+                                QString("the text (%1) goes under a bar while writing").arg(QDebug::toString(view)));
                 } else {
                     // Reading: the current line between the bars.
                     QTextCursor anchor(reader->text->document());
@@ -244,7 +266,8 @@ void readerStates(MainWindow &window, const QString &prefix) {
                 // The scripts beside the text in a large window: the text starts after them.
                 if (auto *drawer = reader->findChild<QWidget *>("scriptDrawer"); drawer && drawer->isVisible()) {
                     checkBar(state + " scripts", drawer->findChild<QWidget *>("scriptDrawerHeader"));
-                    if (roomy && view.left() < drawer->geometry().right())
+                    if (roomy && (reader->isRightToLeft() ? view.right() > drawer->geometry().left()
+                                                          : view.left() < drawer->geometry().right()))
                         problem(state, "the text starts under the scripts");
                 }
                 checkWindow(state, &window);
@@ -260,7 +283,8 @@ void readerStates(MainWindow &window, const QString &prefix) {
             QTest::qWait(300); // The panel slides in.
             const auto state = QString("%1 small %2x%3 scripts").arg(prefix).arg(size.width()).arg(size.height());
             auto *drawer = reader->findChild<QWidget *>("scriptDrawer");
-            if (!drawer->isVisible() || drawer->x() != 0)
+            if (!drawer->isVisible() ||
+                drawer->x() != (reader->isRightToLeft() ? reader->width() - drawer->width() : 0))
                 problem(state, "the scripts did not open");
             checkBar(state, drawer->findChild<QWidget *>("scriptDrawerHeader"));
             checkWindow(state, &window);
@@ -273,8 +297,9 @@ void readerStates(MainWindow &window, const QString &prefix) {
     // A long status and an error must not change the bars either.
     window.resize(624, 384);
     emit reader->modeRequested(ReadingMode::Voice);
-    reader->setStatus(QStringLiteral("No sound from Blue Yeti. Check that it is not muted, or choose another microphone in "
-                                     "Settings"));
+    reader->setStatus(
+        QStringLiteral("No sound from Blue Yeti. Check that it is not muted, or choose another microphone in "
+                       "Settings"));
     settle();
     checkBar(prefix + " reader long status", reader->findChild<QWidget *>("readerControls"));
     shoot(&window, prefix + "-reader-long-status");
@@ -296,7 +321,8 @@ void settingsStates(MainWindow &window, const QString &prefix) {
                 emit picker->activated(page);
             }
             settle();
-            const auto state = QString("%1 settings %2x%3 page %4").arg(prefix).arg(size.width()).arg(size.height()).arg(page);
+            const auto state =
+                QString("%1 settings %2x%3 page %4").arg(prefix).arg(size.width()).arg(size.height()).arg(page);
             checkWindow(state, dialog);
             checkScrollBars(state, dialog);
             // The page names in the list are never cut ("Appeara…").
@@ -324,9 +350,16 @@ int main(int argc, char **argv) {
     app.setOrganizationName("sansevieria-ou");
     app.setDesktopFileName("io.github.sansevieria_ou.kalipso");
     QStandardPaths::setTestModeEnabled(true);
+    QTemporaryDir configuration;
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+    QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, configuration.path());
     // The interface in the system's language, from the translations built next to this program.
-    QTranslator translator;
-    if (translator.load(QLocale::system(), "kalipso", "_", QCoreApplication::applicationDirPath()))
+    const auto language = InterfaceLanguages::select();
+    QLocale::setDefault(QLocale(language.locale));
+    app.setLayoutDirection(language.rtl ? Qt::RightToLeft : Qt::LeftToRight);
+    Accessibility::useInterfaceFont(QString::fromLatin1(language.code));
+    InterfaceLanguages::Translator translator;
+    if (translator.loadLanguage(language, "kalipso", QStringLiteral(KALIPSO_BINARY_DIR)))
         app.installTranslator(&translator);
     outDir = argc > 1 ? QString::fromLocal8Bit(argv[1]) : QString();
     if (!outDir.isEmpty())
@@ -351,7 +384,10 @@ int main(int argc, char **argv) {
         editor->setPlainText(script);
         editor->spaceLines();
         settle();
-        readerStates(window, prefix);
+        if (qEnvironmentVariableIsSet("KALIPSO_SETTINGS_ONLY"))
+            window.prompter()->findChild<QPushButton *>("readerSettings")->click();
+        else
+            readerStates(window, prefix);
         settingsStates(window, prefix);
     }
     for (const auto &line : problems)

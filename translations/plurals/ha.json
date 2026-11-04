@@ -1,0 +1,50 @@
+{
+  "MainWindow\u0004%n min": [
+    "minti %n",
+    "minti %n"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "An shigo da bayanan mai magana daga faifi %n. Yi amfani da Sashe a tagar karatu don tsallakawa tsakanin faifai.",
+    "An shigo da bayanan mai magana daga faifai %n. Yi amfani da Sashe a tagar karatu don tsallakawa tsakanin faifai."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "An tsallake faifi %n da aka ɓoye.",
+    "An tsallake faifai %n da aka ɓoye."
+  ],
+  "MainWindow\u0004about %n min": [
+    "kusan minti %n",
+    "kusan minti %n"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "kalma %n",
+    "kalmomi %n"
+  ],
+  "MainWindow\u0004%n min left": [
+    "minti %n ya rage",
+    "minti %n sun rage"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Zaman ƙarshe: %1 · kalma %n",
+    "Zaman ƙarshe: %1 · kalmomi %n"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "dakatawa %n fiye da daƙiƙa 3",
+    "dakatawa %n fiye da daƙiƙa 3"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "An gane kalmar cike gibi %n",
+    "An gane kalmomin cike gibi %n"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Kalmomin da aka karanta: %n cikin %1",
+    "- Kalmomin da aka karanta: %n cikin %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Dakatawar da ta fi daƙiƙa 3: %n",
+    "- Dakatawar da ta fi daƙiƙa 3: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Kalmomin cike gibi da aka gane: %n (yawancin masu gane magana suna tsallake su, don haka wannan shi ne iyakar ƙasa)",
+    "- Kalmomin cike gibi da aka gane: %n (yawancin masu gane magana suna tsallake su, don haka wannan shi ne iyakar ƙasa)"
+  ]
+}

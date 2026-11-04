@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "accessibility.h"
 #include "app_bridge.h"
+#include "interface_language.h"
 #include "platform/kwin_placement.h"
 #include "settings_migration.h"
 #include "window.h"
@@ -31,15 +32,19 @@ int main(int argc, char **argv) {
     importLegacyData("brianidavide");
     importLegacySettings("brianidavide", "kde-teleprompter");
     Accessibility::useInterfaceStyle();
-    Accessibility::useInterfaceFont();
 
     // Interface language: the saved choice, otherwise the system language.
-    const auto language = QSettings().value("appearance/language").toString();
-    const QLocale locale = language.isEmpty() ? QLocale::system() : QLocale(language);
-    QTranslator qtTranslator, translator;
+    const auto language = InterfaceLanguages::select(QSettings().value("appearance/language").toString());
+    app.setProperty("interfaceLanguage", QString::fromLatin1(language.code));
+    Accessibility::useInterfaceFont(QString::fromLatin1(language.code));
+    const QLocale locale = InterfaceLanguages::formattingLocale(language);
+    QLocale::setDefault(locale);
+    app.setLayoutDirection(language.rtl ? Qt::RightToLeft : Qt::LeftToRight);
+    QTranslator qtTranslator;
+    InterfaceLanguages::Translator translator;
     if (qtTranslator.load(locale, "qtbase", "_", QLibraryInfo::path(QLibraryInfo::TranslationsPath)))
         app.installTranslator(&qtTranslator);
-    if (translator.load(locale, "kalipso", "_", ":/i18n"))
+    if (translator.loadLanguage(language, "kalipso"))
         app.installTranslator(&translator);
 
     QCommandLineParser parser;
@@ -115,7 +120,8 @@ int main(int argc, char **argv) {
                     }
                     pages->setCurrentRow(page);
                     QTimer::singleShot(250, dialog, [dialog, directory, page, next] {
-                        dialog->grab().save(QString("%1/settings-%2.png").arg(directory).arg(page + 1, 2, 10, QChar('0')));
+                        dialog->grab().save(
+                            QString("%1/settings-%2.png").arg(directory).arg(page + 1, 2, 10, QChar('0')));
                         (*next)(page + 1);
                     });
                 };

@@ -1,0 +1,74 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min.",
+    "%n min.",
+    "%n min.",
+    "%n min."
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Importuotos pranešėjo pastabos iš %n skaidrės. Norėdami pereiti tarp skaidrių, naudokite skaitymo lango Skyrius.",
+    "Importuotos pranešėjo pastabos iš %n skaidrių. Norėdami pereiti tarp skaidrių, naudokite skaitymo lango Skyrius.",
+    "Importuotos pranešėjo pastabos iš %n skaidrės. Norėdami pereiti tarp skaidrių, naudokite skaitymo lango Skyrius.",
+    "Importuotos pranešėjo pastabos iš %n skaidrių. Norėdami pereiti tarp skaidrių, naudokite skaitymo lango Skyrius."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "Praleista %n paslėpta skaidrė.",
+    "Praleistos %n paslėptos skaidrės.",
+    "Praleista %n paslėptos skaidrės.",
+    "Praleista %n paslėptų skaidrių."
+  ],
+  "MainWindow\u0004about %n min": [
+    "apie %n min.",
+    "apie %n min.",
+    "apie %n min.",
+    "apie %n min."
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n žodis",
+    "%n žodžiai",
+    "%n žodžio",
+    "%n žodžių"
+  ],
+  "MainWindow\u0004%n min left": [
+    "liko %n min.",
+    "liko %n min.",
+    "liko %n min.",
+    "liko %n min."
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Paskutinis seansas: %1 · %n žodis",
+    "Paskutinis seansas: %1 · %n žodžiai",
+    "Paskutinis seansas: %1 · %n žodžio",
+    "Paskutinis seansas: %1 · %n žodžių"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n pauzė, ilgesnė nei 3 s",
+    "%n pauzės, ilgesnės nei 3 s",
+    "%n pauzės, ilgesnės nei 3 s",
+    "%n pauzių, ilgesnių nei 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "Atpažintas %n užpildomasis žodis",
+    "Atpažinti %n užpildomieji žodžiai",
+    "Atpažinta %n užpildomojo žodžio",
+    "Atpažinta %n užpildomųjų žodžių"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Perskaityti žodžiai: %n iš %1",
+    "- Perskaityti žodžiai: %n iš %1",
+    "- Perskaityti žodžiai: %n iš %1",
+    "- Perskaityti žodžiai: %n iš %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauzės, ilgesnės nei 3 s: %n",
+    "- Pauzės, ilgesnės nei 3 s: %n",
+    "- Pauzės, ilgesnės nei 3 s: %n",
+    "- Pauzės, ilgesnės nei 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Atpažinti užpildomieji žodžiai: %n (daugelis atpažinimo sistemų juos praleidžia, todėl tai apatinė riba)",
+    "- Atpažinti užpildomieji žodžiai: %n (daugelis atpažinimo sistemų juos praleidžia, todėl tai apatinė riba)",
+    "- Atpažinti užpildomieji žodžiai: %n (daugelis atpažinimo sistemų juos praleidžia, todėl tai apatinė riba)",
+    "- Atpažinti užpildomieji žodžiai: %n (daugelis atpažinimo sistemų juos praleidžia, todėl tai apatinė riba)"
+  ]
+}

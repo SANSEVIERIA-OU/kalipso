@@ -1,0 +1,465 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: ru\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=4; plural=(((((0 == 0)) && (((n % 10) >= 2 && (n % 10) <= 4))) && (!(((n % 100) >= 12 && (n % 100) <= 14)))) ? 1 : (((((0 == 0)) && (((n % 10) == 0))) || (((0 == 0)) && (((n % 10) >= 5 && (n % 10) <= 9)))) || (((0 == 0)) && (((n % 100) >= 11 && (n % 100) <= 14)))) ? 2 : ((((0 == 0)) && (((n % 10) == 1))) && (!(((n % 100) == 11)))) ? 0 : 3);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 загружен. Выберите его снова после остановки прослушивания."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 секунда"
+msgstr[1] "%1 секунды"
+msgstr[2] "%1 секунд"
+msgstr[3] "%1 секунды"
+
+msgid "%1 words/min"
+msgstr "%1 слов/мин"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 мин"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · загрузить %2 MB"
+
+msgid "%d words/min"
+msgstr "%d слов/мин"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s загружен. Выберите его снова после остановки прослушивания."
+
+msgid "%s · %d min"
+msgstr "%s · %d мин"
+
+msgid "%s · download %d MB"
+msgstr "%s · загрузить %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Небольшая подготовка помогает сделать разговор лучше. [улыбка]\n\nНе торопитесь. Оставьте место для паузы. Следующие слова будут здесь, когда вы будете готовы."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Небольшая подготовка помогает сделать разговор лучше. [улыбка] Не торопитесь. Прочитайте первое предложение вслух и посмотрите, как слова следуют за вами."
+
+msgid "A script written here"
+msgstr "Текст, написанный здесь"
+
+msgid "Add your script to begin."
+msgstr "Добавьте текст, чтобы начать."
+
+msgid "Appearance"
+msgstr "Внешний вид"
+
+msgid "Automatic"
+msgstr "Автоматически"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Автоматический режим считывает цвета вокруг окна чтения. Изображения не сохраняются."
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Cancel download"
+msgstr "Отменить загрузку"
+
+msgid "Checking and unpacking %1…"
+msgstr "Проверка и распаковка %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Проверка и распаковка %s…"
+
+msgid "Checking local speech components"
+msgstr "Проверка локальных речевых компонентов"
+
+msgid "Chinese"
+msgstr "Китайский"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Выберите один из текстов Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Выберите язык, на котором говорите."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Выберите окно за окном чтения. Требуется разрешение рабочего окружения."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Выберите окно за окном чтения в диалоге общего доступа рабочего стола"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "При выборе языка его речевая модель однократно загружается от издателя и проверяется по цифровому отпечатку. Затем распознавание работает на этом компьютере: ничего из сказанного не отправляется."
+
+msgid "Configure Kalipso…"
+msgstr "Настроить Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Не удалось загрузить %1. Проверьте подключение к интернету и повторите попытку."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Не удалось загрузить %s. Проверьте подключение к интернету и повторите попытку."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Не удалось сохранить %1: недостаточно свободного места или папка данных недоступна для записи."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Не удалось сохранить %s: недостаточно свободного места или папка данных недоступна для записи."
+
+msgid "Countdown before steady scrolling"
+msgstr "Обратный отсчёт перед равномерной прокруткой"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Обратный отсчёт перед равномерной прокруткой:"
+
+msgid "Dark"
+msgstr "Тёмная"
+
+msgid "Desktop theme"
+msgstr "Тема рабочего стола"
+
+msgid "Done"
+msgstr "Готово"
+
+msgid "Done editing"
+msgstr "Завершить редактирование"
+
+msgid "Download and use"
+msgstr "Загрузить и использовать"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Загрузка отменена. Ничего не изменилось."
+
+msgid "Download progress"
+msgstr "Ход загрузки"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Загрузка %1: %2 из %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Загрузка %s: %d из %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Редактировать в Kalipso"
+
+msgid "Edit script"
+msgstr "Редактировать текст"
+
+msgid "End of script · Microphone off"
+msgstr "Конец текста · Микрофон выключен"
+
+msgid "English"
+msgstr "Английский"
+
+msgid "Faster"
+msgstr "Быстрее"
+
+msgid "Follow a window's colors…"
+msgstr "Следить за цветами окна…"
+
+msgid "Follow my voice"
+msgstr "Следовать за моим голосом"
+
+msgid "Font:"
+msgstr "Шрифт:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Для устройств с полупрозрачным зеркалом, показывающих текст в отражении."
+
+msgid "French"
+msgstr "Французский"
+
+msgid "German"
+msgstr "Немецкий"
+
+msgid "Help:"
+msgstr "Справка:"
+
+msgid "Hide"
+msgstr "Скрыть"
+
+msgid "Horizontal"
+msgstr "По горизонтали"
+
+msgid "Interface font"
+msgstr "Шрифт интерфейса"
+
+msgid "Italian"
+msgstr "Итальянский"
+
+msgid "Japanese"
+msgstr "Японский"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso загружает речевые модели в Linux для компьютеров x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Клавиши: стрелки или Page Up/Down продвигают текст, Space начинает или приостанавливает, + и − меняют постоянную скорость. При демонстрации экрана этот виджет может быть виден; проверьте, что видят другие участники."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Клавиши: стрелки или Page Up/Down продвигают текст, Space начинает или приостанавливает, + и − меняют постоянную скорость. При демонстрации экрана окно чтения может быть видно; проверьте, что видят другие участники."
+
+msgid "Language you speak"
+msgstr "Язык, на котором вы говорите"
+
+msgid "Language you speak:"
+msgstr "Язык, на котором вы говорите:"
+
+msgid "Larger"
+msgstr "Больше"
+
+msgid "Light"
+msgstr "Светлая"
+
+msgid "Line spacing"
+msgstr "Межстрочный интервал"
+
+msgid "Line spacing:"
+msgstr "Межстрочный интервал:"
+
+msgid "Listening · On this device"
+msgstr "Прослушивание · На этом устройстве"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Локальное распознавание речи не установлено. Откройте «Настройка локальной речи», чтобы установить вспомогательную программу и языковую модель."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Локальное распознавание речи недоступно. Откройте «Настройка локальной речи», чтобы установить вспомогательную программу и языковую модель."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Локальное распознавание речи следует за вашими словами."
+
+msgid "Local speech setup"
+msgstr "Настройка локальной речи"
+
+msgid "Local speech setup ↗"
+msgstr "Настройка локальной речи ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Локальное распознавание речи недоступно. %s См. docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Вручную"
+
+msgid "Manual · Microphone off"
+msgstr "Вручную · Микрофон выключен"
+
+msgid "Microphone stopped"
+msgstr "Микрофон остановлен"
+
+msgid "Mirror"
+msgstr "Отражение"
+
+msgid "Mirror:"
+msgstr "Отражение:"
+
+msgid "More"
+msgstr "Ещё"
+
+msgid "Next section"
+msgstr "Следующий раздел"
+
+msgid "Next words"
+msgstr "Следующие слова"
+
+msgid "Normal"
+msgstr "Обычный"
+
+msgid "Off"
+msgstr "Выключено"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Вне текста · Kalipso догонит, когда вы вернётесь к тексту"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Откройте «Редактировать текст», чтобы прочитать или изменить весь текст."
+
+msgid "Pause"
+msgstr "Пауза"
+
+msgid "Paused · Microphone off"
+msgstr "Пауза · Микрофон выключен"
+
+msgid "Previous"
+msgstr "Назад"
+
+msgid "Previous section"
+msgstr "Предыдущий раздел"
+
+msgid "Reader colors"
+msgstr "Цвета окна чтения"
+
+msgid "Reader colors:"
+msgstr "Цвета окна чтения:"
+
+msgid "Reader font"
+msgstr "Шрифт для чтения"
+
+msgid "Reading"
+msgstr "Чтение"
+
+msgid "Reading excerpt"
+msgstr "Фрагмент для чтения"
+
+msgid "Reading mode"
+msgstr "Режим чтения"
+
+msgid "Reading mode:"
+msgstr "Режим чтения:"
+
+msgid "Reading mode: %1"
+msgstr "Режим чтения: %1"
+
+msgid "Reading progress"
+msgstr "Ход чтения"
+
+msgid "Reading size"
+msgstr "Размер для чтения"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Готово к прослушиванию на языке %1 с %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Готово к прослушиванию на языке %1. Выберите «Следовать за моим голосом» и начните прослушивание."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Готово к прослушиванию на языке %s с %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Готово к прослушиванию на языке %s. Выберите «Следовать за моим голосом» и начните прослушивание."
+
+msgid "Relaxed"
+msgstr "Свободный"
+
+msgid "Reset"
+msgstr "Сбросить"
+
+msgid "SCRIPT"
+msgstr "ТЕКСТ"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Сохраняется автоматически. [Ремарки в скобках] видны, но не читаются вслух. Строки, начинающиеся с #, — разделы."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Цвета экрана недоступны. Непрозрачное окно чтения сохраняет контрастность."
+
+msgid "Script"
+msgstr "Текст"
+
+msgid "Script: %1"
+msgstr "Текст: %1"
+
+msgid "Scripts"
+msgstr "Тексты"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Тексты пишут и меняют в приложении Kalipso; здесь их читают."
+
+msgid "Scrolling · Microphone off"
+msgstr "Прокрутка · Микрофон выключен"
+
+msgid "Section ›"
+msgstr "Раздел ›"
+
+msgid "Sections"
+msgstr "Разделы"
+
+msgid "Serif"
+msgstr "С засечками"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Slower"
+msgstr "Медленнее"
+
+msgid "Smaller"
+msgstr "Меньше"
+
+msgid "Spanish"
+msgstr "Испанский"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Речь недоступна · Настроить Kalipso → Голос"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Речь недоступна · Открыть настройки"
+
+msgid "Start"
+msgstr "Начать"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Начало через %1 секунду…"
+msgstr[1] "Начало через %1 секунды…"
+msgstr[2] "Начало через %1 секунд…"
+msgstr[3] "Начало через %1 секунды…"
+
+msgid "Starting local speech…"
+msgstr "Запуск локального распознавания речи…"
+
+msgid "Steady speed"
+msgstr "Постоянная скорость"
+
+msgid "Steady speed:"
+msgstr "Постоянная скорость:"
+
+msgid "Stop following the window"
+msgstr "Остановить слежение за окном"
+
+msgid "Text size:"
+msgstr "Размер текста:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Загруженный %1 не совпал со своим цифровым отпечатком и был удалён. Повторите попытку позже."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Не удалось распаковать модель %1. Повторите попытку позже."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Загруженный %s не совпал со своим цифровым отпечатком и был удалён. Повторите попытку позже."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Не удалось распаковать модель %s. Повторите попытку позже."
+
+msgid "The microphone turns on when you start"
+msgstr "Микрофон включается, когда вы начинаете"
+
+msgid "The words advance at the speed below."
+msgstr "Слова движутся с указанной ниже скоростью."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Эта вспомогательная программа Kalipso не умеет загружать языки. Установите или обновите её, затем выйдите из сеанса и войдите снова."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Чтобы взять цвета окна за окном чтения, выберите «Следить за цветами окна…» в меню ⋯ окна чтения."
+
+msgid "Try again"
+msgstr "Повторить"
+
+msgid "Use this language"
+msgstr "Использовать этот язык"
+
+msgid "Vertical"
+msgstr "По вертикали"
+
+msgid "Voice"
+msgstr "Голос"
+
+msgid "Wide"
+msgstr "Широкий"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Цвета окна недоступны. Установите или обновите вспомогательную программу Kalipso и портал общего доступа к рабочему столу."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Общий доступ к окну остановлен · Выберите фоновое окно для продолжения"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Вы продвигаете текст клавишами, педалью или пультом презентации."
+
+msgid "your language"
+msgstr "ваш язык"
+
+msgid "‹ Section"
+msgstr "‹ Раздел"

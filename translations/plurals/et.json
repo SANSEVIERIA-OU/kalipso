@@ -1,0 +1,50 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Esineja märkmed imporditi %n slaidilt. Slaidide vahel liikumiseks kasuta lugemisala menüüd Jaotised.",
+    "Esineja märkmed imporditi %n slaidilt. Slaidide vahel liikumiseks kasuta lugemisala menüüd Jaotised."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "%n peidetud slaid jäeti välja.",
+    "%n peidetud slaidi jäeti välja."
+  ],
+  "MainWindow\u0004about %n min": [
+    "umbes %n min",
+    "umbes %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n sõna",
+    "%n sõna"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n min jäänud",
+    "%n min jäänud"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Viimane seanss: %1 · %n sõna",
+    "Viimane seanss: %1 · %n sõna"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n üle 3 s pikkune paus",
+    "%n üle 3 s pikkust pausi"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "%n täitesõna tuvastatud",
+    "%n täitesõna tuvastatud"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Loetud sõnu: %n / %1",
+    "- Loetud sõnu: %n / %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Üle 3 s pausid: %n",
+    "- Üle 3 s pausid: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Tuvastatud täitesõnu: %n (paljud tuvastajad jätavad need välja, seega on see alampiir)",
+    "- Tuvastatud täitesõnu: %n (paljud tuvastajad jätavad need välja, seega on see alampiir)"
+  ]
+}

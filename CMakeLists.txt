@@ -1,15 +1,16 @@
 cmake_minimum_required(VERSION 3.22)
 # Must precede project(): the oldest macOS the app and its helper run on.
 set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS version (Qt 6.12 requires 14.4)")
-project(Kalipso VERSION 2.7 LANGUAGES C CXX)
+project(Kalipso VERSION 2.8 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_compile_options("$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/utf-8>")
 set(CMAKE_AUTOMOC ON)
 include(GNUInstallDirs)
 include(CTest)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Core Widgets Network Svg)
-find_package(Qt6 QUIET COMPONENTS LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 set(KALIPSO_WARNINGS $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wall;-Wextra;-Wpedantic>)
 
 # --- Script tracking: Qt Core only ---------------------------------------------
@@ -38,6 +39,9 @@ add_library(kalipso_vendor STATIC third_party/puff/puff.c third_party/qrcodegen/
 add_library(kalipso_downloads STATIC src/speech_download.cpp)
 target_link_libraries(kalipso_downloads PUBLIC kalipso_speech Qt6::Network PRIVATE kalipso_vendor)
 target_compile_options(kalipso_downloads PRIVATE ${KALIPSO_WARNINGS})
+file(GLOB KALIPSO_PLURALS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/translations/plurals/*.json)
+qt_add_resources(kalipso_downloads "interface_plurals" PREFIX "/i18n/plurals"
+  BASE ${CMAKE_CURRENT_SOURCE_DIR}/translations/plurals FILES ${KALIPSO_PLURALS})
 qt_add_resources(kalipso_downloads "speech_catalog" PREFIX "/speech" BASE ${CMAKE_CURRENT_SOURCE_DIR}/tools/data
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/data/speech-catalog.json)
 file(GLOB_RECURSE KALIPSO_NATIVE_NOTICES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/third_party/native-notices/*/*)
@@ -62,10 +66,8 @@ if(UNIX AND NOT APPLE)
   file(GLOB KALIPSO_ENGINE_TRANSLATIONS CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/kalipso-engine_*.ts)
   if(Qt6LinguistTools_FOUND AND KALIPSO_ENGINE_TRANSLATIONS)
-    # The .ts file also covers the speech, download and color sources the companion links. Refresh it with
-    # lupdate -no-obsolete -locations none src/engine src/library.cpp src/speech.cpp src/speech_download.cpp
-    #   src/microphone.cpp src/moonshine.cpp src/system_speech/client.cpp src/screen_colors/portal.cpp
-    #   -ts translations/kalipso-engine_it.ts
+    # Generated from the shared catalogs, including linked speech/download/color messages.
+    # Edit the canonical catalogs and mappings, then run tools/generate-translations.py.
     qt_add_translations(kalipso-engine TS_FILES ${KALIPSO_ENGINE_TRANSLATIONS} RESOURCE_PREFIX /i18n)
   endif()
   install(TARGETS kalipso-engine RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Engine)
@@ -113,7 +115,7 @@ target_link_libraries(kalipso_app PUBLIC kalipso_downloads Qt6::Widgets Qt6::Net
 file(GLOB KALIPSO_ICONS CONFIGURE_DEPENDS
   ${CMAKE_CURRENT_SOURCE_DIR}/src/icons/*.svg ${CMAKE_CURRENT_SOURCE_DIR}/src/icons/generated/*.svg)
 qt_add_resources(kalipso_app "icons" PREFIX "/icons" BASE ${CMAKE_CURRENT_SOURCE_DIR}/src/icons FILES ${KALIPSO_ICONS})
-file(GLOB KALIPSO_FONTS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts/*.ttf)
+file(GLOB KALIPSO_FONTS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts/*.ttf ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts/*.otf)
 qt_add_resources(kalipso_app "fonts" PREFIX "/fonts" BASE ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts FILES ${KALIPSO_FONTS})
 qt_add_resources(kalipso_app "impress" PREFIX "/impress" BASE ${CMAKE_CURRENT_SOURCE_DIR}/src/impress
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/impress/impress_follow.py)
@@ -174,6 +176,8 @@ else()
     DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 endif()
 install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso)
+file(GLOB KALIPSO_FONT_NOTICES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts/*.txt)
+install(FILES ${KALIPSO_FONT_NOTICES} DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso/fonts)
 
 # --- Tests ------------------------------------------------------------------------
 if(BUILD_TESTING)
@@ -229,8 +233,19 @@ if(BUILD_TESTING)
   endif()
   # Every screen in every combination, checked (and, given a directory, photographed). Run by hand
   # under each desktop look too: Breeze light and dark, the drawn style.
+  add_executable(interface_language_tests tests/interface_language_tests.cpp)
+  target_link_libraries(interface_language_tests PRIVATE kalipso_app)
+  target_include_directories(interface_language_tests PRIVATE src)
+  target_compile_definitions(interface_language_tests PRIVATE KALIPSO_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}" KALIPSO_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
+  add_dependencies(interface_language_tests kalipso)
+  if(TARGET kalipso-engine)
+    add_dependencies(interface_language_tests kalipso-engine)
+  endif()
+  add_test(NAME interface_languages COMMAND interface_language_tests)
+  set_tests_properties(interface_languages PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=${KALIPSO_TEST_QPA}")
   add_executable(layout_matrix tests/layout_matrix.cpp)
   target_link_libraries(layout_matrix PRIVATE kalipso_app Qt6::Test)
+  target_compile_definitions(layout_matrix PRIVATE KALIPSO_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
   add_test(NAME layout_matrix COMMAND layout_matrix)
   set_tests_properties(layout_matrix PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=${KALIPSO_TEST_QPA}")
   add_executable(ui_tests tests/ui_tests.cpp)
@@ -293,6 +308,11 @@ if(BUILD_TESTING)
   target_link_libraries(tracker_benchmark PRIVATE prompter_core)
 
   if(Python3_Interpreter_FOUND)
+    if(NODE_EXECUTABLE)
+      add_test(NAME translation_catalogs COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/translations_test.py
+        --lupdate $<TARGET_FILE:Qt6::lupdate>)
+    endif()
+    add_test(NAME generated_translations COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate-translations.py --check)
     add_test(NAME package_translations COMMAND ${Python3_EXECUTABLE}
                                                ${CMAKE_CURRENT_SOURCE_DIR}/tests/package_translations_test.py)
     add_test(NAME version_scheme COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/version_test.py)

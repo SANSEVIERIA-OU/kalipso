@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #include "icons.h"
+#include <QGuiApplication>
 #include <QHash>
 #include <QPainter>
 #include <QSvgRenderer>
 
 namespace Icons {
 namespace {
-QPixmap tinted(QSvgRenderer &renderer, int size, const QColor &color) {
+QPixmap tinted(QSvgRenderer &renderer, int size, const QColor &color, bool mirrored) {
     QImage image(size, size, QImage::Format_ARGB32_Premultiplied);
     image.fill(Qt::transparent);
     QPainter painter(&image);
@@ -14,14 +15,21 @@ QPixmap tinted(QSvgRenderer &renderer, int size, const QColor &color) {
     painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
     painter.fillRect(image.rect(), color);
     painter.end();
-    return QPixmap::fromImage(image);
+    return QPixmap::fromImage(mirrored ? image.mirrored(true, false) : image);
 }
 } // namespace
 
 QString motion(const QString &name) {
-    static const QHash<QString, QString> motions{
-        {"previous", "back"}, {"next", "forward"}, {"play", "grow"},     {"pause", "grow"}, {"sections", "down"},
-        {"edit", "tilt"},     {"close", "shrink"}, {"settings", "turn"}, {"reader", "out"}, {"plus", "grow"}, {"microphone", "grow"}};
+    if (QGuiApplication::layoutDirection() == Qt::RightToLeft) {
+        if (name == "previous")
+            return "forward";
+        if (name == "next")
+            return "back";
+    }
+    static const QHash<QString, QString> motions{{"previous", "back"}, {"next", "forward"},   {"play", "grow"},
+                                                 {"pause", "grow"},    {"sections", "down"},  {"edit", "tilt"},
+                                                 {"close", "shrink"},  {"settings", "turn"},  {"reader", "out"},
+                                                 {"plus", "grow"},     {"microphone", "grow"}};
     return motions.value(name);
 }
 
@@ -30,11 +38,13 @@ QIcon icon(const QString &name, const QColor &color, const QColor &disabled) {
     QIcon result;
     if (!renderer.isValid())
         return result;
+    const bool mirrored = QGuiApplication::layoutDirection() == Qt::RightToLeft &&
+                          (name == "previous" || name == "next" || name == "sidebar");
     // Sizes for 100% to 300% displays; Qt picks the closest.
     for (const int size : {16, 20, 24, 32, 40, 48, 64, 72}) {
-        result.addPixmap(tinted(renderer, size, color), QIcon::Normal);
+        result.addPixmap(tinted(renderer, size, color, mirrored), QIcon::Normal);
         if (disabled.isValid())
-            result.addPixmap(tinted(renderer, size, disabled), QIcon::Disabled);
+            result.addPixmap(tinted(renderer, size, disabled, mirrored), QIcon::Disabled);
     }
     return result;
 }

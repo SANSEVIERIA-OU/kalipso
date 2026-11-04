@@ -1,0 +1,461 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: sv\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 har hämtats. Välj det igen när du slutar lyssna."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekund"
+msgstr[1] "%1 sekunder"
+
+msgid "%1 words/min"
+msgstr "%1 ord/min"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · hämta %2 MB"
+
+msgid "%d words/min"
+msgstr "%d ord/min"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s har hämtats. Välj det igen när du slutar lyssna."
+
+msgid "%s · %d min"
+msgstr "%s · %d min"
+
+msgid "%s · download %d MB"
+msgstr "%s · hämta %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Lite förberedelse ger plats för ett bättre samtal. [le]\n\nTa god tid på dig. Lämna plats för en paus. Dina nästa ord finns här när du är redo."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Lite förberedelse ger plats för ett bättre samtal. [le] Ta god tid på dig. Läs den första meningen högt och se orden följa dig."
+
+msgid "A script written here"
+msgstr "Ett manus skrivet här"
+
+msgid "Add your script to begin."
+msgstr "Lägg till ditt manus för att börja."
+
+msgid "Appearance"
+msgstr "Utseende"
+
+msgid "Automatic"
+msgstr "Automatiskt"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Automatiskt hämtar färger runt läsytan. Inga bilder sparas."
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Cancel download"
+msgstr "Avbryt hämtning"
+
+msgid "Checking and unpacking %1…"
+msgstr "Kontrollerar och packar upp %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Kontrollerar och packar upp %s…"
+
+msgid "Checking local speech components"
+msgstr "Kontrollerar lokala talkomponenter"
+
+msgid "Chinese"
+msgstr "Kinesiska"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Välj ett av Kalipsos manus"
+
+msgid "Choose the language you speak."
+msgstr "Välj språket du talar."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Välj fönstret bakom läsytan. Skrivbordets tillstånd krävs."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Välj fönstret bakom läsytan i skrivbordets delningsdialog"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "När du väljer ett språk hämtas dess talmodell en gång från modellens utgivare och kontrolleras mot ett fingeravtryck. Sedan körs igenkänningen på den här datorn: inget du säger skickas."
+
+msgid "Configure Kalipso…"
+msgstr "Konfigurera Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Kunde inte hämta %1. Kontrollera internetanslutningen och försök igen."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Kunde inte hämta %s. Kontrollera internetanslutningen och försök igen."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Kunde inte spara %1: det finns för lite ledigt utrymme eller så går det inte att skriva i datamappen."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Kunde inte spara %s: det finns för lite ledigt utrymme eller så går det inte att skriva i datamappen."
+
+msgid "Countdown before steady scrolling"
+msgstr "Nedräkning före jämn rullning"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Nedräkning före jämn rullning:"
+
+msgid "Dark"
+msgstr "Mörkt"
+
+msgid "Desktop theme"
+msgstr "Skrivbordstema"
+
+msgid "Done"
+msgstr "Klart"
+
+msgid "Done editing"
+msgstr "Avsluta redigering"
+
+msgid "Download and use"
+msgstr "Hämta och använd"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Hämtningen avbröts. Inget ändrades."
+
+msgid "Download progress"
+msgstr "Hämtningsförlopp"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Hämtar %1: %2 av %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Hämtar %s: %d av %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Redigera i Kalipso"
+
+msgid "Edit script"
+msgstr "Redigera manus"
+
+msgid "End of script · Microphone off"
+msgstr "Slut på manuset · Mikrofon av"
+
+msgid "English"
+msgstr "Engelska"
+
+msgid "Faster"
+msgstr "Snabbare"
+
+msgid "Follow a window's colors…"
+msgstr "Följ ett fönsters färger…"
+
+msgid "Follow my voice"
+msgstr "Följ min röst"
+
+msgid "Font:"
+msgstr "Teckensnitt:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "För telepromptrar med halvgenomskinligt glas som visar läsytan via en spegel."
+
+msgid "French"
+msgstr "Franska"
+
+msgid "German"
+msgstr "Tyska"
+
+msgid "Help:"
+msgstr "Hjälp:"
+
+msgid "Hide"
+msgstr "Dölj"
+
+msgid "Horizontal"
+msgstr "Vågrätt"
+
+msgid "Interface font"
+msgstr "Gränssnittets teckensnitt"
+
+msgid "Italian"
+msgstr "Italienska"
+
+msgid "Japanese"
+msgstr "Japanska"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso hämtar talmodeller på Linux för x86_64-datorer."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Tangenter: pilar eller Page Up/Down flyttar framåt, Blanksteg startar eller pausar, + och − ändrar den jämna hastigheten. Widgeten kan synas vid skärmdelning; kontrollera vad andra deltagare ser."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Tangenter: pilar eller Page Up/Down flyttar framåt, Blanksteg startar eller pausar, + och − ändrar den jämna hastigheten. Läsytan kan synas vid skärmdelning; kontrollera vad andra deltagare ser."
+
+msgid "Language you speak"
+msgstr "Språket du talar"
+
+msgid "Language you speak:"
+msgstr "Språket du talar:"
+
+msgid "Larger"
+msgstr "Större"
+
+msgid "Light"
+msgstr "Ljust"
+
+msgid "Line spacing"
+msgstr "Radavstånd"
+
+msgid "Line spacing:"
+msgstr "Radavstånd:"
+
+msgid "Listening · On this device"
+msgstr "Lyssnar · På den här enheten"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Lokal taligenkänning är inte installerad. Öppna Konfigurera lokalt tal för att installera en hjälptjänst och en språkmodell."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Lokal taligenkänning är inte tillgänglig. Öppna Konfigurera lokalt tal för att installera hjälptjänsten och en språkmodell."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Lokal taligenkänning följer det du säger."
+
+msgid "Local speech setup"
+msgstr "Konfigurera lokalt tal"
+
+msgid "Local speech setup ↗"
+msgstr "Konfigurera lokalt tal ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Lokal taligenkänning är inte tillgänglig. %s Se docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Manuellt"
+
+msgid "Manual · Microphone off"
+msgstr "Manuellt · Mikrofon av"
+
+msgid "Microphone stopped"
+msgstr "Mikrofonen stoppad"
+
+msgid "Mirror"
+msgstr "Spegla"
+
+msgid "Mirror:"
+msgstr "Spegling:"
+
+msgid "More"
+msgstr "Mer"
+
+msgid "Next section"
+msgstr "Nästa avsnitt"
+
+msgid "Next words"
+msgstr "Nästa ord"
+
+msgid "Normal"
+msgstr "Normalt"
+
+msgid "Off"
+msgstr "Av"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Utanför manuset · Kalipso hittar tillbaka när du återgår till texten"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Öppna Redigera manus för att läsa eller ändra hela manuset."
+
+msgid "Pause"
+msgstr "Pausa"
+
+msgid "Paused · Microphone off"
+msgstr "Pausad · Mikrofon av"
+
+msgid "Previous"
+msgstr "Föregående"
+
+msgid "Previous section"
+msgstr "Föregående avsnitt"
+
+msgid "Reader colors"
+msgstr "Läsytans färger"
+
+msgid "Reader colors:"
+msgstr "Läsytans färger:"
+
+msgid "Reader font"
+msgstr "Lästeckensnitt"
+
+msgid "Reading"
+msgstr "Läsning"
+
+msgid "Reading excerpt"
+msgstr "Läsutdrag"
+
+msgid "Reading mode"
+msgstr "Läsläge"
+
+msgid "Reading mode:"
+msgstr "Läsläge:"
+
+msgid "Reading mode: %1"
+msgstr "Läsläge: %1"
+
+msgid "Reading progress"
+msgstr "Läsförlopp"
+
+msgid "Reading size"
+msgstr "Lässtorlek"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Redo att lyssna på %1 med %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Redo att lyssna på %1. Välj Följ min röst och börja lyssna."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Redo att lyssna på %s med %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Redo att lyssna på %s. Välj Följ min röst och börja lyssna."
+
+msgid "Relaxed"
+msgstr "Luftigt"
+
+msgid "Reset"
+msgstr "Återställ"
+
+msgid "SCRIPT"
+msgstr "MANUS"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Sparas automatiskt. [Anvisningar inom hakparenteser] visas men läses inte högt. Rader som börjar med # är avsnitt."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Skärmfärger är inte tillgängliga. Den ogenomskinliga läsytan behåller sin kontrast."
+
+msgid "Script"
+msgstr "Manus"
+
+msgid "Script: %1"
+msgstr "Manus: %1"
+
+msgid "Scripts"
+msgstr "Manus"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Manus skrivs och ändras i Kalipso-appen; här läses de."
+
+msgid "Scrolling · Microphone off"
+msgstr "Rullar · Mikrofon av"
+
+msgid "Section ›"
+msgstr "Avsnitt ›"
+
+msgid "Sections"
+msgstr "Avsnitt"
+
+msgid "Serif"
+msgstr "Med seriffer"
+
+msgid "Settings"
+msgstr "Inställningar"
+
+msgid "Slower"
+msgstr "Långsammare"
+
+msgid "Smaller"
+msgstr "Mindre"
+
+msgid "Spanish"
+msgstr "Spanska"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Taligenkänning otillgänglig · Konfigurera Kalipso → Röst"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Taligenkänning otillgänglig · Öppna Inställningar"
+
+msgid "Start"
+msgstr "Starta"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Startar om %1 sekund…"
+msgstr[1] "Startar om %1 sekunder…"
+
+msgid "Starting local speech…"
+msgstr "Startar lokal taligenkänning…"
+
+msgid "Steady speed"
+msgstr "Jämn hastighet"
+
+msgid "Steady speed:"
+msgstr "Jämn hastighet:"
+
+msgid "Stop following the window"
+msgstr "Sluta följa fönstret"
+
+msgid "Text size:"
+msgstr "Textstorlek:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Hämtningen av %1 stämde inte med dess fingeravtryck och togs bort. Försök igen senare."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Modellen %1 kunde inte packas upp. Försök igen senare."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Hämtningen av %s stämde inte med dess fingeravtryck och togs bort. Försök igen senare."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Modellen %s kunde inte packas upp. Försök igen senare."
+
+msgid "The microphone turns on when you start"
+msgstr "Mikrofonen slås på när du startar"
+
+msgid "The words advance at the speed below."
+msgstr "Orden går framåt med hastigheten nedan."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Den här Kalipso-hjälptjänsten kan inte hämta språk. Installera eller uppdatera den och logga sedan ut och in igen."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Välj Följ ett fönsters färger… i läsytans ⋯-meny för att hämta färgerna från ett bakomliggande fönster."
+
+msgid "Try again"
+msgstr "Försök igen"
+
+msgid "Use this language"
+msgstr "Använd det här språket"
+
+msgid "Vertical"
+msgstr "Lodrätt"
+
+msgid "Voice"
+msgstr "Röst"
+
+msgid "Wide"
+msgstr "Brett"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Fönsterfärger är inte tillgängliga. Installera eller uppdatera Kalipsos hjälptjänst och skrivbordets delningsportal."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Fönsterdelning stoppad · Välj ett bakgrundsfönster för att fortsätta"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Du går framåt med tangenterna, en pedal eller en presentationsfjärrkontroll."
+
+msgid "your language"
+msgstr "ditt språk"
+
+msgid "‹ Section"
+msgstr "‹ Avsnitt"

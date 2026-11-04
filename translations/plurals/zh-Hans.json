@@ -1,0 +1,38 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n 分钟"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "已从 %n 张幻灯片导入演讲者备注。使用阅读窗中的“章节”在幻灯片之间跳转。"
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "已略过 %n 张隐藏幻灯片。"
+  ],
+  "MainWindow\u0004about %n min": [
+    "约 %n 分钟"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n 个词"
+  ],
+  "MainWindow\u0004%n min left": [
+    "剩余 %n 分钟"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "上次会话：%1 · %n 个词"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n 次超过 3 秒的停顿"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "识别到 %n 个填充词"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- 已读词数：%n / %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- 超过 3 秒的停顿：%n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- 识别到的填充词：%n（许多识别器会忽略这些词，因此这是下限）"
+  ]
+}

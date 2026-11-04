@@ -11,6 +11,8 @@ import "Tokens.js" as Design
 import "contrast.mjs" as Contrast
 
 PlasmoidItem {
+    LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
     id: root
 
     // Saved per widget in the Plasma configuration (contents/config/main.xml).
@@ -42,6 +44,20 @@ PlasmoidItem {
         overlayLine: p.hover, overlayBorder: p.border, focus: p.focus, reading: p.accent})
     // The app's typeface, embedded in the package (see contents/fonts); the desktop font until it loads.
     readonly property string uiFont: atkinson.status === FontLoader.Ready ? atkinson.font.family : Qt.application.font.family
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSans-Regular.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSans-Bold.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansArabic-Regular.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansArabic-Bold.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansDevanagari-Regular.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansDevanagari-Bold.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansBengali-Regular.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansBengali-Bold.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansTelugu-Regular.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansTelugu-Bold.ttf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansCJKjp-Regular.otf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansCJKjp-Bold.otf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansCJKsc-Regular.otf") }
+    FontLoader { source: Qt.resolvedUrl("../fonts/NotoSansCJKsc-Bold.otf") }
     FontLoader { id: atkinson; source: Qt.resolvedUrl("../fonts/AtkinsonHyperlegibleNext-Regular.ttf") }
     FontLoader { source: Qt.resolvedUrl("../fonts/AtkinsonHyperlegibleNext-Italic.ttf") }
     FontLoader { source: Qt.resolvedUrl("../fonts/AtkinsonHyperlegibleNext-SemiBold.ttf") }
@@ -706,7 +722,7 @@ PlasmoidItem {
                     }
                     Label {
                         font.family: root.uiFont
-                        text: root.readCount + " / " + root.wordCount
+                        text: Number(root.readCount).toLocaleString(Qt.locale(), "f", 0) + " / " + Number(root.wordCount).toLocaleString(Qt.locale(), "f", 0)
                         color: root.c.overlayMuted
                         height: root.n.controlHeight
                         verticalAlignment: Text.AlignVCenter

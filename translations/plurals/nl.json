@@ -1,0 +1,50 @@
+{
+  "MainWindow\u0004%n min": [
+    "%n min",
+    "%n min"
+  ],
+  "MainWindow\u0004Imported speaker notes from %n slide(s). Use Sections in the reader to jump between slides.": [
+    "Sprekersnotities van %n dia geïmporteerd. Gebruik Secties in het leesvenster om tussen dia’s te springen.",
+    "Sprekersnotities van %n dia’s geïmporteerd. Gebruik Secties in het leesvenster om tussen dia’s te springen."
+  ],
+  "MainWindow\u0004%n hidden slide(s) left out.": [
+    "%n verborgen dia overgeslagen.",
+    "%n verborgen dia’s overgeslagen."
+  ],
+  "MainWindow\u0004about %n min": [
+    "ongeveer %n min",
+    "ongeveer %n min"
+  ],
+  "MainWindow\u0004%n word(s)": [
+    "%n woord",
+    "%n woorden"
+  ],
+  "MainWindow\u0004%n min left": [
+    "%n min over",
+    "%n min over"
+  ],
+  "MainWindow\u0004Last session: %1 · %n word(s)": [
+    "Vorige sessie: %1 · %n woord",
+    "Vorige sessie: %1 · %n woorden"
+  ],
+  "MainWindow\u0004%n pause(s) over 3 s": [
+    "%n pauze langer dan 3 s",
+    "%n pauzes langer dan 3 s"
+  ],
+  "MainWindow\u0004%n filler word(s) recognized": [
+    "%n stopwoord herkend",
+    "%n stopwoorden herkend"
+  ],
+  "SessionStats\u0004- Words read: %n of %1": [
+    "- Gelezen woorden: %n van %1",
+    "- Gelezen woorden: %n van %1"
+  ],
+  "SessionStats\u0004- Pauses over 3 s: %n": [
+    "- Pauzes langer dan 3 s: %n",
+    "- Pauzes langer dan 3 s: %n"
+  ],
+  "SessionStats\u0004- Filler words recognized: %n (many recognizers drop them, so this is a lower bound)": [
+    "- Herkende stopwoorden: %n (veel herkenners laten ze weg, dus dit is een ondergrens)",
+    "- Herkende stopwoorden: %n (veel herkenners laten ze weg, dus dit is een ondergrens)"
+  ]
+}

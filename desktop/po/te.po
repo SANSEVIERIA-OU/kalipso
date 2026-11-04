@@ -1,0 +1,461 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: te\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(((n == 1)) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 డౌన్‌లోడ్ అయింది. వినడం ఆపినప్పుడు మళ్లీ ఎంచుకోండి."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 సెకను"
+msgstr[1] "%1 సెకన్లు"
+
+msgid "%1 words/min"
+msgstr "%1 పదాలు/నిమి."
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 నిమి."
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · %2 MB డౌన్‌లోడ్"
+
+msgid "%d words/min"
+msgstr "%d పదాలు/నిమి."
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s డౌన్‌లోడ్ అయింది. వినడం ఆపినప్పుడు మళ్లీ ఎంచుకోండి."
+
+msgid "%s · %d min"
+msgstr "%s · %d నిమి."
+
+msgid "%s · download %d MB"
+msgstr "%s · %d MB డౌన్‌లోడ్"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "కొద్దిపాటి సన్నద్ధత మెరుగైన సంభాషణకు అవకాశం ఇస్తుంది. [నవ్వండి]\n\nనిదానంగా మాట్లాడండి. విరామానికి చోటివ్వండి. మీరు సిద్ధమైనప్పుడు తదుపరి మాటలు ఇక్కడే ఉంటాయి."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "కొద్దిపాటి సన్నద్ధత మెరుగైన సంభాషణకు అవకాశం ఇస్తుంది. [నవ్వండి] నిదానంగా మాట్లాడండి. మొదటి వాక్యం బిగ్గరగా చదివి, పదాలు మిమ్మల్ని అనుసరించడం చూడండి."
+
+msgid "A script written here"
+msgstr "ఇక్కడ రాసిన ప్రసంగ పాఠం"
+
+msgid "Add your script to begin."
+msgstr "ప్రారంభించడానికి ప్రసంగ పాఠం జోడించండి."
+
+msgid "Appearance"
+msgstr "రూపం"
+
+msgid "Automatic"
+msgstr "స్వయంచాలకం"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "స్వయంచాలక విధానం పఠన కిటికీ చుట్టూ రంగుల నమూనాలు తీసుకుంటుంది. చిత్రాలు భద్రపరచదు."
+
+msgid "Cancel"
+msgstr "రద్దు"
+
+msgid "Cancel download"
+msgstr "డౌన్‌లోడ్ రద్దు"
+
+msgid "Checking and unpacking %1…"
+msgstr "%1 తనిఖీ చేసి సంగ్రహిస్తోంది…"
+
+msgid "Checking and unpacking %s…"
+msgstr "%s తనిఖీ చేసి సంగ్రహిస్తోంది…"
+
+msgid "Checking local speech components"
+msgstr "స్థానిక మాటల భాగాలను తనిఖీ చేస్తోంది"
+
+msgid "Chinese"
+msgstr "చైనీస్"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Kalipso ప్రసంగ పాఠాలలో ఒకటి ఎంచుకోండి"
+
+msgid "Choose the language you speak."
+msgstr "మీరు మాట్లాడే భాష ఎంచుకోండి."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "పఠన కిటికీ వెనుక కిటికీ ఎంచుకోండి. డెస్క్‌టాప్ అనుమతి అవసరం."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "డెస్క్‌టాప్ భాగస్వామ్య డైలాగ్‌లో పఠన కిటికీ వెనుక కిటికీ ఎంచుకోండి"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "భాష ఎంచుకుంటే దాని మాటల మోడల్ ప్రచురణకర్త నుంచి ఒక్కసారి డౌన్‌లోడ్ అయి వేలిముద్రతో తనిఖీ అవుతుంది. తర్వాత గుర్తింపు ఈ కంప్యూటర్‌లో నడుస్తుంది: మీరు చెప్పేది ఏదీ పంపబడదు."
+
+msgid "Configure Kalipso…"
+msgstr "Kalipso అమర్చండి…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "%1 డౌన్‌లోడ్ కాలేదు. ఇంటర్నెట్ కనెక్షన్ తనిఖీ చేసి మళ్లీ ప్రయత్నించండి."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "%s డౌన్‌లోడ్ కాలేదు. ఇంటర్నెట్ కనెక్షన్ తనిఖీ చేసి మళ్లీ ప్రయత్నించండి."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "%1 భద్రపరచలేకపోయాం: ఖాళీ స్థలం సరిపోదు లేదా డేటా ఫోల్డర్‌లో రాయలేం."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "%s భద్రపరచలేకపోయాం: ఖాళీ స్థలం సరిపోదు లేదా డేటా ఫోల్డర్‌లో రాయలేం."
+
+msgid "Countdown before steady scrolling"
+msgstr "స్థిరంగా స్క్రోల్ చేసే ముందు కౌంట్‌డౌన్"
+
+msgid "Countdown before steady scrolling:"
+msgstr "స్థిరంగా స్క్రోల్ చేసే ముందు కౌంట్‌డౌన్:"
+
+msgid "Dark"
+msgstr "ముదురు"
+
+msgid "Desktop theme"
+msgstr "డెస్క్‌టాప్ థీమ్"
+
+msgid "Done"
+msgstr "పూర్తయింది"
+
+msgid "Done editing"
+msgstr "సవరణ పూర్తయింది"
+
+msgid "Download and use"
+msgstr "డౌన్‌లోడ్ చేసి వాడండి"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "డౌన్‌లోడ్ రద్దయింది. ఏదీ మారలేదు."
+
+msgid "Download progress"
+msgstr "డౌన్‌లోడ్ పురోగతి"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "%1 డౌన్‌లోడ్ అవుతోంది: %3 MBలో %2"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "%s డౌన్‌లోడ్ అవుతోంది: %d / %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Kalipsoలో సవరించండి"
+
+msgid "Edit script"
+msgstr "ప్రసంగ పాఠం సవరించండి"
+
+msgid "End of script · Microphone off"
+msgstr "ప్రసంగ పాఠం ముగిసింది · మైక్రోఫోన్ ఆఫ్"
+
+msgid "English"
+msgstr "ఆంగ్లం"
+
+msgid "Faster"
+msgstr "వేగం పెంచండి"
+
+msgid "Follow a window's colors…"
+msgstr "కిటికీ రంగులను అనుసరించండి…"
+
+msgid "Follow my voice"
+msgstr "నా స్వరాన్ని అనుసరించు"
+
+msgid "Font:"
+msgstr "ఫాంట్:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "అద్దం ద్వారా పఠన కిటికీ చూపించే బీమ్-స్ప్లిటర్ పరికరాల కోసం."
+
+msgid "French"
+msgstr "ఫ్రెంచ్"
+
+msgid "German"
+msgstr "జర్మన్"
+
+msgid "Help:"
+msgstr "సహాయం:"
+
+msgid "Hide"
+msgstr "దాచండి"
+
+msgid "Horizontal"
+msgstr "అడ్డంగా"
+
+msgid "Interface font"
+msgstr "ఇంటర్‌ఫేస్ ఫాంట్"
+
+msgid "Italian"
+msgstr "ఇటాలియన్"
+
+msgid "Japanese"
+msgstr "జపనీస్"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso x86_64 కంప్యూటర్‌లలో Linuxపై మాటల మోడల్‌లను డౌన్‌లోడ్ చేస్తుంది."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "కీలు: బాణాలు లేదా Page Up/Downతో ముందుకు, Spaceతో ప్రారంభం లేదా విరామం, + మరియు −తో స్థిర వేగం మారుతుంది. తెర భాగస్వామ్యంలో విడ్జెట్ కనిపించవచ్చు; ఇతరులకు ఏం కనిపిస్తుందో చూడండి."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "కీలు: బాణాలు లేదా Page Up/Downతో ముందుకు, Spaceతో ప్రారంభం లేదా విరామం, + మరియు −తో స్థిర వేగం మారుతుంది. తెర భాగస్వామ్యంలో పఠన కిటికీ కనిపించవచ్చు; ఇతరులకు ఏం కనిపిస్తుందో చూడండి."
+
+msgid "Language you speak"
+msgstr "మీరు మాట్లాడే భాష"
+
+msgid "Language you speak:"
+msgstr "మీరు మాట్లాడే భాష:"
+
+msgid "Larger"
+msgstr "పెద్దది"
+
+msgid "Light"
+msgstr "లేత"
+
+msgid "Line spacing"
+msgstr "పంక్తుల మధ్య దూరం"
+
+msgid "Line spacing:"
+msgstr "పంక్తుల మధ్య దూరం:"
+
+msgid "Listening · On this device"
+msgstr "వింటోంది · ఈ పరికరంలో"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "స్థానిక మాటల గుర్తింపు ఇన్‌స్టాల్ కాలేదు. సహాయకం, భాష మోడల్ ఇన్‌స్టాల్ చేయడానికి స్థానిక మాటల అమరిక తెరవండి."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "స్థానిక మాటల గుర్తింపు అందుబాటులో లేదు. సహాయకం, భాష మోడల్ ఇన్‌స్టాల్ చేయడానికి స్థానిక మాటల అమరిక తెరవండి."
+
+msgid "Local speech recognition follows what you say."
+msgstr "స్థానిక మాటల గుర్తింపు మీరు చెప్పేదాన్ని అనుసరిస్తుంది."
+
+msgid "Local speech setup"
+msgstr "స్థానిక మాటల అమరిక"
+
+msgid "Local speech setup ↗"
+msgstr "స్థానిక మాటల అమరిక ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "స్థానిక మాటల గుర్తింపు లేదు. %s docs/local-engine.md చూడండి."
+
+msgid "Manual"
+msgstr "చేతితో"
+
+msgid "Manual · Microphone off"
+msgstr "చేతితో · మైక్రోఫోన్ ఆఫ్"
+
+msgid "Microphone stopped"
+msgstr "మైక్రోఫోన్ ఆగింది"
+
+msgid "Mirror"
+msgstr "అద్దం ప్రతిబింబం"
+
+msgid "Mirror:"
+msgstr "అద్దం ప్రతిబింబం:"
+
+msgid "More"
+msgstr "మరిన్ని"
+
+msgid "Next section"
+msgstr "తదుపరి విభాగం"
+
+msgid "Next words"
+msgstr "తదుపరి పదాలు"
+
+msgid "Normal"
+msgstr "సాధారణం"
+
+msgid "Off"
+msgstr "ఆఫ్"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "పాఠం వెలుపల · పాఠానికి తిరిగొస్తే Kalipso అందుకుంటుంది"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "మొత్తం పాఠం చదవడానికి లేదా మార్చడానికి ప్రసంగ పాఠం సవరించండి తెరవండి."
+
+msgid "Pause"
+msgstr "విరామం"
+
+msgid "Paused · Microphone off"
+msgstr "విరామంలో · మైక్రోఫోన్ ఆఫ్"
+
+msgid "Previous"
+msgstr "మునుపటిది"
+
+msgid "Previous section"
+msgstr "మునుపటి విభాగం"
+
+msgid "Reader colors"
+msgstr "పఠన కిటికీ రంగులు"
+
+msgid "Reader colors:"
+msgstr "పఠన కిటికీ రంగులు:"
+
+msgid "Reader font"
+msgstr "పఠన కిటికీ ఫాంట్"
+
+msgid "Reading"
+msgstr "పఠనం"
+
+msgid "Reading excerpt"
+msgstr "చదివే భాగం"
+
+msgid "Reading mode"
+msgstr "పఠన విధానం"
+
+msgid "Reading mode:"
+msgstr "పఠన విధానం:"
+
+msgid "Reading mode: %1"
+msgstr "పఠన విధానం: %1"
+
+msgid "Reading progress"
+msgstr "పఠన పురోగతి"
+
+msgid "Reading size"
+msgstr "పఠన పరిమాణం"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "%2తో %1 భాషలో వినడానికి సిద్ధం."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "%1 భాషలో వినడానికి సిద్ధం. నా స్వరాన్ని అనుసరించు ఎంచుకుని వినడం ప్రారంభించండి."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "%s భాషలో %sతో వినడానికి సిద్ధం."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "%s భాషలో వినడానికి సిద్ధం. నా స్వరాన్ని అనుసరించు ఎంచుకుని వినడం ప్రారంభించండి."
+
+msgid "Relaxed"
+msgstr "విడిగా"
+
+msgid "Reset"
+msgstr "రీసెట్"
+
+msgid "SCRIPT"
+msgstr "ప్రసంగ పాఠం"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "స్వయంగా భద్రపడుతుంది. [బ్రాకెట్లలో సూచనలు] కనిపిస్తాయి కానీ బిగ్గరగా చదవరు. #తో మొదలయ్యే పంక్తులు విభాగాలు."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "తెర రంగులు అందుబాటులో లేవు. అపారదర్శక పఠన కిటికీ వ్యత్యాసాన్ని నిలుపుకుంటుంది."
+
+msgid "Script"
+msgstr "ప్రసంగ పాఠం"
+
+msgid "Script: %1"
+msgstr "ప్రసంగ పాఠం: %1"
+
+msgid "Scripts"
+msgstr "ప్రసంగ పాఠాలు"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "ప్రసంగ పాఠాలు Kalipso యాప్‌లో రాసి మారుస్తారు; ఇక్కడ చదువుతారు."
+
+msgid "Scrolling · Microphone off"
+msgstr "స్క్రోల్ అవుతోంది · మైక్రోఫోన్ ఆఫ్"
+
+msgid "Section ›"
+msgstr "విభాగం ›"
+
+msgid "Sections"
+msgstr "విభాగాలు"
+
+msgid "Serif"
+msgstr "సెరిఫ్"
+
+msgid "Settings"
+msgstr "సెట్టింగ్‌లు"
+
+msgid "Slower"
+msgstr "వేగం తగ్గించండి"
+
+msgid "Smaller"
+msgstr "చిన్నది"
+
+msgid "Spanish"
+msgstr "స్పానిష్"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "మాటల గుర్తింపు లేదు · Kalipso అమర్చండి → స్వరం"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "మాటల గుర్తింపు లేదు · సెట్టింగ్‌లు తెరవండి"
+
+msgid "Start"
+msgstr "ప్రారంభించండి"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "%1 సెకనులో ప్రారంభం…"
+msgstr[1] "%1 సెకన్లలో ప్రారంభం…"
+
+msgid "Starting local speech…"
+msgstr "స్థానిక మాటల గుర్తింపు ప్రారంభమవుతోంది…"
+
+msgid "Steady speed"
+msgstr "స్థిర వేగం"
+
+msgid "Steady speed:"
+msgstr "స్థిర వేగం:"
+
+msgid "Stop following the window"
+msgstr "కిటికీ అనుసరణ ఆపండి"
+
+msgid "Text size:"
+msgstr "అక్షర పరిమాణం:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%1 డౌన్‌లోడ్ దాని వేలిముద్రతో సరిపోలలేదు, అందుకే తొలగించాం. తర్వాత మళ్లీ ప్రయత్నించండి."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "%1 మోడల్ సంగ్రహించలేకపోయాం. తర్వాత మళ్లీ ప్రయత్నించండి."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "%s డౌన్‌లోడ్ దాని వేలిముద్రతో సరిపోలలేదు, అందుకే తొలగించాం. తర్వాత మళ్లీ ప్రయత్నించండి."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "%s మోడల్ సంగ్రహించలేకపోయాం. తర్వాత మళ్లీ ప్రయత్నించండి."
+
+msgid "The microphone turns on when you start"
+msgstr "మీరు ప్రారంభించినప్పుడు మైక్రోఫోన్ ఆన్ అవుతుంది"
+
+msgid "The words advance at the speed below."
+msgstr "కింద వేగంతో పదాలు ముందుకు కదులుతాయి."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "ఈ Kalipso సహాయకంతో భాషలను డౌన్‌లోడ్ చేయలేరు. ఇన్‌స్టాల్ లేదా నవీకరణ చేసి, లాగౌట్ అయ్యి మళ్లీ లాగిన్ అవ్వండి."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "పఠన కిటికీ వెనుక కిటికీ రంగులు తీసుకోవడానికి, పఠన కిటికీ ⋯ మెనూలో కిటికీ రంగులను అనుసరించండి… ఎంచుకోండి."
+
+msgid "Try again"
+msgstr "మళ్లీ ప్రయత్నించండి"
+
+msgid "Use this language"
+msgstr "ఈ భాష వాడండి"
+
+msgid "Vertical"
+msgstr "నిలువుగా"
+
+msgid "Voice"
+msgstr "స్వరం"
+
+msgid "Wide"
+msgstr "వెడల్పు"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "కిటికీ రంగులు లేవు. Kalipso సహాయకం, డెస్క్‌టాప్ భాగస్వామ్య పోర్టల్ ఇన్‌స్టాల్ లేదా నవీకరణ చేయండి."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "కిటికీ భాగస్వామ్యం ఆగింది · కొనసాగించడానికి నేపథ్య కిటికీ ఎంచుకోండి"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "కీలు, పెడల్ లేదా క్లిక్కర్‌తో ముందుకు వెళతారు."
+
+msgid "your language"
+msgstr "మీ భాష"
+
+msgid "‹ Section"
+msgstr "‹ విభాగం"

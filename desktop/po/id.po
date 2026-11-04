@@ -1,0 +1,459 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: id\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=1; plural=(0);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 sudah diunduh. Pilih lagi setelah Anda berhenti mendengarkan."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 detik"
+
+msgid "%1 words/min"
+msgstr "%1 kata/menit"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 menit"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · unduh %2 MB"
+
+msgid "%d words/min"
+msgstr "%d kata/menit"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s sudah diunduh. Pilih lagi setelah Anda berhenti mendengarkan."
+
+msgid "%s · %d min"
+msgstr "%s · %d menit"
+
+msgid "%s · download %d MB"
+msgstr "%s · unduh %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Sedikit persiapan memberi ruang untuk percakapan yang lebih baik. [tersenyum]\n\nTidak perlu terburu-buru. Sisakan ruang untuk jeda. Kata-kata berikutnya akan ada di sini saat Anda siap."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Sedikit persiapan memberi ruang untuk percakapan yang lebih baik. [tersenyum] Tidak perlu terburu-buru. Baca kalimat pertama keras-keras dan lihat kata-katanya mengikuti Anda."
+
+msgid "A script written here"
+msgstr "Naskah yang ditulis di sini"
+
+msgid "Add your script to begin."
+msgstr "Tambahkan naskah untuk memulai."
+
+msgid "Appearance"
+msgstr "Tampilan"
+
+msgid "Automatic"
+msgstr "Otomatis"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Otomatis mengambil sampel warna di sekitar panel baca. Tidak ada gambar disimpan."
+
+msgid "Cancel"
+msgstr "Batal"
+
+msgid "Cancel download"
+msgstr "Batalkan unduhan"
+
+msgid "Checking and unpacking %1…"
+msgstr "Memeriksa dan mengekstrak %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Memeriksa dan mengekstrak %s…"
+
+msgid "Checking local speech components"
+msgstr "Memeriksa komponen pengenalan ucapan lokal"
+
+msgid "Chinese"
+msgstr "Tionghoa"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Pilih salah satu naskah Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Pilih bahasa yang Anda gunakan."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Pilih jendela di belakang panel baca. Izin desktop diperlukan."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Pilih jendela di belakang panel baca dalam dialog berbagi desktop"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Memilih bahasa akan mengunduh model ucapannya sekali dari penerbit model dan memeriksa sidik digitalnya. Pengenalan lalu berjalan di komputer ini: tidak ada ucapan Anda yang dikirim."
+
+msgid "Configure Kalipso…"
+msgstr "Konfigurasi Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Tidak dapat mengunduh %1. Periksa koneksi internet dan coba lagi."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Tidak dapat mengunduh %s. Periksa koneksi internet dan coba lagi."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Tidak dapat menyimpan %1: ruang kosong tidak cukup atau folder data tidak dapat ditulisi."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Tidak dapat menyimpan %s: ruang kosong tidak cukup atau folder data tidak dapat ditulisi."
+
+msgid "Countdown before steady scrolling"
+msgstr "Hitung mundur sebelum gulir tetap"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Hitung mundur sebelum gulir tetap:"
+
+msgid "Dark"
+msgstr "Gelap"
+
+msgid "Desktop theme"
+msgstr "Tema desktop"
+
+msgid "Done"
+msgstr "Selesai"
+
+msgid "Done editing"
+msgstr "Selesai mengedit"
+
+msgid "Download and use"
+msgstr "Unduh dan gunakan"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Unduhan dibatalkan. Tidak ada yang berubah."
+
+msgid "Download progress"
+msgstr "Progres unduhan"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Mengunduh %1: %2 dari %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Mengunduh %s: %d dari %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Edit di Kalipso"
+
+msgid "Edit script"
+msgstr "Edit naskah"
+
+msgid "End of script · Microphone off"
+msgstr "Akhir naskah · Mikrofon mati"
+
+msgid "English"
+msgstr "Inggris"
+
+msgid "Faster"
+msgstr "Lebih cepat"
+
+msgid "Follow a window's colors…"
+msgstr "Ikuti warna jendela…"
+
+msgid "Follow my voice"
+msgstr "Ikuti suara saya"
+
+msgid "Font:"
+msgstr "Font:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Untuk perangkat pembagi berkas yang menampilkan panel baca melalui cermin."
+
+msgid "French"
+msgstr "Prancis"
+
+msgid "German"
+msgstr "Jerman"
+
+msgid "Help:"
+msgstr "Bantuan:"
+
+msgid "Hide"
+msgstr "Sembunyikan"
+
+msgid "Horizontal"
+msgstr "Horizontal"
+
+msgid "Interface font"
+msgstr "Font antarmuka"
+
+msgid "Italian"
+msgstr "Italia"
+
+msgid "Japanese"
+msgstr "Jepang"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso mengunduh model ucapan di Linux untuk komputer x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Tombol: panah atau Page Up/Down untuk melangkah, Spasi untuk mulai atau jeda, + dan − untuk mengubah kecepatan tetap. Widget ini mungkin terlihat saat berbagi layar; periksa apa yang dilihat peserta lain."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Tombol: panah atau Page Up/Down untuk melangkah, Spasi untuk mulai atau jeda, + dan − untuk mengubah kecepatan tetap. Panel baca mungkin terlihat saat berbagi layar; periksa apa yang dilihat peserta lain."
+
+msgid "Language you speak"
+msgstr "Bahasa yang Anda gunakan"
+
+msgid "Language you speak:"
+msgstr "Bahasa yang Anda gunakan:"
+
+msgid "Larger"
+msgstr "Lebih besar"
+
+msgid "Light"
+msgstr "Terang"
+
+msgid "Line spacing"
+msgstr "Jarak baris"
+
+msgid "Line spacing:"
+msgstr "Jarak baris:"
+
+msgid "Listening · On this device"
+msgstr "Mendengarkan · Di perangkat ini"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Pengenalan ucapan lokal belum terpasang. Buka Pengaturan ucapan lokal untuk memasang aplikasi pendamping dan model bahasa."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Pengenalan ucapan lokal tidak tersedia. Buka Pengaturan ucapan lokal untuk memasang aplikasi pendamping dan model bahasa."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Pengenalan ucapan lokal mengikuti apa yang Anda katakan."
+
+msgid "Local speech setup"
+msgstr "Pengaturan ucapan lokal"
+
+msgid "Local speech setup ↗"
+msgstr "Pengaturan ucapan lokal ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Pengenalan ucapan lokal tidak tersedia. %s Lihat docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Manual"
+
+msgid "Manual · Microphone off"
+msgstr "Manual · Mikrofon mati"
+
+msgid "Microphone stopped"
+msgstr "Mikrofon dihentikan"
+
+msgid "Mirror"
+msgstr "Cermin"
+
+msgid "Mirror:"
+msgstr "Cermin:"
+
+msgid "More"
+msgstr "Lainnya"
+
+msgid "Next section"
+msgstr "Bagian berikutnya"
+
+msgid "Next words"
+msgstr "Kata berikutnya"
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Off"
+msgstr "Mati"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Keluar dari naskah · Kalipso menyusul saat Anda kembali ke teks"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Buka Edit naskah untuk membaca atau mengubah seluruh naskah."
+
+msgid "Pause"
+msgstr "Jeda"
+
+msgid "Paused · Microphone off"
+msgstr "Dijeda · Mikrofon mati"
+
+msgid "Previous"
+msgstr "Sebelumnya"
+
+msgid "Previous section"
+msgstr "Bagian sebelumnya"
+
+msgid "Reader colors"
+msgstr "Warna panel baca"
+
+msgid "Reader colors:"
+msgstr "Warna panel baca:"
+
+msgid "Reader font"
+msgstr "Font panel baca"
+
+msgid "Reading"
+msgstr "Membaca"
+
+msgid "Reading excerpt"
+msgstr "Cuplikan bacaan"
+
+msgid "Reading mode"
+msgstr "Mode baca"
+
+msgid "Reading mode:"
+msgstr "Mode baca:"
+
+msgid "Reading mode: %1"
+msgstr "Mode baca: %1"
+
+msgid "Reading progress"
+msgstr "Progres membaca"
+
+msgid "Reading size"
+msgstr "Ukuran bacaan"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Siap mendengarkan dalam bahasa %1, dengan %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Siap mendengarkan dalam bahasa %1. Pilih Ikuti suara saya dan mulai mendengarkan."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Siap mendengarkan dalam bahasa %s, dengan %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Siap mendengarkan dalam bahasa %s. Pilih Ikuti suara saya dan mulai mendengarkan."
+
+msgid "Relaxed"
+msgstr "Renggang"
+
+msgid "Reset"
+msgstr "Atur ulang"
+
+msgid "SCRIPT"
+msgstr "NASKAH"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Disimpan otomatis. [Petunjuk dalam kurung siku] ditampilkan tetapi tidak dibaca keras-keras. Baris yang dimulai dengan # adalah bagian."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Warna layar tidak tersedia. Panel baca yang tidak transparan tetap mempertahankan kontrasnya."
+
+msgid "Script"
+msgstr "Naskah"
+
+msgid "Script: %1"
+msgstr "Naskah: %1"
+
+msgid "Scripts"
+msgstr "Naskah"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Naskah ditulis dan diubah di aplikasi Kalipso; di sini naskah dibaca."
+
+msgid "Scrolling · Microphone off"
+msgstr "Menggulir · Mikrofon mati"
+
+msgid "Section ›"
+msgstr "Bagian ›"
+
+msgid "Sections"
+msgstr "Bagian"
+
+msgid "Serif"
+msgstr "Serif"
+
+msgid "Settings"
+msgstr "Pengaturan"
+
+msgid "Slower"
+msgstr "Lebih lambat"
+
+msgid "Smaller"
+msgstr "Lebih kecil"
+
+msgid "Spanish"
+msgstr "Spanyol"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Pengenalan ucapan tidak tersedia · Konfigurasi Kalipso → Suara"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Pengenalan ucapan tidak tersedia · Buka Pengaturan"
+
+msgid "Start"
+msgstr "Mulai"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Dimulai dalam %1 detik…"
+
+msgid "Starting local speech…"
+msgstr "Memulai pengenalan ucapan lokal…"
+
+msgid "Steady speed"
+msgstr "Kecepatan tetap"
+
+msgid "Steady speed:"
+msgstr "Kecepatan tetap:"
+
+msgid "Stop following the window"
+msgstr "Berhenti mengikuti jendela"
+
+msgid "Text size:"
+msgstr "Ukuran teks:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Unduhan %1 tidak cocok dengan sidik digitalnya, jadi dihapus. Coba lagi nanti."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Model %1 tidak dapat diekstrak. Coba lagi nanti."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Unduhan %s tidak cocok dengan sidik digitalnya, jadi dihapus. Coba lagi nanti."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Model %s tidak dapat diekstrak. Coba lagi nanti."
+
+msgid "The microphone turns on when you start"
+msgstr "Mikrofon menyala saat Anda mulai"
+
+msgid "The words advance at the speed below."
+msgstr "Kata-kata bergerak dengan kecepatan di bawah ini."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Aplikasi pendamping Kalipso ini tidak dapat mengunduh bahasa. Pasang atau perbarui, lalu keluar dan masuk lagi."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Untuk mengambil warna jendela di belakang panel baca, pilih Ikuti warna jendela… dalam menu ⋯ panel baca."
+
+msgid "Try again"
+msgstr "Coba lagi"
+
+msgid "Use this language"
+msgstr "Gunakan bahasa ini"
+
+msgid "Vertical"
+msgstr "Vertikal"
+
+msgid "Voice"
+msgstr "Suara"
+
+msgid "Wide"
+msgstr "Lebar"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Warna jendela tidak tersedia. Pasang atau perbarui aplikasi pendamping Kalipso dan portal berbagi desktop."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Berbagi jendela berhenti · Pilih jendela latar untuk melanjutkan"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Anda melangkah dengan tombol, pedal atau clicker."
+
+msgid "your language"
+msgstr "bahasa Anda"
+
+msgid "‹ Section"
+msgstr "‹ Bagian"

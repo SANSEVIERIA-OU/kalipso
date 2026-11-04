@@ -1,10 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// The words the scripts write, in the page's language; English when there is none for it.
-import en from './strings/en.mjs';
-import it from './strings/it.mjs';
-const all = {en, it};
-export const t = all[document.documentElement.lang.slice(0, 2)] ?? en;
+// Every static page has a complete local catalog, including full BCP 47 tags.
+export const t = (await import(`./strings/${document.documentElement.lang}.mjs`)).default;
 
 // A link to the page in another language keeps the place you are reading (the same section).
+function keepPlace(target) {
+  const url = new URL(target, location.href);
+  url.hash = location.hash;
+  url.search = location.search;
+  return url.href;
+}
 for (const link of document.querySelectorAll('a[data-language]'))
-  link.addEventListener('click', () => { if (location.hash) link.hash = location.hash; });
+  link.addEventListener('click', () => { link.href = keepPlace(link.href); });
+const picker = document.querySelector('#site-language');
+if (picker) {
+  picker.hidden = false;
+  document.querySelector('#language-link').hidden = true;
+}
+picker?.addEventListener('change', event => {
+  location.assign(keepPlace(event.target.value));
+});

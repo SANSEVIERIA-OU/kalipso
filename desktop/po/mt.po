@@ -1,0 +1,467 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: mt\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=5; plural=((((n == 0)) || (((n % 100) >= 3 && (n % 100) <= 10))) ? 2 : (((n % 100) >= 11 && (n % 100) <= 19)) ? 3 : ((n == 1)) ? 0 : ((n == 2)) ? 1 : 4);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "%1 tniżżel. Erġa' agħżlu meta twaqqaf is-smigħ."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekonda"
+msgstr[1] "%1 sekondi"
+msgstr[2] "%1 sekondi"
+msgstr[3] "%1-il sekonda"
+msgstr[4] "%1 sekonda"
+
+msgid "%1 words/min"
+msgstr "%1 kelma/min"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 min"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · niżżel %2 MB"
+
+msgid "%d words/min"
+msgstr "%d kelma/min"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "%s tniżżel. Erġa' agħżlu meta twaqqaf is-smigħ."
+
+msgid "%s · %d min"
+msgstr "%s · %d min"
+
+msgid "%s · download %d MB"
+msgstr "%s · niżżel %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Ftit tħejjija tagħmel spazju għal konversazzjoni aħjar. [tbissem]\n\nĦu l-ħin tiegħek. Ħalli spazju għal pawża. Il-kliem li jmiss tiegħek ikun hawn meta tkun lest."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Ftit tħejjija tagħmel spazju għal konversazzjoni aħjar. [tbissem] Ħu l-ħin tiegħek. Aqra l-ewwel sentenza b'leħen għoli u ara l-kliem isegwik."
+
+msgid "A script written here"
+msgstr "Test tad-diskors miktub hawn"
+
+msgid "Add your script to begin."
+msgstr "Żid it-test tiegħek biex tibda."
+
+msgid "Appearance"
+msgstr "Dehra"
+
+msgid "Automatic"
+msgstr "Awtomatiku"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Awtomatiku jieħu kampjuni tal-kuluri madwar iż-żona tal-qari. Ebda stampi ma jiġu ssejvjati."
+
+msgid "Cancel"
+msgstr "Ikkanċella"
+
+msgid "Cancel download"
+msgstr "Ikkanċella t-tniżżil"
+
+msgid "Checking and unpacking %1…"
+msgstr "Qed jiġi ċċekkjat u estratt %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Qed jiġi ċċekkjat u estratt %s…"
+
+msgid "Checking local speech components"
+msgstr "Qed jiġu ċċekkjati l-komponenti lokali tad-diskors"
+
+msgid "Chinese"
+msgstr "Ċiniż"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Agħżel wieħed mit-testi ta' Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Agħżel il-lingwa li titkellem."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Agħżel it-tieqa wara ż-żona tal-qari. Jeħtieġ permess tad-desktop."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Agħżel it-tieqa wara ż-żona tal-qari fid-djalogu tal-qsim tad-desktop"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Meta tagħżel lingwa, il-mudell tad-diskors tagħha jitniżżel darba waħda mill-pubblikatur tiegħu u jiġi ċċekkjat ma' marka ta' referenza. Imbagħad ir-rikonoxximent jaħdem fuq dan il-kompjuter: xejn minn dak li tgħid ma jintbagħat."
+
+msgid "Configure Kalipso…"
+msgstr "Ikkonfigura Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Ma setax jitniżżel %1. Iċċekkja l-konnessjoni tal-internet u erġa' pprova."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Ma setax jitniżżel %s. Iċċekkja l-konnessjoni tal-internet u erġa' pprova."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Ma setax jiġi ssejvjat %1: m'hemmx biżżejjed spazju liberu jew ma jistax jinkiteb fil-fowlder tad-data."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Ma setax jiġi ssejvjat %s: m'hemmx biżżejjed spazju liberu jew ma jistax jinkiteb fil-fowlder tad-data."
+
+msgid "Countdown before steady scrolling"
+msgstr "Għadd lura qabel l-iskrolljar kostanti"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Għadd lura qabel l-iskrolljar kostanti:"
+
+msgid "Dark"
+msgstr "Skur"
+
+msgid "Desktop theme"
+msgstr "Tema tad-desktop"
+
+msgid "Done"
+msgstr "Lest"
+
+msgid "Done editing"
+msgstr "Temm l-editjar"
+
+msgid "Download and use"
+msgstr "Niżżel u uża"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Tniżżil ikkanċellat. Xejn ma nbidel."
+
+msgid "Download progress"
+msgstr "Progress tat-tniżżil"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Qed jitniżżel %1: %2 minn %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Qed jitniżżel %s: %d minn %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Editja f'Kalipso"
+
+msgid "Edit script"
+msgstr "Editja t-test tad-diskors"
+
+msgid "End of script · Microphone off"
+msgstr "Tmiem it-test tad-diskors · Mikrofonu mitfi"
+
+msgid "English"
+msgstr "Ingliż"
+
+msgid "Faster"
+msgstr "Aktar mgħaġġel"
+
+msgid "Follow a window's colors…"
+msgstr "Segwi l-kuluri ta' tieqa…"
+
+msgid "Follow my voice"
+msgstr "Segwi leħni"
+
+msgid "Font:"
+msgstr "Font:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Għal teleprompters b'mera semitrasparenti, li juru ż-żona tal-qari permezz ta' mera."
+
+msgid "French"
+msgstr "Franċiż"
+
+msgid "German"
+msgstr "Ġermaniż"
+
+msgid "Help:"
+msgstr "Għajnuna:"
+
+msgid "Hide"
+msgstr "Aħbi"
+
+msgid "Horizontal"
+msgstr "Orizzontali"
+
+msgid "Interface font"
+msgstr "Font tal-interfaċċa"
+
+msgid "Italian"
+msgstr "Taljan"
+
+msgid "Japanese"
+msgstr "Ġappuniż"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Kalipso jniżżel mudelli tad-diskors fuq Linux għal kompjuters x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Tasti: vleġeġ jew Page Up/Down imexxu, Spazju jibda jew iwaqqaf, + u − ibiddlu l-veloċità kostanti. Dan il-widget jista' jidher fil-qsim tal-iskrin; iċċekkja x'jaraw il-parteċipanti l-oħra."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Tasti: vleġeġ jew Page Up/Down imexxu, Spazju jibda jew iwaqqaf, + u − ibiddlu l-veloċità kostanti. Iż-żona tal-qari tista' tidher fil-qsim tal-iskrin; iċċekkja x'jaraw il-parteċipanti l-oħra."
+
+msgid "Language you speak"
+msgstr "Il-lingwa li titkellem"
+
+msgid "Language you speak:"
+msgstr "Il-lingwa li titkellem:"
+
+msgid "Larger"
+msgstr "Ikbar"
+
+msgid "Light"
+msgstr "Ċar"
+
+msgid "Line spacing"
+msgstr "Spazjar bejn il-linji"
+
+msgid "Line spacing:"
+msgstr "Spazjar bejn il-linji:"
+
+msgid "Listening · On this device"
+msgstr "Qed jisma' · Fuq dan l-apparat"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Ir-rikonoxximent lokali tad-diskors mhuwiex installat. Iftaħ Konfigurazzjoni tad-diskors lokali biex tinstalla servizz awżiljarju u mudell tal-lingwa."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Ir-rikonoxximent lokali tad-diskors mhuwiex disponibbli. Iftaħ Konfigurazzjoni tad-diskors lokali biex tinstalla s-servizz awżiljarju u mudell tal-lingwa."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Ir-rikonoxximent lokali tad-diskors isegwi dak li tgħid."
+
+msgid "Local speech setup"
+msgstr "Konfigurazzjoni tad-diskors lokali"
+
+msgid "Local speech setup ↗"
+msgstr "Konfigurazzjoni tad-diskors lokali ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Rikonoxximent lokali tad-diskors mhux disponibbli. %s Ara docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Manwali"
+
+msgid "Manual · Microphone off"
+msgstr "Manwali · Mikrofonu mitfi"
+
+msgid "Microphone stopped"
+msgstr "Mikrofonu mwaqqaf"
+
+msgid "Mirror"
+msgstr "Mera"
+
+msgid "Mirror:"
+msgstr "Mera:"
+
+msgid "More"
+msgstr "Aktar"
+
+msgid "Next section"
+msgstr "It-taqsima li jmiss"
+
+msgid "Next words"
+msgstr "Il-kliem li jmiss"
+
+msgid "Normal"
+msgstr "Normali"
+
+msgid "Off"
+msgstr "Mitfi"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Barra t-test · Kalipso jerġa' jsib postok meta terġa' lura għat-test"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Iftaħ Editja t-test tad-diskors biex taqra jew tibdel it-test sħiħ."
+
+msgid "Pause"
+msgstr "Waqqaf"
+
+msgid "Paused · Microphone off"
+msgstr "Imwaqqaf · Mikrofonu mitfi"
+
+msgid "Previous"
+msgstr "Ta' qabel"
+
+msgid "Previous section"
+msgstr "It-taqsima ta' qabel"
+
+msgid "Reader colors"
+msgstr "Kuluri taż-żona tal-qari"
+
+msgid "Reader colors:"
+msgstr "Kuluri taż-żona tal-qari:"
+
+msgid "Reader font"
+msgstr "Font tal-qari"
+
+msgid "Reading"
+msgstr "Qari"
+
+msgid "Reading excerpt"
+msgstr "Silta tal-qari"
+
+msgid "Reading mode"
+msgstr "Mod tal-qari"
+
+msgid "Reading mode:"
+msgstr "Mod tal-qari:"
+
+msgid "Reading mode: %1"
+msgstr "Mod tal-qari: %1"
+
+msgid "Reading progress"
+msgstr "Progress tal-qari"
+
+msgid "Reading size"
+msgstr "Daqs tal-qari"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Lest biex jisma'. Lingwa: %1, b'%2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Lest biex jisma'. Lingwa: %1. Agħżel Segwi leħni u ibda s-smigħ."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Lest biex jisma'. Lingwa: %s, b'%s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Lest biex jisma'. Lingwa: %s. Agħżel Segwi leħni u ibda s-smigħ."
+
+msgid "Relaxed"
+msgstr "Spazjuż"
+
+msgid "Reset"
+msgstr "Irrisettja"
+
+msgid "SCRIPT"
+msgstr "TEST TAD-DISKORS"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Issejvjat awtomatikament. [Indikazzjonijiet fil-parentesi kwadri] jintwerew iżda ma jinqrawx b'leħen għoli. Linji li jibdew b'# huma taqsimiet."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Il-kuluri tal-iskrin mhumiex disponibbli. Iż-żona tal-qari opaka żżomm il-kuntrast tagħha."
+
+msgid "Script"
+msgstr "Test tad-diskors"
+
+msgid "Script: %1"
+msgstr "Test tad-diskors: %1"
+
+msgid "Scripts"
+msgstr "Testi tad-diskors"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "It-testi jinkitbu u jinbidlu fl-app Kalipso; hawn jinqraw."
+
+msgid "Scrolling · Microphone off"
+msgstr "Qed jiskrollja · Mikrofonu mitfi"
+
+msgid "Section ›"
+msgstr "Taqsima ›"
+
+msgid "Sections"
+msgstr "Taqsimiet"
+
+msgid "Serif"
+msgstr "Bis-serif"
+
+msgid "Settings"
+msgstr "Issettjar"
+
+msgid "Slower"
+msgstr "Aktar bil-mod"
+
+msgid "Smaller"
+msgstr "Iżgħar"
+
+msgid "Spanish"
+msgstr "Spanjol"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Rikonoxximent tad-diskors mhux disponibbli · Ikkonfigura Kalipso → Leħen"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Rikonoxximent tad-diskors mhux disponibbli · Iftaħ Issettjar"
+
+msgid "Start"
+msgstr "Ibda"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Jibda fi żmien %1 sekonda…"
+msgstr[1] "Jibda fi żmien %1 sekondi…"
+msgstr[2] "Jibda fi żmien %1 sekondi…"
+msgstr[3] "Jibda fi żmien %1-il sekonda…"
+msgstr[4] "Jibda fi żmien %1 sekonda…"
+
+msgid "Starting local speech…"
+msgstr "Qed jibda r-rikonoxximent lokali tad-diskors…"
+
+msgid "Steady speed"
+msgstr "Veloċità kostanti"
+
+msgid "Steady speed:"
+msgstr "Veloċità kostanti:"
+
+msgid "Stop following the window"
+msgstr "Waqqaf is-segwiment tat-tieqa"
+
+msgid "Text size:"
+msgstr "Daqs tat-test:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "It-tniżżil ta' %1 ma qabilx mal-marka tiegħu, għalhekk tħassar. Erġa' pprova aktar tard."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Il-mudell %1 ma setax jiġi estratt. Erġa' pprova aktar tard."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "It-tniżżil ta' %s ma qabilx mal-marka tiegħu, għalhekk tħassar. Erġa' pprova aktar tard."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Il-mudell %s ma setax jiġi estratt. Erġa' pprova aktar tard."
+
+msgid "The microphone turns on when you start"
+msgstr "Il-mikrofonu jixgħel meta tibda"
+
+msgid "The words advance at the speed below."
+msgstr "Il-kliem jimxi 'l quddiem bil-veloċità ta' hawn taħt."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Dan is-servizz awżiljarju ta' Kalipso ma jistax iniżżel lingwi. Installah jew aġġornah, imbagħad oħroġ mis-sessjoni u erġa' idħol."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Biex tieħu l-kuluri ta' tieqa wara ż-żona tal-qari, agħżel Segwi l-kuluri ta' tieqa… fil-menu ⋯ taż-żona tal-qari."
+
+msgid "Try again"
+msgstr "Erġa' pprova"
+
+msgid "Use this language"
+msgstr "Uża din il-lingwa"
+
+msgid "Vertical"
+msgstr "Vertikali"
+
+msgid "Voice"
+msgstr "Leħen"
+
+msgid "Wide"
+msgstr "Wiesa'"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Il-kuluri tat-tieqa mhumiex disponibbli. Installa jew aġġorna s-servizz awżiljarju ta' Kalipso u l-portal tal-qsim tad-desktop."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Il-qsim tat-tieqa twaqqaf · Agħżel tieqa fl-isfond biex tkompli"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Timxi 'l quddiem bit-tasti, b'pedala jew b'remot tal-preżentazzjoni."
+
+msgid "your language"
+msgstr "il-lingwa tiegħek"
+
+msgid "‹ Section"
+msgstr "‹ Taqsima"

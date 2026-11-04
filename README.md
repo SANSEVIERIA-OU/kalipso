@@ -140,7 +140,7 @@ On Windows and macOS, Kalipso listens with the system's own speech recognition a
 - **Screen sharing:** on Windows the standalone app asks the system to keep the reader out of screen shares and recordings; on KDE Plasma 6.6+ Kalipso's KWin script does the same under the camera ([how](docs/standalone.md#screen-sharing)). macOS offers no reliable way for an app to do this, so share a single window there. Always check what other participants see.
 - **Desktop versions:** the GNOME extension declares Shell 48 and 51 (51 tested headless); the Plasma widget is tested with Plasma 6.3 and 6.8.
 - **Speech models:** the download catalog has Moonshine models for English, German, Spanish, Japanese and Chinese, and Vosk models for those plus Italian. Other compatible models can be configured by hand.
-- **Interface languages:** English and Italian.
+- **Interface languages:** 39 languages across the app, desktop integrations and website; generated translations await native-speaker review. See [translation and review guidelines](docs/translations.md).
 
 ## License
 

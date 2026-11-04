@@ -75,8 +75,8 @@ export const tokens = {
     "nightMuted": "#94928E",
     "nightLine": "#2D2B28",
     "nightControl": "#767470",
-    "fontDisplay": "'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif",
-    "fontBody": "'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif",
+    "fontDisplay": "'Atkinson Hyperlegible Next', 'Noto Interface', 'Noto CJK SC', 'Noto CJK JP', sans-serif",
+    "fontBody": "'Atkinson Hyperlegible Next', 'Noto Interface', 'Noto CJK SC', 'Noto CJK JP', sans-serif",
     "fontMono": "'Atkinson Hyperlegible Mono', ui-monospace, monospace",
     "textSmall": "0.875rem",
     "textBody": "1.0625rem",
@@ -107,6 +107,7 @@ export const tokens = {
     "stagger": "70ms",
     "glide": "480ms",
     "easeReveal": "cubic-bezier(.16,1,.3,1)",
-    "nightHover": "#262421"
+    "nightHover": "#262421",
+    "fontJapanese": "'Atkinson Hyperlegible Next', 'Noto Interface', 'Noto CJK JP', 'Noto CJK SC', sans-serif"
   }
 };

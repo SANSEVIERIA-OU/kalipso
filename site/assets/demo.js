@@ -13,7 +13,7 @@ if(script){
   for(const [className,text] of [['read-word',(first?'… ':'')+tracker.text.slice(start,current)],['current-word',word?tracker.text.slice(word.start,end):''],['next-word',tracker.text.slice(Math.max(start,end),finish)+(last<tracker.words.length?' …':'')]]){if(!text)continue;const span=document.createElement('span');span.className=className;for(const part of text.replace(/\s+/g,' ').split(/(\[[^\]]*\])/)){if(!part)continue;if(/^\[.*\]$/.test(part)){const cue=document.createElement('span');cue.className='cue';cue.textContent=part;span.append(cue)}else span.append(part)}reading.append(span)}
   document.querySelector('#read-progress').style.inlineSize=`${tracker.words.length?100*(tracker.position+1)/tracker.words.length:0}%`;
   if(!tracker.words.length)reading.textContent=t.emptyScript;
-  count.textContent=`${tracker.position+1} / ${tracker.words.length}`;
+  count.textContent=`${new Intl.NumberFormat(document.documentElement.dataset.numberLocale || document.documentElement.lang).format(tracker.position+1)} / ${new Intl.NumberFormat(document.documentElement.dataset.numberLocale || document.documentElement.lang).format(tracker.words.length)}`;
   const next=document.querySelector('#next-word'),previous=document.querySelector('#previous-word'),focused=document.activeElement;
   next.disabled=!tracker.words.length||tracker.position===tracker.words.length-1;
   previous.disabled=tracker.position<0;

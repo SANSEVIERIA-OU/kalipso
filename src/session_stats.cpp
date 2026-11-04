@@ -6,7 +6,9 @@
 namespace {
 QString clock(qint64 ms) {
     const qint64 seconds = (ms + 500) / 1000;
-    return QStringLiteral("%1:%2").arg(seconds / 60).arg(seconds % 60, 2, 10, QLatin1Char('0'));
+    const auto remainder = QLocale().toString(seconds % 60);
+    return QStringLiteral("%1:%2").arg(QLocale().toString(seconds / 60),
+                                       seconds % 60 < 10 ? QLocale().toString(0) + remainder : remainder);
 }
 
 // Markdown table cells cannot contain "|" or line breaks.
@@ -16,29 +18,28 @@ QString cell(QString text) { return text.replace(u'|', u'/').simplified(); }
 QString SessionStats::report(const Summary &summary, const QString &script, const QString &title,
                              const QDateTime &when) {
     const auto words = ScriptTracker::tokenize(script);
-    QStringList lines{QCoreApplication::translate("SessionStats", "# Session report: %1").arg(cell(title)),
-                      QString(),
-                      QLocale().toString(when, QLocale::LongFormat),
-                      QString(),
+    QStringList lines{QCoreApplication::translate("SessionStats", "# Session report: %1").arg(cell(title)), QString(),
+                      QLocale().toString(when, QLocale::LongFormat), QString(),
                       QCoreApplication::translate("SessionStats", "- Duration: %1").arg(clock(summary.durationMs))};
     ScriptTracker counter;
     counter.setScript(script);
     lines << QCoreApplication::translate("SessionStats", "- Words read: %n of %1", nullptr, summary.words)
-                 .arg(counter.count());
+                 .arg(QLocale().toString(counter.count()));
     if (summary.wordsPerMinute > 0)
-        lines
-            << QCoreApplication::translate("SessionStats", "- Pace: %1 words/min").arg(qRound(summary.wordsPerMinute));
+        lines << QCoreApplication::translate("SessionStats", "- Pace: %1 words/min")
+                     .arg(QLocale().toString(qRound(summary.wordsPerMinute)));
     // Against the steady speed: the time these words would have taken, and the difference.
     if (summary.plannedWordsPerMinute > 0 && summary.wordsPerMinute > 0) {
         const qint64 planned = qint64(summary.words) * 60000 / summary.plannedWordsPerMinute;
         const int difference = paceAgainstPlan(summary);
         const auto comparison =
-            std::abs(difference) < 3
-                ? QCoreApplication::translate("SessionStats", "as planned")
-            : difference > 0 ? QCoreApplication::translate("SessionStats", "%1% faster").arg(difference)
-                             : QCoreApplication::translate("SessionStats", "%1% slower").arg(-difference);
-        lines << QCoreApplication::translate("SessionStats", "- At the planned %1 words/min: %2 expected, %3 taken (%4)")
-                     .arg(summary.plannedWordsPerMinute)
+            std::abs(difference) < 3 ? QCoreApplication::translate("SessionStats", "as planned")
+            : difference > 0
+                ? QCoreApplication::translate("SessionStats", "%1% faster").arg(QLocale().toString(difference))
+                : QCoreApplication::translate("SessionStats", "%1% slower").arg(QLocale().toString(-difference));
+        lines << QCoreApplication::translate("SessionStats",
+                                             "- At the planned %1 words/min: %2 expected, %3 taken (%4)")
+                     .arg(QLocale().toString(summary.plannedWordsPerMinute))
                      .arg(clock(planned), clock(summary.durationMs), comparison);
     }
     lines << QCoreApplication::translate("SessionStats", "- Pauses over 3 s: %n", nullptr, summary.longPauses);

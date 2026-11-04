@@ -1,0 +1,461 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Generated from translations/catalogs; native-speaker review status: translations/locales.json.
+msgid ""
+msgstr "Project-Id-Version: kalipso-desktop\nLanguage: el\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(((n == 1)) ? 0 : 1);\n"
+
+msgid "%1 is downloaded. Choose it again when you stop listening."
+msgstr "Το %1 κατέβηκε. Επιλέξτε το ξανά όταν σταματήσετε την ακρόαση."
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 δευτερόλεπτο"
+msgstr[1] "%1 δευτερόλεπτα"
+
+msgid "%1 words/min"
+msgstr "%1 λέξεις/λεπτό"
+
+msgid "%1 · %2 min"
+msgstr "%1 · %2 λεπτά"
+
+msgid "%1 · download %2 MB"
+msgstr "%1 · λήψη %2 MB"
+
+msgid "%d words/min"
+msgstr "%d λέξεις/λεπτό"
+
+msgid "%s is downloaded. Choose it again when you stop listening."
+msgstr "Το %s κατέβηκε. Επιλέξτε το ξανά όταν σταματήσετε την ακρόαση."
+
+msgid "%s · %d min"
+msgstr "%s · %d λεπτά"
+
+msgid "%s · download %d MB"
+msgstr "%s · λήψη %d MB"
+
+msgid "A little preparation makes room for a better conversation. [smile]\n\nTake your time. Leave space for a pause. Your next words will be here when you are ready."
+msgstr "Λίγη προετοιμασία αφήνει χώρο για μια καλύτερη συζήτηση. [χαμόγελο]\n\nΠάρτε τον χρόνο σας. Αφήστε χώρο για μια παύση. Οι επόμενες λέξεις σας θα είναι εδώ όταν είστε έτοιμοι."
+
+msgid "A little preparation makes room for a better conversation. [smile] Take your time. Read the first sentence aloud and watch the words follow you."
+msgstr "Λίγη προετοιμασία αφήνει χώρο για μια καλύτερη συζήτηση. [χαμόγελο] Πάρτε τον χρόνο σας. Διαβάστε την πρώτη πρόταση φωναχτά και δείτε τις λέξεις να σας ακολουθούν."
+
+msgid "A script written here"
+msgstr "Κείμενο γραμμένο εδώ"
+
+msgid "Add your script to begin."
+msgstr "Προσθέστε το κείμενό σας για να ξεκινήσετε."
+
+msgid "Appearance"
+msgstr "Εμφάνιση"
+
+msgid "Automatic"
+msgstr "Αυτόματα"
+
+msgid "Automatic samples colors around the reader. No images are saved."
+msgstr "Η αυτόματη λειτουργία παίρνει χρώματα γύρω από το παράθυρο ανάγνωσης. Δεν αποθηκεύονται εικόνες."
+
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+msgid "Cancel download"
+msgstr "Ακύρωση λήψης"
+
+msgid "Checking and unpacking %1…"
+msgstr "Έλεγχος και αποσυμπίεση %1…"
+
+msgid "Checking and unpacking %s…"
+msgstr "Έλεγχος και αποσυμπίεση %s…"
+
+msgid "Checking local speech components"
+msgstr "Έλεγχος τοπικών στοιχείων ομιλίας"
+
+msgid "Chinese"
+msgstr "Κινεζικά"
+
+msgid "Choose one of Kalipso's scripts"
+msgstr "Επιλέξτε ένα από τα κείμενα του Kalipso"
+
+msgid "Choose the language you speak."
+msgstr "Επιλέξτε τη γλώσσα που μιλάτε."
+
+msgid "Choose the window behind the reader. Desktop permission is required."
+msgstr "Επιλέξτε το παράθυρο πίσω από το παράθυρο ανάγνωσης. Απαιτείται άδεια από το περιβάλλον επιφάνειας εργασίας."
+
+msgid "Choose the window behind your reader in the desktop sharing dialog"
+msgstr "Επιλέξτε το παράθυρο πίσω από το παράθυρο ανάγνωσης στον διάλογο κοινής χρήσης επιφάνειας εργασίας"
+
+msgid "Choosing a language downloads its speech model once, from the model's publisher, and checks it against a fingerprint. Recognition then runs on this computer: nothing you say is sent."
+msgstr "Η επιλογή μιας γλώσσας κατεβάζει το μοντέλο ομιλίας της μία φορά από τον εκδότη του και ελέγχει το ψηφιακό του αποτύπωμα. Η αναγνώριση εκτελείται έπειτα σε αυτόν τον υπολογιστή: τίποτα από όσα λέτε δεν αποστέλλεται."
+
+msgid "Configure Kalipso…"
+msgstr "Ρύθμιση Kalipso…"
+
+msgid "Couldn't download %1. Check the internet connection and try again."
+msgstr "Δεν ήταν δυνατή η λήψη του %1. Ελέγξτε τη σύνδεση στο διαδίκτυο και δοκιμάστε ξανά."
+
+msgid "Couldn't download %s. Check the internet connection and try again."
+msgstr "Δεν ήταν δυνατή η λήψη του %s. Ελέγξτε τη σύνδεση στο διαδίκτυο και δοκιμάστε ξανά."
+
+msgid "Couldn't save %1: there isn't enough free space, or the data folder can't be written."
+msgstr "Δεν ήταν δυνατή η αποθήκευση του %1: δεν υπάρχει αρκετός ελεύθερος χώρος ή δεν επιτρέπεται εγγραφή στον φάκελο δεδομένων."
+
+msgid "Couldn't save %s: there isn't enough free space, or the data folder can't be written."
+msgstr "Δεν ήταν δυνατή η αποθήκευση του %s: δεν υπάρχει αρκετός ελεύθερος χώρος ή δεν επιτρέπεται εγγραφή στον φάκελο δεδομένων."
+
+msgid "Countdown before steady scrolling"
+msgstr "Αντίστροφη μέτρηση πριν τη σταθερή κύλιση"
+
+msgid "Countdown before steady scrolling:"
+msgstr "Αντίστροφη μέτρηση πριν τη σταθερή κύλιση:"
+
+msgid "Dark"
+msgstr "Σκοτεινό"
+
+msgid "Desktop theme"
+msgstr "Θέμα επιφάνειας εργασίας"
+
+msgid "Done"
+msgstr "Τέλος"
+
+msgid "Done editing"
+msgstr "Τέλος επεξεργασίας"
+
+msgid "Download and use"
+msgstr "Λήψη και χρήση"
+
+msgid "Download cancelled. Nothing was changed."
+msgstr "Η λήψη ακυρώθηκε. Τίποτα δεν άλλαξε."
+
+msgid "Download progress"
+msgstr "Πρόοδος λήψης"
+
+msgid "Downloading %1: %2 of %3 MB"
+msgstr "Λήψη %1: %2 από %3 MB"
+
+msgid "Downloading %s: %d of %d MB"
+msgstr "Λήψη %s: %d από %d MB"
+
+msgid "Edit in Kalipso"
+msgstr "Επεξεργασία στο Kalipso"
+
+msgid "Edit script"
+msgstr "Επεξεργασία κειμένου"
+
+msgid "End of script · Microphone off"
+msgstr "Τέλος κειμένου · Μικρόφωνο κλειστό"
+
+msgid "English"
+msgstr "Αγγλικά"
+
+msgid "Faster"
+msgstr "Πιο γρήγορα"
+
+msgid "Follow a window's colors…"
+msgstr "Ακολούθηση χρωμάτων παραθύρου…"
+
+msgid "Follow my voice"
+msgstr "Ακολούθησε τη φωνή μου"
+
+msgid "Font:"
+msgstr "Γραμματοσειρά:"
+
+msgid "For beam-splitter rigs, which show the reader through a mirror."
+msgstr "Για διατάξεις με ημιδιαφανή καθρέφτη που προβάλλουν το κείμενο μέσω αντανάκλασης."
+
+msgid "French"
+msgstr "Γαλλικά"
+
+msgid "German"
+msgstr "Γερμανικά"
+
+msgid "Help:"
+msgstr "Βοήθεια:"
+
+msgid "Hide"
+msgstr "Απόκρυψη"
+
+msgid "Horizontal"
+msgstr "Οριζόντια"
+
+msgid "Interface font"
+msgstr "Γραμματοσειρά διεπαφής"
+
+msgid "Italian"
+msgstr "Ιταλικά"
+
+msgid "Japanese"
+msgstr "Ιαπωνικά"
+
+msgid "Kalipso"
+msgstr "Kalipso"
+
+msgid "Kalipso downloads speech models on Linux for x86_64 computers."
+msgstr "Το Kalipso κατεβάζει μοντέλα ομιλίας στο Linux για υπολογιστές x86_64."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. Screen sharing may include this widget; check what other participants see."
+msgstr "Πλήκτρα: βέλη ή Page Up/Down για μετακίνηση, Space για έναρξη ή παύση, + και − για αλλαγή της σταθερής ταχύτητας. Η κοινή χρήση οθόνης μπορεί να περιλαμβάνει αυτό το γραφικό στοιχείο· ελέγξτε τι βλέπουν οι άλλοι συμμετέχοντες."
+
+msgid "Keys: arrows or Page Up/Down step, Space starts or pauses, + and − change the steady speed. The reader may appear in screen sharing; check what other participants see."
+msgstr "Πλήκτρα: βέλη ή Page Up/Down για μετακίνηση, Space για έναρξη ή παύση, + και − για αλλαγή της σταθερής ταχύτητας. Το παράθυρο ανάγνωσης μπορεί να εμφανίζεται στην κοινή χρήση οθόνης· ελέγξτε τι βλέπουν οι άλλοι συμμετέχοντες."
+
+msgid "Language you speak"
+msgstr "Γλώσσα που μιλάτε"
+
+msgid "Language you speak:"
+msgstr "Γλώσσα που μιλάτε:"
+
+msgid "Larger"
+msgstr "Μεγαλύτερο"
+
+msgid "Light"
+msgstr "Φωτεινό"
+
+msgid "Line spacing"
+msgstr "Διάστιχο"
+
+msgid "Line spacing:"
+msgstr "Διάστιχο:"
+
+msgid "Listening · On this device"
+msgstr "Ακρόαση · Σε αυτή τη συσκευή"
+
+msgid "Local speech is not installed. Open Local speech setup to install a companion and language model."
+msgstr "Η τοπική αναγνώριση ομιλίας δεν είναι εγκατεστημένη. Ανοίξτε τη Ρύθμιση τοπικής ομιλίας για εγκατάσταση βοηθητικού προγράμματος και γλωσσικού μοντέλου."
+
+msgid "Local speech is unavailable. Open Local speech setup to install the companion and a language model."
+msgstr "Η τοπική αναγνώριση ομιλίας δεν είναι διαθέσιμη. Ανοίξτε τη Ρύθμιση τοπικής ομιλίας για εγκατάσταση του βοηθητικού προγράμματος και γλωσσικού μοντέλου."
+
+msgid "Local speech recognition follows what you say."
+msgstr "Η τοπική αναγνώριση ομιλίας ακολουθεί όσα λέτε."
+
+msgid "Local speech setup"
+msgstr "Ρύθμιση τοπικής ομιλίας"
+
+msgid "Local speech setup ↗"
+msgstr "Ρύθμιση τοπικής ομιλίας ↗"
+
+msgid "Local speech unavailable. %s See docs/local-engine.md."
+msgstr "Η τοπική αναγνώριση ομιλίας δεν είναι διαθέσιμη. %s Δείτε το docs/local-engine.md."
+
+msgid "Manual"
+msgstr "Χειροκίνητα"
+
+msgid "Manual · Microphone off"
+msgstr "Χειροκίνητα · Μικρόφωνο κλειστό"
+
+msgid "Microphone stopped"
+msgstr "Το μικρόφωνο σταμάτησε"
+
+msgid "Mirror"
+msgstr "Κατοπτρισμός"
+
+msgid "Mirror:"
+msgstr "Κατοπτρισμός:"
+
+msgid "More"
+msgstr "Περισσότερα"
+
+msgid "Next section"
+msgstr "Επόμενη ενότητα"
+
+msgid "Next words"
+msgstr "Επόμενες λέξεις"
+
+msgid "Normal"
+msgstr "Κανονικό"
+
+msgid "Off"
+msgstr "Ανενεργό"
+
+msgid "Off script · Kalipso catches up when you return to the text"
+msgstr "Εκτός κειμένου · το Kalipso σας προλαβαίνει όταν επιστρέψετε στο κείμενο"
+
+msgid "Open Edit script to read or change the complete script."
+msgstr "Ανοίξτε την Επεξεργασία κειμένου για να διαβάσετε ή να αλλάξετε ολόκληρο το κείμενο."
+
+msgid "Pause"
+msgstr "Παύση"
+
+msgid "Paused · Microphone off"
+msgstr "Σε παύση · Μικρόφωνο κλειστό"
+
+msgid "Previous"
+msgstr "Προηγούμενο"
+
+msgid "Previous section"
+msgstr "Προηγούμενη ενότητα"
+
+msgid "Reader colors"
+msgstr "Χρώματα παραθύρου ανάγνωσης"
+
+msgid "Reader colors:"
+msgstr "Χρώματα παραθύρου ανάγνωσης:"
+
+msgid "Reader font"
+msgstr "Γραμματοσειρά ανάγνωσης"
+
+msgid "Reading"
+msgstr "Ανάγνωση"
+
+msgid "Reading excerpt"
+msgstr "Απόσπασμα ανάγνωσης"
+
+msgid "Reading mode"
+msgstr "Τρόπος ανάγνωσης"
+
+msgid "Reading mode:"
+msgstr "Τρόπος ανάγνωσης:"
+
+msgid "Reading mode: %1"
+msgstr "Τρόπος ανάγνωσης: %1"
+
+msgid "Reading progress"
+msgstr "Πρόοδος ανάγνωσης"
+
+msgid "Reading size"
+msgstr "Μέγεθος ανάγνωσης"
+
+msgid "Ready to listen in %1, with %2."
+msgstr "Έτοιμο για ακρόαση στη γλώσσα %1, με %2."
+
+msgid "Ready to listen in %1. Choose Follow my voice and start listening."
+msgstr "Έτοιμο για ακρόαση στη γλώσσα %1. Επιλέξτε Ακολούθησε τη φωνή μου και ξεκινήστε την ακρόαση."
+
+msgid "Ready to listen in %s, with %s."
+msgstr "Έτοιμο για ακρόαση στη γλώσσα %s, με %s."
+
+msgid "Ready to listen in %s. Choose Follow my voice and start listening."
+msgstr "Έτοιμο για ακρόαση στη γλώσσα %s. Επιλέξτε Ακολούθησε τη φωνή μου και ξεκινήστε την ακρόαση."
+
+msgid "Relaxed"
+msgstr "Άνετο"
+
+msgid "Reset"
+msgstr "Επαναφορά"
+
+msgid "SCRIPT"
+msgstr "ΚΕΙΜΕΝΟ"
+
+msgid "Saved automatically. [Bracketed cues] are shown but not read aloud. Lines starting with # are sections."
+msgstr "Αποθηκεύεται αυτόματα. Οι [οδηγίες σε αγκύλες] εμφανίζονται αλλά δεν διαβάζονται φωναχτά. Οι γραμμές που ξεκινούν με # είναι ενότητες."
+
+msgid "Screen colors are unavailable. The opaque reader keeps its contrast."
+msgstr "Τα χρώματα της οθόνης δεν είναι διαθέσιμα. Το αδιαφανές παράθυρο ανάγνωσης διατηρεί την αντίθεσή του."
+
+msgid "Script"
+msgstr "Κείμενο"
+
+msgid "Script: %1"
+msgstr "Κείμενο: %1"
+
+msgid "Scripts"
+msgstr "Κείμενα"
+
+msgid "Scripts are written and changed in the Kalipso app; here they are read."
+msgstr "Τα κείμενα γράφονται και αλλάζουν στην εφαρμογή Kalipso· εδώ διαβάζονται."
+
+msgid "Scrolling · Microphone off"
+msgstr "Κύλιση · Μικρόφωνο κλειστό"
+
+msgid "Section ›"
+msgstr "Ενότητα ›"
+
+msgid "Sections"
+msgstr "Ενότητες"
+
+msgid "Serif"
+msgstr "Με πατούρες"
+
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+msgid "Slower"
+msgstr "Πιο αργά"
+
+msgid "Smaller"
+msgstr "Μικρότερο"
+
+msgid "Spanish"
+msgstr "Ισπανικά"
+
+msgid "Speech unavailable · Configure Kalipso → Voice"
+msgstr "Η ομιλία δεν είναι διαθέσιμη · Ρύθμιση Kalipso → Φωνή"
+
+msgid "Speech unavailable · Open Settings"
+msgstr "Η ομιλία δεν είναι διαθέσιμη · Ανοίξτε τις Ρυθμίσεις"
+
+msgid "Start"
+msgstr "Έναρξη"
+
+msgid "Starting in %1 second…"
+msgid_plural "Starting in %1 seconds…"
+msgstr[0] "Έναρξη σε %1 δευτερόλεπτο…"
+msgstr[1] "Έναρξη σε %1 δευτερόλεπτα…"
+
+msgid "Starting local speech…"
+msgstr "Εκκίνηση τοπικής αναγνώρισης ομιλίας…"
+
+msgid "Steady speed"
+msgstr "Σταθερή ταχύτητα"
+
+msgid "Steady speed:"
+msgstr "Σταθερή ταχύτητα:"
+
+msgid "Stop following the window"
+msgstr "Διακοπή ακολούθησης παραθύρου"
+
+msgid "Text size:"
+msgstr "Μέγεθος κειμένου:"
+
+msgid "The %1 download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Το ληφθέν %1 δεν αντιστοιχούσε στο ψηφιακό του αποτύπωμα και διαγράφηκε. Δοκιμάστε ξανά αργότερα."
+
+msgid "The %1 model couldn't be unpacked. Try again later."
+msgstr "Δεν ήταν δυνατή η αποσυμπίεση του μοντέλου %1. Δοκιμάστε ξανά αργότερα."
+
+msgid "The %s download didn't match its fingerprint, so it was deleted. Try again later."
+msgstr "Το ληφθέν %s δεν αντιστοιχούσε στο ψηφιακό του αποτύπωμα και διαγράφηκε. Δοκιμάστε ξανά αργότερα."
+
+msgid "The %s model couldn't be unpacked. Try again later."
+msgstr "Δεν ήταν δυνατή η αποσυμπίεση του μοντέλου %s. Δοκιμάστε ξανά αργότερα."
+
+msgid "The microphone turns on when you start"
+msgstr "Το μικρόφωνο ανοίγει όταν ξεκινήσετε"
+
+msgid "The words advance at the speed below."
+msgstr "Οι λέξεις προχωρούν με την παρακάτω ταχύτητα."
+
+msgid "This Kalipso companion cannot download languages. Install or update it, then log out and back in."
+msgstr "Αυτό το βοηθητικό πρόγραμμα του Kalipso δεν μπορεί να κατεβάσει γλώσσες. Εγκαταστήστε ή ενημερώστε το και μετά αποσυνδεθείτε και συνδεθείτε ξανά."
+
+msgid "To take the colors of a window behind the reader, choose Follow a window's colors… in the reader's ⋯ menu."
+msgstr "Για να πάρετε τα χρώματα ενός παραθύρου πίσω από το παράθυρο ανάγνωσης, επιλέξτε Ακολούθηση χρωμάτων παραθύρου… από το μενού ⋯."
+
+msgid "Try again"
+msgstr "Δοκιμή ξανά"
+
+msgid "Use this language"
+msgstr "Χρήση αυτής της γλώσσας"
+
+msgid "Vertical"
+msgstr "Κάθετα"
+
+msgid "Voice"
+msgstr "Φωνή"
+
+msgid "Wide"
+msgstr "Αραιό"
+
+msgid "Window colors unavailable. Install or update the Kalipso companion and the desktop sharing portal."
+msgstr "Τα χρώματα παραθύρου δεν είναι διαθέσιμα. Εγκαταστήστε ή ενημερώστε το βοηθητικό πρόγραμμα του Kalipso και την πύλη κοινής χρήσης επιφάνειας εργασίας."
+
+msgid "Window sharing stopped · Choose a background window to resume"
+msgstr "Η κοινή χρήση παραθύρου σταμάτησε · Επιλέξτε παράθυρο παρασκηνίου για συνέχεια"
+
+msgid "You step with the keys, a pedal or a clicker."
+msgstr "Προχωράτε με τα πλήκτρα, ένα πεντάλ ή ένα χειριστήριο παρουσιάσεων."
+
+msgid "your language"
+msgstr "τη γλώσσα σας"
+
+msgid "‹ Section"
+msgstr "‹ Ενότητα"

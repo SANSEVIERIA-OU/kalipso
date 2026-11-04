@@ -1,0 +1,866 @@
+[
+  {
+    "code": "bg",
+    "name": "Български",
+    "qt": "bg",
+    "gettext": "bg",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=(((n == 1)) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "hr",
+    "name": "Hrvatski",
+    "qt": "hr",
+    "gettext": "hr",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "few",
+      "other"
+    ],
+    "gettextPlural": "nplurals=3; plural=((((((0 == 0)) && (((n % 10) >= 2 && (n % 10) <= 4))) && (!(((n % 100) >= 12 && (n % 100) <= 14)))) || ((((0 % 10) >= 2 && (0 % 10) <= 4)) && (!(((0 % 100) >= 12 && (0 % 100) <= 14))))) ? 1 : (((((0 == 0)) && (((n % 10) == 1))) && (!(((n % 100) == 11)))) || ((((0 % 10) == 1)) && (!(((0 % 100) == 11))))) ? 0 : 2);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "few",
+      "other"
+    ]
+  },
+  {
+    "code": "cs",
+    "name": "Čeština",
+    "qt": "cs",
+    "gettext": "cs",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=4; plural=((((n >= 2 && n <= 4)) && ((0 == 0))) ? 1 : (!((0 == 0))) ? 2 : (((n == 1)) && ((0 == 0))) ? 0 : 3);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "few",
+      "other"
+    ]
+  },
+  {
+    "code": "da",
+    "name": "Dansk",
+    "qt": "da",
+    "gettext": "da",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) || ((!((0 == 0))) && ((n == 0) || (n == 1)))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "nl",
+    "name": "Nederlands",
+    "qt": "nl",
+    "gettext": "nl",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "en",
+    "name": "English",
+    "qt": "en",
+    "gettext": "en",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "source",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "et",
+    "name": "Eesti",
+    "qt": "et",
+    "gettext": "et",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "fi",
+    "name": "Suomi",
+    "qt": "fi",
+    "gettext": "fi",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "fr",
+    "name": "Français",
+    "qt": "fr",
+    "gettext": "fr",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=3; plural=(((((((0 == 0)) && (!((n == 0)))) && (((n % 1000000) == 0))) && ((0 == 0))) || (!((0 >= 0 && 0 <= 5)))) ? 1 : ((n == 0) || (n == 1)) ? 0 : 2);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "de",
+    "name": "Deutsch",
+    "qt": "de",
+    "gettext": "de",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "el",
+    "name": "Ελληνικά",
+    "qt": "el",
+    "gettext": "el",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=(((n == 1)) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "hu",
+    "name": "Magyar",
+    "qt": "hu",
+    "gettext": "hu",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=(((n == 1)) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "other"
+    ]
+  },
+  {
+    "code": "ga",
+    "name": "Gaeilge",
+    "qt": "ga",
+    "gettext": "ga",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "two",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=5; plural=(((n >= 3 && n <= 6)) ? 2 : ((n >= 7 && n <= 10)) ? 3 : ((n == 1)) ? 0 : ((n == 2)) ? 1 : 4);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "two",
+      "other"
+    ]
+  },
+  {
+    "code": "it",
+    "name": "Italiano",
+    "qt": "it",
+    "gettext": "it",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=3; plural=(((((((0 == 0)) && (!((n == 0)))) && (((n % 1000000) == 0))) && ((0 == 0))) || (!((0 >= 0 && 0 <= 5)))) ? 1 : (((n == 1)) && ((0 == 0))) ? 0 : 2);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "lv",
+    "name": "Latviešu",
+    "qt": "lv",
+    "gettext": "lv",
+    "direction": "ltr",
+    "pluralCategories": [
+      "zero",
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=3; plural=(((((((n % 10) == 1)) && (!(((n % 100) == 11)))) || ((((0 == 2)) && (((0 % 10) == 1))) && (!(((0 % 100) == 11))))) || ((!((0 == 2))) && (((0 % 10) == 1)))) ? 1 : (((((n % 10) == 0)) || (((n % 100) >= 11 && (n % 100) <= 19))) || (((0 == 2)) && (((0 % 100) >= 11 && (0 % 100) <= 19)))) ? 0 : 2);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other",
+      "zero"
+    ]
+  },
+  {
+    "code": "lt",
+    "name": "Lietuvių",
+    "qt": "lt",
+    "gettext": "lt",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=4; plural=(((((n % 10) >= 2 && (n % 10) <= 9)) && (!(((n % 100) >= 11 && (n % 100) <= 19)))) ? 1 : (!((0 == 0))) ? 2 : ((((n % 10) == 1)) && (!(((n % 100) >= 11 && (n % 100) <= 19)))) ? 0 : 3);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "few",
+      "other"
+    ]
+  },
+  {
+    "code": "mt",
+    "name": "Malti",
+    "qt": "mt",
+    "gettext": "mt",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "two",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=5; plural=((((n == 0)) || (((n % 100) >= 3 && (n % 100) <= 10))) ? 2 : (((n % 100) >= 11 && (n % 100) <= 19)) ? 3 : ((n == 1)) ? 0 : ((n == 2)) ? 1 : 4);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other",
+      "many",
+      "other"
+    ]
+  },
+  {
+    "code": "pl",
+    "name": "Polski",
+    "qt": "pl",
+    "gettext": "pl",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=4; plural=(((((0 == 0)) && (((n % 10) >= 2 && (n % 10) <= 4))) && (!(((n % 100) >= 12 && (n % 100) <= 14)))) ? 1 : ((((((0 == 0)) && (!((n == 1)))) && (((n % 10) >= 0 && (n % 10) <= 1))) || (((0 == 0)) && (((n % 10) >= 5 && (n % 10) <= 9)))) || (((0 == 0)) && (((n % 100) >= 12 && (n % 100) <= 14)))) ? 2 : (((n == 1)) && ((0 == 0))) ? 0 : 3);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "few",
+      "many"
+    ]
+  },
+  {
+    "code": "pt",
+    "name": "Português",
+    "qt": "pt",
+    "gettext": "pt",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=3; plural=(((((((0 == 0)) && (!((n == 0)))) && (((n % 1000000) == 0))) && ((0 == 0))) || (!((0 >= 0 && 0 <= 5)))) ? 1 : ((n >= 0 && n <= 1)) ? 0 : 2);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "ro",
+    "name": "Română",
+    "qt": "ro",
+    "gettext": "ro",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "few",
+      "other"
+    ],
+    "gettextPlural": "nplurals=3; plural=((((!((0 == 0))) || ((n == 0))) || ((!((n == 1))) && (((n % 100) >= 1 && (n % 100) <= 19)))) ? 1 : (((n == 1)) && ((0 == 0))) ? 0 : 2);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "few",
+      "other"
+    ]
+  },
+  {
+    "code": "sk",
+    "name": "Slovenčina",
+    "qt": "sk",
+    "gettext": "sk",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=4; plural=((((n >= 2 && n <= 4)) && ((0 == 0))) ? 1 : (!((0 == 0))) ? 2 : (((n == 1)) && ((0 == 0))) ? 0 : 3);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "few",
+      "other"
+    ]
+  },
+  {
+    "code": "sl",
+    "name": "Slovenščina",
+    "qt": "sl",
+    "gettext": "sl",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "two",
+      "few",
+      "other"
+    ],
+    "gettextPlural": "nplurals=4; plural=(((((0 == 0)) && (((n % 100) >= 3 && (n % 100) <= 4))) || (!((0 == 0)))) ? 2 : (((0 == 0)) && (((n % 100) == 1))) ? 0 : (((0 == 0)) && (((n % 100) == 2))) ? 1 : 3);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "two",
+      "few",
+      "other"
+    ]
+  },
+  {
+    "code": "es",
+    "name": "Español",
+    "qt": "es",
+    "gettext": "es",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=3; plural=(((((((0 == 0)) && (!((n == 0)))) && (((n % 1000000) == 0))) && ((0 == 0))) || (!((0 >= 0 && 0 <= 5)))) ? 1 : ((n == 1)) ? 0 : 2);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "sv",
+    "name": "Svenska",
+    "qt": "sv",
+    "gettext": "sv",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "zh-Hans",
+    "name": "简体中文",
+    "qt": "zh_CN",
+    "gettext": "zh_CN",
+    "direction": "ltr",
+    "pluralCategories": [
+      "other"
+    ],
+    "gettextPlural": "nplurals=1; plural=(0);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "other"
+    ]
+  },
+  {
+    "code": "hi",
+    "name": "हिन्दी",
+    "qt": "hi",
+    "gettext": "hi",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 0)) || ((n == 1))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "ar",
+    "name": "العربية",
+    "qt": "ar",
+    "gettext": "ar",
+    "direction": "rtl",
+    "pluralCategories": [
+      "zero",
+      "one",
+      "two",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=6; plural=((((n % 100) >= 3 && (n % 100) <= 10)) ? 3 : (((n % 100) >= 11 && (n % 100) <= 99)) ? 4 : ((n == 1)) ? 1 : ((n == 2)) ? 2 : ((n == 0)) ? 0 : 5);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "zero",
+      "one",
+      "two",
+      "few",
+      "many",
+      "other"
+    ]
+  },
+  {
+    "code": "bn",
+    "name": "বাংলা",
+    "qt": "bn",
+    "gettext": "bn",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 0)) || ((n == 1))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "id",
+    "name": "Bahasa Indonesia",
+    "qt": "id",
+    "gettext": "id",
+    "direction": "ltr",
+    "pluralCategories": [
+      "other"
+    ],
+    "gettextPlural": "nplurals=1; plural=(0);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "other"
+    ]
+  },
+  {
+    "code": "ur",
+    "name": "اردو",
+    "qt": "ur",
+    "gettext": "ur",
+    "direction": "rtl",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "ru",
+    "name": "Русский",
+    "qt": "ru",
+    "gettext": "ru",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=4; plural=(((((0 == 0)) && (((n % 10) >= 2 && (n % 10) <= 4))) && (!(((n % 100) >= 12 && (n % 100) <= 14)))) ? 1 : (((((0 == 0)) && (((n % 10) == 0))) || (((0 == 0)) && (((n % 10) >= 5 && (n % 10) <= 9)))) || (((0 == 0)) && (((n % 100) >= 11 && (n % 100) <= 14)))) ? 2 : ((((0 == 0)) && (((n % 10) == 1))) && (!(((n % 100) == 11)))) ? 0 : 3);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "few",
+      "many"
+    ]
+  },
+  {
+    "code": "ja",
+    "name": "日本語",
+    "qt": "ja",
+    "gettext": "ja",
+    "direction": "ltr",
+    "pluralCategories": [
+      "other"
+    ],
+    "gettextPlural": "nplurals=1; plural=(0);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "other"
+    ]
+  },
+  {
+    "code": "pcm",
+    "name": "Naijá",
+    "qt": "en_NG",
+    "gettext": "pcm",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 0)) || ((n == 1))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "arz",
+    "name": "مصرى",
+    "qt": "ar_EG",
+    "gettext": "arz",
+    "direction": "rtl",
+    "pluralCategories": [
+      "zero",
+      "one",
+      "two",
+      "few",
+      "many",
+      "other"
+    ],
+    "gettextPlural": "nplurals=6; plural=((((n % 100) >= 3 && (n % 100) <= 10)) ? 3 : (((n % 100) >= 11 && (n % 100) <= 99)) ? 4 : ((n == 1)) ? 1 : ((n == 2)) ? 2 : ((n == 0)) ? 0 : 5);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "zero",
+      "one",
+      "two",
+      "few",
+      "many",
+      "other"
+    ]
+  },
+  {
+    "code": "mr",
+    "name": "मराठी",
+    "qt": "mr",
+    "gettext": "mr",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=(((n == 1)) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "vi",
+    "name": "Tiếng Việt",
+    "qt": "vi",
+    "gettext": "vi",
+    "direction": "ltr",
+    "pluralCategories": [
+      "other"
+    ],
+    "gettextPlural": "nplurals=1; plural=(0);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "other"
+    ]
+  },
+  {
+    "code": "te",
+    "name": "తెలుగు",
+    "qt": "te",
+    "gettext": "te",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=(((n == 1)) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "sw",
+    "name": "Kiswahili",
+    "qt": "sw",
+    "gettext": "sw",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=((((n == 1)) && ((0 == 0))) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  },
+  {
+    "code": "ha",
+    "name": "Hausa",
+    "qt": "ha",
+    "gettext": "ha",
+    "direction": "ltr",
+    "pluralCategories": [
+      "one",
+      "other"
+    ],
+    "gettextPlural": "nplurals=2; plural=(((n == 1)) ? 0 : 1);",
+    "review": {
+      "status": "pending-native-review",
+      "reviewer": null,
+      "date": null
+    },
+    "qtPluralCategories": [
+      "one",
+      "other"
+    ]
+  }
+]
