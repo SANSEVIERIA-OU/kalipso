@@ -10,12 +10,13 @@ permissions:
 jobs:
   speech-fixtures:
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Generate Italian and English speech (synthetic, no microphone)
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y espeak-ng ffmpeg
+          sudo apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update -qq
+          sudo apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install -y espeak-ng ffmpeg
           python3 tools/make-speech-fixtures.py speech-fixtures
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
