@@ -92,6 +92,12 @@ def main():
             desktop = connect(pipe)
             document = find(desktop, presentation)
             show = document.getPresentation()
+            if sys.platform == 'darwin':
+                # A full-screen slideshow needs a Space of its own, which a session nobody sits at may not
+                # give; in a window it runs, and Kalipso follows it the same way.
+                show.IsFullScreen = False
+                subprocess.run(['osascript', '-e', 'tell application "LibreOffice" to activate'],
+                               capture_output=True, timeout=20)
             show.start()
             # What LibreOffice itself says, to tell a slideshow that did not start from one not followed.
             try:
@@ -107,7 +113,13 @@ def main():
             expect('slide', slide=2, notes='')  # A slide without notes.
             show.end()
             expect('ended')
-            document.close(True)
+            try:
+                document.close(True)
+            except Exception as reason:  # noqa: BLE001
+                # Closing the only document quits LibreOffice, which can drop the bridge during this very
+                # call (seen on Windows). The helper reports that as closed, which is what is checked.
+                if 'Disposed' not in type(reason).__name__:
+                    raise
             expect('closed')
             helper.wait(timeout=10)
             assert helper.returncode == 0, helper.returncode
