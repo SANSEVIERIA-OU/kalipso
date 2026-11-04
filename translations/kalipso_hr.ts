@@ -1089,10 +1089,6 @@ Možemo napredovati korak po korak. [Stanka] Pažljivo slušajmo, provjerimo pit
             <translation>Nije moguće spremiti %1: nema dovoljno slobodnog prostora ili se u mapu podataka ne može pisati.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso preuzima govorne modele na Linuxu za računala x86_64. Odaberite Drugi ručno instalirani model.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Preuzimanje je otkazano. Ništa nije promijenjeno.</translation>
         </message>

@@ -1089,10 +1089,6 @@ Varam virzīties uz priekšu soli pa solim. [Pauze] Uzmanīgi klausīsimies, pā
             <translation>Neizdevās saglabāt %1: nepietiek brīvas vietas vai datu mapē nevar rakstīt.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso lejupielādē runas modeļus Linux datoriem ar x86_64. Izvēlieties Cits manuāli instalēts modelis.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Lejupielāde atcelta. Nekas netika mainīts.</translation>
         </message>

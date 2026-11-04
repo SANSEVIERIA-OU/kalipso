@@ -1098,10 +1098,6 @@ Lahko napredujemo korak za korakom. [Premor] Pozorno poslušajmo, preverimo vpra
             <translation>%1 ni bilo mogoče shraniti: ni dovolj prostora ali mapa s podatki ne dovoljuje pisanja.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso prenaša govorne modele v Linuxu za računalnike x86_64. Izberite Drug ročno nameščen model.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Prenos preklican. Nič se ni spremenilo.</translation>
         </message>

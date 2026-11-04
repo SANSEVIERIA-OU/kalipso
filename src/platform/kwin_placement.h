@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #pragma once
 
 // On Plasma with Wayland, applications cannot place their windows or keep them above others.

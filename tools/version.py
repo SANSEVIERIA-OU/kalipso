@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Kalipso's version, kept the same in every place that states it.
 
 Versions go up one step at a time, 0.1, 0.2 ... 0.9, 1.0, 1.1 ... 1.9, 2.0, one step per update.

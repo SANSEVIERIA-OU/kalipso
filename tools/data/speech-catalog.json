@@ -1,17 +1,48 @@
 {
-  "schema": 1,
+  "schema": 2,
   "moonshine": {
-    "version": "0.1.5",
-    "platform": "Linux x86_64, glibc >= 2.34",
-    "url": "https://files.pythonhosted.org/packages/a9/9d/228f738b48e0e7cc1de97c3f842b5470c6a3c5f7a0bffbf13c3d00eefb87/moonshine_voice-0.1.5-py3-none-manylinux_2_34_x86_64.whl",
-    "sha256": "1ed9e0ccf94be4845d69e7fa862dcf4c8b5801a758796966494c694f48184496",
-    "bytes": 19897307,
-    "library": "moonshine_voice/libmoonshine.so",
-    "nativeFiles": [
-      "moonshine_voice/libmoonshine.so",
-      "moonshine_voice.libs/libonnxruntime-13ab8084.so.1",
-      "moonshine_voice-0.1.5.dist-info/licenses/LICENSE"
-    ],
+    "runtimes": {
+      "linux-x86_64": {
+        "version": "0.1.5",
+        "platform": "Linux x86_64, glibc >= 2.34",
+        "url": "https://files.pythonhosted.org/packages/a9/9d/228f738b48e0e7cc1de97c3f842b5470c6a3c5f7a0bffbf13c3d00eefb87/moonshine_voice-0.1.5-py3-none-manylinux_2_34_x86_64.whl",
+        "sha256": "1ed9e0ccf94be4845d69e7fa862dcf4c8b5801a758796966494c694f48184496",
+        "bytes": 19897307,
+        "library": "moonshine_voice/libmoonshine.so",
+        "nativeFiles": [
+          "moonshine_voice/libmoonshine.so",
+          "moonshine_voice.libs/libonnxruntime-13ab8084.so.1",
+          "moonshine_voice-0.1.5.dist-info/licenses/LICENSE"
+        ]
+      },
+      "windows-x86_64": {
+        "version": "0.1.5",
+        "url": "https://files.pythonhosted.org/packages/ea/05/ad3457baa56170a13829c98327598a4d99d6cd4bdff8ae59df4c47ebdd11/moonshine_voice-0.1.5-py3-none-win_amd64.whl",
+        "sha256": "7fc9a84e827360ddb85c2735f44a1502c5575c27dcb476a2555646cd20a70e9d",
+        "bytes": 16542073,
+        "platform": "windows-x86_64",
+        "library": "moonshine_voice/moonshine.dll",
+        "nativeFiles": [
+          "moonshine_voice/moonshine.dll",
+          "moonshine_voice/onnxruntime.dll",
+          "moonshine_voice-0.1.5.dist-info/licenses/LICENSE"
+        ]
+      },
+      "macos-arm64": {
+        "version": "0.1.5",
+        "url": "https://files.pythonhosted.org/packages/86/2a/9eca2f000e4990315d18aa360c6eb679417b29252e6307c273bcbef38461/moonshine_voice-0.1.5-py3-none-macosx_15_0_arm64.whl",
+        "sha256": "9866b1956d12fff11923ad42f1140bcb314bf05bf8d8576fb7b3aa819ec40e51",
+        "bytes": 18589534,
+        "platform": "macos-arm64",
+        "library": "moonshine_voice/libmoonshine.dylib",
+        "nativeFiles": [
+          "moonshine_voice/libmoonshine.dylib",
+          "moonshine_voice/libonnxruntime.1.23.2.dylib",
+          "moonshine_voice-0.1.5.dist-info/licenses/LICENSE"
+        ],
+        "minimumMacOS": "15.0"
+      }
+    },
     "models": {
       "en": {
         "name": "tiny-streaming-en-quantized_26_08_21",
@@ -256,15 +287,82 @@
     }
   },
   "vosk": {
-    "version": "0.3.50",
-    "platform": "Linux x86_64, glibc >= 2.17",
-    "url": "https://github.com/SANSEVIERIA-OU/kalipso/releases/download/vosk-runtime-0.3.50/vosk-0.3.50-linux-x86_64.zip",
-    "sha256": "404e9f1536dfc694c13edef60c4591cd2e558c4d5dc0962ac17752f04378f253",
-    "bytes": 7415288,
-    "library": "vosk/libvosk.so",
-    "nativeFiles": [
-      "vosk/libvosk.so"
-    ],
+    "runtimes": {
+      "linux-x86_64": {
+        "version": "0.3.50",
+        "platform": "Linux x86_64, glibc >= 2.17",
+        "url": "https://github.com/SANSEVIERIA-OU/kalipso/releases/download/vosk-runtime-0.3.50/vosk-0.3.50-linux-x86_64.zip",
+        "sha256": "404e9f1536dfc694c13edef60c4591cd2e558c4d5dc0962ac17752f04378f253",
+        "bytes": 7415288,
+        "library": "vosk/libvosk.so",
+        "nativeFiles": [
+          "vosk/libvosk.so"
+        ],
+        "notices": [
+          "vosk-0.3.50-COPYING",
+          "vosk-0.3.50-kaldi-COPYING",
+          "vosk-0.3.50-openfst-COPYING",
+          "vosk-0.3.50-openblas-LICENSE",
+          "vosk-0.3.50-clapack-COPYING"
+        ]
+      },
+      "windows-x86_64": {
+        "version": "0.3.45",
+        "url": "https://files.pythonhosted.org/packages/c0/4c/deb0861f7da9696f8a255f1731bb73e9412cca29c4b3888a3fcb2a930a59/vosk-0.3.45-py3-none-win_amd64.whl",
+        "sha256": "6994ddc68556c7e5730c3b6f6bad13320e3519b13ce3ed2aa25a86724e7c10ac",
+        "bytes": 13997596,
+        "platform": "windows-x86_64",
+        "library": "vosk/libvosk.dll",
+        "nativeFiles": [
+          "vosk/libvosk.dll",
+          "vosk/libgcc_s_seh-1.dll",
+          "vosk/libstdc++-6.dll",
+          "vosk/libwinpthread-1.dll"
+        ],
+        "notices": [
+          "vosk-api-v0.3.45-COPYING.txt",
+          "kaldi-vosk-android-COPYING.txt",
+          "openfst-alphacep-master-COPYING.txt",
+          "openblas-v0.3.20-LICENSE.txt",
+          "clapack-v3.2.1-COPYING.txt",
+          "gcc-10.2.0-COPYING3.txt",
+          "gcc-10.2.0-COPYING.RUNTIME.txt",
+          "winpthreads-v8.0.0-COPYING.txt"
+        ]
+      },
+      "macos-arm64": {
+        "version": "0.3.42",
+        "url": "https://files.pythonhosted.org/packages/1b/35/89bc8f422b33dcd0797375c66775e2a2ab9685ecd4a10667fd37ba7348c0/vosk-0.3.42-py3-none-macosx_10_6_universal2.whl",
+        "sha256": "631b9ff6515945f92078c546a60deab2eeb4f63489a24526cc90e3164e415ff7",
+        "bytes": 4709760,
+        "platform": "macos-universal2",
+        "library": "vosk/libvosk.dyld",
+        "nativeFiles": [
+          "vosk/libvosk.dyld"
+        ],
+        "notices": [
+          "vosk-api-v0.3.42-COPYING.txt",
+          "kaldi-vosk-android-COPYING.txt",
+          "openfst-alphacep-master-COPYING.txt"
+        ]
+      },
+      "macos-x86_64": {
+        "version": "0.3.42",
+        "url": "https://files.pythonhosted.org/packages/1b/35/89bc8f422b33dcd0797375c66775e2a2ab9685ecd4a10667fd37ba7348c0/vosk-0.3.42-py3-none-macosx_10_6_universal2.whl",
+        "sha256": "631b9ff6515945f92078c546a60deab2eeb4f63489a24526cc90e3164e415ff7",
+        "bytes": 4709760,
+        "platform": "macos-universal2",
+        "library": "vosk/libvosk.dyld",
+        "nativeFiles": [
+          "vosk/libvosk.dyld"
+        ],
+        "notices": [
+          "vosk-api-v0.3.42-COPYING.txt",
+          "kaldi-vosk-android-COPYING.txt",
+          "openfst-alphacep-master-COPYING.txt"
+        ]
+      }
+    },
     "models": {
       "en": {
         "name": "vosk-model-small-en-us-0.15",

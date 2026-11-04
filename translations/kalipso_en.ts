@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>Couldn't save %1: there isn't enough free space, or the data folder can't be written.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Download cancelled. Nothing was changed.</translation>
         </message>

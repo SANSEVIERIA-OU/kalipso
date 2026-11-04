@@ -1071,10 +1071,6 @@ Kita bisa melakukannya selangkah demi selangkah. [Jeda] Dengarkan baik-baik, pas
             <translation>Tidak dapat menyimpan %1: ruang kosong tidak cukup atau folder data tidak dapat ditulisi.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso mengunduh model ucapan di Linux untuk komputer x86_64. Pilih Model lain yang dipasang manual.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Unduhan dibatalkan. Tidak ada yang berubah.</translation>
         </message>

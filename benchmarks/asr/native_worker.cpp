@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Research runner. PCM input is signed 16-bit mono at 16 kHz, little endian.
 // No reference transcript is passed to either recognizer.
 #include <QCommandLineParser>

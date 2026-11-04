@@ -1071,10 +1071,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>无法保存 %1：可用空间不足，或数据文件夹不可写入。</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso 可在 x86_64 电脑的 Linux 系统上下载语音模型。请选择“其他手动安装的模型”。</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>下载已取消。未作任何更改。</translation>
         </message>

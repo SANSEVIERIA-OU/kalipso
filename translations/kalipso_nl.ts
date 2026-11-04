@@ -1080,10 +1080,6 @@ We kunnen dit stap voor stap aanpakken. [Pauze] Luister aandachtig, bekijk de vr
             <translation>%1 kon niet worden opgeslagen: er is te weinig vrije ruimte of de gegevensmap is niet beschrijfbaar.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso downloadt spraakmodellen op Linux voor x86_64-computers. Kies Ander handmatig geïnstalleerd model.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Download geannuleerd. Er is niets gewijzigd.</translation>
         </message>

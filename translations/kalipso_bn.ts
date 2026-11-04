@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>%1 সংরক্ষণ করা যায়নি: যথেষ্ট খালি জায়গা নেই, বা ডেটা ফোল্ডারে লেখা যায় না।</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso x86_64 কম্পিউটারে Linux-এ কথা শনাক্তকরণ মডেল ডাউনলোড করে। নিজ হাতে ইনস্টল করা অন্য মডেল বাছুন।</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>ডাউনলোড বাতিল। কিছু বদলায়নি।</translation>
         </message>

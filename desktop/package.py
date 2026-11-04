@@ -23,7 +23,7 @@ BASE = Path(__file__).resolve().parent
 ROOT = BASE.parent
 OUT = ROOT / 'artifacts/packages'
 SOURCE_SUFFIXES = {'.qml', '.mjs', '.js', '.css', '.json', '.xml'}
-NOTICES = [(ROOT / 'LICENSE', 'LICENSE'), (ROOT / 'LICENSES/Unicode-3.0.txt', 'Unicode-LICENSE.txt'),
+NOTICES = [(BASE / 'LICENSE', 'LICENSE'), (ROOT / 'LICENSES/Unicode-3.0.txt', 'Unicode-LICENSE.txt'),
            (ROOT / 'THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_NOTICES.md')]
 GNOME_SHARED = ['tracker.mjs', 'contrast.mjs', 'unicode-tokens.mjs']
 PLASMA_DOMAIN = 'plasma_applet_io.github.sansevieria_ou.kalipso'

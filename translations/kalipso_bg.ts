@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>%1 не можа да се запази: няма достатъчно свободно място или папката с данни не позволява запис.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso изтегля речеви модели в Linux за компютри x86_64. Изберете „Друг модел, инсталиран ръчно“.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Изтеглянето е отменено. Нищо не е променено.</translation>
         </message>

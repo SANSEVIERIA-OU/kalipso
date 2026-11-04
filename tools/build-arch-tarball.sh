@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # The installed files of Kalipso, built on Arch Linux against Arch's own Qt, as one tarball: what the
 # kalipso-bin package on AUR unpacks (packaging/arch/kalipso-bin). The release workflow runs it in an
 # archlinux:base-devel container; it also runs in any up-to-date Arch with the build dependencies.

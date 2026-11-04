@@ -1098,10 +1098,6 @@ Nistgħu nimxu pass pass. [Pawża] Nisimgħu b'attenzjoni, niċċekkjaw il-misto
             <translation>Ma setax jiġi ssejvjat %1: m'hemmx biżżejjed spazju liberu jew ma jistax jinkiteb fil-fowlder tad-data.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso jniżżel mudelli tad-diskors fuq Linux għal kompjuters x86_64. Agħżel Mudell ieħor installat manwalment.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Tniżżil ikkanċellat. Xejn ma nbidel.</translation>
         </message>

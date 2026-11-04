@@ -1089,10 +1089,6 @@ Môžeme postupovať krok za krokom. [Pauza] Pozorne počúvajme, overme si otá
             <translation>%1 sa nepodarilo uložiť: nie je dosť voľného miesta alebo sa nedá zapisovať do priečinka s údajmi.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso sťahuje modely reči v Linuxe pre počítače x86_64. Vyberte Iný ručne nainštalovaný model.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Sťahovanie bolo zrušené. Nič sa nezmenilo.</translation>
         </message>

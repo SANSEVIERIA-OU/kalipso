@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>%1 భద్రపరచలేకపోయాం: ఖాళీ స్థలం సరిపోదు లేదా డేటా ఫోల్డర్‌లో రాయలేం.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso x86_64 కంప్యూటర్‌లలో Linuxపై మాటల మోడల్‌లను డౌన్‌లోడ్ చేస్తుంది. చేతితో ఇన్‌స్టాల్ చేసిన మరో మోడల్ ఎంచుకోండి.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>డౌన్‌లోడ్ రద్దయింది. ఏదీ మారలేదు.</translation>
         </message>

@@ -1071,10 +1071,6 @@ Haladhatunk lépésről lépésre. [Szünet] Figyeljünk oda, vizsgáljuk meg a 
             <translation>%1 mentése sikertelen: nincs elég szabad hely, vagy az adatmappa nem írható.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>A Kalipso Linuxon tölt le beszédmodelleket x86_64-számítógépekre. Válaszd az Egyéb, kézzel telepített modell lehetőséget.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Letöltés megszakítva. Semmi nem változott.</translation>
         </message>

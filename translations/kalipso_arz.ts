@@ -1116,10 +1116,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>ماقدرناش نحفظ %1: مفيش مساحة فاضية كفاية، أو مش مسموح نكتب في فولدر البيانات.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso بينزّل موديلات الكلام على Linux لأجهزة x86_64. اختار موديل تاني متثبّت يدويًا.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>التنزيل اتلغى. مفيش حاجة اتغيّرت.</translation>
         </message>

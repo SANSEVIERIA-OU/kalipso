@@ -11,7 +11,7 @@ pkgrel=1
 pkgdesc='Teleprompter that keeps your place: follows your voice on your computer, scrolls at a steady pace or waits for your pedal (prebuilt)'
 arch=('x86_64')
 url='https://sansevieria-ou.github.io/kalipso/'
-license=('AGPL-3.0-or-later')
+license=('LicenseRef-SANSEVIERIA-1.0' 'AGPL-3.0-or-later')
 # pipewire: pw-record captures the microphone.
 depends=('glibc' 'hicolor-icon-theme' 'libgcc' 'libpipewire' 'libstdc++' 'pipewire' 'qt6-base' 'qt6-svg')
 optdepends=('plasma-workspace: the Plasma widget and the KWin script'
@@ -27,4 +27,7 @@ sha256sums=('SKIP')
 package() {
   # The files are packed owned by root; makepkg records every file as root anyway.
   tar -C "$pkgdir" --zstd --no-same-owner -xf "kalipso-$pkgver-archlinux-x86_64.tar.zst"
+  install -d "$pkgdir/usr/share/licenses/$pkgname"
+  cp -R "$pkgdir/usr/share/licenses/kalipso/." "$pkgdir/usr/share/licenses/$pkgname/"
+
 }

@@ -1,0 +1,49 @@
+KALIPSO — LICENSING NOTICE
+
+Project: Kalipso
+Steward: SANSEVIERIA OÜ
+Original author: Davide Briani; other authors retain their respective rights.
+Official source: https://github.com/SANSEVIERIA-OU/kalipso
+Licensing contact: https://github.com/SANSEVIERIA-OU/kalipso/issues
+
+The original standalone application, kalipso-engine companion and their original
+supporting code in this source revision are licensed under SANSEVIERIA License
+1.0. The complete, unchanged licence is supplied as LICENSE and as
+LICENSES/LicenseRef-SANSEVIERIA-1.0.txt. LicenseRef-SANSEVIERIA-1.0 is a local
+identifier for this custom licence, not an OSI approval or SPDX-list entry.
+This applies prospectively to revisions containing this notice. It does not
+change the terms of previously distributed versions, including releases through
+2.9, or withdraw the AGPL permissions granted on those versions.
+
+Separately licensed components remain under their existing terms:
+- desktop/ (Plasma widget, GNOME extension, shared JavaScript and desktop
+  translations): AGPL-3.0-or-later; see desktop/LICENSE.
+- packaging/kwin/ and the KWin script embedded as an application resource:
+  AGPL-3.0-or-later; see packaging/kwin/LICENSE. That script executes in KWin,
+  separately from the application. Embedding it does not relicense the script.
+- site/ original website code: AGPL-3.0-or-later; see site/LICENSE.txt.
+- Third-party code, Unicode data, fonts and other separately marked material:
+  their own terms; see THIRD_PARTY_NOTICES.md and accompanying notices.
+- AppStream metadata: CC0-1.0, as marked in its metadata_license field.
+
+These component-specific licences do not grant an alternative AGPL licence for
+new application code released solely under SANSEVIERIA License 1.0. Existing
+copyright, licence and attribution notices must be preserved. No copyright
+assignment to the Steward is implied by this notice.
+
+Corresponding source is this version's complete source tree, including build
+instructions in README.md, CONTRIBUTING.md and docs/install.md and required
+scripts, templates and dependency information. When distributing a binary or
+providing external network use, supply the matching source or maintain the
+source offer required by section 5; a moving branch URL alone is not a substitute
+for identifying and retaining the matching source revision.
+
+Qt and other LGPL libraries keep their own licences. Nothing in the application
+terms prevents replacing a dynamically linked LGPL library with an interface-
+compatible modified version or reverse engineering the combined work for
+debugging modifications to that library. Library distributors remain responsible
+for applicable notices, source delivery and installation-information obligations.
+
+Commercial authorizations must satisfy section 7 of LICENSE. This notice is not
+such an authorization. Contributions to covered application code require the
+express assent described in CONTRIBUTING.md.

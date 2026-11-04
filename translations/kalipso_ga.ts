@@ -1089,10 +1089,6 @@ Is féidir linn dul ar aghaidh céim ar chéim. [Sos] Éistimis go cúramach, d�
             <translation>Níorbh fhéidir %1 a shábháil: níl go leor spáis saor nó ní féidir scríobh san fhillteán sonraí.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Íoslódálann Kalipso samhlacha cainte ar Linux do ríomhairí x86_64. Roghnaigh Samhail eile suiteáilte de láimh.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Íoslódáil cealaithe. Níor athraíodh aon rud.</translation>
         </message>

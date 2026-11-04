@@ -1080,10 +1080,6 @@ Vi kan ta ett steg i taget. [Paus] Lyssna noga, granska frågan och välj orden 
             <translation>Kunde inte spara %1: det finns för lite ledigt utrymme eller så går det inte att skriva i datamappen.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso hämtar talmodeller på Linux för x86_64-datorer. Välj Annan manuellt installerad modell.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Hämtningen avbröts. Inget ändrades.</translation>
         </message>

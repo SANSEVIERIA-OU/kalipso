@@ -1080,10 +1080,6 @@ Voimme edetä askel kerrallaan. [Tauko] Kuunnellaan tarkasti, tarkistetaan kysym
             <translation>Tallentaminen ei onnistunut: %1. Vapaata tilaa ei ole tarpeeksi tai tietokansioon ei voi kirjoittaa.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso lataa puhemalleja Linuxissa x86_64-tietokoneille. Valitse Muu käsin asennettu malli.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Lataus peruutettu. Mitään ei muutettu.</translation>
         </message>

@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Rebuilds the website's "in real use" scenes: real captures of the app, the Plasma widget and the
 # GNOME extension (artifacts/scenes/), placed in simulated desktops (scenes.html) and rendered to
 # site/assets/media/scene-*.webp. Run again whenever the interface shown changes.

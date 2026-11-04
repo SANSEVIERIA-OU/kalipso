@@ -4,6 +4,18 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 3.0 — 4 November 2026
+
+- Windows x64 and macOS now offer guided downloads of local speech engines and language models,
+  including Italian with Vosk. New profiles start with downloadable models; existing engine choices
+  and manually configured models are preserved. Moonshine on Mac requires Apple Silicon and macOS 15+.
+- Downloads select a runtime for the app's operating system and architecture, verify its fingerprint,
+  and install its native dependencies. Incomplete runtime installations can be repaired on retry.
+- Windows system speech reports an unavailable desktop recognizer clearly instead of suggesting a
+  microphone permission problem when only OneCore speech packs are present.
+- Native Windows and Mac checks download the real engines and exercise recognition and script
+  following with generated Italian and English audio.
+
 ## 2.9 — 4 November 2026
 
 - The website's language picker stays outside the scrolling navigation on small screens. The app's

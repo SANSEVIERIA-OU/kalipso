@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Measure a process and live descendants. No profiler dependency or root needed.
 
 Usage: python3 tools/measure-process.py --seconds 5 -- build/kalipso --demo

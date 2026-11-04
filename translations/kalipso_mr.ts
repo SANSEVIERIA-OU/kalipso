@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>%1 जतन करता आले नाही: पुरेशी रिकामी जागा नाही, किंवा डेटा फोल्डरमध्ये लिहिता येत नाही.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso x86_64 संगणकांवर Linux मध्ये वाणी मॉडेल डाउनलोड करते. हाताने स्थापित केलेले दुसरे मॉडेल निवडा.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>डाउनलोड रद्द केले. काहीही बदलले नाही.</translation>
         </message>

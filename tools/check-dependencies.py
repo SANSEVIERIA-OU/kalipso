@@ -27,7 +27,7 @@ def main():
     pinned = json.loads((ROOT / 'tools/dependency-versions.json').read_text())
     browser = json.loads((ROOT / 'tools/browser/package.json').read_text())['devDependencies']
     catalog = json.loads((ROOT / 'tools/data/speech-catalog.json').read_text())
-    runtimes = {'vosk': catalog['vosk']['version'], 'moonshine': catalog['moonshine']['version']}
+    runtimes = {'vosk': catalog['vosk']['runtimes']['linux-x86_64']['version'], 'moonshine': catalog['moonshine']['runtimes']['linux-x86_64']['version']}
     sources = {
         'aqt': 'https://pypi.org/pypi/aqtinstall/json',
         'qt': 'https://api.github.com/repos/qt/qtbase/tags?per_page=100',

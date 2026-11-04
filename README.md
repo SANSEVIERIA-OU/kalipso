@@ -1,6 +1,6 @@
 # Kalipso
 
-**A free, open-source desktop teleprompter for Linux, Windows and macOS.** Write or import a script,
+**A free desktop teleprompter with source available for Linux, Windows and macOS.** Write or import a script,
 keep the reader next to your webcam, and advance with your voice, at a steady pace, or with a key,
 pedal or phone. Speech recognition runs on your computer.
 
@@ -87,7 +87,7 @@ in Kalipso, or use GNOME's Extensions app.
 1. Open Kalipso and write, import or try a sample script. You can also run `kalipso --demo --prompter`;
    demo mode leaves your saved scripts alone and does not start the microphone.
 2. Choose **Voice**, **Steady** or **Manual**. For voice following, open **Settings → Voice**, choose the
-   language you speak and test the microphone. Linux downloads a supported model when you choose it;
+   language you speak and test the microphone. Kalipso downloads a supported model when you choose it;
    the download size is shown beforehand.
 3. Click the word where you want to start, select **Under the camera** if useful, then press **Start**.
    Pause whenever you need to edit. Rehearse with the microphone and meeting/recording app you will use.
@@ -103,10 +103,11 @@ The interface language does **not** select the language of speech recognition:
 | System | Voice recognition |
 | --- | --- |
 | Linux | Downloadable Moonshine models for English, German, Spanish, Japanese and Chinese; Vosk also covers Italian. Compatible models can be configured manually. After installation, recognition works offline. Automatic model downloads target Linux x86-64. |
-| Windows | An installed Microsoft desktop SAPI recognizer follows phrases around the current script position. Available languages depend on installed recognizers, not the display language. |
-| macOS | Apple's on-device SpeechAnalyzer on macOS 26+, compatible hardware and supported languages. Installing missing system speech assets is an explicit action. |
+| Windows x64 | Guided Moonshine and Vosk downloads, including Italian with Vosk. Microsoft desktop SAPI remains optional; Windows OneCore speech packs are not interchangeable with SAPI. |
+| macOS | Guided Vosk downloads, including Italian. Moonshine downloads require Apple Silicon and macOS 15+. Apple's system speech remains optional on macOS 26+ with compatible hardware and languages. |
 
-Windows and macOS can also use manually supplied Moonshine/Vosk models and matching native libraries.
+All three systems can also use manually supplied models and matching native libraries. Downloaded
+models work offline; choosing a language is the explicit download action.
 There is no automatic cloud-recognition fallback. See [Linux speech setup](docs/local-engine.md) and
 [Windows/macOS speech requirements](docs/system-speech.md).
 
@@ -162,6 +163,14 @@ reproduce in [Issues](https://github.com/SANSEVIERIA-OU/kalipso/issues). Release
 
 ## License
 
-Kalipso is **AGPL-3.0-or-later**: free to use, study, modify and redistribute under that license.
-See [LICENSE](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md) and bundled font licenses.
-AppStream metadata is CC0-1.0. Kalipso is an independent project, not affiliated with KDE or GNOME.
+The current standalone application and companion source use **SANSEVIERIA License 1.0**.
+It permits free use, modification and compliant forks, with source reciprocity; the commercial
+offerings defined in the licence require written authorization from SANSEVIERIA OÜ.
+This is a source-available licence, not an OSI-approved open-source licence.
+
+Published versions through **2.9** retain their original AGPL-3.0-or-later terms. The desktop
+integrations and original website code also retain their existing AGPL terms as separately
+identified components. They do not provide an AGPL alternative for new application code.
+See [LICENSE](LICENSE), the exact [scope and release notice](NOTICE),
+[third-party notices](THIRD_PARTY_NOTICES.md), and bundled font licences.
+AppStream metadata remains CC0-1.0. Kalipso is independent of KDE and GNOME.

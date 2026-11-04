@@ -1,6 +1,7 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 #pragma once
 #include "engine/config.h"
+#include "speech_platform.h"
 #include <QDir>
 #include <QDirIterator>
 #include <QJsonDocument>
@@ -39,10 +40,25 @@ inline QString installedRuntime(const QString &root, const QString &backend) {
     QDir runtimes(root + "/runtimes");
     // Newest version first: directory names are "<backend>-<version>".
     auto names = runtimes.entryList({backend + "-*"}, QDir::Dirs, QDir::Name | QDir::Reversed);
-    const auto libraryName =
-        backend == QLatin1String("moonshine") ? QStringLiteral("libmoonshine.*") : QStringLiteral("libvosk.*");
+#if defined(Q_OS_WIN)
+    const QStringList libraryNames = backend == QLatin1String("moonshine")
+                                         ? QStringList{"moonshine.dll", "libmoonshine.dll"}
+                                         : QStringList{"libvosk.dll"};
+#elif defined(Q_OS_MACOS)
+    const QStringList libraryNames = backend == QLatin1String("moonshine")
+                                         ? QStringList{"libmoonshine.dylib"}
+                                         : QStringList{"libvosk.dylib", "libvosk.dyld"};
+#else
+    const QStringList libraryNames{backend == QLatin1String("moonshine") ? "libmoonshine.so" : "libvosk.so"};
+#endif
     for (const auto &name : names) {
-        QDirIterator it(runtimes.filePath(name), {libraryName}, QDir::Files, QDirIterator::Subdirectories);
+        QFile source(runtimes.filePath(name) + "/source.json");
+        if (source.open(QIODevice::ReadOnly)) {
+            const auto target = QJsonDocument::fromJson(source.readAll()).object().value("target").toString();
+            if (!target.isEmpty() && target != speechPlatform())
+                continue;
+        }
+        QDirIterator it(runtimes.filePath(name), libraryNames, QDir::Files, QDirIterator::Subdirectories);
         if (it.hasNext())
             return it.next();
     }

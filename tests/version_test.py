@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """The version scheme: one step at a time, and every file states the same version."""
 import importlib.util
 from pathlib import Path

@@ -1080,10 +1080,6 @@ Saame liikuda 체he sammu kaupa. [Paus] Kuulame t채helepanelikult, kontrollime k�
             <translation>Ei saanud salvestada: %1. Vaba ruumi pole piisavalt v천i andmekausta ei saa kirjutada.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso laadib k천nemudeleid alla Linuxis x86_64-arvutitele. Vali Muu k채sitsi paigaldatud mudel.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Allalaadimine t체histatud. Midagi ei muudetud.</translation>
         </message>

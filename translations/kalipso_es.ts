@@ -1080,10 +1080,6 @@ Podemos avanzar paso a paso. [Pausa] Escuchemos con atención, revisemos la preg
             <translation>No se pudo guardar %1: no hay suficiente espacio libre o no se puede escribir en la carpeta de datos.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso descarga modelos de voz en Linux para ordenadores x86_64. Elige Otro modelo instalado manualmente.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Descarga cancelada. No se ha cambiado nada.</translation>
         </message>

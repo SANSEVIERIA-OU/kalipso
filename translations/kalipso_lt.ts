@@ -1089,10 +1089,6 @@ Galime judėti pirmyn po vieną žingsnį. [Pauzė] Atidžiai klausykimės, pati
             <translation>Nepavyko išsaugoti %1: nepakanka laisvos vietos arba negalima rašyti į duomenų aplanką.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso atsisiunčia kalbos modelius Linux x86_64 kompiuteriams. Pasirinkite Kitas rankiniu būdu įdiegtas modelis.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Atsisiuntimas atšauktas. Niekas nepakeista.</translation>
         </message>

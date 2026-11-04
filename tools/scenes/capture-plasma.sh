@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Captures the Plasma widget for the website scenes: the built package, with the scene's script,
 # reading position (the start of a passage), colours and mode set as defaults in a temporary copy,
 # shown by plasmawindowed at twice the size. The repository is not changed.

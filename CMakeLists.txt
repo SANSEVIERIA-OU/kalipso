@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 # Must precede project(): the oldest macOS the app and its helper run on.
 set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS version (Qt 6.12 requires 14.4)")
-project(Kalipso VERSION 2.9 LANGUAGES C CXX)
+project(Kalipso VERSION 3.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options("$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/utf-8>")
@@ -75,7 +75,8 @@ if(UNIX AND NOT APPLE)
     io.github.sansevieria_ou.Kalipso.Engine.service @ONLY)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/io.github.sansevieria_ou.Kalipso.Engine.service
     DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/services COMPONENT Engine)
-  install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso-engine COMPONENT Engine)
+  install(FILES LICENSE NOTICE THIRD_PARTY_NOTICES.md DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso-engine COMPONENT Engine)
+  install(DIRECTORY LICENSES/ DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso-engine/LICENSES COMPONENT Engine)
   # kalipso-voice-setup: downloads one language from a terminal, as Settings does.
   install(PROGRAMS packaging/kalipso-voice-setup DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Engine)
 
@@ -96,6 +97,7 @@ if(UNIX AND NOT APPLE)
       COMMAND ${CMAKE_COMMAND} -E touch ${addons}/stamp
       DEPENDS ${addon_sources} ${CMAKE_CURRENT_SOURCE_DIR}/desktop/package.py
         ${CMAKE_CURRENT_SOURCE_DIR}/packaging/io.github.sansevieria_ou.kalipso.svg
+        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/THIRD_PARTY_NOTICES.md
       COMMENT "Preparing the Plasma widget, the GNOME Shell extension and the KWin script" VERBATIM)
     add_custom_target(desktop_addons ALL DEPENDS ${addons}/stamp)
     install(DIRECTORY ${addons}/plasma/
@@ -175,7 +177,8 @@ else()
   install(FILES packaging/io.github.sansevieria_ou.kalipso.svg
     DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 endif()
-install(FILES LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso)
+install(FILES LICENSE NOTICE THIRD_PARTY_NOTICES.md DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso)
+install(DIRECTORY LICENSES/ DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso/LICENSES)
 file(GLOB KALIPSO_FONT_NOTICES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/fonts/*.txt)
 install(FILES ${KALIPSO_FONT_NOTICES} DESTINATION ${CMAKE_INSTALL_DATADIR}/licenses/kalipso/fonts)
 
@@ -207,6 +210,9 @@ if(BUILD_TESTING)
   set_target_properties(fake_moonshine PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
   add_library(fake_vosk SHARED tests/fake_vosk.cpp)
   set_target_properties(fake_vosk PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+  add_library(fake_vosk_legacy SHARED tests/fake_vosk.cpp)
+  target_compile_definitions(fake_vosk_legacy PRIVATE FAKE_VOSK_LEGACY=1)
+  set_target_properties(fake_vosk_legacy PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
   add_executable(download_tests tests/download_tests.cpp)
   target_link_libraries(download_tests PRIVATE kalipso_downloads Qt6::Test)
   add_test(NAME downloads COMMAND download_tests)
@@ -214,8 +220,8 @@ if(BUILD_TESTING)
   add_executable(speech_tests tests/speech_tests.cpp)
   target_link_libraries(speech_tests PRIVATE kalipso_speech Qt6::Test)
   target_compile_definitions(speech_tests PRIVATE FAKE_MOONSHINE_LIBRARY="$<TARGET_FILE:fake_moonshine>"
-    FAKE_VOSK_LIBRARY="$<TARGET_FILE:fake_vosk>")
-  add_dependencies(speech_tests fake_moonshine fake_vosk)
+    FAKE_VOSK_LIBRARY="$<TARGET_FILE:fake_vosk>" FAKE_VOSK_LEGACY_LIBRARY="$<TARGET_FILE:fake_vosk_legacy>")
+  add_dependencies(speech_tests fake_moonshine fake_vosk fake_vosk_legacy)
   add_test(NAME speech COMMAND speech_tests)
 
   add_executable(fake_system_speech tests/fake_system_speech.cpp)
@@ -302,6 +308,9 @@ if(BUILD_TESTING)
 
   add_executable(speech_probe benchmarks/speech_probe.cpp)
   target_link_libraries(speech_probe PRIVATE kalipso_speech)
+  add_executable(speech_runtime_probe tests/speech_runtime_probe.cpp)
+  target_link_libraries(speech_runtime_probe PRIVATE kalipso_downloads)
+  target_include_directories(speech_runtime_probe PRIVATE src)
   add_executable(follow_probe benchmarks/follow_probe.cpp)
   target_link_libraries(follow_probe PRIVATE kalipso_speech prompter_core)
   add_executable(tracker_benchmark benchmarks/tracker_benchmark.cpp)
@@ -385,7 +394,7 @@ set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "pipewire-bin, xdg-desktop-portal")
 # Fedora and openSUSE: rpmbuild finds the libraries the binaries need; PipeWire's tools are named, since
 # the microphone is recorded with pw-record.
 set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
-set(CPACK_RPM_PACKAGE_LICENSE "AGPL-3.0-or-later")
+set(CPACK_RPM_PACKAGE_LICENSE "LicenseRef-SANSEVIERIA-1.0 AND AGPL-3.0-or-later")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/Multimedia")
 set(CPACK_RPM_PACKAGE_URL "https://sansevieria-ou.github.io/kalipso/")
 set(CPACK_RPM_PACKAGE_AUTOREQ ON)

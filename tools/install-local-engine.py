@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 """Build the Kalipso companion from this source tree and set up voice following.
 
 The companion is installed under --prefix (default ~/.local) with its D-Bus service. With --language it

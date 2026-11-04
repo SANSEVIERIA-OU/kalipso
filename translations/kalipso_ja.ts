@@ -1071,10 +1071,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>%1を保存できませんでした。空き容量が不足しているか、データフォルダーに書き込めません。</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipsoはx86_64コンピューターのLinuxで音声モデルをダウンロードします。「手動でインストールした別のモデル」を選んでください。</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>ダウンロードをキャンセルしました。変更はありません。</translation>
         </message>

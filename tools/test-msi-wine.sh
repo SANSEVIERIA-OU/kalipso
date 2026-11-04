@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: AGPL-3.0-or-later
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 # Checks a Windows installer made on Linux (tools/make-msi.sh) under Wine, in a new Wine prefix:
 #   1. the older installer installs (when given);
 #   2. the new one replaces it in place, leaving one entry in the installed programs;

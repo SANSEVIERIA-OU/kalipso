@@ -1071,10 +1071,6 @@ Chúng ta có thể tiến từng bước một. [Tạm dừng] Lắng nghe kỹ
             <translation>Không lưu được %1: thiếu dung lượng trống hoặc không ghi được vào thư mục dữ liệu.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso tải mô hình giọng nói trên Linux cho máy tính x86_64. Chọn Mô hình khác cài thủ công.</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Đã hủy tải. Không thay đổi gì.</translation>
         </message>

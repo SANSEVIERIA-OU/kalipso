@@ -1,5 +1,8 @@
 # Third-party notices
 
+The original application uses SANSEVIERIA License 1.0; the [release notice](NOTICE) identifies
+components retaining other terms. The licence change does not alter third-party permissions.
+
 The generated character classification tables in `desktop/unicode-tokens.mjs`
 and its Plasma package and website copies derive from Unicode Character Database 15.1.0 through Python
 3.13's `unicodedata`. Unicode data © 1991–2026 Unicode, Inc.; distributed under

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Lifecycle test double for the Vosk C API: no recognition. A chunk whose first byte is 'E' ends an
 // utterance; any other chunk is speech. Changing the grammar while an utterance is being heard is
 // recorded as a violation, because the real library stops the program then.
@@ -41,11 +41,13 @@ void *vosk_recognizer_new_grm(void *, float, const char *text) {
     grammar = text;
     return result;
 }
+#ifndef FAKE_VOSK_LEGACY
 void vosk_recognizer_set_grm(void *, const char *text) {
     violations += running;
     ++grammarChanges;
     grammar = text;
 }
+#endif
 void vosk_recognizer_free(void *) {}
 int vosk_recognizer_accept_waveform(void *, const char *data, int length) {
     const bool end = length > 0 && data[0] == 'E';

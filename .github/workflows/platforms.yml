@@ -8,7 +8,22 @@ on:
 permissions:
   contents: read
 jobs:
+  speech-fixtures:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Generate Italian and English speech (synthetic, no microphone)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y espeak-ng ffmpeg
+          python3 tools/make-speech-fixtures.py speech-fixtures
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: speech-fixtures
+          path: speech-fixtures
+          retention-days: 7
   build:
+    needs: speech-fixtures
     strategy:
       fail-fast: false
       matrix:
@@ -53,6 +68,16 @@ jobs:
         run: ctest --test-dir build -C Release --output-on-failure
         env:
           QT_QPA_PLATFORM: offscreen
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: speech-fixtures
+          path: speech-fixtures
+      - name: Download and recognize with native Vosk and Moonshine
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = Windows ]; then probe=build/Release/speech_runtime_probe.exe; else probe=build/speech_runtime_probe; fi
+          "$probe" vosk it speech-fixtures
+          "$probe" moonshine en speech-fixtures
       - name: UI test failure details
         if: failure()
         run: python -c "from pathlib import Path; p=Path('build/ui-results.txt'); print(p.read_text(encoding='utf-8') if p.exists() else 'No UI test log was created')"

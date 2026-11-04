@@ -1089,10 +1089,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>Не удалось сохранить %1: недостаточно свободного места или папка данных недоступна для записи.</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso загружает речевые модели в Linux для компьютеров x86_64. Выберите «Другая модель, установленная вручную».</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>Загрузка отменена. Ничего не изменилось.</translation>
         </message>

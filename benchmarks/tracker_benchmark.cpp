@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
 // Time from a recognizer hypothesis to an updated reading position, excluding
 // speech recognition itself. Prints JSON: median and p95 per script size.
 #include "tracker.h"

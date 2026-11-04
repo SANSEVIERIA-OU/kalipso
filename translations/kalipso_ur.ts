@@ -1080,10 +1080,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>%1 محفوظ نہیں ہو سکا: خالی جگہ ناکافی ہے، یا ڈیٹا فولڈر میں لکھا نہیں جا سکتا۔</translation>
         </message>
         <message>
-            <source>Kalipso downloads speech models on Linux for x86_64 computers. Choose Other model installed by hand.</source>
-            <translation>Kalipso، x86_64 کمپیوٹر پر Linux میں گفتار ماڈل ڈاؤن لوڈ کرتا ہے۔ دستی طور پر نصب دوسرا ماڈل منتخب کریں۔</translation>
-        </message>
-        <message>
             <source>Download cancelled. Nothing was changed.</source>
             <translation>ڈاؤن لوڈ منسوخ۔ کچھ نہیں بدلا۔</translation>
         </message>
