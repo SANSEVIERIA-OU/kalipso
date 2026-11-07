@@ -64,6 +64,20 @@ jobs:
         # About three times the p95 measured on a developer machine (docs/performance.md): it catches a
         # startup that waits on something new (a network call, a model load), not runner noise.
         run: python3 tools/measure-startup.py build/kalipso --runs 15 --budget-p95 2000
+      - name: Repeated Linux performance measurements
+        if: matrix.qt == 'distribution'
+        timeout-minutes: 15
+        run: |
+          sudo apt-get -o Acquire::Retries=2 -o Acquire::http::Timeout=30 install -y espeak-ng ffmpeg
+          python3 tools/make-speech-fixtures.py artifacts/speech-fixtures
+          xvfb-run -a -s '-screen 0 1280x900x24' env QT_QPA_PLATFORM=xcb python3 tools/run-performance.py --fixtures artifacts/speech-fixtures --output artifacts/performance
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always() && matrix.qt == 'distribution'
+        with:
+          name: performance-linux
+          path: artifacts/performance
+          retention-days: 30
+          if-no-files-found: warn
       - name: Verify design token generation
         run: |
           python3 tools/generate-design-tokens.py

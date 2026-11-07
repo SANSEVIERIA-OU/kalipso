@@ -82,6 +82,17 @@ jobs:
           if [ "$RUNNER_OS" = Windows ]; then probe=build/Release/speech_runtime_probe.exe; else probe=build/speech_runtime_probe; fi
           "$probe" vosk it speech-fixtures
           "$probe" moonshine en speech-fixtures
+      - name: Repeated native performance measurements
+        if: success()
+        timeout-minutes: 15
+        run: python tools/run-performance.py --fixtures speech-fixtures --output artifacts/performance
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: performance-${{ matrix.os }}
+          path: artifacts/performance
+          retention-days: 30
+          if-no-files-found: warn
       - name: UI test failure details
         if: failure()
         run: python -c "from pathlib import Path; p=Path('build/ui-results.txt'); print(p.read_text(encoding='utf-8') if p.exists() else 'No UI test log was created')"
