@@ -533,6 +533,16 @@ private slots:
             }
         auto *menu = window.findChild<QMenu *>("scriptRowMenu");
         QVERIFY(menu);
+        // Report unexpected export errors immediately instead of hanging in a warning dialog.
+        QTimer warnings;
+        connect(&warnings, &QTimer::timeout, &window, [] {
+            if (auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget())) {
+                const auto error = dialog->text();
+                dialog->reject();
+                QFAIL(qPrintable(error));
+            }
+        });
+        warnings.start(50);
         const auto path = destination.filePath("single.txt");
         QTimer::singleShot(100, &window, [path] {
             auto *dialog = qobject_cast<QFileDialog *>(QApplication::activeModalWidget());

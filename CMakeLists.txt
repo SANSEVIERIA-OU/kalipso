@@ -204,7 +204,7 @@ if(BUILD_TESTING)
 
   add_executable(library_tests tests/library_tests.cpp)
   target_link_libraries(library_tests PRIVATE kalipso_app Qt6::Test)
-  add_test(NAME library COMMAND library_tests)
+  add_test(NAME library COMMAND library_tests -o library-results.txt,txt -o -,txt)
   set_tests_properties(library PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
 
   add_library(fake_moonshine SHARED tests/fake_moonshine.cpp)

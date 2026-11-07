@@ -17,6 +17,10 @@ version brings, for the people who use it.
   controls. Escape leaves selection mode before closing the panel, and still pauses reading.
   Controls adapt to large text and right-to-left layouts; new wording is included in all 39 languages.
 
+- **Known macOS limitation:** the startup variability accepted for 3.1 remains unresolved. This
+  release retains the same narrow startup-budget exception; functional checks and other budgets
+  remain enforced. No physical Mac validation or startup improvement is claimed.
+
 ## 3.1 — 7 November 2026
 
 - Guided voice downloads now use Moonshine 0.1.6 on Linux x64, Windows x64 and Apple Silicon Mac,

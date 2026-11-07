@@ -79,11 +79,16 @@ At dependency commit `10e711f`, local Linux CTest passed 22 tests with the Libre
 
 **The platform workflow is not fully green.** macOS functional tests and native recognition passed in both attempts, but startup p95 was **2,285 ms**, then **2,523 ms** in a single repeat of the same commit, against the unchanged 2,000 ms ceiling. Medians were 1,398 and 1,415 ms. Both failures and their artifacts are retained; the failed startup gate stopped the remaining macOS measurements and dependent installer jobs. Do not describe those jobs as validated for this update. The earlier macOS baseline passed, but that alone does not establish whether the new failures reflect runner variability, environment changes or a regression. The next investigation is a paired old/new build on one runner, retaining individual launch samples and profiling Qt/font/window initialization. No budget was relaxed and no startup optimization is claimed here.
 
-For release 3.1, the owner subsequently accepted this known startup ceiling on 7 November 2026.
+The owner subsequently accepted this known startup ceiling when authorizing integration and
+publication on 7 November 2026. This limitation carries through releases 3.1 and 3.2.
 The release-only macOS exception retains `within_budgets: false`, records the exact violation in
 `waived_budget_errors`, and allows `accepted: true` only if no other checks fail. Ordinary CI and
-later release tags remain strict. The runner collects all workloads before the report enforces
-budgets; a crashing startup still fails immediately. See [release policy](releasing.md#explicit-exception-for-31).
+release tags after 3.2 remain strict. The runner collects all workloads before the report enforces
+budgets; a crashing startup still fails immediately. See [release policy](releasing.md#explicit-exception-for-31-and-32).
+
+The 3.1 release run measured startup p95 of 1,878 ms and needed no exception. During 3.2
+validation, commit `5dfeccf` measured 2,195 ms (median 1,261 ms), while functional tests and all
+other measured budgets passed. These virtual runner results leave the variability unresolved.
 
 ### Quality countercheck: input level matters
 

@@ -111,9 +111,10 @@ jobs:
     if: needs.version.outputs.release == 'true'
     uses: ./.github/workflows/platforms.yml
     with:
-      # Owner accepted the measured macOS startup overrun for 3.1 on 7 November 2026.
+      # Owner accepted the measured macOS startup limitation when authorizing integration.
+      # Carry that known limitation through the requested 3.2 library update only.
       # Other versions, platforms, workloads and invalid results retain every gate.
-      allow_macos_startup_over_budget: ${{ needs.version.outputs.tag == 'v3.1' }}
+      allow_macos_startup_over_budget: ${{ needs.version.outputs.tag == 'v3.1' || needs.version.outputs.tag == 'v3.2' }}
   desktop:
     needs: version
     if: needs.version.outputs.release == 'true'

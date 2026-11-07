@@ -146,15 +146,17 @@ QString ScriptLibrary::exportToDirectory(const QString &id, const QString &direc
     QTemporaryFile temporary(QDir(directory).filePath(QStringLiteral(".kalipso-XXXXXX")));
     if (!temporary.open() || temporary.write(data) != data.size() || !temporary.flush())
         return {};
-    temporary.close();
     for (int number = 1; number <= 10000; ++number) {
         const auto suffix = number == 1 ? QString() : QStringLiteral(" (%1)").arg(number);
         const auto target = QDir(directory).filePath(name + suffix + QStringLiteral(".txt"));
         if (QFile::exists(target))
             continue;
-        // QFile::rename does not replace an existing destination, including a concurrent export.
-        if (QFile::rename(temporary.fileName(), target))
+        // Let the temporary-file engine handle its native handle. This rename is atomic
+        // and never replaces a destination, including one created concurrently.
+        if (temporary.rename(target)) {
+            temporary.setAutoRemove(false);
             return target;
+        }
         if (!QFile::exists(target))
             return {};
     }
