@@ -76,6 +76,9 @@ int main(int argc, char **argv) {
     QList<double> latency, rss;
     QElapsedTimer elapsed;
     const double cpuBefore = processCpuSeconds();
+#ifdef Q_OS_WIN
+    const double cyclesBefore = processCpuCycles();
+#endif
     const int colorsBefore = colorUpdates;
     const QString positionBefore = window.positionText();
     elapsed.start();
@@ -114,6 +117,9 @@ int main(int argc, char **argv) {
     }
     const double wallSeconds = elapsed.nsecsElapsed() / 1e9;
     const double cpuSeconds = processCpuSeconds() - cpuBefore;
+#ifdef Q_OS_WIN
+    const double cycles = processCpuCycles() - cyclesBefore;
+#endif
     const bool colorWorked = mode != "colors" || (colorUpdates - colorsBefore >= 2 && colorFailure.isEmpty());
     const bool scrolled = mode != "steady" || window.positionText() != positionBefore;
     QJsonArray samples;
@@ -131,6 +137,10 @@ int main(int argc, char **argv) {
                        {"position_before", positionBefore}, {"position_after", window.positionText()},
                        {"passed", colorWorked && scrolled && cpuBefore >= 0 && peakRssKiB() > 0 &&
                                       (mode == "interaction" || percentile(rss, .5) > 0)}};
+#ifdef Q_OS_WIN
+    report.insert("cpu_cycles", cycles);
+    report.insert("cpu_accounting", "GetProcessTimes may undercount short bursts; cycles are not converted to seconds");
+#endif
     const auto json = QJsonDocument(report).toJson();
     std::fwrite(json.constData(), 1, size_t(json.size()), stdout);
     return report.value("passed").toBool() ? 0 : 1;

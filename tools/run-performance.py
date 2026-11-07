@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 import subprocess
 import sys
 
@@ -69,6 +70,18 @@ def main():
     if cache.exists():
         manifest['build'] = [line for line in cache.read_text().splitlines()
                              if line.startswith(('CMAKE_BUILD_TYPE:', 'CMAKE_CXX_COMPILER:', 'CMAKE_CXX_FLAGS', 'Qt6_DIR:'))]
+    compiler_files = list((build / 'CMakeFiles').glob('*/CMakeCXXCompiler.cmake'))
+    manifest['compiler'] = {}
+    for compiler_file in compiler_files:
+        for key, value in re.findall(r'set\((CMAKE_CXX_COMPILER_(?:ID|VERSION)) "([^"]+)"\)', compiler_file.read_text()):
+            manifest['compiler'][key] = value
+    if hasattr(os, 'sched_getaffinity'):
+        manifest['machine']['cpu_affinity'] = sorted(os.sched_getaffinity(0))
+    if sys.platform == 'linux':
+        for name in ['cpu.max', 'memory.max']:
+            limit = Path('/sys/fs/cgroup') / name
+            if limit.exists():
+                manifest['machine'][name] = limit.read_text().strip()
     manifest_path = args.output / 'manifest.json'
 
     def save():

@@ -101,10 +101,16 @@ int main(int argc, char **argv) {
     request.library = plan.library;
     request.model = plan.modelDir;
     const double cpuBeforeLoad = processCpuSeconds();
+#ifdef Q_OS_WIN
+    const double cyclesBeforeLoad = processCpuCycles();
+#endif
     load.start();
     worker.load(request, 1);
     const double loadMs = load.nsecsElapsed() / 1e6;
     const double cpuAfterLoad = processCpuSeconds();
+#ifdef Q_OS_WIN
+    const double cyclesAfterLoad = processCpuCycles();
+#endif
     if (!ready || !failure.isEmpty()) {
         qWarning() << failure;
         return 1;
@@ -131,6 +137,9 @@ int main(int argc, char **argv) {
     }
     const double streamMs = stream.nsecsElapsed() / 1e6;
     const double cpuAfterStream = processCpuSeconds();
+#ifdef Q_OS_WIN
+    const double cyclesAfterStream = processCpuCycles();
+#endif
     const double peak = peakRssKiB();
     const bool passed = failure.isEmpty() && finalTranscripts > 0 && tracker.count() > 10 &&
                         tracker.position() >= tracker.count() * 0.8;
@@ -151,6 +160,11 @@ int main(int argc, char **argv) {
                        {"last_advance_ms", lastAdvanceMs}, {"peak_rss_kib", peak},
                        {"transcripts", transcripts}, {"final_transcripts", finalTranscripts}, {"moves", moves},
                        {"position", tracker.position()}, {"words", tracker.count()}, {"passed", passed}, {"error", failure}};
+#ifdef Q_OS_WIN
+    report.insert("model_load_cpu_cycles", cyclesAfterLoad - cyclesBeforeLoad);
+    report.insert("stream_cpu_cycles", cyclesAfterStream - cyclesAfterLoad);
+    report.insert("cpu_accounting", "GetProcessTimes may undercount short bursts; cycles are not converted to seconds");
+#endif
     worker.unload();
     const auto json = QJsonDocument(report).toJson();
     std::fwrite(json.constData(), 1, size_t(json.size()), stdout);

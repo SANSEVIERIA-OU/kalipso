@@ -40,6 +40,15 @@ inline double currentRssKiB() {
 }
 
 // Process-wide CPU, including recognizer threads. std::clock is wall time on MSVC.
+// Windows accounting can undercount short bursts between sleeps. Retain cycle deltas as an
+// independent activity counter; never turn them into seconds using an assumed CPU frequency.
+#ifdef Q_OS_WIN
+inline double processCpuCycles() {
+    ULONG64 cycles = 0;
+    return QueryProcessCycleTime(GetCurrentProcess(), &cycles) ? double(cycles) : -1;
+}
+#endif
+
 inline double processCpuSeconds() {
 #ifdef Q_OS_WIN
     FILETIME created{}, exited{}, kernel{}, user{};
