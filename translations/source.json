@@ -414,8 +414,8 @@
   "sa7323f1db0c0": {
     "source": "More",
     "locations": [
-      "app:MainWindow",
-      "desktop"
+      "desktop",
+      "app:ReaderPage"
     ]
   },
   "sf99dafc8a0e2": {
@@ -2819,7 +2819,8 @@
   "s89a86adcc181": {
     "source": "Cancel",
     "locations": [
-      "desktop"
+      "desktop",
+      "app:MainWindow"
     ]
   },
   "s261eadbe611a": {
@@ -4441,6 +4442,78 @@
     "source": "Paused",
     "locations": [
       "app:RemoteControl"
+    ]
+  },
+  "s2a78025de6aa": {
+    "source": "Select",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s1fc9a387654d": {
+    "source": "Select all",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s31dbec2184f2": {
+    "source": "Actions…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s464c4ffd019e": {
+    "source": "Edit",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s0154919f4f36": {
+    "source": "Selected: %1",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sef5e8592858f": {
+    "source": "Reading speed…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9f8472e6f88e": {
+    "source": "Words per minute",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s9ce78fe395f3": {
+    "source": "Delete…",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sc16a2910fab0": {
+    "source": "Delete selected scripts from this device?",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s3d6fd8892798": {
+    "source": "Could not delete:",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "s914c82e8f629": {
+    "source": "Scripts deleted.",
+    "locations": [
+      "app:MainWindow"
+    ]
+  },
+  "sa52ace420f21": {
+    "source": "All",
+    "locations": [
+      "app:MainWindow"
     ]
   }
 }

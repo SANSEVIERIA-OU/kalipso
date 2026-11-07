@@ -7,6 +7,7 @@
 #include "tracker.h"
 #include <QElapsedTimer>
 #include <QMainWindow>
+#include <QSet>
 #include <QTimer>
 #include <functional>
 
@@ -77,7 +78,14 @@ private:
     void dropIfEmpty();
     void importScript();
     void followSlide(int number, const QString &notes);
-    void exportScript();
+    void exportScript(const QString &id);
+    void showScriptMenu(const QString &id, const QPoint &globalPosition);
+    void setSelectingScripts(bool selecting);
+    void updateScriptSelection();
+    QStringList selectedScriptIds() const;
+    void exportSelectedScripts();
+    void changeSelectedSpeed();
+    void deleteScripts(const QStringList &ids);
     void wrapSelection(const QString &before, const QString &after);
     void toggleHeading();
     // Bold, italic, cue: on the selection, or off the text that has it. Heading: the line.
@@ -87,7 +95,6 @@ private:
     void stepTextSize(int direction);
     // What just happened, for a few seconds in the reader's status.
     void notify(const QString &message);
-    void deleteScript();
     // The first-run page: shown instead of an empty script until there is one.
     QWidget *makeWelcome();
     void refreshWelcome();
@@ -194,7 +201,13 @@ private:
     bool waitForNewUtterance_ = false;
 
     QListWidget *scriptList_ = nullptr;
-    QAbstractButton *more_ = nullptr;
+    QCheckBox *selectScripts_ = nullptr;
+    QCheckBox *selectAllScripts_ = nullptr;
+    QWidget *scriptSelectionBar_ = nullptr;
+    QAbstractButton *selectedScriptActions_ = nullptr;
+    QLabel *libraryTitle_ = nullptr;
+    QSet<QString> selectedScripts_;
+    bool selectingScripts_ = false;
     QWidget *welcome_ = nullptr;
     QLabel *welcomeVoice_ = nullptr;
     QPushButton *welcomeVoiceButton_ = nullptr;

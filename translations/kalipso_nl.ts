@@ -261,10 +261,6 @@
             <translation>Nieuwe spreektekst (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Meer</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Meer acties voor de spreektekst</translation>
         </message>
@@ -1231,6 +1227,58 @@ We kunnen dit stap voor stap aanpakken. [Pauze] Luister aandachtig, bekijk de vr
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Spraakherkenning is alleen beschikbaar voor de talen in de steminstellingen.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Selecteren</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Alles selecteren</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Acties…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Bewerken</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Geselecteerd: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Leessnelheid…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Woorden per minuut</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Verwijderen…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Geselecteerde teksten van dit apparaat verwijderen?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Kon niet verwijderen:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Teksten verwijderd.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Annuleren</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Alles</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We kunnen dit stap voor stap aanpakken. [Pauze] Luister aandachtig, bekijk de vr
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Klein, bovenaan het scherm, onder de camera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Meer</translation>
         </message>
     </context>
     <context>

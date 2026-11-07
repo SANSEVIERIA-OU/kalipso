@@ -150,6 +150,10 @@ public:
     // The window has no frame under the camera: the page's edges resize it.
     void setResizableEdges(bool resizable);
 
+    // Reading-session actions, separate from the library and individual scripts.
+    void setReaderActions(const QList<QAction *> &actions);
+    // Rebuild after dynamic drawer controls: top bar, library, text, bottom bar.
+    void orderTabs();
     // Writing: the formats (bold, italic, section, cue) as buttons in the top bar.
     void setFormatActions(const QList<QAction *> &actions);
     // The scripts: a panel that opens from the left. Beside the text in a large window, over it in a
@@ -229,19 +233,18 @@ private:
     int drawerWidth() const;
     // Icons as large as the text beside them, at any interface size.
     void sizeIcons();
-    // Tab goes the way the eye does: the top bar from left to right, the scripts, the text, the bottom bar.
-    void orderTabs();
 
     StatusLabel *status_ = nullptr;
     QPushButton *primary_;
     QToolButton *modes_;
     DragHandle *handle_;
     QProgressBar *progress_;
-    QList<QPair<QAbstractButton *, QString>> icons_;
+    QList<QPair<QPointer<QAbstractButton>, QString>> icons_;
     QWidget *speedBox_;
     QLabel *speed_;
     QToolButton *sections_;
     QPushButton *settings_;
+    QPushButton *actions_;
     QPushButton *drawerButton_;
     QPushButton *smaller_, *larger_;
     QPushButton *place_;
@@ -274,8 +277,8 @@ private:
     bool resizable_ = false;
     QTimer idle_;
     QTimer message_;
-    QString statusText_; // The status under a message.
-    QList<QWidget *> bars_; // Float over the text while reading: hidden, they give it their room.
+    QString statusText_;     // The status under a message.
+    QList<QWidget *> bars_;  // Float over the text while reading: hidden, they give it their room.
     QList<QWidget *> steps_; // Previous and next word.
     QHash<int, ReaderAction> customKeys_;
     int position_ = 0, length_ = 0;

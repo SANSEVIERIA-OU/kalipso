@@ -261,10 +261,6 @@
             <translation>Hati mpya ya hotuba (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Zaidi</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Vitendo zaidi vya hati ya hotuba</translation>
         </message>
@@ -1231,6 +1227,58 @@ Tunaweza kuendelea hatua kwa hatua. [Pumzika] Tusikilize kwa makini, tuhakiki sw
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Utambuzi wa sauti unapatikana kwa lugha zinazoonyeshwa katika mipangilio ya Sauti pekee.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Chagua</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Chagua zote</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Vitendo…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Hariri</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Zilizochaguliwa: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Kasi ya kusoma…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Maneno kwa dakika</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Futa…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Ufute maandishi yaliyochaguliwa kwenye kifaa hiki?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Imeshindwa kufuta:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Maandishi yamefutwa.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Ghairi</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Zote</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Tunaweza kuendelea hatua kwa hatua. [Pumzika] Tusikilize kwa makini, tuhakiki sw
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Dirisha dogo juu ya skrini, chini ya kamera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Zaidi</translation>
         </message>
     </context>
     <context>

@@ -24,6 +24,8 @@ public:
     QString load(const QString &id) const;
     bool save(const QString &id, const QString &text);
     bool remove(const QString &id);
+    // Returns the new file path, or empty on failure. Never replaces an existing file.
+    QString exportToDirectory(const QString &id, const QString &directory) const;
     bool contains(const QString &id) const;
     int position(const QString &id) const;
     // Kept in memory until flush(), so frequent reading updates do not write to disk.

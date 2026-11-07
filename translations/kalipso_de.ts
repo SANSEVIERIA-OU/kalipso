@@ -261,10 +261,6 @@
             <translation>Neuer Redetext (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Mehr</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Weitere Aktionen für Redetexte</translation>
         </message>
@@ -1231,6 +1227,58 @@ Wir können Schritt für Schritt vorgehen. [Pause] Aufmerksam zuhören, die Frag
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Spracherkennung ist nur für die in den Stimmeinstellungen angezeigten Sprachen verfügbar.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Auswählen</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Alle auswählen</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Aktionen…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Bearbeiten</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Ausgewählt: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Lesegeschwindigkeit…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Wörter pro Minute</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Löschen…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Ausgewählte Texte von diesem Gerät löschen?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Löschen fehlgeschlagen:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Texte gelöscht.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Abbrechen</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Alle</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Wir können Schritt für Schritt vorgehen. [Pause] Aufmerksam zuhören, die Frag
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Klein, am oberen Bildschirmrand unter der Kamera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Mehr</translation>
         </message>
     </context>
     <context>

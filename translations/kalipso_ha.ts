@@ -261,10 +261,6 @@
             <translation>Sabon rubutun jawabi (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Ƙari</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Ƙarin ayyukan rubutun jawabi</translation>
         </message>
@@ -1231,6 +1227,58 @@ Za mu iya tafiya mataki-mataki. [Dakata] Mu saurara da kyau, mu tabbatar da tamb
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Gane magana yana samuwa ga harsunan da aka nuna a saitunan Murya kaɗai.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Zaɓa</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Zaɓi duka</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Ayyuka…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Gyara</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>An zaɓa: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Saurin karatu…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Kalmomi a minti</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Goge…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>A goge rubutun da aka zaɓa daga wannan na’urar?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>An kasa gogewa:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>An goge rubutun.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Soke</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Duka</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Za mu iya tafiya mataki-mataki. [Dakata] Mu saurara da kyau, mu tabbatar da tamb
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Ƙaramar taga a saman allo, ƙarƙashin kyamara</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Ƙari</translation>
         </message>
     </context>
     <context>

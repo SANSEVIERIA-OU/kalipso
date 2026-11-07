@@ -261,10 +261,6 @@
             <translation>Naujas tekstas (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Daugiau</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Daugiau teksto veiksmų</translation>
         </message>
@@ -1240,6 +1236,58 @@ Galime judėti pirmyn po vieną žingsnį. [Pauzė] Atidžiai klausykimės, pati
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Kalbos atpažinimas galimas tik kalboms, nurodytoms Balso nuostatose.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Pasirinkti</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Pasirinkti visus</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Veiksmai…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Redaguoti</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Pasirinkta: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Skaitymo greitis…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Žodžių per minutę</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Ištrinti…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Ištrinti pasirinktus tekstus iš šio įrenginio?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Nepavyko ištrinti:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Tekstai ištrinti.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Atsisakyti</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Visi</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ Galime judėti pirmyn po vieną žingsnį. [Pauzė] Atidžiai klausykimės, pati
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Mažas langas ekrano viršuje, po kamera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Daugiau</translation>
         </message>
     </context>
     <context>

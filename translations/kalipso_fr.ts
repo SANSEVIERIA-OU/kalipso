@@ -261,10 +261,6 @@
             <translation>Nouveau texte (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Plus</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Autres actions sur le texte</translation>
         </message>
@@ -1231,6 +1227,58 @@ Nous pouvons avancer une étape à la fois. [Pause] Écoutons attentivement, exa
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>La reconnaissance vocale est disponible uniquement pour les langues indiquées dans les paramètres Voix.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Sélectionner</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Tout sélectionner</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Actions…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Modifier</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Sélectionnés : %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Vitesse de lecture…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Mots par minute</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Supprimer…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Supprimer les textes sélectionnés de cet appareil ?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Impossible de supprimer :</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Textes supprimés.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Annuler</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Tout</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Nous pouvons avancer une étape à la fois. [Pause] Écoutons attentivement, exa
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Petit, en haut de l’écran, sous la caméra</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Plus</translation>
         </message>
     </context>
     <context>

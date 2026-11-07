@@ -14,11 +14,13 @@
 #include "window.h"
 #include <QAbstractButton>
 #include <QApplication>
+#include <QCheckBox>
 #include <QComboBox>
 #include <QDialog>
 #include <QDir>
 #include <QLabel>
 #include <QListWidget>
+#include <QMenu>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -189,6 +191,62 @@ const char *modeName(ReadingMode mode) {
     return mode == ReadingMode::Manual ? "manual" : mode == ReadingMode::Steady ? "steady" : "voice";
 }
 
+void libraryStates(MainWindow &window, const QString &prefix) {
+    auto *reader = window.prompter();
+    // Selection has its own explicit scope at every supported window size and text scale.
+    for (const QSize size : {QSize(1100, 760), QSize(624, 384), QSize(320, 240)}) {
+        window.resize(size);
+        reader->setRunning(false, QString());
+        reader->setDrawerOpen(true);
+        settle();
+        QTest::qWait(300);
+        auto *drawer = reader->findChild<QWidget *>("scriptDrawer");
+        const auto normal = QString("%1 library %2x%3").arg(prefix).arg(size.width()).arg(size.height());
+        for (const auto *name : {"scriptDrawerHeader", "scriptLibraryTools"})
+            checkBar(normal, drawer->findChild<QWidget *>(name));
+        checkWindow(normal, drawer);
+        shoot(&window, QString(normal).replace(' ', '-'));
+        if (!outDir.isEmpty() && size.width() == 1100) {
+            const auto buttons = drawer->findChildren<QAbstractButton *>("scriptRowActions");
+            if (buttons.size() > 1) {
+                buttons[1]->click();
+                settle();
+                if (auto *menu = window.findChild<QMenu *>("scriptRowMenu")) {
+                    shoot(menu, prefix + "-script-menu");
+                    menu->close();
+                }
+            }
+        }
+        auto *select = window.findChild<QCheckBox *>("selectScripts");
+        select->setChecked(true);
+        for (const int checked : {0, 1, 3}) {
+            int row = 0;
+            for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
+                box->setChecked(row++ < checked);
+            settle();
+            const auto state =
+                QString("%1 selection%2 %3x%4").arg(prefix).arg(checked).arg(size.width()).arg(size.height());
+            auto *drawer = reader->findChild<QWidget *>("scriptDrawer");
+            for (const auto *name : {"scriptDrawerHeader", "scriptLibraryTools", "scriptSelectionBar"})
+                checkBar(state, drawer->findChild<QWidget *>(name));
+            auto *list = window.findChild<QListWidget *>("scriptList");
+            if (list->height() < list->sizeHintForRow(0))
+                problem(state, "no complete script row is visible");
+            checkWindow(state, drawer);
+            shoot(&window, QString(state).replace(' ', '-'));
+            if (!outDir.isEmpty() && size.width() == 1100 && checked == 1) {
+                window.findChild<QAbstractButton *>("selectedScriptActions")->click();
+                settle();
+                auto *menu = window.findChild<QMenu *>("selectedScriptsMenu");
+                shoot(menu, prefix + "-selection-menu");
+                menu->close();
+            }
+        }
+        select->setChecked(false);
+        reader->setDrawerOpen(false);
+    }
+}
+
 // The one window at every size: large (writing, with the formats and the scripts beside the text)
 // and small (the teleprompter), in each mode, idle and reading.
 void readerStates(MainWindow &window, const QString &prefix) {
@@ -294,6 +352,7 @@ void readerStates(MainWindow &window, const QString &prefix) {
             settle();
         }
     }
+    libraryStates(window, prefix);
     // A long status and an error must not change the bars either.
     window.resize(624, 384);
     emit reader->modeRequested(ReadingMode::Voice);
@@ -371,12 +430,18 @@ int main(int argc, char **argv) {
         "Abbiamo lavorato per sei mesi con le scuole della città. I risultati sono stati migliori del previsto: "
         "più di duemila ragazzi hanno partecipato ai laboratori.\n\n## I prossimi passi\n\n[pausa] Da gennaio "
         "apriremo le prove al pubblico, ogni giovedì sera. Vi aspettiamo numerosi.\n");
+    ScriptLibrary fixtures(library.path());
+    fixtures.create("Seed");
+    fixtures.create("A second script with a very long title that must leave room for its menu\nOther words");
+    fixtures.create("Third script\nMore words");
     for (const double scale : {1.0, 2.0}) {
         QSettings().clear();
         QSettings().setValue("appearance/textScale", scale);
         QSettings().setValue("reading/countdown", 0);
         MainWindow window(library.path());
         window.show();
+        if (!qEnvironmentVariable("KALIPSO_LIBRARY_THEME").isEmpty())
+            window.prompter()->setReaderTheme(qEnvironmentVariable("KALIPSO_LIBRARY_THEME"));
         const auto prefix = QString("text%1").arg(int(scale * 100));
         if (!QTest::qWaitForWindowExposed(&window))
             problem(prefix, "the window did not appear");
@@ -384,6 +449,10 @@ int main(int argc, char **argv) {
         editor->setPlainText(script);
         editor->spaceLines();
         settle();
+        if (qEnvironmentVariableIsSet("KALIPSO_LIBRARY_ONLY")) {
+            libraryStates(window, prefix);
+            continue;
+        }
         if (qEnvironmentVariableIsSet("KALIPSO_SETTINGS_ONLY"))
             window.prompter()->findChild<QPushButton *>("readerSettings")->click();
         else

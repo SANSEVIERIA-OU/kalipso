@@ -261,10 +261,6 @@
             <translation>نص كلام جديد (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>أكتر</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>اختيارات أكتر لنص الكلام</translation>
         </message>
@@ -1267,6 +1263,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>التعرّف على الكلام متاح بس للغات اللي ظاهرة في إعدادات الصوت.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>اختيار</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>اختيار الكل</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>إجراءات…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>تعديل</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>المختار: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>سرعة القراية…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>كلمات في الدقيقة</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>حذف…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>تمسح النصوص المختارة من الجهاز ده؟</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>ماقدرناش نمسح:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>النصوص اتمسحت.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>الغي</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>الكل</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1546,6 +1594,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>صغيرة، فوق في الشاشة، تحت الكاميرا</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>أكتر</translation>
         </message>
     </context>
     <context>

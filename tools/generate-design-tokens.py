@@ -40,13 +40,14 @@ header += ['}', '']
 glyphs = {
     'chevron-down': '<path d="M6 9l6 6 6-6" fill="none" stroke="{c}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
     'chevron-up': '<path d="M6 15l6-6 6 6" fill="none" stroke="{c}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+    'mixed': '<path d="M6 12h12" fill="none" stroke="{c}" stroke-width="2.8" stroke-linecap="round"/>',
     'check': '<path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="{c}" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>',
 }
 glyph_dir = ROOT / 'src/icons/generated'
 glyph_dir.mkdir(parents=True, exist_ok=True)
 for theme, values in source['palette'].items():
     for name, shape in glyphs.items():
-        colour = values['actionText'] if name == 'check' else values['text']
+        colour = values['actionText'] if name in ('check', 'mixed') else values['text']
         (glyph_dir / f'{name}-{theme}.svg').write_text(
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' + shape.format(c=colour) + '</svg>\n')
 (ROOT / 'src/design_tokens.h').write_text('\n'.join(header))

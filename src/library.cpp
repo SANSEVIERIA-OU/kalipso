@@ -9,6 +9,7 @@
 #include <QRegularExpression>
 #include <QSaveFile>
 #include <QStandardPaths>
+#include <QTemporaryFile>
 #include <QUuid>
 #include <algorithm>
 
@@ -67,8 +68,8 @@ bool ScriptLibrary::writeIndex() {
                                  {"speed", entry.speed}});
     QSaveFile file(directory_ + "/" + kIndex);
     const auto data = QJsonDocument(array).toJson();
-    dirty_ = false;
-    return file.open(QIODevice::WriteOnly) && file.write(data) == data.size() && file.commit();
+    dirty_ = !(file.open(QIODevice::WriteOnly) && file.write(data) == data.size() && file.commit());
+    return !dirty_;
 }
 
 QVector<ScriptLibrary::Entry> ScriptLibrary::entries() const {
@@ -115,12 +116,51 @@ bool ScriptLibrary::save(const QString &id, const QString &text) {
 }
 
 bool ScriptLibrary::remove(const QString &id) {
-    if (!validId(id))
+    if (!contains(id) || !QFile::remove(path(id)))
         return false;
     entries_.erase(
         std::remove_if(entries_.begin(), entries_.end(), [&id](const auto &entry) { return entry.id == id; }),
         entries_.end());
-    return QFile::remove(path(id)) && writeIndex();
+    // A stale index is recoverable: readIndex ignores missing files. Keep it dirty for retry.
+    writeIndex();
+    return true;
+}
+
+QString ScriptLibrary::exportToDirectory(const QString &id, const QString &directory) const {
+    if (!contains(id))
+        return {};
+    QFile source(path(id));
+    if (!source.open(QIODevice::ReadOnly))
+        return {};
+    const auto data = source.readAll();
+    if (source.error() != QFile::NoError)
+        return {};
+    QString name = titleFor(QString::fromUtf8(data));
+    name.replace(QRegularExpression(QStringLiteral("[<>:\"/\\\\|?*\\x00-\\x1f]")), QStringLiteral("_"));
+    while (name.endsWith(u'.') || name.endsWith(u' '))
+        name.chop(1);
+    static const QRegularExpression reserved(QStringLiteral("^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\.|$)"),
+                                             QRegularExpression::CaseInsensitiveOption);
+    if (name.isEmpty() || reserved.match(name).hasMatch())
+        name.prepend(u'_');
+    QTemporaryFile temporary(QDir(directory).filePath(QStringLiteral(".kalipso-XXXXXX")));
+    if (!temporary.open() || temporary.write(data) != data.size() || !temporary.flush())
+        return {};
+    for (int number = 1; number <= 10000; ++number) {
+        const auto suffix = number == 1 ? QString() : QStringLiteral(" (%1)").arg(number);
+        const auto target = QDir(directory).filePath(name + suffix + QStringLiteral(".txt"));
+        if (QFile::exists(target))
+            continue;
+        // Let the temporary-file engine handle its native handle. This rename is atomic
+        // and never replaces a destination, including one created concurrently.
+        if (temporary.rename(target)) {
+            temporary.setAutoRemove(false);
+            return target;
+        }
+        if (!QFile::exists(target))
+            return {};
+    }
+    return {};
 }
 
 int ScriptLibrary::position(const QString &id) const {

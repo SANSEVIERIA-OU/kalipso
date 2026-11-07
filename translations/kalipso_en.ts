@@ -261,10 +261,6 @@
             <translation>New script (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>More</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>More script actions</translation>
         </message>
@@ -1231,6 +1227,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Speech recognition is available only for the languages shown in Voice settings.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Select</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Select all</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Actions…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Edit</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Selected: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Reading speed…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Words per minute</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Delete…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Delete selected scripts from this device?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Could not delete:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Scripts deleted.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Cancel</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>All</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Small, at the top of the screen, under the camera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>More</translation>
         </message>
     </context>
     <context>

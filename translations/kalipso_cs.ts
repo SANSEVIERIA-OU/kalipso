@@ -261,10 +261,6 @@
             <translation>Nový text (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Další</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Další akce s textem</translation>
         </message>
@@ -1240,6 +1236,58 @@ Můžeme postupovat krok za krokem. [Pauza] Pozorně naslouchejme, ověřme si o
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Rozpoznávání řeči je dostupné pouze pro jazyky uvedené v nastavení Hlasu.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Vybrat</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Vybrat vše</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Akce…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Upravit</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Vybráno: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Rychlost čtení…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Slov za minutu</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Smazat…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Smazat vybrané texty z tohoto zařízení?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Nepodařilo se smazat:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Texty byly smazány.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Zrušit</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Vše</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ Můžeme postupovat krok za krokem. [Pauza] Pozorně naslouchejme, ověřme si o
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Malé okno nahoře na obrazovce, pod kamerou</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Další</translation>
         </message>
     </context>
     <context>

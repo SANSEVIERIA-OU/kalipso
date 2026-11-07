@@ -261,10 +261,6 @@
             <translation>Novo besedilo (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Več</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Več dejanj za besedilo</translation>
         </message>
@@ -1249,6 +1245,58 @@ Lahko napredujemo korak za korakom. [Premor] Pozorno poslušajmo, preverimo vpra
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Prepoznavanje govora je na voljo samo za jezike, prikazane v nastavitvah Glas.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Izberi</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Izberi vse</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Dejanja…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Uredi</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Izbrano: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Hitrost branja…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Besed na minuto</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Izbriši…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Izbrišem izbrana besedila iz te naprave?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Ni bilo mogoče izbrisati:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Besedila so izbrisana.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Prekliči</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Vse</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1528,6 +1576,10 @@ Lahko napredujemo korak za korakom. [Premor] Pozorno poslušajmo, preverimo vpra
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Majhno okno na vrhu zaslona, pod kamero</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Več</translation>
         </message>
     </context>
     <context>

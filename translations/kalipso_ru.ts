@@ -261,10 +261,6 @@
             <translation>Новый текст (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Ещё</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Другие действия с текстом</translation>
         </message>
@@ -1240,6 +1236,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Распознавание речи доступно только для языков, указанных в настройках «Голос».</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Выбрать</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Выбрать все</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Действия…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Редактировать</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Выбрано: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Скорость чтения…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Слов в минуту</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Удалить…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Удалить выбранные тексты с этого устройства?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Не удалось удалить:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Тексты удалены.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Отмена</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Все</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Маленькое окно вверху экрана, под камерой</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Ещё</translation>
         </message>
     </context>
     <context>

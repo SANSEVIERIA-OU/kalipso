@@ -261,10 +261,6 @@
             <translation>Nytt manus (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Mer</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Fler manusåtgärder</translation>
         </message>
@@ -1231,6 +1227,58 @@ Vi kan ta ett steg i taget. [Paus] Lyssna noga, granska frågan och välj orden 
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Taligenkänning är bara tillgänglig för språken som visas i röstinställningarna.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Välj</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Välj alla</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Åtgärder…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Redigera</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Valda: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Läshastighet…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Ord per minut</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Radera…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Radera de valda manusen från den här enheten?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Kunde inte radera:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Manus raderade.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Avbryt</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Alla</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Vi kan ta ett steg i taget. [Paus] Lyssna noga, granska frågan och välj orden 
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Litet, högst upp på skärmen, under kameran</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Mer</translation>
         </message>
     </context>
     <context>

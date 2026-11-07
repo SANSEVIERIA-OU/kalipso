@@ -261,10 +261,6 @@
             <translation>Bài nói mới (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Thêm</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Thêm thao tác với bài nói</translation>
         </message>
@@ -1222,6 +1218,58 @@ Chúng ta có thể tiến từng bước một. [Tạm dừng] Lắng nghe kỹ
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Nhận dạng giọng nói chỉ có cho các ngôn ngữ hiển thị trong cài đặt Giọng nói.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Chọn</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Chọn tất cả</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Thao tác…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Chỉnh sửa</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Đã chọn: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Tốc độ đọc…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Từ mỗi phút</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Xóa…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Xóa các kịch bản đã chọn khỏi thiết bị này?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Không thể xóa:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Đã xóa kịch bản.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Hủy</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Tất cả</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1501,6 +1549,10 @@ Chúng ta có thể tiến từng bước một. [Tạm dừng] Lắng nghe kỹ
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Nhỏ, ở đầu màn hình, dưới camera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Thêm</translation>
         </message>
     </context>
     <context>

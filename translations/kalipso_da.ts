@@ -261,10 +261,6 @@
             <translation>Nyt manuskript (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Mere</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Flere handlinger for manuskriptet</translation>
         </message>
@@ -1231,6 +1227,58 @@ Vi kan tage ét skridt ad gangen. [Pause] Lyt opmærksomt, undersøg spørgsmål
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Talegenkendelse er kun tilgængelig for de sprog, der vises i Stemme-indstillingerne.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Vælg</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Vælg alle</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Handlinger…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Rediger</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Valgt: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Læsehastighed…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Ord pr. minut</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Slet…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Slet de valgte manuskripter fra denne enhed?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Kunne ikke slette:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Manuskripter slettet.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Annuller</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Alle</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Vi kan tage ét skridt ad gangen. [Pause] Lyt opmærksomt, undersøg spørgsmål
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Lille, øverst på skærmen, under kameraet</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Mere</translation>
         </message>
     </context>
     <context>

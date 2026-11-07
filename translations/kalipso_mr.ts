@@ -261,10 +261,6 @@
             <translation>नवीन भाषणाचा मजकूर (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>आणखी</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>भाषणाच्या मजकुरासाठी आणखी कृती</translation>
         </message>
@@ -1231,6 +1227,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>वाणी ओळख फक्त आवाज सेटिंग्जमध्ये दाखवलेल्या भाषांसाठी उपलब्ध आहे.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>निवडा</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>सर्व निवडा</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>कृती…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>संपादित करा</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>निवडलेले: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>वाचनाचा वेग…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>प्रति मिनिट शब्द</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>हटवा…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>निवडलेल्या संहिता या उपकरणावरून हटवायच्या?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>हटवता आले नाही:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>संहिता हटवल्या.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>रद्द करा</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>सर्व</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>लहान, पडद्याच्या वरच्या बाजूला, कॅमेऱ्याखाली</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>आणखी</translation>
         </message>
     </context>
     <context>

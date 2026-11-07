@@ -13,15 +13,18 @@
 #include <QClipboard>
 #include <QComboBox>
 #include <QDialog>
+#include <QElapsedTimer>
+#include <QFileDialog>
 #include <QFontInfo>
 #include <QFormLayout>
+#include <QInputDialog>
 #include <QKeySequenceEdit>
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMenu>
 #include <QMessageBox>
-#include <QNetworkProxy>
 #include <QMimeData>
+#include <QNetworkProxy>
 #include <QPlainTextEdit>
 #include <QProcess>
 #include <QProgressBar>
@@ -29,7 +32,6 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSettings>
-#include <QElapsedTimer>
 #include <QSignalSpy>
 #include <QSpinBox>
 #include <QStandardPaths>
@@ -146,7 +148,7 @@ private slots:
             int row = -1;
             QFormLayout::ItemRole role;
             form->getWidgetPosition(language, &row, &role);
-            QCOMPARE(row, 0); // Reachable before any appearance controls, without scrolling.
+            QCOMPARE(row, 0);                // Reachable before any appearance controls, without scrolling.
             QCOMPARE(language->count(), 40); // System default and every supported language.
             language->setCurrentIndex(language->findData("it"));
             QCOMPARE(QSettings().value("appearance/language").toString(), QString("it"));
@@ -321,13 +323,13 @@ private slots:
         window.findChild<QPushButton *>("welcomeSample")->click();
         QVERIFY(editor(window)->isVisible());
         QVERIFY(list->isVisible()); // The list comes with the first script.
-        QVERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
+        QTRY_VERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
         QTRY_COMPARE(list->currentItem()->text(), QString("Welcome"));
         window.findChild<QPushButton *>("newScript")->click();
         QCOMPARE(list->count(), 2);
         QVERIFY(editor(window)->isVisible()); // A second script is not a first run.
         list->setCurrentRow(list->row(list->findItems("Welcome", Qt::MatchExactly).value(0)));
-        QVERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
+        QTRY_VERIFY(editor(window)->toPlainText().startsWith("# Welcome"));
         // Small, as a teleprompter: the scripts close, and open over the text when asked for.
         window.resize(620, 400);
         QTRY_VERIFY(!list->isVisible());
@@ -376,6 +378,324 @@ private slots:
         QVERIFY(muted != breeze.color(QPalette::WindowText));
     }
 
+    void scriptSelectionHasExplicitScopeAndEscape() {
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nOriginal");
+        const auto second = stored.create("Second talk\nOther");
+        const auto third = stored.create("Third talk\nOther");
+        QSettings().setValue("library/current", first);
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        window.activateWindow();
+        QVERIFY(QTest::qWaitForWindowActive(&window));
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        auto *select = window.findChild<QCheckBox *>("selectScripts");
+        auto *all = window.findChild<QCheckBox *>("selectAllScripts");
+        select->click();
+        QVERIFY(!window.findChild<QAbstractButton *>("selectedScriptActions")->isEnabled());
+        const auto checkFor = [&](const QString &id) {
+            for (auto *box : list->findChildren<QCheckBox *>("scriptCheck"))
+                if (box->property("scriptId").toString() == id)
+                    return box;
+            return static_cast<QCheckBox *>(nullptr);
+        };
+        QVERIFY(checkFor(second));
+        const auto unchecked = all->grab().toImage();
+        checkFor(second)->click();
+        QCOMPARE(window.currentScript(), first);
+        QCOMPARE(all->checkState(), Qt::PartiallyChecked);
+        const auto mixed = all->grab().toImage();
+        QVERIFY(unchecked != mixed);
+        QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), QString("Selected: 1"));
+        all->click();
+        QCOMPARE(all->checkState(), Qt::Checked);
+        QVERIFY(mixed != all->grab().toImage());
+        QVERIFY(checkFor(first)->isChecked() && checkFor(second)->isChecked() && checkFor(third)->isChecked());
+        all->click();
+        QCOMPARE(all->checkState(), Qt::Unchecked);
+        for (int row = 0; row < list->count(); ++row)
+            if (list->item(row)->data(Qt::UserRole).toString() == second)
+                list->setCurrentRow(row);
+        auto *rowWidget = list->itemWidget(list->currentItem());
+        QVERIFY(rowWidget);
+        QTest::mouseClick(rowWidget, Qt::LeftButton, Qt::NoModifier, rowWidget->rect().center());
+        QVERIFY(checkFor(second)->isChecked());
+        QCOMPARE(window.currentScript(), first);
+        QTest::mouseClick(rowWidget, Qt::LeftButton, Qt::NoModifier, rowWidget->rect().center());
+        QVERIFY(!checkFor(second)->isChecked());
+        list->setFocus();
+        QTest::keyClick(list, Qt::Key_Space);
+        QVERIFY(checkFor(second)->isChecked());
+        QCOMPARE(window.currentScript(), first);
+        QTest::keySequence(list, QKeySequence::SelectAll);
+        QCOMPARE(all->checkState(), Qt::Checked);
+        QTest::keyClick(list, Qt::Key_Escape);
+        QVERIFY(!select->isChecked());
+        QVERIFY(window.prompter()->drawerOpen());
+        QCOMPARE(window.currentScript(), first);
+        // Clearing and rebuilding dynamic row controls must survive a theme/font change.
+        window.findChild<QPushButton *>("newScript")->click();
+        QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+        window.prompter()->setReaderTheme("light");
+        window.prompter()->setReaderTheme("dark");
+    }
+
+    void smallLibraryKeepsKeyboardFocusOnVisibleControls() {
+        ScriptLibrary stored(scripts_.path());
+        stored.create("First talk\nWords");
+        stored.create("Second talk\nMore words");
+        stored.create("Third talk\nWords");
+        stored.create("Fourth talk\nMore words");
+        MainWindow window(scripts_.path());
+        window.resize(320, 240);
+        window.show();
+        window.activateWindow();
+        QVERIFY(QTest::qWaitForWindowActive(&window));
+        auto *reader = window.prompter();
+        reader->setDrawerOpen(true);
+        QTest::qWait(300);
+        auto *drawer = window.findChild<QWidget *>("scriptDrawer");
+        QVERIFY(drawer->isAncestorOf(QApplication::focusWidget()));
+        for (const bool selecting : {false, true}) {
+            window.findChild<QCheckBox *>("selectScripts")->setChecked(selecting);
+            for (int i = 0; i < 25; ++i) {
+                auto *focus = QApplication::focusWidget();
+                QVERIFY(focus && drawer->isAncestorOf(focus));
+                QVERIFY(focus->visibleRegion().boundingRect().contains(focus->rect()));
+                QTest::keyClick(focus, i < 15 ? Qt::Key_Tab : Qt::Key_Backtab);
+            }
+        }
+        QTest::keyClick(QApplication::focusWidget(), Qt::Key_Escape);
+        QVERIFY(reader->drawerOpen());
+        QTest::keyClick(QApplication::focusWidget(), Qt::Key_Escape);
+        QVERIFY(!reader->drawerOpen());
+        QTRY_VERIFY(editor(window)->hasFocus());
+    }
+
+    void rowMenuTargetsItsOwnScriptAndDeleteCanCancel() {
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nKeep this");
+        const auto second = stored.create("Second talk\nDelete this");
+        QSettings().setValue("library/current", first);
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        QVERIFY(QTest::qWaitForWindowExposed(&window));
+        const auto rowButton = [&]() {
+            for (auto *button : window.findChildren<QAbstractButton *>("scriptRowActions"))
+                if (button->property("scriptId").toString() == second)
+                    return button;
+            return static_cast<QAbstractButton *>(nullptr);
+        };
+        QVERIFY(rowButton());
+        for (const auto answer : {QMessageBox::Cancel, QMessageBox::Yes}) {
+            QTest::mouseClick(rowButton(), Qt::LeftButton);
+            QCOMPARE(window.currentScript(), first);
+            QPointer<QMenu> menu = window.findChild<QMenu *>("scriptRowMenu");
+            QVERIFY(menu);
+            QTimer::singleShot(50, &window, [answer] {
+                auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget());
+                QVERIFY(dialog);
+                QVERIFY(dialog->text().contains("Second talk"));
+                QCOMPARE(dialog->defaultButton(), dialog->button(QMessageBox::Cancel));
+                dialog->button(answer)->click();
+            });
+            menu->findChild<QAction *>("deleteScript")->trigger();
+            if (menu)
+                menu->close();
+            QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+            QCOMPARE(window.currentScript(), first);
+            QCOMPARE(editor(window)->toPlainText(), QString("First talk\nKeep this"));
+            QCOMPARE(ScriptLibrary(scripts_.path()).contains(second), answer == QMessageBox::Cancel);
+        }
+    }
+
+    void exportsUseTheirTargetsAndIncludeUnsavedSelectedText() {
+        QCoreApplication::setAttribute(Qt::AA_DontUseNativeDialogs, true);
+        const auto nativeDialogs =
+            qScopeGuard([] { QCoreApplication::setAttribute(Qt::AA_DontUseNativeDialogs, false); });
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nOld text");
+        const auto second = stored.create("Second talk\nOther text");
+        const auto third = stored.create("Third talk\nUnselected");
+        QSettings().setValue("library/current", first);
+        QTemporaryDir destination;
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        QVERIFY(QTest::qWaitForWindowExposed(&window));
+        editor(window)->setPlainText("First talk\nUnsaved edit");
+        for (auto *button : window.findChildren<QAbstractButton *>("scriptRowActions"))
+            if (button->property("scriptId").toString() == second) {
+                button->click();
+                break;
+            }
+        auto *menu = window.findChild<QMenu *>("scriptRowMenu");
+        QVERIFY(menu);
+        // Report unexpected export errors immediately instead of hanging in a warning dialog.
+        QTimer warnings;
+        connect(&warnings, &QTimer::timeout, &window, [] {
+            if (auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget())) {
+                const auto error = dialog->text();
+                dialog->reject();
+                QFAIL(qPrintable(error));
+            }
+        });
+        warnings.start(50);
+        const auto path = destination.filePath("single.txt");
+        QTimer::singleShot(100, &window, [path] {
+            auto *dialog = qobject_cast<QFileDialog *>(QApplication::activeModalWidget());
+            QVERIFY(dialog);
+            auto *filename = dialog->findChild<QLineEdit *>("fileNameEdit");
+            if (!filename) {
+                dialog->reject();
+                QFAIL("The non-native file dialog has no filename field");
+            }
+            filename->setText(path);
+            const auto selected = dialog->selectedFiles();
+            if (selected != QStringList{path}) {
+                dialog->reject();
+                QCOMPARE(selected, QStringList{path});
+            }
+            QMetaObject::invokeMethod(dialog, "accept", Qt::DirectConnection);
+        });
+        menu->findChild<QAction *>("exportScript")->trigger();
+        QFile single(path);
+        QVERIFY2(single.open(QIODevice::ReadOnly), qPrintable(QDir(destination.path()).entryList().join(", ")));
+        QCOMPARE(single.readAll(), QByteArray("Second talk\nOther text"));
+        QCOMPARE(window.currentScript(), first);
+        QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
+        window.findChild<QCheckBox *>("selectScripts")->click();
+        for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
+            if (box->property("scriptId").toString() != third)
+                box->click();
+        QTimer::singleShot(100, &window, [&destination] {
+            auto *dialog = qobject_cast<QFileDialog *>(QApplication::activeModalWidget());
+            QVERIFY(dialog);
+            dialog->setDirectory(destination.path());
+            QMetaObject::invokeMethod(dialog, "accept", Qt::DirectConnection);
+        });
+        window.findChild<QAction *>("exportSelectedScripts")->trigger();
+        QFile firstExport(destination.filePath("First talk.txt"));
+        QVERIFY(firstExport.open(QIODevice::ReadOnly));
+        QCOMPARE(firstExport.readAll(), QByteArray("First talk\nUnsaved edit"));
+        QFile secondExport(destination.filePath("Second talk.txt"));
+        QVERIFY(secondExport.open(QIODevice::ReadOnly));
+        QCOMPARE(secondExport.readAll(), QByteArray("Second talk\nOther text"));
+        QVERIFY(!QFile::exists(destination.filePath("Third talk.txt")));
+        QCOMPARE(window.currentScript(), first);
+    }
+
+    void batchSpeedUpdatesTheOpenScriptAndDeleteAllReturnsToEmptyLibrary() {
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nWords");
+        const auto second = stored.create("Second talk\nMore words");
+        QSettings().setValue("library/current", first);
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        QVERIFY(QTest::qWaitForWindowExposed(&window));
+        window.findChild<QCheckBox *>("selectScripts")->click();
+        for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
+            if (box->property("scriptId").toString() == first)
+                box->click();
+        for (const bool accept : {false, true}) {
+            QTimer::singleShot(50, &window, [accept] {
+                auto *dialog = qobject_cast<QInputDialog *>(QApplication::activeModalWidget());
+                QVERIFY(dialog);
+                dialog->setIntValue(240);
+                if (accept)
+                    dialog->accept();
+                else
+                    dialog->reject();
+            });
+            window.findChild<QAction *>("selectedScriptsSpeed")->trigger();
+            QCOMPARE(ScriptLibrary(scripts_.path()).speed(first), accept ? 240 : 0);
+            QCOMPARE(ScriptLibrary(scripts_.path()).speed(second), 0);
+        }
+        auto *speed = window.findChild<QLabel *>("readerSpeed");
+        QVERIFY(speed);
+        QVERIFY(speed->text().contains("240"));
+        window.findChild<QCheckBox *>("selectScripts")->setChecked(false);
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        for (int row = 0; row < list->count(); ++row)
+            if (list->item(row)->data(Qt::UserRole).toString() == second)
+                list->setCurrentRow(row);
+        QTRY_COMPARE(window.currentScript(), second);
+        QVERIFY(speed->text().contains("150")); // An unselected default-speed script keeps the general pace.
+        for (int row = 0; row < list->count(); ++row)
+            if (list->item(row)->data(Qt::UserRole).toString() == first)
+                list->setCurrentRow(row);
+        QTRY_COMPARE(window.currentScript(), first);
+        QVERIFY(speed->text().contains("240"));
+        window.findChild<QCheckBox *>("selectScripts")->setChecked(true);
+        window.findChild<QCheckBox *>("selectAllScripts")->click();
+        QTimer::singleShot(50, &window, [] {
+            auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget());
+            QVERIFY(dialog);
+            dialog->button(QMessageBox::Yes)->click();
+        });
+        editor(window)->setFocus(); // Native confirmations can restore focus here on Windows.
+        window.findChild<QAction *>("deleteSelectedScripts")->trigger();
+        const ScriptLibrary after(scripts_.path());
+        QVERIFY(!after.contains(first));
+        QVERIFY(!after.contains(second));
+        QVERIFY(editor(window)->toPlainText().isEmpty());
+        QVERIFY(!window.findChild<QCheckBox *>("selectScripts")->isChecked());
+        QVERIFY(window.prompter()->welcomeShown());
+    }
+
+    void batchSpeedAndDeletionOnlyAffectCheckedScripts() {
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nKeep this");
+        const auto second = stored.create("Second talk\nChange this");
+        const auto third = stored.create("Third talk\nChange this too");
+        QSettings().setValue("library/current", first);
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        QVERIFY(QTest::qWaitForWindowExposed(&window));
+        window.findChild<QCheckBox *>("selectScripts")->click();
+        for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
+            if (box->property("scriptId").toString() != first)
+                box->click();
+        QTimer::singleShot(50, &window, [] {
+            auto *dialog = qobject_cast<QInputDialog *>(QApplication::activeModalWidget());
+            QVERIFY(dialog);
+            dialog->setIntValue(230);
+            dialog->accept();
+        });
+        window.findChild<QAction *>("selectedScriptsSpeed")->trigger();
+        ScriptLibrary afterSpeed(scripts_.path());
+        QCOMPARE(afterSpeed.speed(first), 0);
+        QCOMPARE(afterSpeed.speed(second), 230);
+        QCOMPARE(afterSpeed.speed(third), 230);
+        QCOMPARE(window.currentScript(), first);
+        QTimer::singleShot(50, &window, [] {
+            auto *dialog = qobject_cast<QInputDialog *>(QApplication::activeModalWidget());
+            QVERIFY(dialog);
+            const int initial = dialog->intValue();
+            dialog->reject();
+            QCOMPARE(initial, 230); // Uses the selected scripts' pace while another script is open.
+        });
+        window.findChild<QAction *>("selectedScriptsSpeed")->trigger();
+        QTimer::singleShot(50, &window, [] {
+            auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget());
+            QVERIFY(dialog);
+            QCOMPARE(dialog->informativeText(), QString("Selected: 2"));
+            QVERIFY(!dialog->detailedText().contains("First talk"));
+            dialog->button(QMessageBox::Yes)->click();
+        });
+        window.findChild<QAction *>("deleteSelectedScripts")->trigger();
+        ScriptLibrary afterDelete(scripts_.path());
+        QVERIFY(afterDelete.contains(first));
+        QVERIFY(!afterDelete.contains(second));
+        QVERIFY(!afterDelete.contains(third));
+        QCOMPARE(window.currentScript(), first);
+        QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), QString("Selected: 0"));
+    }
+
     void libraryCreatesSwitchesAndDeletesScripts() {
         MainWindow window(scripts_.path());
         auto *list = window.findChild<QListWidget *>("scriptList");
@@ -387,7 +707,7 @@ private slots:
         editor(window)->setPlainText("Second talk");
         QTRY_COMPARE(list->count(), 2);
         list->setCurrentRow(list->row(list->findItems("First talk", Qt::MatchExactly).value(0)));
-        QCOMPARE(window.currentScript(), first);
+        QTRY_COMPARE(window.currentScript(), first);
         QCOMPARE(editor(window)->toPlainText(), QString("# First talk\nHello"));
         QCOMPARE(list->currentItem()->text(), QString("First talk"));
     }
@@ -420,7 +740,8 @@ private slots:
         QApplication::setPalette(before);
         const QColor expected(Design::dark.hover);
         QVERIFY2(std::abs(seen.red() - expected.red()) + std::abs(seen.green() - expected.green()) +
-                         std::abs(seen.blue() - expected.blue()) <= 12,
+                         std::abs(seen.blue() - expected.blue()) <=
+                     12,
                  qPrintable(QString("selected row %1, reader hover %2").arg(seen.name(), expected.name())));
     }
 
@@ -647,7 +968,7 @@ private slots:
         window.findChild<QPushButton *>("newScript")->click(); // Twice: still one empty script.
         QTRY_COMPARE(list->count(), 2);
         list->setCurrentRow(list->row(list->findItems("Kept", Qt::MatchExactly).value(0)));
-        QCOMPARE(list->count(), 1); // Left empty: gone, as with notes.
+        QTRY_COMPARE(list->count(), 1); // Left empty: gone, as with notes.
         QCOMPARE(window.windowTitle(), QString("Kept — Kalipso"));
     }
 
@@ -837,8 +1158,7 @@ private slots:
         emit reader->modeRequested(ReadingMode::Voice);
         reader->findChild<QPushButton *>("readerListeningButton")->click();
         // It listens and the reader follows: nothing needs the network once a language is installed.
-        QTRY_VERIFY_WITH_TIMEOUT(position(window).startsWith("Word ") && !position(window).startsWith("Word 1 "),
-                                 8000);
+        QTRY_VERIFY_WITH_TIMEOUT(position(window).startsWith("Word ") && !position(window).startsWith("Word 1 "), 8000);
         reader->findChild<QPushButton *>("readerListeningButton")->click();
     }
 #endif
@@ -851,8 +1171,8 @@ private slots:
         const auto cleanup = qScopeGuard([root] { QDir(root).removeRecursively(); });
         const auto model = root + "/models/vosk/vosk-model-small-it-0.22";
         const auto install = [&] {
-            for (const auto &file :
-                 {SpeechCatalog::plan("vosk", "it", root).library, model + "/am/final.mdl", model + "/conf/mfcc.conf"}) {
+            for (const auto &file : {SpeechCatalog::plan("vosk", "it", root).library, model + "/am/final.mdl",
+                                     model + "/conf/mfcc.conf"}) {
                 QVERIFY(QDir().mkpath(QFileInfo(file).absolutePath()));
                 QFile touch(file);
                 QVERIFY(touch.open(QIODevice::WriteOnly));
@@ -893,7 +1213,8 @@ private slots:
         QVERIFY(QFileInfo::exists(SpeechCatalog::plan("vosk", "it", root).library)); // Other languages use it.
         QVERIFY(window.findChild<QLineEdit *>("speechModel")->text().isEmpty());
         QVERIFY(languages->findText("Italiano · download", Qt::MatchStartsWith) > 0);
-        QVERIFY2(window.findChild<QLabel *>("speechDownloadStatus")->text().startsWith("Removed Italian:"), qPrintable(window.findChild<QLabel *>("speechDownloadStatus")->text()));
+        QVERIFY2(window.findChild<QLabel *>("speechDownloadStatus")->text().startsWith("Removed Italian:"),
+                 qPrintable(window.findChild<QLabel *>("speechDownloadStatus")->text()));
         QTRY_VERIFY(!box->isVisibleTo(settings));
         // Downloading again removes it and fetches it anew (here the network is dead, so it fails
         // and says so, with Try again).
@@ -1060,12 +1381,12 @@ private slots:
         auto *reader = window.prompter();
         reader->findChild<QPushButton *>("readerScripts")->setFocus(Qt::TabFocusReason);
         QStringList order;
-        for (int i = 0; i < 18; ++i) {
+        for (int i = 0; i < 40; ++i) {
             auto *focus = QApplication::focusWidget();
             order << (focus ? focus->objectName() : QString("(none)"));
             QTest::keyClick(focus, Qt::Key_Tab);
         }
-        const QStringList expected{"readerScripts", "formatBoldButton", "formatItalicButton", "formatHeadingButton",
+        const QStringList expected{"readerScripts",   "formatBoldButton",  "formatItalicButton", "formatHeadingButton",
                                    "formatCueButton", "readerTextSmaller", "readerTextLarger"};
         QCOMPARE(order.mid(0, expected.size()), expected);
         const auto at = [&order](const char *name) { return order.indexOf(QString::fromLatin1(name)); };
@@ -1085,7 +1406,7 @@ private slots:
         window.prompter()->styleMenu(&more);
         QCOMPARE(more.palette().color(QPalette::Window), QColor(Design::dark.background));
         // The scripts' buttons leave the keys, and the pedals, with the script.
-        for (const auto *name : {"newScript", "scriptActions"})
+        for (const auto *name : {"newScript", "importScript", "readerActions"})
             QCOMPARE(window.findChild<QAbstractButton *>(name)->focusPolicy(), Qt::TabFocus);
         // Escape pauses: the note in Keys and pedals says so.
         bool said = false;
@@ -1198,8 +1519,8 @@ private slots:
         QVERIFY(expect("section-next", "Word 4 of 5"));     // Before "epsilon"
         QVERIFY(expect("section-next", "Word 4 of 5"));     // No further section
         QVERIFY(expect("section-previous", "Word 2 of 5")); // Back to Two
-        QVERIFY(expect("section-previous", "5 word")); // Back to One
-        QVERIFY(expect("section-previous", "5 word")); // Stays on the first
+        QVERIFY(expect("section-previous", "5 word"));      // Back to One
+        QVERIFY(expect("section-previous", "5 word"));      // Stays on the first
 
         // Each script keeps its own steady speed when switching between them.
         auto *list = window.findChild<QListWidget *>("scriptList");
@@ -1220,10 +1541,10 @@ private slots:
                     list->setCurrentRow(row);
         };
         choose(first);
-        QCOMPARE(window.currentScript(), first);
+        QTRY_COMPARE(window.currentScript(), first);
         QCOMPARE(speed->text(), firstSpeed);
         choose(second);
-        QCOMPARE(speed->text(), secondSpeed);
+        QTRY_COMPARE(speed->text(), secondSpeed);
     }
 
     void aRecognizerThatLearntTheScriptNeedsMoreWordsToJump() {
@@ -1471,7 +1792,8 @@ for event in [{"state": "connecting"}, {"state": "waiting", "waitingFor": "docum
         QVERIFY(!QSettings().contains("speech/voiceCommands"));
         for (const auto *said : {"go next", "Go next.", "vai avanti", "torna indietro", "da capo", "go start"}) {
             emit speech->transcript(QString::fromUtf8(said), true);
-            QVERIFY2(position(window).startsWith("8 word"), qPrintable(QString::fromUtf8(said) + ": " + position(window)));
+            QVERIFY2(position(window).startsWith("8 word"),
+                     qPrintable(QString::fromUtf8(said) + ": " + position(window)));
             QVERIFY(!status->text().startsWith("Voice command"));
         }
         // The script's own "go back" is read like any other words.
