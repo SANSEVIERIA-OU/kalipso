@@ -208,6 +208,8 @@ QCheckBox::indicator { width: 20px; height: 20px; border: 1px solid @border; bor
 QCheckBox::indicator:hover { background: @hover; }
 QCheckBox::indicator:checked { background: @action; border-color: @action;
     image: url(:/icons/generated/check-@theme.svg); }
+QCheckBox::indicator:indeterminate { background: @action; border-color: @action;
+    image: url(:/icons/generated/mixed-@theme.svg); }
 QCheckBox:focus { outline: none; } QCheckBox::indicator:focus { border: 2px solid @focus; }
 
 QProgressBar { background: @divider; border: none; max-height: 3px; min-height: 3px; }

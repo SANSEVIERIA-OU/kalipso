@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 # Must precede project(): the oldest macOS the app and its helper run on.
 set(CMAKE_OSX_DEPLOYMENT_TARGET "14.4" CACHE STRING "Minimum macOS version (Qt 6.12 requires 14.4)")
-project(Kalipso VERSION 3.1 LANGUAGES C CXX)
+project(Kalipso VERSION 3.2 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options("$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/utf-8>")

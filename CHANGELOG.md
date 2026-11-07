@@ -4,6 +4,19 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 3.2 — 7 November 2026
+
+- Each script now has its own menu for editing, exporting and deleting that script. New and Import
+  remain visible above the list; reading-session reports and Impress controls live in the reader menu.
+- Select scripts explicitly with checkboxes, a selection count and an All control that distinguishes
+  none, some and all. The selected group can be exported, deleted after confirmation, or assigned a
+  reading speed. Selecting scripts does not switch the one being read.
+- Bulk export writes separate UTF-8 text files and adds numbered suffixes without overwriting files.
+  Failed deletions keep their entries visible; failed library-index writes can be retried.
+- The small library panel uses the whole window height and keeps keyboard focus on its visible
+  controls. Escape leaves selection mode before closing the panel, and still pauses reading.
+  Controls adapt to large text and right-to-left layouts; new wording is included in all 39 languages.
+
 ## 3.1 — 7 November 2026
 
 - Guided voice downloads now use Moonshine 0.1.6 on Linux x64, Windows x64 and Apple Silicon Mac,

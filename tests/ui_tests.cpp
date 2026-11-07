@@ -401,12 +401,16 @@ private slots:
             return static_cast<QCheckBox *>(nullptr);
         };
         QVERIFY(checkFor(second));
+        const auto unchecked = all->grab().toImage();
         checkFor(second)->click();
         QCOMPARE(window.currentScript(), first);
         QCOMPARE(all->checkState(), Qt::PartiallyChecked);
+        const auto mixed = all->grab().toImage();
+        QVERIFY(unchecked != mixed);
         QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), QString("Selected: 1"));
         all->click();
         QCOMPARE(all->checkState(), Qt::Checked);
+        QVERIFY(mixed != all->grab().toImage());
         QVERIFY(checkFor(first)->isChecked() && checkFor(second)->isChecked() && checkFor(third)->isChecked());
         all->click();
         QCOMPARE(all->checkState(), Qt::Unchecked);
