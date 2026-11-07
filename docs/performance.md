@@ -57,6 +57,43 @@ Three batch and three paced runs per engine, plus a separate warm-up, all reache
 
 Raw JSON, logs, screenshots and audio stay in ignored `artifacts/` and CI artifacts, outside the versioned source distribution.
 
+## Dependency update: controlled Moonshine comparison
+
+The 7 November update pins Moonshine **0.1.6** on the three supported native platforms, the revised English Tiny weights **`quantized_26_11_02`**, and Playwright **1.65.0** for browser tests. Other catalog languages retain their weights. The 0.1.6 C header changes documentation only; the bundled ONNX Runtime 1.23.2 binaries are byte-identical to those in the 0.1.5 wheels. Native download hashes, sizes, members and notices were checked against the actual archives.
+
+A fresh comparison on the same local Ryzen/Linux host uses the exact 45.32-second recording above. It separates the runtime update from the weight update. Each configuration has a separate warm-up and three fresh-process batch plus three paced runs; configuration order rotates across repetitions. No local builds or browser tests ran concurrently; the host was not exclusively reserved. Production recognition/tracker code and update policy are unchanged. The saved manifest records executable/audio hashes, source commit `10e711f`, catalog snapshots, commands and machine information. These are fresh controls, not a comparison against earlier runs taken under different host load.
+
+| Configuration, English Tiny, paced | CPU, one core | Peak RSS | Chunk p95 | Maximum backlog per run | RTF |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 0.1.5 + August weights | 30.73% | 226.0 MiB | 446 ms | 1,346 ms | 0.316 |
+| 0.1.6 + August weights | 29.44% | 226.5 MiB | 397 ms | 957 ms | 0.299 |
+| 0.1.6 + November weights | 9.82% | 185.3 MiB | 121 ms | 338 ms | 0.100 |
+
+Entries are medians of three runs. Individual maximum-backlog ranges were 1,125–1,550 ms, 915–1,110 ms and 333–490 ms respectively. All 18 measured runs reached position 91 of 92 words (the final word). The full update reduced median CPU by about 68% and backlog by about 75% on this workload; most of the CPU improvement appeared when the new weights were introduced. Some processing calls still exceed 200 ms. This is not a word-to-highlight or physical-microphone latency measurement, nor a performance guarantee for other machines/languages.
+
+Upstream's [quantization fix](https://github.com/moonshine-ai/moonshine/blob/v0.1.6/scripts/untie-output-projection.py) makes the decoder output projection's transposed weights available as an initializer, allowing that projection to be quantized instead of repeatedly dequantizing weights for a floating-point multiplication. The [0.1.6 release](https://github.com/moonshine-ai/moonshine/releases/tag/v0.1.6) republished the English Tiny/Small/Medium models with this change. Its advertised percentage concerns Medium; the Tiny figures above come from Kalipso's own comparison. Operator-level profiling has not been performed here.
+
+### Validation and unresolved macOS startup budget
+
+At dependency commit `10e711f`, local Linux CTest passed 22 tests with the LibreOffice-dependent test skipped. Browser accessibility, design/interaction and all 39 locale checks passed in Chromium, Firefox and WebKit with the pinned Node 26.13.0 and Playwright 1.65.0. GitHub [Linux native tests and benchmarks](https://github.com/SANSEVIERIA-OU/kalipso/actions/runs/42384781721), [browser checks](https://github.com/SANSEVIERIA-OU/kalipso/actions/runs/42384781730), desktop checks and Linux packaging passed. Windows native tests, real downloads/recognition, benchmarks and package build passed in the [platform workflow](https://github.com/SANSEVIERIA-OU/kalipso/actions/runs/42384781747).
+
+**The platform workflow is not fully green.** macOS functional tests and native recognition passed in both attempts, but startup p95 was **2,285 ms**, then **2,523 ms** in a single repeat of the same commit, against the unchanged 2,000 ms ceiling. Medians were 1,398 and 1,415 ms. Both failures and their artifacts are retained; the failed startup gate stopped the remaining macOS measurements and dependent installer jobs. Do not describe those jobs as validated for this update. The earlier macOS baseline passed, but that alone does not establish whether the new failures reflect runner variability, environment changes or a regression. The next investigation is a paired old/new build on one runner, retaining individual launch samples and profiling Qt/font/window initialization. No budget was relaxed and no startup optimization is claimed here.
+
+### Quality countercheck: input level matters
+
+Reaching the final word is insufficient as a quality gate. A separate unpaced `speech_probe` control, joining only final transcript events and using the laboratory's NFKC/casefold/punctuation normalization, produced 44 word errors out of 92 with 0.1.5/August and 43/92 with 0.1.6/November (47.8% and 46.7%). Extending the trailing silence from two to ten seconds and logging partial events did not recover the omitted passages. These five recordings are a diagnostic sample, not a general accuracy estimate.
+
+The individual clips' RMS levels range from **−19.9 to −67.6 dBFS**. Quiet passages following louder speech were omitted in the concatenated input; running the quiet clips in fresh streams recovered passages, although some recognition errors remained. An offline countercheck scales each complete clip to −23 dBFS RMS with a 0.9 full-scale peak ceiling, retains the same 0.4-second gaps, and feeds the joined recording through the same production adapter with ten seconds of final silence. Both old and new configurations then produce **12 errors / 92 words (13.0%)**. Some gain changes exceed 37 dB, so this is not a safe streaming gain policy to transplant into the app.
+
+This establishes strong sensitivity to input level/context in this sample, and no evident loss in the normalized sample's final-transcript word error count after the update. It does not locate the exact fault in voice activity detection, normalization or decoding, or establish equal accuracy on a broader corpus. Next experiments should cover abrupt level changes, noise and digital silence, distinguish voice detection from transcription, and evaluate bounded streaming gain with a noise ceiling. The offline test knows clip boundaries and future samples; a live microphone does not. No new gain control or VAD behavior is shipped by this dependency update. The latency table above uses the original unnormalized input; it must not be presented as timing for the normalized workload.
+
+## What the baseline changes about optimization priorities
+
+1. **Prioritize speech bursts and input-level robustness.** On the recorded English workload, Moonshine's median RTF of 0.357 hides a roughly 1.3-second maximum processing backlog. In the first repetition, tracker p95 was only 0.17 ms versus 487 ms for whole consume calls; text matching is a small fraction of the measured cost. Profile audio ingestion and decoder passes separately before changing the adaptive update floor (currently at least 0.5 seconds). Fewer passes may reduce CPU but delay visible updates; any tuning needs both transcript-quality and aligned-word latency checks.
+2. **Exercise capture backpressure under contention.** Recognition already runs on its own thread. The production service skips queued audio above two seconds and stops after three overloads within a minute. The worker-only benchmark deliberately processes all input and does not exercise that service queue. Replay recorded speech through the complete service under a controlled competing CPU workload to measure skips and recovery; the present results do not establish that users experienced either.
+3. **Keep UI work proportional to evidence.** Editing and steady scrolling meet the current budgets with headroom. The slower macOS startup and higher Moonshine peak RSS warrant separate same-machine profiles of Qt/font/window initialization and model/runtime allocations. Different virtual hardware and OS counters prevent attributing those differences to a particular component from these tables alone.
+4. **Do not equate a passing throughput budget with smooth following.** Current CI ceilings detect broad regressions; they do not limit individual speech bursts. Establish a representative recorded corpus and word-aligned latency target before setting a responsiveness gate. Physical microphones, video-call contention and display latency remain separate validation work.
+
 ## Regression budgets
 
 `tools/performance-report.py --check` rejects missing repetitions, unfinished runs, failed workloads, invalid/non-finite metrics, and these ceilings:
