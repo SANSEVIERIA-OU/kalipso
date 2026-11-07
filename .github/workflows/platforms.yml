@@ -85,6 +85,7 @@ jobs:
       - name: Repeated native performance measurements
         if: always() && steps.native_build.outcome == 'success'
         timeout-minutes: 15
+        shell: bash
         run: |
           python tests/performance_metrics_test.py
           python tools/run-performance.py --fixtures speech-fixtures --output artifacts/performance
