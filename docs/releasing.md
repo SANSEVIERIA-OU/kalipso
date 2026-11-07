@@ -35,6 +35,17 @@ GitHub sometimes finds no free macOS runner and cancels the job ("not acquired b
 `retry-runners.yml` then runs the failed jobs again, up to three more times. The release is created only
 when every package is there. For any other failure, look at the run and re-run it by hand once fixed.
 
+### Explicit exception for 3.1
+
+The owner authorized publishing 3.1 on 7 November 2026 despite the recorded macOS startup p95
+exceeding 2 seconds. Only the release workflow for tag `v3.1` passes
+`allow_macos_startup_over_budget` to the native workflow. It accepts only a finite macOS startup
+ceiling violation, keeps it in the performance report and emits a warning. Functional failures,
+incomplete results, crashes and every other budget still block publication. Ordinary branch/PR
+checks and later release tags retain the startup gate. The full measurement sequence now runs
+before budget evaluation, so a slow startup does not hide subsequent results. This is an accepted
+limitation, not a startup fix or physical Mac validation.
+
 ## What is in a release
 
 - Linux:

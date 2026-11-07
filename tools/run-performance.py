@@ -102,7 +102,9 @@ def main():
     # Native platform by default; Linux caller explicitly supplies Xvfb/xcb.
     env_platform = 'windows' if sys.platform == 'win32' else 'cocoa' if sys.platform == 'darwin' else 'xcb'
     os.environ.setdefault('QT_QPA_PLATFORM', env_platform)
-    run('startup', [sys.executable, str(ROOT / 'tools/measure-startup.py'), app, '--runs', '20', '--budget-p95', '2000'])
+    # Collect every workload before enforcing budgets in performance-report.py.
+    # An over-budget launch must not hide the remaining measurements; a crash still fails here.
+    run('startup', [sys.executable, str(ROOT / 'tools/measure-startup.py'), app, '--runs', '20'])
     for repeat in range(args.repeats):
         run(f'tracker-{repeat}', [binary('tracker_benchmark')])
         modes = ['editor', 'reader', 'steady', 'interaction']

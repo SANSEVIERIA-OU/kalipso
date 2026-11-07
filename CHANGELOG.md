@@ -4,6 +4,22 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 3.1 — 7 November 2026
+
+- Guided voice downloads now use Moonshine 0.1.6 on Linux x64, Windows x64 and Apple Silicon Mac,
+  with revised English Tiny streaming weights. Existing voice selections are preserved; for an
+  already downloaded English model, use **Download again** in Settings → Voice to get the new files.
+- On one Linux host with the same recorded English input, the full update reduced median speech CPU
+  from 30.7% to 9.8% of one core and maximum processing backlog from 1.35 to 0.34 seconds across three
+  runs. These measurements are not guarantees for other hardware, languages or operating systems.
+- Added repeated native startup, editing, resource-use and speech benchmarks, with recorded methods,
+  regression budgets and results in [the performance report](https://github.com/SANSEVIERIA-OU/kalipso/blob/v3.1/docs/performance.md). Browser checks use
+  Playwright 1.65.0.
+- **Known macOS limitation:** automated functional and speech tests passed, but startup p95 exceeded
+  the 2-second laboratory budget in two runs (2.29 and 2.52 seconds). This release accepts only that
+  known startup ceiling; other tests and budgets remain enforced. Physical Mac validation and the
+  cause of the startup variability remain open.
+
 ## 3.0 — 4 November 2026
 
 - Windows x64 and macOS now offer guided downloads of local speech engines and language models,

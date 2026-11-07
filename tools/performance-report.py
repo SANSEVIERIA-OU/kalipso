@@ -37,9 +37,13 @@ def check_metrics(name, row, ceilings):
     return errors
 
 
-def summarize(folder):
+def summarize(folder, allow_macos_startup_over_budget=False):
     manifest = json.loads((folder / 'manifest.json').read_text(encoding='utf-8'))
     errors = []
+    waived = []
+    is_macos = manifest['machine']['os'].startswith('macOS')
+    if allow_macos_startup_over_budget and not is_macos:
+        errors.append('The startup exception is only valid for macOS')
     if not manifest.get('finished_utc') or manifest['repeats'] < 3:
         errors.append('A completed run with at least three repetitions is required')
     if any(run['returncode'] for run in manifest['runs']):
@@ -66,7 +70,13 @@ def summarize(folder):
                 errors.append(f'{name}: missing/invalid result ({exc})')
                 continue
             ceilings = BUDGETS['speech'] if group.startswith('speech-') else BUDGETS[group]
-            errors.extend(check_metrics(name, row, ceilings))
+            row_errors = check_metrics(name, row, ceilings)
+            errors.extend(row_errors)
+            if group == 'startup' and is_macos and allow_macos_startup_over_budget:
+                # Keep the violation in the report. Only this numeric ceiling is accepted;
+                # missing/non-finite data, failed commands and other budgets still block.
+                waived.extend(error for error in row_errors
+                              if error.startswith('startup: p95_ms=') and ' exceeds ' in error)
             if group.startswith('speech-') and row.get('passed') is not True:
                 errors.append(f'{name}: successful speech recognition required')
             rows.append(row)
@@ -81,18 +91,24 @@ def summarize(folder):
                 errors.append(f'{group}: invalid {key}')
                 continue
             results[group][key] = {'min': min(values), 'median': statistics.median(values), 'max': max(values)}
+    blocking = [error for error in errors if error not in waived]
     return {'commit': manifest['commit'], 'machine': manifest['machine'], 'groups': results,
-            'omitted': manifest['omitted'], 'budget_errors': errors, 'within_budgets': not errors}
+            'omitted': manifest['omitted'], 'budget_errors': errors, 'within_budgets': not errors,
+            'waived_budget_errors': waived, 'blocking_errors': blocking, 'accepted': not blocking}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('folder', type=Path)
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--allow-macos-startup-over-budget', action='store_true',
+                        help='Accept only the macOS startup ceiling, retaining its violation in the report')
     args = parser.parse_args()
-    report = summarize(args.folder)
+    report = summarize(args.folder, args.allow_macos_startup_over_budget)
     print(json.dumps(report, indent=2))
-    return int(args.check and not report['within_budgets'])
+    for error in report['waived_budget_errors']:
+        print(f'WARNING: explicitly accepted macOS startup budget violation: {error}', file=sys.stderr)
+    return int(args.check and not report['accepted'])
 
 
 if __name__ == '__main__':

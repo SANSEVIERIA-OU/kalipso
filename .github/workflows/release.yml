@@ -110,6 +110,10 @@ jobs:
     needs: version
     if: needs.version.outputs.release == 'true'
     uses: ./.github/workflows/platforms.yml
+    with:
+      # Owner accepted the measured macOS startup overrun for 3.1 on 7 November 2026.
+      # Other versions, platforms, workloads and invalid results retain every gate.
+      allow_macos_startup_over_budget: ${{ needs.version.outputs.tag == 'v3.1' }}
   desktop:
     needs: version
     if: needs.version.outputs.release == 'true'
@@ -169,6 +173,17 @@ jobs:
             Plasma widget, the GNOME extension and the KWin script; their separate files are for using them
             without the app.
           EOF
+          python3 - "$version" >> notes.md <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+          changes = Path('CHANGELOG.md').read_text(encoding='utf-8')
+          section = re.search(r'^## ' + re.escape(sys.argv[1]) + r' [^\n]*\n(.*?)(?=^## |\Z)',
+                              changes, re.MULTILINE | re.DOTALL)
+          if not section:
+              raise SystemExit('Missing changelog for this release')
+          print('\n## Changes\n' + section.group(1).strip())
+          PY
           gh release create "$TAG" dist/* --verify-tag --latest --title "Kalipso $version" \
             --notes-file notes.md --generate-notes
   aur:

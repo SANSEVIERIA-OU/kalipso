@@ -79,6 +79,12 @@ At dependency commit `10e711f`, local Linux CTest passed 22 tests with the Libre
 
 **The platform workflow is not fully green.** macOS functional tests and native recognition passed in both attempts, but startup p95 was **2,285 ms**, then **2,523 ms** in a single repeat of the same commit, against the unchanged 2,000 ms ceiling. Medians were 1,398 and 1,415 ms. Both failures and their artifacts are retained; the failed startup gate stopped the remaining macOS measurements and dependent installer jobs. Do not describe those jobs as validated for this update. The earlier macOS baseline passed, but that alone does not establish whether the new failures reflect runner variability, environment changes or a regression. The next investigation is a paired old/new build on one runner, retaining individual launch samples and profiling Qt/font/window initialization. No budget was relaxed and no startup optimization is claimed here.
 
+For release 3.1, the owner subsequently accepted this known startup ceiling on 7 November 2026.
+The release-only macOS exception retains `within_budgets: false`, records the exact violation in
+`waived_budget_errors`, and allows `accepted: true` only if no other checks fail. Ordinary CI and
+later release tags remain strict. The runner collects all workloads before the report enforces
+budgets; a crashing startup still fails immediately. See [release policy](releasing.md#explicit-exception-for-31).
+
 ### Quality countercheck: input level matters
 
 Reaching the final word is insufficient as a quality gate. A separate unpaced `speech_probe` control, joining only final transcript events and using the laboratory's NFKC/casefold/punctuation normalization, produced 44 word errors out of 92 with 0.1.5/August and 43/92 with 0.1.6/November (47.8% and 46.7%). Extending the trailing silence from two to ten seconds and logging partial events did not recover the omitted passages. These five recordings are a diagnostic sample, not a general accuracy estimate.
