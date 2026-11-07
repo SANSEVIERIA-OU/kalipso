@@ -25,8 +25,10 @@ settings.
 
 | Engine | Version | Languages | Platform |
 | --- | --- | --- | --- |
-| Moonshine (Tiny streaming) | 0.1.5 | en, de, es, ja, zh | Linux x86_64, glibc 2.34+ |
+| Moonshine (Tiny streaming) | 0.1.6 | en, de, es, ja, zh | Linux x86_64, glibc 2.34+ |
 | Vosk (small models) | 0.3.50, built from source | en, de, es, ja, zh, it | Linux x86_64, glibc 2.17+ |
+
+The catalog pins Moonshine 0.1.6 and the revised English Tiny weights `quantized_26_11_02`; the other language models are unchanged. These versions apply to new guided downloads. Existing configured library/model paths remain selected until you configure another download.
 
 Kalipso picks the engine that follows the language best: Moonshine where it has the language, Vosk
 otherwise (Italian uses Vosk, as there is no Italian Moonshine model).

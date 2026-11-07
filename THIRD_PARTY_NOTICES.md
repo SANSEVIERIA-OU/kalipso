@@ -15,7 +15,7 @@ Moonshine, ONNX Runtime, Vosk, language models, Qt and PipeWire are separate run
 own licenses. No speech model, Vosk shared library, audio recording or Whisper binary is
 bundled in the source-only store archives. See [local installation](docs/local-engine.md).
 
-The native Moonshine adapter includes the unmodified MIT C ABI header from v0.1.5;
+The native Moonshine adapter includes the unmodified MIT C ABI header from v0.1.6;
 [provenance and license](third_party/moonshine/README.md). Pinned native-runtime
 [notices](third_party/native-notices/README.txt) are copied into user-local installs.
 The optional installer downloads upstream wheels and extracts only the native

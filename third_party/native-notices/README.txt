@@ -25,10 +25,12 @@ Vosk API 0.3.50, built from source by .github/workflows/vosk-runtime.yml (#26):
 The installer downloads upstream artifacts to the user's machine, rather than committing these binaries to the app repository. The user-local installation should retain the corresponding notice files alongside/presented with each selected backend. This note is operational guidance, not legal advice.
 
 
-Guided Windows/macOS downloads (catalog schema 2, 4 November 2026):
-- Moonshine 0.1.5: official PyPI Windows x64 and macOS 15+ arm64 wheels. Keep the wheel's
+Guided Windows/macOS downloads (catalog schema 2, updated 7 November 2026):
+- Moonshine 0.1.6: official PyPI Windows x64 and macOS 15+ arm64 wheels. Keep the wheel's
   MIT LICENSE plus the ONNX Runtime 1.23.2 LICENSE and ThirdPartyNotices above. Windows uses
   the Microsoft VC runtime already supplied with Kalipso; keep its app-local distribution notices.
+  ONNX Runtime binaries are byte-identical to the 0.1.5 wheels on all three supported targets;
+  the existing 1.23.2 licence and third-party notices still apply.
 - Vosk Windows x64: official PyPI 0.3.45 wheel, including libvosk.dll, libgcc_s_seh-1.dll,
   libstdc++-6.dll and libwinpthread-1.dll. GCC 10 is identified in the binaries; the precise
   GCC patch release is not established. The COPYING3 and COPYING.RUNTIME texts below come from
