@@ -336,6 +336,11 @@
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="3.1" date="2026-11-07" type="stable">
+      <description>
+        <p>Updated Moonshine runtime and English speech model, with repeated native performance measurements. Existing voice selections are preserved. macOS startup can exceed the two-second laboratory budget; see the release notes.</p>
+      </description>
+    </release>
     <release version="3.0" date="2026-11-04" type="stable">
       <description>
         <p>Kalipso 3.0.</p>

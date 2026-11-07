@@ -2,6 +2,8 @@
 
 CPU-only benchmark runners for Vosk, Whisper and Moonshine. Input specifications are in [models.json](models.json); results and downloaded data belong outside Git.
 
+The Python laboratory below intentionally pins the historical 0.1.5 baseline. For the current native runtime and catalog, use the [production performance suite](../../docs/performance.md). Do not mix results from different runtime/model versions.
+
 ## Reproduce
 
 Requires Linux with at least two physical cores available, Python 3, Node.js, a C++20 compiler, CMake, Ninja and Qt 6 Core development files. The Moonshine runner additionally uses an isolated Python environment. Reserve several GiB for temporary data/models; FLEURS test archives are streamed and can transfer substantially more than the selected five minutes of audio.
