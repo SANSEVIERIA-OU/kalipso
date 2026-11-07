@@ -506,6 +506,9 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     sections_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     sections_->setMenu(new QMenu);
     sections_->hide();
+    actions_ = quietButton(QString(), tr("More"));
+    actions_->setObjectName("readerActions");
+    actions_->hide();
     settings_ = quietButton(QString(), tr("Settings"));
     settings_->setObjectName("readerSettings");
     settings_->setAccessibleName(tr("Settings"));
@@ -517,6 +520,7 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     bar->addWidget(smaller_);
     bar->addWidget(larger_);
     bar->addWidget(sections_);
+    bar->addWidget(actions_);
     bar->addWidget(settings_);
     bar->addWidget(place_);
     topBar->setParent(this); // Over the text, placed by placeBars().
@@ -607,10 +611,9 @@ ReaderPage::ReaderPage(QWidget *parent) : QWidget(parent) {
     controls->addStretch(0); // Keeps the controls together on the left when the status is hidden.
     steps_ = {previous, next};
     controlBar->setParent(this);
-    icons_ = {{previous, "previous"},     {next, "next"},
-              {sections_, "sections"},    {settings_, "settings"},
-              {drawerButton_, "sidebar"}, {smaller_, "text-smaller"},
-              {larger_, "text-larger"},   {place_, "camera-top"}};
+    icons_ = {{previous, "previous"},     {next, "next"},           {sections_, "sections"},
+              {settings_, "settings"},    {actions_, "more"},       {drawerButton_, "sidebar"},
+              {smaller_, "text-smaller"}, {larger_, "text-larger"}, {place_, "camera-top"}};
     setUnderCamera(false);
 
     // The menus are the desktop's own, in the reader's colours: without a parent they keep the
@@ -696,6 +699,8 @@ void ReaderPage::applyPalette(const Design::Palette &palette) {
     countdown_->setStyleSheet(QString("color:%1; background:%2; border: 1px solid %3; border-radius:16px;")
                                   .arg(palette.text, palette.surface, palette.border));
     for (const auto &[button, name] : icons_) {
+        if (!button)
+            continue;
         button->setProperty("motion", Icons::motion(name));
         button->setIcon(Icons::icon(name, QColor(palette.text), QColor(palette.muted)));
     }
@@ -710,11 +715,22 @@ void ReaderPage::styleMenu(QMenu *menu) const {
 }
 
 void ReaderPage::addIconButton(QAbstractButton *button, const QString &icon) {
+    icons_.removeIf([](const auto &entry) { return entry.first.isNull(); });
     icons_.append({button, icon});
     const int side = std::max(20, qRound(fontMetrics().height() * 1.15));
     button->setIconSize(QSize(side, side));
     button->setProperty("motion", Icons::motion(icon));
     button->setIcon(Icons::icon(icon, QColor(colors_.text), QColor(colors_.muted)));
+}
+
+void ReaderPage::setReaderActions(const QList<QAction *> &actions) {
+    auto *menu = new QMenu(this);
+    menu->addActions(actions);
+    connect(menu, &QMenu::aboutToShow, this, [this, menu] { styleMenu(menu); });
+    connect(actions_, &QPushButton::clicked, menu,
+            [this, menu] { menu->popup(actions_->mapToGlobal(QPoint(0, actions_->height()))); });
+    actions_->setVisible(!actions.isEmpty());
+    orderTabs();
 }
 
 void ReaderPage::setReaderTheme(const QString &theme) {
@@ -841,6 +857,10 @@ void ReaderPage::placeBars() {
     placeDrawer();
     top->raise();
     bottom->raise();
+    if (drawer_ && drawerOpen_ && !roomy_) {
+        scrim_->raise();
+        drawer_->raise();
+    }
 }
 
 // Labels shorten before anything wraps or overlaps. Each bar decides for itself, and the bottom
@@ -987,6 +1007,7 @@ void ReaderPage::setFormatActions(const QList<QAction *> &actions) {
 }
 
 void ReaderPage::orderTabs() {
+    placeDrawer();
     QList<QWidget *> chain;
     const auto takes = [](QWidget *widget) { return bool(widget->focusPolicy() & Qt::TabFocus); };
     const auto bar = [&](QWidget *row) {
@@ -1043,15 +1064,20 @@ void ReaderPage::updateEditing() {
         updateLabels();
         placeBars();
         // The panel that had the focus may have gone: the keys go to the text again.
-        if (auto *focus = QApplication::focusWidget(); !focus || (isAncestorOf(focus) && focus != text))
-            text->setFocus();
+        if (auto *focus = QApplication::focusWidget(); !focus || (isAncestorOf(focus) && focus != text)) {
+            if (drawerOpen_ && !roomy_)
+                drawer_->findChild<QWidget *>("scriptList")->setFocus();
+            else
+                text->setFocus();
+        }
     }
 }
 
 void ReaderPage::sizeIcons() {
     const int side = std::max(20, qRound(fontMetrics().height() * 1.15));
     for (const auto &[button, name] : icons_)
-        button->setIconSize(QSize(side, side));
+        if (button)
+            button->setIconSize(QSize(side, side));
     primary_->setIconSize(QSize(side, side));
 }
 
@@ -1081,6 +1107,7 @@ void ReaderPage::setDrawer(QWidget *drawer) {
     drawer_->setParent(this);
     drawer_->hide();
     drawer_->installEventFilter(this);
+    qApp->installEventFilter(this);
     drawerSlide_ = new QPropertyAnimation(drawer_, "pos", this);
     connect(drawerSlide_, &QPropertyAnimation::valueChanged, this, [this] {
         // The scrim follows the panel: fully there when it is all in.
@@ -1113,8 +1140,9 @@ void ReaderPage::setDrawer(QWidget *drawer) {
 // About 32 characters: room for a title and its length. Beside the text it takes at most two fifths
 // of the window; over it, all but a strip of the text, which closes it when touched.
 int ReaderPage::drawerWidth() const {
-    const int wanted = fontMetrics().averageCharWidth() * 32;
-    const int limit = roomy_ ? width() * 2 / 5 : width() - Design::Metric::space7;
+    const int wanted =
+        fontMetrics().averageCharWidth() * 32 + std::max(44, fontMetrics().height() * 2 + Design::Metric::space2);
+    const int limit = roomy_ ? width() * 2 / 5 : width() - Design::Metric::space5;
     return std::max(std::min(200, width()), std::min(wanted, limit));
 }
 
@@ -1145,9 +1173,14 @@ void ReaderPage::setDrawerOpen(bool open) {
         scrim->raise();
         drawer_->show();
         drawer_->raise();
-        for (auto *bar : bars_)
-            bar->raise();
+        placeDrawer();
+        if (roomy_)
+            for (auto *bar : bars_)
+                bar->raise();
         emit drawerShown(true);
+        if (!roomy_)
+            if (auto *list = drawer_->findChild<QWidget *>("scriptList"))
+                list->setFocus(Qt::ShortcutFocusReason);
     }
     if (Motion::reduced() || !isVisible()) {
         drawer_->move(open ? shown : hidden);
@@ -1181,8 +1214,12 @@ void ReaderPage::placeDrawer() {
         pageLayout_->setContentsMargins(left, margins.top(), right, margins.bottom());
     if (!drawer_ || bars_.size() < 2)
         return;
-    const int top = progress_->height() + bars_.first()->sizeHint().height();
-    const int bottom = height() - bars_.last()->sizeHint().height();
+    // An overlay uses the full height, including over the reading bars. At 200% text a
+    // 320×240 window still has room for library controls and complete, scrollable rows.
+    const int top = roomy_ ? progress_->height() + bars_.first()->sizeHint().height() : 0;
+    const int bottom = roomy_ ? height() - bars_.last()->sizeHint().height() : height();
+    if (auto *close = drawer_->findChild<QWidget *>("closeScriptDrawer"))
+        close->setVisible(!roomy_ || drawer_->property("selectingScripts").toBool());
     const bool sliding = drawerSlide_->state() == QAbstractAnimation::Running;
     // Closed, the panel takes no room at all: assistive technology does not report its rows as on
     // the screen (Qt decides that from their rectangles, not from the panel being hidden).
@@ -1208,6 +1245,32 @@ void ReaderPage::placeDrawer() {
         header->setMinimumHeight(
             std::max(header->layout()->minimumSize().height(), header->layout()->heightForWidth(header->width())));
     }
+    // Keep Import and Actions readable. In a very narrow panel the selection checkboxes
+    // retain their accessible names/tooltips and shorten to the familiar checkbox alone.
+    for (const auto *name : {"scriptLibraryTools", "scriptSelectionBar"}) {
+        if (auto *row = drawer_->findChild<QWidget *>(name); row && row->isVisible()) {
+            const auto checks = row->findChildren<QAbstractButton *>();
+            for (auto *button : checks)
+                if (button->property("label").isValid())
+                    button->setText(button->property("label").toString());
+            row->layout()->activate();
+            const auto insets = row->layout()->contentsMargins();
+            int needed = insets.left() + insets.right(), count = 0;
+            for (int i = 0; i < row->layout()->count(); ++i)
+                if (auto *control = row->layout()->itemAt(i)->widget(); control && control->isVisible()) {
+                    needed += control->sizeHint().width();
+                    ++count;
+                }
+            needed += std::max(0, count - 1) * row->layout()->spacing();
+            if (needed > row->width()) {
+                for (auto *button : checks)
+                    if (button->property("label").isValid())
+                        button->setText(QString());
+                row->layout()->activate();
+            }
+        }
+    }
+
 }
 
 void ReaderPage::placeCaret(int character) {
@@ -1440,6 +1503,28 @@ void ReaderPage::leaveEvent(QEvent *event) {
 }
 
 bool ReaderPage::eventFilter(QObject *object, QEvent *event) {
+    auto *widget = qobject_cast<QWidget *>(object);
+    if (!widget || (widget != this && !isAncestorOf(widget)))
+        return QWidget::eventFilter(object, event);
+    if (drawerOpen_ && !roomy_ && event->type() == QEvent::KeyPress &&
+        !QApplication::activePopupWidget() && !QApplication::activeModalWidget()) {
+        const auto *key = static_cast<QKeyEvent *>(event);
+        if (key->key() == Qt::Key_Tab || key->key() == Qt::Key_Backtab) {
+            QList<QWidget *> controls;
+            for (auto *control : drawer_->findChildren<QWidget *>())
+                if (control->isVisible() && control->isEnabled() && (control->focusPolicy() & Qt::TabFocus) &&
+                    !control->visibleRegion().isEmpty())
+                    controls << control;
+            if (!controls.isEmpty()) {
+                const bool back = key->key() == Qt::Key_Backtab || key->modifiers().testFlag(Qt::ShiftModifier);
+                int next = int(controls.indexOf(QApplication::focusWidget())) + (back ? -1 : 1);
+                next = (next + controls.size()) % controls.size();
+                controls[next]->setFocus(back ? Qt::BacktabFocusReason : Qt::TabFocusReason);
+            }
+            return true;
+        }
+    }
+
     if (event->type() == QEvent::MouseMove || event->type() == QEvent::Enter ||
         event->type() == QEvent::MouseButtonPress)
         revealControls();

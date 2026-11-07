@@ -261,10 +261,6 @@
             <translation>Nuevo guion (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Más</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Más acciones del guion</translation>
         </message>
@@ -1231,6 +1227,58 @@ Podemos avanzar paso a paso. [Pausa] Escuchemos con atención, revisemos la preg
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>El reconocimiento de voz solo está disponible para los idiomas mostrados en los ajustes de Voz.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Seleccionar</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Seleccionar todo</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Acciones…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Editar</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Seleccionados: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Velocidad de lectura…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Palabras por minuto</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Eliminar…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>¿Eliminar los guiones seleccionados de este dispositivo?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>No se pudo eliminar:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Guiones eliminados.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Cancelar</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Todos</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Podemos avanzar paso a paso. [Pausa] Escuchemos con atención, revisemos la preg
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Pequeña, en la parte superior de la pantalla, debajo de la cámara</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Más</translation>
         </message>
     </context>
     <context>

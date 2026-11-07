@@ -261,10 +261,6 @@
             <translation>Uus kõnetekst (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Veel</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Veel kõneteksti toiminguid</translation>
         </message>
@@ -1231,6 +1227,58 @@ Saame liikuda ühe sammu kaupa. [Paus] Kuulame tähelepanelikult, kontrollime k�
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Kõnetuvastus on saadaval ainult häälesätetes näidatud keeltes.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Vali</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Vali kõik</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Toimingud…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Muuda</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Valitud: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Lugemiskiirus…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Sõna minutis</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Kustuta…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Kas kustutada valitud tekstid sellest seadmest?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Kustutamine nurjus:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Tekstid kustutatud.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Tühista</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Kõik</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Saame liikuda ühe sammu kaupa. [Paus] Kuulame tähelepanelikult, kontrollime k�
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Väike, ekraani ülaservas kaamera all</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Veel</translation>
         </message>
     </context>
     <context>

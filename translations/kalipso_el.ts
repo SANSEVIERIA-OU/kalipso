@@ -261,10 +261,6 @@
             <translation>Νέο κείμενο (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Περισσότερα</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Περισσότερες ενέργειες κειμένου</translation>
         </message>
@@ -1231,6 +1227,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Η αναγνώριση ομιλίας είναι διαθέσιμη μόνο για τις γλώσσες που εμφανίζονται στις ρυθμίσεις Φωνής.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Επιλογή</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Επιλογή όλων</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Ενέργειες…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Επεξεργασία</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Επιλεγμένα: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Ταχύτητα ανάγνωσης…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Λέξεις ανά λεπτό</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Διαγραφή…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Να διαγραφούν τα επιλεγμένα κείμενα από αυτή τη συσκευή;</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Δεν ήταν δυνατή η διαγραφή:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Τα κείμενα διαγράφηκαν.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Ακύρωση</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Όλα</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Μικρό παράθυρο στην κορυφή της οθόνης, κάτω από την κάμερα</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Περισσότερα</translation>
         </message>
     </context>
     <context>

@@ -261,10 +261,6 @@
             <translation>新しい原稿 (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>その他</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>原稿のその他の操作</translation>
         </message>
@@ -1222,6 +1218,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>音声認識は「音声」設定に表示される言語でのみ利用できます。</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>選択</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>すべて選択</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>操作…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>編集</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>選択数: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>読む速さ…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>1分あたりの語数</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>削除…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>選択した原稿をこのデバイスから削除しますか？</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>削除できませんでした:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>原稿を削除しました。</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>キャンセル</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>すべて</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1501,6 +1549,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>小さくして画面上部のカメラの下に置く</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>その他</translation>
         </message>
     </context>
     <context>

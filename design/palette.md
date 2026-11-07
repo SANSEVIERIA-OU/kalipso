@@ -71,3 +71,22 @@ Every hue in 5° steps was given the lightness it needs for 4.95:1 text on paper
 
 Excluded: hues within 50° of error red and within 35° of warning yellow-orange, so that position, error and warning are never confused. Distances are Euclidean in OKLab; colour-blind views use the Machado, Oliveira and Fernandes (2009) matrices at full severity.
 
+
+## Script library controls
+
+Library actions (New, Import) belong above the list. A script’s overflow menu stays on its row,
+visible without hover, and names the target in its menu and accessible label. Opening it does not
+switch the reader. Reading-session actions belong to the reader toolbar. This addresses the
+owner’s 7 November 2026 report that a shared menu made the target of export and deletion ambiguous.
+
+Selection is explicit: checkboxes, a visible count, a master checkbox with a mixed state, and an
+Actions button disabled when nothing is checked. The open script remains bold independently of
+batch selection and keyboard focus. Escape and closing the panel clear selection. Destructive
+confirmation defaults to Cancel and lists the affected titles; failed deletions remain in the list.
+The existing palette, spacing, font scaling and icon drawing apply to every state, including RTL.
+The panel keeps its existing slide animation and reduced-motion behavior.
+
+In small windows the overlay covers the reading bars and keeps keyboard focus within its visible
+controls. The close button and Escape return to the reader; the first Escape leaves selection
+mode (and pauses if reading). At narrow widths, selection checkboxes may omit their visible label
+while retaining their accessible name and tooltip, keeping Import and Actions readable.

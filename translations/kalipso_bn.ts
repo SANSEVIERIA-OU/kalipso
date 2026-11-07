@@ -261,10 +261,6 @@
             <translation>নতুন বক্তব্যের পাঠ (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>আরও</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>বক্তব্যের পাঠের আরও কাজ</translation>
         </message>
@@ -1231,6 +1227,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>কথা শনাক্তকরণ কেবল কণ্ঠ সেটিংসে দেখানো ভাষায় পাওয়া যায়।</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>বেছে নিন</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>সব বেছে নিন</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>কাজ…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>সম্পাদনা করুন</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>বাছাই করা: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>পড়ার গতি…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>প্রতি মিনিটে শব্দ</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>মুছুন…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>বাছাই করা স্ক্রিপ্টগুলো এই ডিভাইস থেকে মুছবেন?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>মুছতে পারেনি:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>স্ক্রিপ্টগুলো মুছে ফেলা হয়েছে।</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>বাতিল</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>সব</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>পর্দার ওপরে, ক্যামেরার নিচে ছোট</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>আরও</translation>
         </message>
     </context>
     <context>

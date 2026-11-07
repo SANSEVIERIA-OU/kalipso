@@ -28,6 +28,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QInputDialog>
 #include <QJsonArray>
 #include <QKeySequenceEdit>
 #include <QLineEdit>
@@ -271,6 +272,18 @@ private:
 // is drawn in the reader's colours, as a quiet button that is checked: the desktop's selection colour
 // (light on a light desktop) would show as a bright block on a dark reader. Elsewhere the style draws
 // the row (selection, hover) and the delegate the text.
+class ScriptListWidget : public QListWidget {
+protected:
+    void mousePressEvent(QMouseEvent *event) override {
+        // Context actions do not open a different script as a side effect.
+        if (event->button() == Qt::RightButton) {
+            event->accept();
+            return;
+        }
+        QListWidget::mousePressEvent(event);
+    }
+};
+
 class ScriptItemDelegate : public QStyledItemDelegate {
 public:
     using QStyledItemDelegate::QStyledItemDelegate;
@@ -311,17 +324,26 @@ public:
             text = item.palette.color(group, selected ? QPalette::HighlightedText : QPalette::Text);
             secondary = selected ? text : Accessibility::muted(item.palette);
         }
-        const QRect area = item.rect.adjusted(Design::Metric::space3, Design::Metric::space2, -Design::Metric::space3,
-                                              -Design::Metric::space2);
+        QRect area = item.rect.adjusted(Design::Metric::space3, Design::Metric::space2, -Design::Metric::space3,
+                                        -Design::Metric::space2);
+        if (index.data(Qt::UserRole).isValid()) {
+            const bool selecting = item.widget && item.widget->property("selectingScripts").toBool();
+            const int control =
+                selecting ? item.widget->style()->pixelMetric(QStyle::PM_IndicatorWidth, nullptr, item.widget) +
+                                Design::Metric::space3
+                          : std::max(44, QFontMetrics(item.font).height() * 2 + Design::Metric::space2);
+            const bool reserveLeft = selecting != (item.direction == Qt::RightToLeft);
+            area.adjust(reserveLeft ? control : 0, 0, reserveLeft ? 0 : -control, 0);
+        }
         painter->save();
         // As the KDE guidelines ask: the selected script in bold.
         QFont strong = item.font;
-        strong.setWeight(selected ? QFont::DemiBold : QFont::Normal);
+        strong.setWeight(index.data(Qt::UserRole + 2).toBool() ? QFont::DemiBold : QFont::Normal);
         const QFontMetrics titleMetrics(strong);
         painter->setFont(strong);
         painter->setPen(text);
         painter->drawText(QRect(area.topLeft(), QSize(area.width(), titleMetrics.height())),
-                          Qt::AlignLeft | Qt::AlignVCenter,
+                          QStyle::visualAlignment(item.direction, Qt::AlignLeft) | Qt::AlignVCenter,
                           titleMetrics.elidedText(title, Qt::ElideRight, area.width()));
         const QFont small = metaFont(item.font);
         const QFontMetrics metaMetrics(small);
@@ -329,7 +351,7 @@ public:
         painter->setPen(secondary);
         painter->drawText(QRect(area.left(), area.top() + titleMetrics.height() + Design::Metric::space1 / 2,
                                 area.width(), metaMetrics.height()),
-                          Qt::AlignLeft | Qt::AlignVCenter,
+                          QStyle::visualAlignment(item.direction, Qt::AlignLeft) | Qt::AlignVCenter,
                           metaMetrics.elidedText(index.data(MetaRole).toString(), Qt::ElideRight, area.width()));
         painter->restore();
     }
@@ -674,6 +696,7 @@ QWidget *MainWindow::makeDrawer() {
     header->setSpacing(Design::Metric::space1);
     auto *title = new QLabel(tr("Scripts"));
     title->setObjectName("libraryTitle");
+    title->setWordWrap(true);
     title->setProperty("role", "muted");
     auto titleFont = title->font();
     titleFont.setWeight(QFont::DemiBold);
@@ -685,41 +708,115 @@ QWidget *MainWindow::makeDrawer() {
     add->setProperty("quiet", true);
     add->setProperty("label", add->text()); // The reader shortens it to its icon in a narrow panel.
     add->setFocusPolicy(Qt::TabFocus);      // A click leaves the keys, and the pedals, with the script.
-    // The menu of everything else, at the end of the row like in the desktop's own apps.
-    auto *more = new AccessibleButton(QString());
-    more->setObjectName("scriptActions");
-    more->setToolTip(tr("More"));
-    more->setAccessibleName(tr("More script actions"));
-    more->setProperty("quiet", true);
-    more->setFocusPolicy(Qt::TabFocus);
-    more_ = more;
-    auto *menu = new QMenu(this);
-    connect(menu, &QMenu::aboutToShow, this, [this, menu] { prompter_->styleMenu(menu); });
-    auto *import = menu->addAction(tr("Import…"));
+    libraryTitle_ = title;
+    header->addWidget(title, 1);
+    header->addWidget(add);
+    auto *close = new AccessibleButton(QString());
+    close->setObjectName("closeScriptDrawer");
+    close->setProperty("quiet", true);
+    close->setAccessibleName(tr("Close"));
+    close->setToolTip(tr("Close"));
+    close->setFocusPolicy(Qt::TabFocus);
+    header->addWidget(close);
+    prompter_->addIconButton(close, "close");
+    connect(close, &QAbstractButton::clicked, this, [this] {
+        if (selectingScripts_)
+            setSelectingScripts(false);
+        else
+            prompter_->setDrawerOpen(false);
+    });
+    layout->addWidget(headerRow);
+    prompter_->addIconButton(add, "plus");
+
+    auto *toolsRow = new QWidget;
+    toolsRow->setObjectName("scriptLibraryTools");
+    auto *tools = new QHBoxLayout(toolsRow);
+    tools->setContentsMargins(0, 0, 0, 0);
+    auto *import = new AccessibleButton(tr("Import…"));
+    import->setObjectName("importScript");
     import->setToolTip(tr("Text, Markdown, Word (.docx) and OpenDocument (.odt) documents, or speaker notes from "
-                          "PowerPoint (.pptx) and Impress (.odp)"));
-    impressAction_ = menu->addAction(tr("Present with Impress…"));
+                         "PowerPoint (.pptx) and Impress (.odp)"));
+    import->setProperty("quiet", true);
+    import->setFocusPolicy(Qt::TabFocus);
+    selectScripts_ = new QCheckBox(tr("Select"));
+    selectScripts_->setObjectName("selectScripts");
+    selectScripts_->setProperty("label", selectScripts_->text());
+    selectScripts_->setAccessibleName(tr("Select"));
+    selectScripts_->setToolTip(tr("Select"));
+    tools->addWidget(import);
+    tools->addStretch();
+    tools->addWidget(selectScripts_);
+    layout->addWidget(toolsRow);
+
+    scriptSelectionBar_ = new QWidget;
+    scriptSelectionBar_->setObjectName("scriptSelectionBar");
+    auto *selection = new QHBoxLayout(scriptSelectionBar_);
+    selection->setContentsMargins(0, 0, 0, 0);
+    selectAllScripts_ = new QCheckBox(tr("All"));
+    selectAllScripts_->setAccessibleName(tr("Select all"));
+    selectAllScripts_->setToolTip(tr("Select all"));
+    selectAllScripts_->setObjectName("selectAllScripts");
+    selectAllScripts_->setProperty("label", selectAllScripts_->text());
+    selectedScriptActions_ = new AccessibleButton(tr("Actions…"));
+    selectedScriptActions_->setObjectName("selectedScriptActions");
+    selectedScriptActions_->setProperty("quiet", true);
+    selectedScriptActions_->setFocusPolicy(Qt::TabFocus);
+    selection->addWidget(selectAllScripts_);
+    selection->addStretch();
+    selection->addWidget(selectedScriptActions_);
+    layout->addWidget(scriptSelectionBar_);
+    scriptSelectionBar_->hide();
+    auto *batchMenu = new QMenu(this);
+    batchMenu->setObjectName("selectedScriptsMenu");
+    auto *speed = batchMenu->addAction(tr("Reading speed…"));
+    speed->setObjectName("selectedScriptsSpeed");
+    auto *exportBatch = batchMenu->addAction(tr("Export…"));
+    exportBatch->setObjectName("exportSelectedScripts");
+    batchMenu->addSeparator();
+    auto *deleteBatch = batchMenu->addAction(tr("Delete…"));
+    deleteBatch->setObjectName("deleteSelectedScripts");
+    connect(batchMenu, &QMenu::aboutToShow, this, [this, batchMenu] { prompter_->styleMenu(batchMenu); });
+    connect(selectedScriptActions_, &QAbstractButton::clicked, batchMenu, [this, batchMenu] {
+        batchMenu->popup(selectedScriptActions_->mapToGlobal(QPoint(0, selectedScriptActions_->height())));
+    });
+    connect(speed, &QAction::triggered, this, &MainWindow::changeSelectedSpeed);
+    connect(exportBatch, &QAction::triggered, this, &MainWindow::exportSelectedScripts);
+    connect(deleteBatch, &QAction::triggered, this, [this] { deleteScripts(selectedScriptIds()); });
+    connect(selectScripts_, &QCheckBox::toggled, this, &MainWindow::setSelectingScripts);
+    connect(selectAllScripts_, &QCheckBox::clicked, this, [this] {
+        const bool all = selectedScripts_.size() == library_.entries().size();
+        selectedScripts_.clear();
+        if (!all)
+            for (const auto &entry : library_.entries())
+                selectedScripts_.insert(entry.id);
+        updateScriptSelection();
+    });
+    auto *escape = new QShortcut(QKeySequence(Qt::Key_Escape), drawer);
+    escape->setObjectName("cancelScriptSelection");
+    escape->setEnabled(false);
+    connect(escape, &QShortcut::activated, this, [this] {
+        if (running())
+            pauseRunning();
+        setSelectingScripts(false);
+    });
+    auto *selectAll = new QShortcut(QKeySequence::SelectAll, drawer);
+    selectAll->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(selectAll, &QShortcut::activated, this, [this] {
+        setSelectingScripts(true);
+        for (const auto &entry : library_.entries())
+            selectedScripts_.insert(entry.id);
+        updateScriptSelection();
+    });
+    impressAction_ = new QAction(tr("Present with Impress…"), this);
     impressAction_->setObjectName("presentWithImpress");
     impressAction_->setToolTip(tr("Open a presentation in LibreOffice Impress and follow its slideshow: the reader "
                                   "jumps to the notes of the slide being shown."));
-    auto *exportAction = menu->addAction(tr("Export…"));
-    reportAction_ = menu->addAction(tr("Save session report…"));
+    reportAction_ = new QAction(tr("Save session report…"), this);
     reportAction_->setObjectName("saveSessionReport");
-    reportAction_->setEnabled(false); // Available after a voice session.
-    menu->addSeparator();
-    auto *remove = menu->addAction(tr("Delete script…"));
-    remove->setObjectName("deleteScript");
-    menu->setToolTipsVisible(true);
-    connect(more, &QPushButton::clicked, menu,
-            [more, menu] { menu->popup(more->mapToGlobal(QPoint(0, more->height()))); });
-    header->addWidget(title, 1);
-    header->addWidget(add);
-    header->addWidget(more);
-    layout->addWidget(headerRow);
-    prompter_->addIconButton(add, "plus");
-    prompter_->addIconButton(more, "more");
+    reportAction_->setEnabled(false);
+    prompter_->setReaderActions({impressAction_, reportAction_});
 
-    scriptList_ = new QListWidget;
+    scriptList_ = new ScriptListWidget;
     scriptList_->setObjectName("scriptList");
     scriptList_->setAccessibleName(tr("Scripts"));
     scriptList_->setFrameShape(QFrame::NoFrame);
@@ -727,17 +824,38 @@ QWidget *MainWindow::makeDrawer() {
     scriptList_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scriptList_->setItemDelegate(new ScriptItemDelegate(scriptList_));
     scriptList_->setSpacing(1);
+    scriptList_->setResizeMode(QListView::Adjust);
+    auto *toggleSelection = new QShortcut(QKeySequence(Qt::Key_Space), scriptList_);
+    toggleSelection->setObjectName("toggleScriptSelection");
+    toggleSelection->setContext(Qt::WidgetShortcut);
+    toggleSelection->setEnabled(false);
+    connect(toggleSelection, &QShortcut::activated, this, [this] {
+        if (auto *item = scriptList_->currentItem()) {
+            const auto id = item->data(Qt::UserRole).toString();
+            if (selectedScripts_.contains(id))
+                selectedScripts_.remove(id);
+            else if (library_.contains(id))
+                selectedScripts_.insert(id);
+            updateScriptSelection();
+        }
+    });
     layout->addWidget(scriptList_, 1);
     connect(scriptList_, &QListWidget::currentItemChanged, this, [this](QListWidgetItem *item) {
-        if (!item)
+        if (!item || selectingScripts_)
             return;
-        openScript(item->data(Qt::UserRole).toString());
+        const auto id = item->data(Qt::UserRole).toString();
+        // Defer rebuilding row widgets until the pointer/key event has finished dispatching.
+        QTimer::singleShot(0, this, [this, id] {
+            if (!selectingScripts_ && library_.contains(id))
+                openScript(id);
+        });
     });
     // Closed, no row is current: a screen reader does not hear a hidden row as focused. Open, the
     // script being read is the current row again.
     connect(prompter_, &ReaderPage::drawerShown, this, [this](bool shown) {
         const QSignalBlocker block(scriptList_);
         if (!shown) {
+            setSelectingScripts(false);
             scriptList_->setCurrentItem(nullptr);
             scriptList_->clearSelection();
             // Hidden, its layout does not size it; Qt reports rows as on the screen from their rectangles.
@@ -749,17 +867,35 @@ QWidget *MainWindow::makeDrawer() {
                 scriptList_->setCurrentRow(row);
     });
     // Over the text, in a small window, the panel goes once a script is chosen.
-    connect(scriptList_, &QListWidget::itemClicked, this, [this] {
+    connect(scriptList_, &QListWidget::itemClicked, this, [this](QListWidgetItem *item) {
+        if (selectingScripts_) {
+            const auto id = item->data(Qt::UserRole).toString();
+            if (selectedScripts_.contains(id))
+                selectedScripts_.remove(id);
+            else if (library_.contains(id))
+                selectedScripts_.insert(id);
+            updateScriptSelection();
+            return;
+        }
         if (!prompter_->roomy())
             prompter_->setDrawerOpen(false);
     });
     auto *newShortcut = new QShortcut(QKeySequence::New, this);
-    connect(newShortcut, &QShortcut::activated, this, &MainWindow::newScript);
+    const auto createForWriting = [this] {
+        newScript();
+        expand();
+        script_->setFocus();
+    };
+    connect(newShortcut, &QShortcut::activated, this, createForWriting);
 
-    connect(add, &QPushButton::clicked, this, &MainWindow::newScript);
-    connect(import, &QAction::triggered, this, &MainWindow::importScript);
-    connect(exportAction, &QAction::triggered, this, &MainWindow::exportScript);
-    connect(remove, &QAction::triggered, this, &MainWindow::deleteScript);
+    connect(add, &QPushButton::clicked, this, createForWriting);
+    connect(import, &QAbstractButton::clicked, this, &MainWindow::importScript);
+    scriptList_->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(scriptList_, &QWidget::customContextMenuRequested, this, [this](const QPoint &point) {
+        if (!selectingScripts_)
+            if (auto *item = scriptList_->itemAt(point))
+                showScriptMenu(item->data(Qt::UserRole).toString(), scriptList_->viewport()->mapToGlobal(point));
+    });
     connect(impressAction_, &QAction::triggered, this, [this] {
         if (impress_->active()) {
             impress_->stop();
@@ -886,11 +1022,137 @@ void MainWindow::refreshLibrary() {
     for (const auto &entry : library_.entries()) {
         auto *item = new QListWidgetItem(entry.title, scriptList_);
         item->setData(Qt::UserRole, entry.id);
+        item->setData(Qt::UserRole + 2, entry.id == currentId_);
         item->setData(ScriptItemDelegate::MetaRole, scriptMeta(entry));
         item->setToolTip(entry.title);
+        auto *row = new QWidget;
+        row->setAutoFillBackground(false);
+        row->setObjectName("scriptRow");
+        auto *layout = new QHBoxLayout(row);
+        layout->setContentsMargins(Design::Metric::space2, 0, Design::Metric::space1, 0);
+        auto *check = new QCheckBox;
+        check->setObjectName("scriptCheck");
+        check->setProperty("scriptId", entry.id);
+        check->setAccessibleName(entry.title);
+        check->setVisible(selectingScripts_);
+        layout->addWidget(check);
+        layout->addStretch();
+        auto *more = new AccessibleButton(QString());
+        more->setObjectName("scriptRowActions");
+        more->setProperty("scriptId", entry.id);
+        more->setProperty("quiet", true);
+        more->setFocusPolicy(Qt::TabFocus);
+        more->setToolTip(entry.title);
+        more->setAccessibleName(tr("More script actions") + QStringLiteral(" · ") + entry.title);
+        more->setVisible(!selectingScripts_);
+        layout->addWidget(more);
+        scriptList_->setItemWidget(item, row);
+        prompter_->addIconButton(more, "more");
+        connect(more, &QAbstractButton::clicked, this,
+                [this, more, id = entry.id] { showScriptMenu(id, more->mapToGlobal(QPoint(0, more->height()))); });
+        connect(check, &QCheckBox::toggled, this, [this, id = entry.id](bool checked) {
+            if (checked)
+                selectedScripts_.insert(id);
+            else
+                selectedScripts_.remove(id);
+            updateScriptSelection();
+        });
         if (entry.id == currentId_)
             scriptList_->setCurrentItem(item);
     }
+    updateScriptSelection();
+    prompter_->orderTabs();
+}
+
+void MainWindow::setSelectingScripts(bool selecting) {
+    selectingScripts_ = selecting;
+    if (!selecting) {
+        selectedScripts_.clear();
+        const QSignalBlocker block(scriptList_);
+        for (int row = 0; row < scriptList_->count(); ++row)
+            if (scriptList_->item(row)->data(Qt::UserRole).toString() == currentId_)
+                scriptList_->setCurrentRow(row);
+    }
+    const QSignalBlocker block(selectScripts_);
+    selectScripts_->setChecked(selecting);
+    scriptList_->setProperty("selectingScripts", selecting);
+    findChild<QShortcut *>("toggleScriptSelection")->setEnabled(selecting);
+    scriptSelectionBar_->setVisible(selecting);
+    auto *drawer = findChild<QWidget *>("scriptDrawer");
+    drawer->setProperty("selectingScripts", selecting);
+    auto *close = findChild<QAbstractButton *>("closeScriptDrawer");
+    close->setVisible(selecting || !prompter_->roomy());
+    close->setAccessibleName(selecting ? tr("Cancel") : tr("Close"));
+    close->setToolTip(close->accessibleName());
+    findChild<QWidget *>("scriptLibraryTools")->setVisible(!selecting);
+    findChild<QShortcut *>("cancelScriptSelection")->setEnabled(selecting);
+    findChild<QWidget *>("newScript")->setVisible(!selecting);
+    findChild<QWidget *>("importScript")->setVisible(!selecting);
+    for (auto *check : scriptList_->findChildren<QCheckBox *>("scriptCheck"))
+        check->setVisible(selecting);
+    for (auto *more : scriptList_->findChildren<QAbstractButton *>("scriptRowActions"))
+        more->setVisible(!selecting);
+    updateScriptSelection();
+    prompter_->orderTabs();
+    if (prompter_->drawerOpen() && !prompter_->roomy())
+        scriptList_->setFocus();
+}
+
+void MainWindow::updateScriptSelection() {
+    for (auto it = selectedScripts_.begin(); it != selectedScripts_.end();)
+        if (!library_.contains(*it))
+            it = selectedScripts_.erase(it);
+        else
+            ++it;
+    for (auto *check : scriptList_->findChildren<QCheckBox *>("scriptCheck")) {
+        const QSignalBlocker block(check);
+        check->setChecked(selectedScripts_.contains(check->property("scriptId").toString()));
+    }
+    const int count = int(selectedScripts_.size());
+    const int total = int(library_.entries().size());
+    libraryTitle_->setText(selectingScripts_ ? tr("Selected: %1").arg(QLocale().toString(count)) : tr("Scripts"));
+    selectedScriptActions_->setEnabled(count > 0);
+    selectedScriptActions_->setAccessibleName(tr("Actions…") + QStringLiteral(" · ") +
+                                              tr("Selected: %1").arg(QLocale().toString(count)));
+    selectAllScripts_->setEnabled(total > 0);
+    selectScripts_->setEnabled(total > 0 || selectingScripts_);
+    const QSignalBlocker block(selectAllScripts_);
+    selectAllScripts_->setCheckState(count == 0 ? Qt::Unchecked : count == total ? Qt::Checked : Qt::PartiallyChecked);
+    scriptList_->viewport()->update();
+}
+
+QStringList MainWindow::selectedScriptIds() const {
+    QStringList ids;
+    for (const auto &entry : library_.entries())
+        if (selectedScripts_.contains(entry.id))
+            ids << entry.id;
+    return ids;
+}
+
+void MainWindow::showScriptMenu(const QString &id, const QPoint &globalPosition) {
+    if (!library_.contains(id) || selectingScripts_)
+        return;
+    auto *menu = new QMenu(this);
+    menu->setObjectName("scriptRowMenu");
+    const auto text = id == currentId_ ? script_->toPlainText() : library_.load(id);
+    menu->addSection(ScriptLibrary::titleFor(text).replace(u'&', QStringLiteral("&&")));
+    auto *edit = menu->addAction(tr("Edit"));
+    edit->setObjectName("editScript");
+    auto *exportAction = menu->addAction(tr("Export…"));
+    exportAction->setObjectName("exportScript");
+    menu->addSeparator();
+    auto *remove = menu->addAction(tr("Delete script…"));
+    remove->setObjectName("deleteScript");
+    connect(edit, &QAction::triggered, this, [this, id] {
+        openScript(id);
+        expand();
+        script_->setFocus();
+    });
+    connect(exportAction, &QAction::triggered, this, [this, id] { exportScript(id); });
+    connect(remove, &QAction::triggered, this, [this, id] { deleteScripts({id}); });
+    connect(menu, &QMenu::aboutToHide, menu, &QObject::deleteLater);
+    prompter_->styleMenu(menu);
+    menu->popup(globalPosition);
 }
 
 // "2 min · 14:32": how long the script takes to read at its steady speed, and when it changed.
@@ -968,9 +1230,18 @@ void MainWindow::refreshCurrentRow() {
     if (!persist_ || currentId_.isEmpty())
         return;
     const auto title = ScriptLibrary::titleFor(script_->toPlainText());
-    auto *item = scriptList_->currentItem();
-    if (!item || item->data(Qt::UserRole).toString() != currentId_)
+    QListWidgetItem *item = nullptr;
+    for (int row = 0; row < scriptList_->count(); ++row)
+        if (scriptList_->item(row)->data(Qt::UserRole).toString() == currentId_)
+            item = scriptList_->item(row);
+    if (!item)
         return;
+    if (auto *widget = scriptList_->itemWidget(item)) {
+        widget->findChild<QCheckBox *>()->setAccessibleName(title);
+        auto *more = widget->findChild<QAbstractButton *>("scriptRowActions");
+        more->setToolTip(title);
+        more->setAccessibleName(tr("More script actions") + QStringLiteral(" · ") + title);
+    }
     item->setText(title);
     item->setToolTip(title);
     for (auto entry : library_.entries())
@@ -989,6 +1260,7 @@ void MainWindow::dropIfEmpty() {
 }
 
 void MainWindow::newScript() {
+    setSelectingScripts(false);
     const auto id = library_.create();
     if (id.isEmpty()) {
         notify(tr("Cannot create a script in %1.").arg(library_.directory()));
@@ -1196,37 +1468,118 @@ void MainWindow::stepTextSize(int direction) {
     notify(tr("Text size %1").arg(QLocale().toString(next)));
 }
 
-void MainWindow::exportScript() {
-    auto path = QFileDialog::getSaveFileName(this, tr("Export script"), ScriptLibrary::titleFor(script_->toPlainText()),
+void MainWindow::exportScript(const QString &id) {
+    if (!library_.contains(id))
+        return;
+    const auto text = id == currentId_ ? script_->toPlainText() : library_.load(id);
+    auto path = QFileDialog::getSaveFileName(this, tr("Export script"), ScriptLibrary::titleFor(text),
                                              tr("Text (*.txt);;Markdown (*.md)"));
     if (path.isEmpty())
         return;
     QSaveFile file(path);
-    const auto data = script_->toPlainText().toUtf8();
+    const auto data = text.toUtf8();
     if (!file.open(QIODevice::WriteOnly) || file.write(data) != data.size() || !file.commit())
         QMessageBox::warning(this, tr("Cannot export"), tr("Check the destination and available disk space."));
     else
         notify(tr("Exported to %1.").arg(displayPath(path)));
 }
 
-void MainWindow::deleteScript() {
-    if (!persist_ || currentId_.isEmpty())
+void MainWindow::exportSelectedScripts() {
+    const auto ids = selectedScriptIds();
+    if (ids.isEmpty() || (ids.contains(currentId_) && !saveScript()))
         return;
-    const auto title = ScriptLibrary::titleFor(script_->toPlainText());
-    if (!script_->toPlainText().trimmed().isEmpty() &&
-        QMessageBox::question(this, tr("Delete script?"), tr("Delete “%1” from this device?").arg(title),
-                              QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+    const auto directory = QFileDialog::getExistingDirectory(this, tr("Export…"));
+    if (directory.isEmpty())
         return;
-    const auto removed = currentId_;
-    autosave_.stop();
-    currentId_.clear();
-    library_.remove(removed);
-    const auto remaining = library_.entries();
-    if (remaining.isEmpty())
-        newScript();
+    QStringList failed;
+    for (const auto &id : ids)
+        if (library_.exportToDirectory(id, directory).isEmpty())
+            failed << ScriptLibrary::titleFor(library_.load(id));
+    if (!failed.isEmpty())
+        QMessageBox::warning(this, tr("Cannot export"),
+                             tr("Check the destination and available disk space.") + "\n\n" + failed.join(u'\n'));
     else
-        openScript(remaining.first().id);
-    notify(tr("Deleted “%1”.").arg(title));
+        notify(tr("Exported to %1.").arg(displayPath(directory)));
+}
+
+void MainWindow::changeSelectedSpeed() {
+    const auto ids = selectedScriptIds();
+    if (ids.isEmpty())
+        return;
+    bool accepted = false;
+    const int speed = QInputDialog::getInt(this, tr("Reading speed…"), tr("Words per minute"), wordsPerMinute_, 40, 400,
+                                           10, &accepted);
+    if (!accepted)
+        return;
+    QHash<QString, int> previous;
+    for (const auto &id : ids) {
+        previous.insert(id, library_.speed(id));
+        library_.setSpeed(id, speed);
+    }
+    if (!library_.flush()) {
+        for (auto it = previous.cbegin(); it != previous.cend(); ++it)
+            library_.setSpeed(it.key(), it.value());
+        notify(tr("Cannot save the script. Check the available disk space."));
+        return;
+    }
+    if (ids.contains(currentId_)) {
+        wordsPerMinute_ = speed;
+        prompter_->setSpeed(speed);
+        steady_.setInterval(60000 / speed);
+        refreshReading();
+    }
+    refreshLibrary();
+}
+
+void MainWindow::deleteScripts(const QStringList &ids) {
+    if (ids.isEmpty())
+        return;
+    QStringList titles;
+    for (const auto &id : ids) {
+        if (!library_.contains(id))
+            return;
+        titles << ScriptLibrary::titleFor(id == currentId_ ? script_->toPlainText() : library_.load(id));
+    }
+    const auto question = ids.size() == 1 ? tr("Delete “%1” from this device?").arg(titles.first())
+                                          : tr("Delete selected scripts from this device?");
+    QMessageBox confirm(QMessageBox::Question, tr("Delete script?"), question, QMessageBox::Yes | QMessageBox::Cancel,
+                        this);
+    confirm.setTextFormat(Qt::PlainText);
+    if (ids.size() > 1) {
+        confirm.setInformativeText(tr("Selected: %1").arg(QLocale().toString(ids.size())));
+        confirm.setDetailedText(titles.join(u'\n'));
+    }
+    confirm.setDefaultButton(QMessageBox::Cancel);
+    if (confirm.exec() != QMessageBox::Yes)
+        return;
+    const bool includesCurrent = ids.contains(currentId_);
+    if (includesCurrent) {
+        if (!saveScript())
+            return;
+        if (running())
+            pauseRunning();
+    }
+    QStringList failed;
+    for (qsizetype i = 0; i < ids.size(); ++i) {
+        if (!library_.remove(ids[i]))
+            failed << titles[i];
+        else if (ids[i] == currentId_)
+            currentId_.clear();
+    }
+    if (includesCurrent && currentId_.isEmpty()) {
+        const auto remaining = library_.entries();
+        if (remaining.isEmpty())
+            newScript();
+        else
+            openScript(remaining.first().id);
+    } else
+        refreshLibrary();
+    if (!failed.isEmpty())
+        QMessageBox::warning(this, tr("Delete script?"), tr("Could not delete:") + "\n" + failed.join(u'\n'));
+    else if (ids.size() == 1)
+        notify(tr("Deleted “%1”.").arg(titles.first()));
+    else
+        notify(tr("Scripts deleted."));
 }
 
 namespace {

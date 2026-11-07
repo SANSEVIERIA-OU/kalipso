@@ -261,10 +261,6 @@
             <translation>Naskah baru (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Lainnya</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Tindakan naskah lainnya</translation>
         </message>
@@ -1222,6 +1218,58 @@ Kita bisa melakukannya selangkah demi selangkah. [Jeda] Dengarkan baik-baik, pas
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Pengenalan ucapan hanya tersedia untuk bahasa yang ditampilkan di pengaturan Suara.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Pilih</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Pilih semua</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Tindakan…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Edit</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Dipilih: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Kecepatan membaca…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Kata per menit</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Hapus…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Hapus naskah yang dipilih dari perangkat ini?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Tidak dapat menghapus:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Naskah dihapus.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Batal</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Semua</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1501,6 +1549,10 @@ Kita bisa melakukannya selangkah demi selangkah. [Jeda] Dengarkan baik-baik, pas
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Kecil, di atas layar, di bawah kamera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Lainnya</translation>
         </message>
     </context>
     <context>

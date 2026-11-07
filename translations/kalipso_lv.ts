@@ -261,10 +261,6 @@
             <translation>Jauns teksts (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Vairāk</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Citas darbības ar tekstu</translation>
         </message>
@@ -1240,6 +1236,58 @@ Varam virzīties uz priekšu soli pa solim. [Pauze] Uzmanīgi klausīsimies, pā
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Runas atpazīšana pieejama tikai valodām, kas norādītas Balss iestatījumos.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Atlasīt</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Atlasīt visus</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Darbības…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Rediģēt</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Atlasīti: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Lasīšanas ātrums…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Vārdi minūtē</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Dzēst…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Vai dzēst atlasītos tekstus no šīs ierīces?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Neizdevās dzēst:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Teksti izdzēsti.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Atcelt</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Visi</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ Varam virzīties uz priekšu soli pa solim. [Pauze] Uzmanīgi klausīsimies, pā
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Mazs logs ekrāna augšdaļā, zem kameras</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Vairāk</translation>
         </message>
     </context>
     <context>

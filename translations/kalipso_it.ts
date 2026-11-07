@@ -261,10 +261,6 @@
             <translation>Nuovo copione (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Altro</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Altre azioni sul copione</translation>
         </message>
@@ -1231,6 +1227,58 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Il riconoscimento vocale è disponibile solo per le lingue elencate nelle impostazioni Voce.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Seleziona</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Seleziona tutti</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Azioni…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Modifica</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Selezionati: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Velocità di lettura…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Parole al minuto</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Elimina…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Eliminare i copioni selezionati da questo dispositivo?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Impossibile eliminare:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Copioni eliminati.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Annulla</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Tutti</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Piccola, in alto sullo schermo, sotto la webcam</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Altro</translation>
         </message>
     </context>
     <context>

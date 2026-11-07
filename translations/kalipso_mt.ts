@@ -261,10 +261,6 @@
             <translation>Test tad-diskors ġdid (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Aktar</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Aktar azzjonijiet għat-test tad-diskors</translation>
         </message>
@@ -1249,6 +1245,58 @@ Nistgħu nimxu pass pass. [Pawża] Nisimgħu b'attenzjoni, niċċekkjaw il-misto
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Ir-rikonoxximent tad-diskors huwa disponibbli biss għal-lingwi murija fl-issettjar tal-Leħen.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Agħżel</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Agħżel kollox</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Azzjonijiet…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Editja</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Magħżula: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Veloċità tal-qari…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Kliem kull minuta</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Ħassar…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Tħassar l-iskripts magħżula minn dan l-apparat?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Ma setgħux jitħassru:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>L-iskripts tħassru.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Ikkanċella</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Kollox</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1528,6 +1576,10 @@ Nistgħu nimxu pass pass. [Pawża] Nisimgħu b'attenzjoni, niċċekkjaw il-misto
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Żgħira, fil-quċċata tal-iskrin, taħt il-kamera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Aktar</translation>
         </message>
     </context>
     <context>

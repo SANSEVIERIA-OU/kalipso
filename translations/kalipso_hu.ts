@@ -261,10 +261,6 @@
             <translation>Új beszédszöveg (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Továbbiak</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>További szövegműveletek</translation>
         </message>
@@ -1222,6 +1218,58 @@ Haladhatunk lépésről lépésre. [Szünet] Figyeljünk oda, vizsgáljuk meg a 
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>A beszédfelismerés csak a Hang beállításaiban felsorolt nyelveken érhető el.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Kijelölés</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Összes kijelölése</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Műveletek…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Szerkesztés</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Kijelölve: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Olvasási sebesség…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Szó percenként</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Törlés…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Törli a kijelölt szövegeket erről az eszközről?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Nem sikerült törölni:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Szövegek törölve.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Mégse</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Mind</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1501,6 +1549,10 @@ Haladhatunk lépésről lépésre. [Szünet] Figyeljünk oda, vizsgáljuk meg a 
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Kicsi ablak a képernyő tetején, a kamera alatt</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Továbbiak</translation>
         </message>
     </context>
     <context>

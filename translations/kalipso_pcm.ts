@@ -261,10 +261,6 @@
             <translation>New talk script (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>More options</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>More things to do with script</translation>
         </message>
@@ -1231,6 +1227,58 @@ We fit take am one step at a time. [Pause] Listen well, check the question, and 
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Speech recognition dey available only for languages wey show for Voice settings.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Select</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Select all</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Actions…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Edit</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Wey you select: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Reading speed…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Words for one minute</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Delete…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Delete di scripts wey you select from dis device?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>No fit delete:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Scripts don delete.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Cancel am</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>All</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We fit take am one step at a time. [Pause] Listen well, check the question, and 
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Small, for top of screen, under camera</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>More options</translation>
         </message>
     </context>
     <context>

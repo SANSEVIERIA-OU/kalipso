@@ -261,10 +261,6 @@
             <translation>Nowy tekst (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Więcej</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Więcej działań na tekście</translation>
         </message>
@@ -1240,6 +1236,58 @@ Możemy działać krok po kroku. [Pauza] Słuchajmy uważnie, sprawdźmy pytanie
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Rozpoznawanie mowy jest dostępne tylko dla języków widocznych w ustawieniach Głosu.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Zaznacz</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Zaznacz wszystkie</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Działania…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Edytuj</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Zaznaczono: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Tempo czytania…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Słowa na minutę</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Usuń…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Usunąć zaznaczone teksty z tego urządzenia?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Nie udało się usunąć:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Teksty usunięte.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Anuluj</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Wszystkie</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ Możemy działać krok po kroku. [Pauza] Słuchajmy uważnie, sprawdźmy pytanie
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Małe okno na górze ekranu, pod kamerą</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Więcej</translation>
         </message>
     </context>
     <context>

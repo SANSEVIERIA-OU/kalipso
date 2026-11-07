@@ -261,10 +261,6 @@
             <translation>కొత్త ప్రసంగ పాఠం (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>మరిన్ని</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>ప్రసంగ పాఠం కోసం మరిన్ని చర్యలు</translation>
         </message>
@@ -1231,6 +1227,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>మాటల గుర్తింపు స్వరం సెట్టింగ్‌లలో చూపించిన భాషలకు మాత్రమే అందుబాటులో ఉంది.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>ఎంచుకోండి</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>అన్నీ ఎంచుకోండి</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>చర్యలు…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>సవరించండి</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>ఎంచుకున్నవి: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>చదివే వేగం…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>నిమిషానికి పదాలు</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>తొలగించండి…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>ఎంచుకున్న స్క్రిప్ట్‌లను ఈ పరికరం నుండి తొలగించాలా?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>తొలగించలేకపోయినవి:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>స్క్రిప్ట్‌లు తొలగించబడ్డాయి.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>రద్దు</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>అన్నీ</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>తెర పైభాగంలో, కెమెరా కింద చిన్నది</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>మరిన్ని</translation>
         </message>
     </context>
     <context>

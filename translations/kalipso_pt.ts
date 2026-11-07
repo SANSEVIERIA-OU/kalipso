@@ -261,10 +261,6 @@
             <translation>Novo guião (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Mais</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Mais ações do guião</translation>
         </message>
@@ -1231,6 +1227,58 @@ Podemos avançar um passo de cada vez. [Pausa] Ouvir com atenção, verificar a 
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>O reconhecimento de voz só está disponível para os idiomas apresentados nas definições de Voz.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Selecionar</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Selecionar tudo</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Ações…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Editar</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Selecionados: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Velocidade de leitura…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Palavras por minuto</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Eliminar…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Eliminar os guiões selecionados deste dispositivo?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Não foi possível eliminar:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Guiões eliminados.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Cancelar</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Todos</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Podemos avançar um passo de cada vez. [Pausa] Ouvir com atenção, verificar a 
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Pequena, no topo do ecrã, debaixo da câmara</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Mais</translation>
         </message>
     </context>
     <context>

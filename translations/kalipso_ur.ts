@@ -261,10 +261,6 @@
             <translation>تقریر کا نیا متن (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>مزید</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>تقریر کے متن کے مزید اعمال</translation>
         </message>
@@ -1231,6 +1227,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>گفتار کی شناخت صرف آواز کی ترتیبات میں دکھائی گئی زبانوں کے لیے دستیاب ہے۔</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>منتخب کریں</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>سب منتخب کریں</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>اعمال…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>ترمیم کریں</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>منتخب: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>پڑھنے کی رفتار…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>الفاظ فی منٹ</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>حذف کریں…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>کیا منتخب متن اس آلے سے حذف کرنا ہے؟</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>حذف نہیں ہو سکا:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>متن حذف ہو گئے۔</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>منسوخ کریں</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>سب</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>چھوٹا، اسکرین کے اوپر، کیمرے کے نیچے</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>مزید</translation>
         </message>
     </context>
     <context>

@@ -261,10 +261,6 @@
             <translation>Téacs cainte nua (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Tuilleadh</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Tuilleadh gníomhartha don téacs cainte</translation>
         </message>
@@ -1240,6 +1236,58 @@ Is féidir linn dul ar aghaidh céim ar chéim. [Sos] Éistimis go cúramach, d�
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Níl aithint cainte ar fáil ach do na teangacha a thaispeántar i socruithe Guth.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Roghnaigh</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Roghnaigh uile</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Gníomhartha…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Cuir in eagar</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Roghnaithe: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Luas léitheoireachta…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Focail sa nóiméad</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Scrios…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>An bhfuil fonn ort na scripteanna roghnaithe a scriosadh ón ngléas seo?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Níorbh fhéidir iad seo a scriosadh:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Scriosadh na scripteanna.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Cealaigh</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Uile</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ Is féidir linn dul ar aghaidh céim ar chéim. [Sos] Éistimis go cúramach, d�
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Beag, ag barr an scáileáin, faoin gceamara</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Tuilleadh</translation>
         </message>
     </context>
     <context>

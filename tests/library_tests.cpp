@@ -19,8 +19,8 @@
 namespace {
 // Sends one raw HTTP request from another thread while this thread keeps
 // serving, and returns the status code and body.
-QPair<int, QByteArray> http(quint16 port, const QByteArray &method, const QString &path,
-                            const QByteArray &headers = {}, const QHostAddress &address = QHostAddress::LocalHost) {
+QPair<int, QByteArray> http(quint16 port, const QByteArray &method, const QString &path, const QByteArray &headers = {},
+                            const QHostAddress &address = QHostAddress::LocalHost) {
     QByteArray reply;
     std::atomic<bool> done = false;
     std::thread client([&] {
@@ -165,6 +165,59 @@ QByteArray twoPages(bool hide) {
 class LibraryTests : public QObject {
     Q_OBJECT
 private slots:
+    void exportNeverOverwritesAndRejectsMissingSources() {
+        QTemporaryDir source, destination;
+        ScriptLibrary library(source.path());
+        const auto one = library.create("Same title\nfirst");
+        const auto two = library.create("Same title\nsecond");
+        const auto first = library.exportToDirectory(one, destination.path());
+        const auto second = library.exportToDirectory(two, destination.path());
+        QVERIFY(!first.isEmpty());
+        QVERIFY(!second.isEmpty());
+        QVERIFY(first != second);
+        QFile read(first);
+        QVERIFY(read.open(QIODevice::ReadOnly));
+        QCOMPARE(read.readAll(), QByteArray("Same title\nfirst"));
+        const auto third = library.exportToDirectory(one, destination.path());
+        QVERIFY(third != first && third != second && !third.isEmpty());
+        QVERIFY(library.exportToDirectory("invalid", destination.path()).isEmpty());
+        const auto odd = library.create("../CON:<test>|?*\nbody");
+        const auto safe = library.exportToDirectory(odd, destination.path());
+        QCOMPARE(QFileInfo(safe).absolutePath(), destination.path());
+        QVERIFY(!safe.isEmpty());
+        QVERIFY(library.exportToDirectory(one, destination.path() + "/missing/subdir").isEmpty());
+        QVERIFY(QFile::remove(source.filePath(one + ".txt")));
+        QVERIFY(library.exportToDirectory(one, destination.path()).isEmpty());
+    }
+
+    void failedRemovalKeepsEntryAndFailedIndexCanRetry() {
+        QTemporaryDir directory;
+        ScriptLibrary library(directory.path());
+        const auto id = library.create("Keep me");
+        const auto file = directory.filePath(id + ".txt");
+        QVERIFY(QFile::rename(file, file + ".saved"));
+        QVERIFY(QDir().mkdir(file)); // Cannot be removed as a file, even under root.
+        QVERIFY(!library.remove(id));
+        QVERIFY(library.contains(id));
+        QVERIFY(QDir().rmdir(file));
+        QVERIFY(QFile::rename(file + ".saved", file));
+        const auto index = directory.filePath("library.json");
+        QVERIFY(QFile::remove(index));
+        QVERIFY(QDir().mkdir(index));
+        library.setSpeed(id, 220);
+        QVERIFY(!library.flush());
+        QVERIFY(QDir().rmdir(index));
+        QVERIFY(library.flush());
+        QCOMPARE(ScriptLibrary(directory.path()).speed(id), 220);
+        QVERIFY(QFile::remove(index));
+        QVERIFY(QDir().mkdir(index));
+        QVERIFY(library.remove(id)); // File deletion succeeded; stale index is recoverable.
+        QVERIFY(!library.contains(id));
+        QVERIFY(QDir().rmdir(index));
+        QVERIFY(library.flush());
+        QVERIFY(ScriptLibrary(directory.path()).entries().isEmpty());
+    }
+
     void savesLoadsAndRecoversScripts() {
         QTemporaryDir directory;
         QString id;
@@ -475,7 +528,8 @@ private slots:
             RemoteControl broad;
             QVERIFY(broad.start(QHostAddress::AnyIPv4, 0));
             broad.setState({{"isolation", broad.token()}});
-            QVERIFY2(servesRemote(broad, networks.first().address), "The non-loopback positive control did not respond");
+            QVERIFY2(servesRemote(broad, networks.first().address),
+                     "The non-loopback positive control did not respond");
         }
         // The same port again keeps the phone's bookmark; a taken port falls back to a free one.
         remote.stop();

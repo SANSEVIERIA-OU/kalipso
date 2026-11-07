@@ -261,10 +261,6 @@
             <translation>नया भाषण-पाठ (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>और</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>भाषण-पाठ के और विकल्प</translation>
         </message>
@@ -1231,6 +1227,58 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>वाक् पहचान केवल आवाज़ सेटिंग में दिखाई गई भाषाओं के लिए उपलब्ध है।</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>चुनें</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>सभी चुनें</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>कार्रवाइयाँ…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>संपादित करें</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>चुने गए: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>पढ़ने की गति…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>शब्द प्रति मिनट</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>मिटाएँ…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>क्या चुनी गई स्क्रिप्ट इस डिवाइस से मिटाएँ?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>मिटा नहीं सके:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>स्क्रिप्ट मिटा दी गईं।</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>रद्द करें</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>सभी</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>स्क्रीन के ऊपर, कैमरे के नीचे छोटा आकार</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>और</translation>
         </message>
     </context>
     <context>

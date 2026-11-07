@@ -261,10 +261,6 @@
             <translation>Uusi käsikirjoitus (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Lisää</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Lisää käsikirjoituksen toimintoja</translation>
         </message>
@@ -1231,6 +1227,58 @@ Voimme edetä askel kerrallaan. [Tauko] Kuunnellaan tarkasti, tarkistetaan kysym
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Puheentunnistus on saatavilla vain Ääni-asetuksissa näkyville kielille.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Valitse</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Valitse kaikki</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Toiminnot…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Muokkaa</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Valittu: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Lukunopeus…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Sanaa minuutissa</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Poista…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Poistetaanko valitut käsikirjoitukset tältä laitteelta?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Poistaminen epäonnistui:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Käsikirjoitukset poistettu.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Peruuta</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Kaikki</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1510,6 +1558,10 @@ Voimme edetä askel kerrallaan. [Tauko] Kuunnellaan tarkasti, tarkistetaan kysym
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Pieni ikkuna näytön yläreunassa kameran alla</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Lisää</translation>
         </message>
     </context>
     <context>

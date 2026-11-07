@@ -261,10 +261,6 @@
             <translation>Nový text (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Viac</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Ďalšie akcie s textom</translation>
         </message>
@@ -1240,6 +1236,58 @@ Môžeme postupovať krok za krokom. [Pauza] Pozorne počúvajme, overme si otá
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Rozpoznávanie reči je dostupné iba pre jazyky uvedené v nastaveniach Hlasu.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Vybrať</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Vybrať všetko</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Akcie…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Upraviť</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Vybrané: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Rýchlosť čítania…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Slov za minútu</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Odstrániť…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Odstrániť vybrané texty z tohto zariadenia?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Nepodarilo sa odstrániť:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Texty boli odstránené.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Zrušiť</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Všetko</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ Môžeme postupovať krok za krokom. [Pauza] Pozorne počúvajme, overme si otá
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Malé okno hore na obrazovke, pod kamerou</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Viac</translation>
         </message>
     </context>
     <context>

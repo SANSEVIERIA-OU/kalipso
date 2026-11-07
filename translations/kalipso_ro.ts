@@ -261,10 +261,6 @@
             <translation>Text nou (Ctrl+N)</translation>
         </message>
         <message>
-            <source>More</source>
-            <translation>Mai multe</translation>
-        </message>
-        <message>
             <source>More script actions</source>
             <translation>Mai multe acțiuni pentru text</translation>
         </message>
@@ -1240,6 +1236,58 @@ Putem înainta pas cu pas. [Pauză] Să ascultăm cu atenție, să verificăm î
             <source>Speech recognition is available only for the languages shown in Voice settings.</source>
             <translation>Recunoașterea vocală este disponibilă doar pentru limbile afișate în setările Voce.</translation>
         </message>
+        <message>
+            <source>Select</source>
+            <translation>Selectează</translation>
+        </message>
+        <message>
+            <source>Select all</source>
+            <translation>Selectează tot</translation>
+        </message>
+        <message>
+            <source>Actions…</source>
+            <translation>Acțiuni…</translation>
+        </message>
+        <message>
+            <source>Edit</source>
+            <translation>Editează</translation>
+        </message>
+        <message>
+            <source>Selected: %1</source>
+            <translation>Selectate: %1</translation>
+        </message>
+        <message>
+            <source>Reading speed…</source>
+            <translation>Viteză de citire…</translation>
+        </message>
+        <message>
+            <source>Words per minute</source>
+            <translation>Cuvinte pe minut</translation>
+        </message>
+        <message>
+            <source>Delete…</source>
+            <translation>Șterge…</translation>
+        </message>
+        <message>
+            <source>Delete selected scripts from this device?</source>
+            <translation>Ștergi textele selectate de pe acest dispozitiv?</translation>
+        </message>
+        <message>
+            <source>Could not delete:</source>
+            <translation>Nu s-au putut șterge:</translation>
+        </message>
+        <message>
+            <source>Scripts deleted.</source>
+            <translation>Textele au fost șterse.</translation>
+        </message>
+        <message>
+            <source>Cancel</source>
+            <translation>Anulează</translation>
+        </message>
+        <message>
+            <source>All</source>
+            <translation>Toate</translation>
+        </message>
     </context>
     <context>
         <name>MicrophoneCapture</name>
@@ -1519,6 +1567,10 @@ Putem înainta pas cu pas. [Pauză] Să ascultăm cu atenție, să verificăm î
         <message>
             <source>Small, at the top of the screen, under the camera</source>
             <translation>Mică, în partea de sus a ecranului, sub cameră</translation>
+        </message>
+        <message>
+            <source>More</source>
+            <translation>Mai multe</translation>
         </message>
     </context>
     <context>

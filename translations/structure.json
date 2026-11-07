@@ -312,11 +312,6 @@
     },
     {
       "context": "MainWindow",
-      "source": "More",
-      "key": "sa7323f1db0c0"
-    },
-    {
-      "context": "MainWindow",
       "source": "More script actions",
       "key": "sf99dafc8a0e2"
     },
@@ -2291,6 +2286,76 @@
       "context": "MainWindow",
       "source": "Speech recognition is available only for the languages shown in Voice settings.",
       "key": "s61f2cc297be8"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Select",
+      "key": "s2a78025de6aa"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Select all",
+      "key": "s1fc9a387654d"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Actions…",
+      "key": "s31dbec2184f2"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Edit",
+      "key": "s464c4ffd019e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Selected: %1",
+      "key": "s0154919f4f36"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Reading speed…",
+      "key": "sef5e8592858f"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Words per minute",
+      "key": "s9f8472e6f88e"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Delete…",
+      "key": "s9ce78fe395f3"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Delete selected scripts from this device?",
+      "key": "sc16a2910fab0"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Could not delete:",
+      "key": "s3d6fd8892798"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Scripts deleted.",
+      "key": "s914c82e8f629"
+    },
+    {
+      "context": "ReaderPage",
+      "source": "More",
+      "key": "sa7323f1db0c0"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Cancel",
+      "key": "s89a86adcc181"
+    },
+    {
+      "context": "MainWindow",
+      "source": "All",
+      "key": "sa52ace420f21"
     }
   ],
   "engine": [
