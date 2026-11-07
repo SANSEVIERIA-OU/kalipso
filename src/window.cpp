@@ -1580,9 +1580,15 @@ void MainWindow::deleteScripts(const QStringList &ids) {
     }
     if (includesCurrent && currentId_.isEmpty()) {
         const auto remaining = library_.entries();
-        if (remaining.isEmpty())
+        if (remaining.isEmpty()) {
             newScript();
-        else
+            // Native confirmation dialogs can restore focus to the editor. The last
+            // deletion returns to the empty-library page regardless of that focus.
+            if (!welcomeDismissed_) {
+                script_->clearFocus();
+                refreshWelcome();
+            }
+        } else
             openScript(remaining.first().id);
     } else
         refreshLibrary();

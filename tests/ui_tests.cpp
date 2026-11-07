@@ -636,6 +636,7 @@ private slots:
             QVERIFY(dialog);
             dialog->button(QMessageBox::Yes)->click();
         });
+        editor(window)->setFocus(); // Native confirmations can restore focus here on Windows.
         window.findChild<QAction *>("deleteSelectedScripts")->trigger();
         const ScriptLibrary after(scripts_.path());
         QVERIFY(!after.contains(first));
