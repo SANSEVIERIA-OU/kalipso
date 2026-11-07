@@ -445,8 +445,10 @@ private slots:
         ScriptLibrary stored(scripts_.path());
         stored.create("First talk\nWords");
         stored.create("Second talk\nMore words");
+        stored.create("Third talk\nWords");
+        stored.create("Fourth talk\nMore words");
         MainWindow window(scripts_.path());
-        window.resize(620, 400);
+        window.resize(320, 240);
         window.show();
         window.activateWindow();
         QVERIFY(QTest::qWaitForWindowActive(&window));
@@ -460,7 +462,7 @@ private slots:
             for (int i = 0; i < 25; ++i) {
                 auto *focus = QApplication::focusWidget();
                 QVERIFY(focus && drawer->isAncestorOf(focus));
-                QVERIFY(!focus->visibleRegion().isEmpty());
+                QVERIFY(focus->visibleRegion().boundingRect().contains(focus->rect()));
                 QTest::keyClick(focus, i < 15 ? Qt::Key_Tab : Qt::Key_Backtab);
             }
         }
@@ -585,7 +587,9 @@ private slots:
         window.show();
         QVERIFY(QTest::qWaitForWindowExposed(&window));
         window.findChild<QCheckBox *>("selectScripts")->click();
-        window.findChild<QCheckBox *>("selectAllScripts")->click();
+        for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
+            if (box->property("scriptId").toString() == first)
+                box->click();
         for (const bool accept : {false, true}) {
             QTimer::singleShot(50, &window, [accept] {
                 auto *dialog = qobject_cast<QInputDialog *>(QApplication::activeModalWidget());
@@ -598,11 +602,25 @@ private slots:
             });
             window.findChild<QAction *>("selectedScriptsSpeed")->trigger();
             QCOMPARE(ScriptLibrary(scripts_.path()).speed(first), accept ? 240 : 0);
-            QCOMPARE(ScriptLibrary(scripts_.path()).speed(second), accept ? 240 : 0);
+            QCOMPARE(ScriptLibrary(scripts_.path()).speed(second), 0);
         }
         auto *speed = window.findChild<QLabel *>("readerSpeed");
         QVERIFY(speed);
         QVERIFY(speed->text().contains("240"));
+        window.findChild<QCheckBox *>("selectScripts")->setChecked(false);
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        for (int row = 0; row < list->count(); ++row)
+            if (list->item(row)->data(Qt::UserRole).toString() == second)
+                list->setCurrentRow(row);
+        QTRY_COMPARE(window.currentScript(), second);
+        QVERIFY(speed->text().contains("150")); // An unselected default-speed script keeps the general pace.
+        for (int row = 0; row < list->count(); ++row)
+            if (list->item(row)->data(Qt::UserRole).toString() == first)
+                list->setCurrentRow(row);
+        QTRY_COMPARE(window.currentScript(), first);
+        QVERIFY(speed->text().contains("240"));
+        window.findChild<QCheckBox *>("selectScripts")->setChecked(true);
+        window.findChild<QCheckBox *>("selectAllScripts")->click();
         QTimer::singleShot(50, &window, [] {
             auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget());
             QVERIFY(dialog);
@@ -643,6 +661,14 @@ private slots:
         QCOMPARE(afterSpeed.speed(second), 230);
         QCOMPARE(afterSpeed.speed(third), 230);
         QCOMPARE(window.currentScript(), first);
+        QTimer::singleShot(50, &window, [] {
+            auto *dialog = qobject_cast<QInputDialog *>(QApplication::activeModalWidget());
+            QVERIFY(dialog);
+            const int initial = dialog->intValue();
+            dialog->reject();
+            QCOMPARE(initial, 230); // Uses the selected scripts' pace while another script is open.
+        });
+        window.findChild<QAction *>("selectedScriptsSpeed")->trigger();
         QTimer::singleShot(50, &window, [] {
             auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget());
             QVERIFY(dialog);

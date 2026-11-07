@@ -1159,7 +1159,8 @@ void MainWindow::showScriptMenu(const QString &id, const QPoint &globalPosition)
 QString MainWindow::scriptMeta(const ScriptLibrary::Entry &entry) const {
     ScriptTracker counter;
     counter.setScript(entry.id == currentId_ ? script_->toPlainText() : library_.load(entry.id));
-    const int speed = entry.speed > 0 ? entry.speed : wordsPerMinute_;
+    const int speed = std::clamp(entry.speed > 0 ? entry.speed : QSettings().value("reading/speed", 150).toInt(),
+                                 40, 400);
     const int words = counter.count();
     const int minutes = (words + speed - 1) / std::max(1, speed);
     const auto length = words == 0 ? tr("Empty") : minutes <= 1 ? tr("under 1 min") : tr("%n min", nullptr, minutes);
@@ -1198,11 +1199,10 @@ void MainWindow::openScript(const QString &id) {
         tracker_.seekCharacter(character);
     else
         tracker_.seek(-1);
-    if (const int speed = library_.speed(id); speed > 0) {
-        wordsPerMinute_ = std::clamp(speed, 40, 400);
-        prompter_->setSpeed(wordsPerMinute_);
-        steady_.setInterval(60000 / wordsPerMinute_);
-    }
+    const int savedSpeed = library_.speed(id);
+    wordsPerMinute_ = std::clamp(savedSpeed > 0 ? savedSpeed : QSettings().value("reading/speed", 150).toInt(), 40, 400);
+    prompter_->setSpeed(wordsPerMinute_);
+    steady_.setInterval(60000 / wordsPerMinute_);
     refreshLibrary();
     seekWord(tracker_.position());
     prompter_->placeCaret(tracker_.character()); // While writing, the caret where reading stopped.
@@ -1506,9 +1506,21 @@ void MainWindow::changeSelectedSpeed() {
     const auto ids = selectedScriptIds();
     if (ids.isEmpty())
         return;
+    const int generalSpeed = std::clamp(QSettings().value("reading/speed", 150).toInt(), 40, 400);
+    const auto savedSpeed = [this, generalSpeed](const QString &id) {
+        const int speed = library_.speed(id);
+        return speed > 0 ? std::clamp(speed, 40, 400) : generalSpeed;
+    };
+    int initialSpeed = savedSpeed(ids.first());
+    for (const auto &id : ids)
+        if (savedSpeed(id) != initialSpeed) {
+            initialSpeed = generalSpeed;
+            break;
+        }
     bool accepted = false;
-    const int speed = QInputDialog::getInt(this, tr("Reading speed…"), tr("Words per minute"), wordsPerMinute_, 40, 400,
-                                           10, &accepted);
+    const int speed = QInputDialog::getInt(this, tr("Reading speed…"),
+        tr("Selected: %1").arg(QLocale().toString(ids.size())) + u'\n' + tr("Words per minute"),
+        initialSpeed, 40, 400, 10, &accepted);
     if (!accepted)
         return;
     QHash<QString, int> previous;

@@ -1513,7 +1513,7 @@ bool ReaderPage::eventFilter(QObject *object, QEvent *event) {
             QList<QWidget *> controls;
             for (auto *control : drawer_->findChildren<QWidget *>())
                 if (control->isVisible() && control->isEnabled() && (control->focusPolicy() & Qt::TabFocus) &&
-                    !control->visibleRegion().isEmpty())
+                    control->visibleRegion().boundingRect().contains(control->rect()))
                     controls << control;
             if (!controls.isEmpty()) {
                 const bool back = key->key() == Qt::Key_Backtab || key->modifiers().testFlag(Qt::ShiftModifier);
