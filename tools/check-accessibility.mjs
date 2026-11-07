@@ -30,7 +30,12 @@ for(const engine of ['chromium','firefox','webkit']){
  await page.setViewportSize({width:1280,height:960});await page.goto(base);await page.keyboard.press('Tab');assert.equal(await page.locator('.skip').evaluate(e=>e===document.activeElement),true);
  await page.locator('#edit-toggle').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#script').evaluate(e=>e===document.activeElement),true);await page.keyboard.press('Escape');assert.equal(await page.locator('#edit-toggle').evaluate(e=>e===document.activeElement),true);
  // Deliberately break text contrast; the real browser checker must report it.
- await page.addStyleTag({content:'.opening-copy{color:#ddd!important;background:white!important}'});await page.evaluate(axe);
+ await page.addStyleTag({content:'.opening-copy{color:#ddd!important;background:white!important}'});
+ // Axe must inspect the deliberately broken, painted state, including in WebKit.
+ await settle(page);await page.locator('.opening-copy').scrollIntoViewIfNeeded();
+ await page.evaluate(async()=>{await document.fonts.ready;await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))});
+ assert.deepEqual(await page.locator('.opening-copy').evaluate(e=>{const s=getComputedStyle(e);return [s.color,s.backgroundColor]}),['rgb(221, 221, 221)','rgb(255, 255, 255)']);
+ await page.evaluate(axe);
  const broken=await page.evaluate(async()=>axe.run(document,{runOnly:['color-contrast']}));assert.ok(broken.violations.some(v=>v.id==='color-contrast'));
  assert.deepEqual(errors,[]);await browser.close();console.log(engine+' accessibility and negative control passed');
 }
