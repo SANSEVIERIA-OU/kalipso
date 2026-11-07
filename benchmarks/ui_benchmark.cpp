@@ -77,6 +77,7 @@ int main(int argc, char **argv) {
     QElapsedTimer elapsed;
     const double cpuBefore = processCpuSeconds();
     const int colorsBefore = colorUpdates;
+    const QString positionBefore = window.positionText();
     elapsed.start();
     if (mode == "interaction") {
         if (text->isReadOnly())
@@ -101,14 +102,20 @@ int main(int argc, char **argv) {
             QTest::qWait(20);
         }
     } else {
-        while (elapsed.elapsed() < seconds * 1000) {
+        QEventLoop loop;
+        QTimer sample;
+        sample.setInterval(100);
+        QObject::connect(&sample, &QTimer::timeout, &loop, [&] {
             rss.append(currentRssKiB());
-            QTest::qWait(100);
-        }
+        });
+        sample.start();
+        QTimer::singleShot(seconds * 1000, &loop, &QEventLoop::quit);
+        loop.exec();
     }
     const double wallSeconds = elapsed.nsecsElapsed() / 1e9;
     const double cpuSeconds = processCpuSeconds() - cpuBefore;
     const bool colorWorked = mode != "colors" || (colorUpdates - colorsBefore >= 2 && colorFailure.isEmpty());
+    const bool scrolled = mode != "steady" || window.positionText() != positionBefore;
     QJsonArray samples;
     for (double value : latency)
         samples.append(value);
@@ -121,7 +128,9 @@ int main(int argc, char **argv) {
                        {"peak_rss_kib", peakRssKiB()}, {"interaction_samples", samples},
                        {"interaction_p50_ms", percentile(latency, .5)}, {"interaction_p95_ms", percentile(latency, .95)},
                        {"color_updates", colorUpdates - colorsBefore}, {"color_error", colorFailure},
-                       {"passed", colorWorked && cpuBefore >= 0 && peakRssKiB() > 0}};
+                       {"position_before", positionBefore}, {"position_after", window.positionText()},
+                       {"passed", colorWorked && scrolled && cpuBefore >= 0 && peakRssKiB() > 0 &&
+                                      (mode == "interaction" || percentile(rss, .5) > 0)}};
     const auto json = QJsonDocument(report).toJson();
     std::fwrite(json.constData(), 1, size_t(json.size()), stdout);
     return report.value("passed").toBool() ? 0 : 1;

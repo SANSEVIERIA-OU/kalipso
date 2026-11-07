@@ -83,9 +83,12 @@ jobs:
           "$probe" vosk it speech-fixtures
           "$probe" moonshine en speech-fixtures
       - name: Repeated native performance measurements
-        if: success()
+        if: always() && steps.native_build.outcome == 'success'
         timeout-minutes: 15
-        run: python tools/run-performance.py --fixtures speech-fixtures --output artifacts/performance
+        run: |
+          python tests/performance_metrics_test.py
+          python tools/run-performance.py --fixtures speech-fixtures --output artifacts/performance
+          python tools/performance-report.py artifacts/performance --check > artifacts/performance/summary.json
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:

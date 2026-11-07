@@ -448,7 +448,9 @@ private slots:
         for (const auto &network : RemoteControl::networks()) {
             QTcpSocket socket;
             socket.connectToHost(network.address, port);
-            QVERIFY(!socket.waitForConnected(300));
+            QVERIFY2(!socket.waitForConnected(300),
+                     qPrintable(QString("Loopback port %1 reachable through %2 (%3), peer %4")
+                                    .arg(port).arg(network.address.toString(), network.name, socket.peerAddress().toString())));
         }
         // The same port again keeps the phone's bookmark; a taken port falls back to a free one.
         remote.stop();
