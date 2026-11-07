@@ -5,12 +5,14 @@
 #include "session_stats.h"
 #include "tracker.h"
 #include <QJsonDocument>
+#include <QNetworkProxy>
 #include <QScopeGuard>
 #include <QSignalSpy>
 #include <QTcpSocket>
 #include <QTemporaryDir>
 #include <QTranslator>
 #include <QtTest>
+#include <algorithm>
 #include <atomic>
 #include <thread>
 
@@ -18,17 +20,25 @@ namespace {
 // Sends one raw HTTP request from another thread while this thread keeps
 // serving, and returns the status code and body.
 QPair<int, QByteArray> http(quint16 port, const QByteArray &method, const QString &path,
-                            const QByteArray &headers = {}) {
+                            const QByteArray &headers = {}, const QHostAddress &address = QHostAddress::LocalHost) {
     QByteArray reply;
     std::atomic<bool> done = false;
     std::thread client([&] {
         QTcpSocket socket;
-        socket.connectToHost(QHostAddress::LocalHost, port);
+        socket.setProxy(QNetworkProxy::NoProxy);
+        socket.connectToHost(address, port);
         if (socket.waitForConnected(2000)) {
             socket.write(method + " " + path.toLatin1() + " HTTP/1.1\r\nHost: localhost\r\n" + headers + "\r\n");
             socket.waitForBytesWritten(2000);
-            while (socket.waitForReadyRead(2000))
+            QElapsedTimer deadline;
+            deadline.start();
+            while (deadline.elapsed() < 2000 && reply.size() < 1024 * 1024) {
                 reply += socket.readAll();
+                if (socket.state() == QAbstractSocket::UnconnectedState ||
+                    !socket.waitForReadyRead(std::max(1, 2000 - int(deadline.elapsed()))))
+                    break;
+            }
+            reply += socket.readAll();
         }
         done = true;
     });
@@ -444,13 +454,28 @@ private slots:
         QVERIFY(remote.start(QHostAddress(QHostAddress::LocalHost), 0));
         const auto port = remote.port();
         QCOMPARE(remote.url(), QString("http://127.0.0.1:%1/%2/").arg(port).arg(remote.token()));
-        // Not reachable through other addresses of this computer.
-        for (const auto &network : RemoteControl::networks()) {
-            QTcpSocket socket;
-            socket.connectToHost(network.address, port);
-            QVERIFY2(!socket.waitForConnected(300),
-                     qPrintable(QString("Loopback port %1 reachable through %2 (%3), peer %4")
-                                    .arg(port).arg(network.address.toString(), network.name, socket.peerAddress().toString())));
+        remote.setState({{"isolation", remote.token()}});
+        const auto servesRemote = [&](const RemoteControl &server, const QHostAddress &address) {
+            const auto reply = http(server.port(), "GET", "/" + server.token() + "/state", {}, address);
+            return reply.first == 200 &&
+                   QJsonDocument::fromJson(reply.second).object().value("isolation").toString() == server.token();
+        };
+        QVERIFY(servesRemote(remote, QHostAddress::LocalHost));
+        const auto networks = RemoteControl::networks();
+        // Identify this server, not just a successful TCP handshake: a runner's proxy or an
+        // unrelated listener on another interface can accept the same port. Requests bypass proxies.
+        for (const auto &network : networks) {
+            QVERIFY2(!servesRemote(remote, network.address),
+                     qPrintable(QString("Kalipso's loopback-only state served through %1 (%2)")
+                                    .arg(network.address.toString(), network.name)));
+        }
+        // Countercheck: the same client must detect the service when all IPv4 interfaces are open.
+        // A broken client returning an empty response must not make the isolation check pass.
+        if (!networks.isEmpty()) {
+            RemoteControl broad;
+            QVERIFY(broad.start(QHostAddress::AnyIPv4, 0));
+            broad.setState({{"isolation", broad.token()}});
+            QVERIFY2(servesRemote(broad, networks.first().address), "The non-loopback positive control did not respond");
         }
         // The same port again keeps the phone's bookmark; a taken port falls back to a free one.
         remote.stop();
