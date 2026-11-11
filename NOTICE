@@ -6,6 +6,13 @@ Original author: Davide Briani; other authors retain their respective rights.
 Official source: https://github.com/SANSEVIERIA-OU/kalipso
 Licensing contact: https://github.com/SANSEVIERIA-OU/kalipso/issues
 
+Acceptance: this notice and the complete licence text are supplied so that they
+can be examined and retained in advance. Modifying, distributing or otherwise
+making available the covered software, enabling External Network Use of it, or
+using it in a Commercial Offering constitutes acceptance of SANSEVIERIA License
+1.0 under its section 9. Viewing the code or merely receiving a copy is not
+acceptance.
+
 The original application, companion, Plasma widget, KWin script, website and
 shared supporting code in this source revision use SANSEVIERIA License 1.0,
 except for the GNOME component and other separately licensed material below. The complete, unchanged licence is supplied as LICENSE and as
