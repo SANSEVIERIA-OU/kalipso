@@ -497,6 +497,13 @@ public:
     using QStyledItemDelegate::QStyledItemDelegate;
     static constexpr int MetaRole = Qt::UserRole + 1;
 
+    // A row's widget (its check box, its ⋯ button) covers the whole row, as this delegate's painting assumes.
+    // Qt places item widgets like editors, in the style's text area, and Breeze 6.8 insets that area by 4 px:
+    // the rows' boxes then left the master box's column.
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &) const override {
+        editor->setGeometry(option.rect);
+    }
+
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override {
         QStyleOptionViewItem item(option);
         initStyleOption(&item, index);
