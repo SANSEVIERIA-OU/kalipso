@@ -1236,8 +1236,12 @@ Vi kan ta ett steg i taget. [Paus] Lyssna noga, granska frågan och välj orden 
             <translation>Välj alla</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Åtgärder…</translation>
+            <source>Done</source>
+            <translation>Klart</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Åtgärder</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Vi kan ta ett steg i taget. [Paus] Lyssna noga, granska frågan och välj orden 
         <message>
             <source>Scripts deleted.</source>
             <translation>Manus raderade.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Avbryt</translation>
         </message>
         <message>
             <source>All</source>

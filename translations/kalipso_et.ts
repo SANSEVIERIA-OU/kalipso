@@ -1236,8 +1236,12 @@ Saame liikuda ühe sammu kaupa. [Paus] Kuulame tähelepanelikult, kontrollime k�
             <translation>Vali kõik</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Toimingud…</translation>
+            <source>Done</source>
+            <translation>Valmis</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Toimingud</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Saame liikuda ühe sammu kaupa. [Paus] Kuulame tähelepanelikult, kontrollime k�
         <message>
             <source>Scripts deleted.</source>
             <translation>Tekstid kustutatud.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Tühista</translation>
         </message>
         <message>
             <source>All</source>

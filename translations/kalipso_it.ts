@@ -1236,8 +1236,12 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
             <translation>Seleziona tutti</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Azioni…</translation>
+            <source>Done</source>
+            <translation>Fatto</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Azioni</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Possiamo procedere un passo alla volta. [Pausa] Ascoltiamo con attenzione, verif
         <message>
             <source>Scripts deleted.</source>
             <translation>Copioni eliminati.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Annulla</translation>
         </message>
         <message>
             <source>All</source>

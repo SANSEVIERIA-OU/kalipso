@@ -1236,8 +1236,12 @@ Nous pouvons avancer une étape à la fois. [Pause] Écoutons attentivement, exa
             <translation>Tout sélectionner</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Actions…</translation>
+            <source>Done</source>
+            <translation>Terminé</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Actions</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Nous pouvons avancer une étape à la fois. [Pause] Écoutons attentivement, exa
         <message>
             <source>Scripts deleted.</source>
             <translation>Textes supprimés.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Annuler</translation>
         </message>
         <message>
             <source>All</source>

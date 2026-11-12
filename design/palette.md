@@ -79,14 +79,56 @@ visible without hover, and names the target in its menu and accessible label. Op
 switch the reader. Reading-session actions belong to the reader toolbar. This addresses the
 owner’s 7 November 2026 report that a shared menu made the target of export and deletion ambiguous.
 
-Selection is explicit: checkboxes, a visible count, a master checkbox with a mixed state, and an
-Actions button disabled when nothing is checked. The open script remains bold independently of
-batch selection and keyboard focus. Escape and closing the panel clear selection. Destructive
-confirmation defaults to Cancel and lists the affected titles; failed deletions remain in the list.
-The existing palette, spacing, font scaling and icon drawing apply to every state, including RTL.
-The panel keeps its existing slide animation and reduced-motion behavior.
+The owner’s 12 November 2026 report that the controls for managing scripts (delete, select all and
+the rest) moved from side to side depending on where one clicked led to these slot rules. Every
+control keeps its slot; starting and ending selection happen at the same spot; nothing that was
+visible jumps to another side. The same rules mirror in right-to-left text.
 
-In small windows the overlay covers the reading bars and keeps keyboard focus within its visible
-controls. The close button and Escape return to the reader; the first Escape leaves selection
-mode (and pauses if reading). At narrow widths, selection checkboxes may omit their visible label
-while retaining their accessible name and tooltip, keeping Import and Actions readable.
+- **Header**, identical in both modes: the title ("Scripts", "Selected: N"), New, and the cross only
+  where it exists while browsing (the overlay of a small window). The cross always means Close;
+  closing the panel also ends selection. New stays visible and enabled while selecting: it (or
+  Ctrl+N) ends selection first and then creates the script. The header is measured by the longest
+  of the title’s texts, so selection never changes New between its label and its icon, nor the
+  header’s height.
+- **Tools row**, one row, always shown, the same height in both modes (no row is swapped for
+  another). The leading slot holds Import while browsing and, while selecting, the master "All"
+  check box (unchecked, mixed, checked; accessible name "Select all"), set in line with the rows’
+  boxes so that it reads as the head of their column. Actions follows it while selecting: a menu
+  button drawn like Sections in the reader (label and chevron), disabled while nothing is checked,
+  opening a menu headed by "Selected: N". The trailing slot holds the one toggle, a quiet checkable
+  button labelled "Select" while browsing and "Done" while selecting. It is as wide as the wider of
+  the two words, so its edges stay still; its accessible name follows its label and it is checked
+  while selecting.
+- **Rows** keep their per-row ⋯ while browsing and show a check box in the leading column while
+  selecting. The open script remains bold independently of batch selection and keyboard focus.
+- **Menus and keys** while selecting: the list’s context menu (right click, Menu key) is the same
+  Actions menu; Delete asks about the checked scripts (nothing happens with none checked); Space
+  toggles the current row; Ctrl/⌘+A selects all; the first Escape leaves selection (and pauses if
+  reading), the second closes the overlay. A menu’s first line names its target. It is a bold,
+  disabled line rather than a menu section, because the drawn look’s style sheet paints no text
+  for sections; disabled entries are muted by the same style sheet.
+- **Narrow panels and large text** (about 236 px at 100% text, 288 px in a 320×240 window at 200%):
+  words give way to icons in this order, each step only while the row of the mode shown still does
+  not fit: the master check box loses "All"; Actions loses its word (its icon and chevron stay);
+  Import shows only its icon (arrow into a tray). The toggle's word is the last to go: it becomes
+  an icon (a checklist for "Select", a tick for "Done") only if, in at least one mode, the row still
+  overflows with every other control already shortened, and then none of them gets a word back. The
+  toggle is shortened for both modes or for neither (its width is the wider word's, or the icons’,
+  so it never moves). Accessible names and tooltips keep the words. No control is hidden, wrapped or
+  moved to another row. At the default text size every word fits in English.
+- **Title and menus.** The title is one line that gives way to the buttons ("…"), so the header is
+  as tall in both modes and New keeps the same label or icon in both. When "Selected: N" does not
+  fit, only the words of the translated pattern are shortened: the number stays whole, wherever the
+  translation puts it (start, middle or end, in right-to-left text too), and so in the menu's first
+  line. A menu's first line is a bold, disabled title followed by a separator, no wider than about
+  240 px at 100% text (a script's title is shortened in the middle, whole in its tooltip). A menu
+  opened from a row has the same text size as the panel's other controls.
+- **Alignment.** Import (its words or its icon) begins where the master check box, which heads the
+  rows' boxes, begins, so the leading slot does not shift when selection starts; Actions stands
+  right after the master box, its chevron close to its word.
+
+Escape and closing the panel clear selection. Destructive confirmation defaults to Cancel and lists
+the affected titles; failed deletions remain in the list. The existing palette, spacing, font
+scaling and icon drawing apply to every state, including RTL. The panel keeps its existing slide
+animation and reduced-motion behavior. In small windows the overlay covers the reading bars and
+keeps keyboard focus within its visible controls; the cross and Escape return to the reader.

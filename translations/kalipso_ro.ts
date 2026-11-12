@@ -1245,8 +1245,12 @@ Putem înainta pas cu pas. [Pauză] Să ascultăm cu atenție, să verificăm î
             <translation>Selectează tot</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Acțiuni…</translation>
+            <source>Done</source>
+            <translation>Gata</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Acțiuni</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1279,10 +1283,6 @@ Putem înainta pas cu pas. [Pauză] Să ascultăm cu atenție, să verificăm î
         <message>
             <source>Scripts deleted.</source>
             <translation>Textele au fost șterse.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Anulează</translation>
         </message>
         <message>
             <source>All</source>

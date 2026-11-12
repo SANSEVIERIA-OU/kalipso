@@ -1236,8 +1236,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>అన్నీ ఎంచుకోండి</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>చర్యలు…</translation>
+            <source>Done</source>
+            <translation>పూర్తయింది</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>చర్యలు</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>స్క్రిప్ట్‌లు తొలగించబడ్డాయి.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>రద్దు</translation>
         </message>
         <message>
             <source>All</source>

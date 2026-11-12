@@ -1245,8 +1245,12 @@ Varam virzīties uz priekšu soli pa solim. [Pauze] Uzmanīgi klausīsimies, pā
             <translation>Atlasīt visus</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Darbības…</translation>
+            <source>Done</source>
+            <translation>Gatavs</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Darbības</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1279,10 +1283,6 @@ Varam virzīties uz priekšu soli pa solim. [Pauze] Uzmanīgi klausīsimies, pā
         <message>
             <source>Scripts deleted.</source>
             <translation>Teksti izdzēsti.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Atcelt</translation>
         </message>
         <message>
             <source>All</source>

@@ -1236,8 +1236,12 @@ Za mu iya tafiya mataki-mataki. [Dakata] Mu saurara da kyau, mu tabbatar da tamb
             <translation>Zaɓi duka</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Ayyuka…</translation>
+            <source>Done</source>
+            <translation>An gama</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Ayyuka</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Za mu iya tafiya mataki-mataki. [Dakata] Mu saurara da kyau, mu tabbatar da tamb
         <message>
             <source>Scripts deleted.</source>
             <translation>An goge rubutun.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Soke</translation>
         </message>
         <message>
             <source>All</source>

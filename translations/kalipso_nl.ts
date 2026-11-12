@@ -1236,8 +1236,12 @@ We kunnen dit stap voor stap aanpakken. [Pauze] Luister aandachtig, bekijk de vr
             <translation>Alles selecteren</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Acties…</translation>
+            <source>Done</source>
+            <translation>Gereed</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Acties</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We kunnen dit stap voor stap aanpakken. [Pauze] Luister aandachtig, bekijk de vr
         <message>
             <source>Scripts deleted.</source>
             <translation>Teksten verwijderd.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Annuleren</translation>
         </message>
         <message>
             <source>All</source>

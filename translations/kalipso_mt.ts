@@ -1254,8 +1254,12 @@ Nistgħu nimxu pass pass. [Pawża] Nisimgħu b'attenzjoni, niċċekkjaw il-misto
             <translation>Agħżel kollox</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Azzjonijiet…</translation>
+            <source>Done</source>
+            <translation>Lest</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Azzjonijiet</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1288,10 +1292,6 @@ Nistgħu nimxu pass pass. [Pawża] Nisimgħu b'attenzjoni, niċċekkjaw il-misto
         <message>
             <source>Scripts deleted.</source>
             <translation>L-iskripts tħassru.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Ikkanċella</translation>
         </message>
         <message>
             <source>All</source>

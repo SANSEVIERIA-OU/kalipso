@@ -1227,8 +1227,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>全选</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>操作…</translation>
+            <source>Done</source>
+            <translation>完成</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>操作</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1261,10 +1265,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>文稿已删除。</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>取消</translation>
         </message>
         <message>
             <source>All</source>

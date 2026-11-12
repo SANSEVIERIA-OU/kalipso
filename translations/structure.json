@@ -2299,8 +2299,13 @@
     },
     {
       "context": "MainWindow",
-      "source": "Actions…",
-      "key": "s31dbec2184f2"
+      "source": "Done",
+      "key": "s8882688380a5"
+    },
+    {
+      "context": "MainWindow",
+      "source": "Actions",
+      "key": "sff8059dc6752"
     },
     {
       "context": "MainWindow",
@@ -2346,11 +2351,6 @@
       "context": "ReaderPage",
       "source": "More",
       "key": "sa7323f1db0c0"
-    },
-    {
-      "context": "MainWindow",
-      "source": "Cancel",
-      "key": "s89a86adcc181"
     },
     {
       "context": "MainWindow",

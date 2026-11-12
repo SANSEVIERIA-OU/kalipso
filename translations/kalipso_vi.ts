@@ -1227,8 +1227,12 @@ Chúng ta có thể tiến từng bước một. [Tạm dừng] Lắng nghe kỹ
             <translation>Chọn tất cả</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Thao tác…</translation>
+            <source>Done</source>
+            <translation>Xong</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Thao tác</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1261,10 +1265,6 @@ Chúng ta có thể tiến từng bước một. [Tạm dừng] Lắng nghe kỹ
         <message>
             <source>Scripts deleted.</source>
             <translation>Đã xóa kịch bản.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Hủy</translation>
         </message>
         <message>
             <source>All</source>

@@ -12,6 +12,8 @@
 #include <functional>
 
 class QAbstractButton;
+class QAction;
+class QMenu;
 class QScreen;
 class QCheckBox;
 class QDialog;
@@ -80,6 +82,7 @@ private:
     void followSlide(int number, const QString &notes);
     void exportScript(const QString &id);
     void showScriptMenu(const QString &id, const QPoint &globalPosition);
+    // Starts or ends selection: only the leading slot, the toggle's label and the title change.
     void setSelectingScripts(bool selecting);
     void updateScriptSelection();
     QStringList selectedScriptIds() const;
@@ -201,10 +204,13 @@ private:
     bool waitForNewUtterance_ = false;
 
     QListWidget *scriptList_ = nullptr;
-    QCheckBox *selectScripts_ = nullptr;
+    // The library's tools row has the same slots in both modes: [Import | All] [Actions] ... [Select | Done].
+    QAbstractButton *selectScripts_ = nullptr; // The one toggle: "Select" while browsing, "Done" while selecting.
     QCheckBox *selectAllScripts_ = nullptr;
-    QWidget *scriptSelectionBar_ = nullptr;
+    QWidget *selectAllSlot_ = nullptr; // Holds the master check box, set in line with the rows' boxes.
     QAbstractButton *selectedScriptActions_ = nullptr;
+    QMenu *selectedScriptsMenu_ = nullptr;
+    QAction *selectedScriptsTitle_ = nullptr;
     QLabel *libraryTitle_ = nullptr;
     QSet<QString> selectedScripts_;
     bool selectingScripts_ = false;

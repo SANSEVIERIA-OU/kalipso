@@ -1236,8 +1236,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>سب منتخب کریں</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>اعمال…</translation>
+            <source>Done</source>
+            <translation>مکمل</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>اعمال</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>متن حذف ہو گئے۔</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>منسوخ کریں</translation>
         </message>
         <message>
             <source>All</source>

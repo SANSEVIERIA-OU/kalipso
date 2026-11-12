@@ -1236,8 +1236,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>Select all</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Actions…</translation>
+            <source>Done</source>
+            <translation>Done</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Actions</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>Scripts deleted.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Cancel</translation>
         </message>
         <message>
             <source>All</source>

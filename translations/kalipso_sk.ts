@@ -1245,8 +1245,12 @@ Môžeme postupovať krok za krokom. [Pauza] Pozorne počúvajme, overme si otá
             <translation>Vybrať všetko</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Akcie…</translation>
+            <source>Done</source>
+            <translation>Hotovo</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Akcie</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1279,10 +1283,6 @@ Môžeme postupovať krok za krokom. [Pauza] Pozorne počúvajme, overme si otá
         <message>
             <source>Scripts deleted.</source>
             <translation>Texty boli odstránené.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Zrušiť</translation>
         </message>
         <message>
             <source>All</source>

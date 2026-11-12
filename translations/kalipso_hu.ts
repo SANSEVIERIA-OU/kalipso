@@ -1227,8 +1227,12 @@ Haladhatunk lépésről lépésre. [Szünet] Figyeljünk oda, vizsgáljuk meg a 
             <translation>Összes kijelölése</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Műveletek…</translation>
+            <source>Done</source>
+            <translation>Kész</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Műveletek</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1261,10 +1265,6 @@ Haladhatunk lépésről lépésre. [Szünet] Figyeljünk oda, vizsgáljuk meg a 
         <message>
             <source>Scripts deleted.</source>
             <translation>Szövegek törölve.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Mégse</translation>
         </message>
         <message>
             <source>All</source>

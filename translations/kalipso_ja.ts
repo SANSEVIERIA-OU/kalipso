@@ -1227,8 +1227,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>すべて選択</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>操作…</translation>
+            <source>Done</source>
+            <translation>完了</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>操作</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1261,10 +1265,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>原稿を削除しました。</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>キャンセル</translation>
         </message>
         <message>
             <source>All</source>

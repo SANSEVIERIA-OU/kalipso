@@ -1236,8 +1236,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>Избор на всички</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Действия…</translation>
+            <source>Done</source>
+            <translation>Готово</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Действия</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>Текстовете са изтрити.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Отмяна</translation>
         </message>
         <message>
             <source>All</source>

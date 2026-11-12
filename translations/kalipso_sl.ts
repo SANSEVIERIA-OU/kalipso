@@ -1254,8 +1254,12 @@ Lahko napredujemo korak za korakom. [Premor] Pozorno poslušajmo, preverimo vpra
             <translation>Izberi vse</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Dejanja…</translation>
+            <source>Done</source>
+            <translation>Končano</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Dejanja</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1288,10 +1292,6 @@ Lahko napredujemo korak za korakom. [Premor] Pozorno poslušajmo, preverimo vpra
         <message>
             <source>Scripts deleted.</source>
             <translation>Besedila so izbrisana.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Prekliči</translation>
         </message>
         <message>
             <source>All</source>

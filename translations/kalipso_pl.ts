@@ -1245,8 +1245,12 @@ Możemy działać krok po kroku. [Pauza] Słuchajmy uważnie, sprawdźmy pytanie
             <translation>Zaznacz wszystkie</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Działania…</translation>
+            <source>Done</source>
+            <translation>Gotowe</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Działania</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1279,10 +1283,6 @@ Możemy działać krok po kroku. [Pauza] Słuchajmy uważnie, sprawdźmy pytanie
         <message>
             <source>Scripts deleted.</source>
             <translation>Teksty usunięte.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Anuluj</translation>
         </message>
         <message>
             <source>All</source>

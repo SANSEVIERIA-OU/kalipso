@@ -1236,8 +1236,12 @@ We fit take am one step at a time. [Pause] Listen well, check the question, and 
             <translation>Select all</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Actions…</translation>
+            <source>Done</source>
+            <translation>E don finish</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Actions</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We fit take am one step at a time. [Pause] Listen well, check the question, and 
         <message>
             <source>Scripts deleted.</source>
             <translation>Scripts don delete.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Cancel am</translation>
         </message>
         <message>
             <source>All</source>

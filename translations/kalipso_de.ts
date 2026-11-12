@@ -1236,8 +1236,12 @@ Wir können Schritt für Schritt vorgehen. [Pause] Aufmerksam zuhören, die Frag
             <translation>Alle auswählen</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Aktionen…</translation>
+            <source>Done</source>
+            <translation>Fertig</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Aktionen</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Wir können Schritt für Schritt vorgehen. [Pause] Aufmerksam zuhören, die Frag
         <message>
             <source>Scripts deleted.</source>
             <translation>Texte gelöscht.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Abbrechen</translation>
         </message>
         <message>
             <source>All</source>

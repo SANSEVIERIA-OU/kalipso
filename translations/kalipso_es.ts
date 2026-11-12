@@ -1236,8 +1236,12 @@ Podemos avanzar paso a paso. [Pausa] Escuchemos con atención, revisemos la preg
             <translation>Seleccionar todo</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Acciones…</translation>
+            <source>Done</source>
+            <translation>Listo</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Acciones</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Podemos avanzar paso a paso. [Pausa] Escuchemos con atención, revisemos la preg
         <message>
             <source>Scripts deleted.</source>
             <translation>Guiones eliminados.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Cancelar</translation>
         </message>
         <message>
             <source>All</source>

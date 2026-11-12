@@ -27,6 +27,7 @@
 #include <QSettings>
 #include <QStackedWidget>
 #include <QStandardPaths>
+#include <QStyleOptionButton>
 #include <QTemporaryDir>
 #include <QTest>
 #include <QTextBlock>
@@ -191,6 +192,109 @@ const char *modeName(ReadingMode mode) {
     return mode == ReadingMode::Manual ? "manual" : mode == ReadingMode::Steady ? "steady" : "voice";
 }
 
+// Where a control is in the window; an empty rectangle when it is not shown.
+QRect placeOf(const QWidget &window, const QWidget *widget) {
+    if (!widget || !widget->isVisibleTo(&window))
+        return {};
+    return QRect(widget->mapTo(&window, QPoint()), widget->size());
+}
+
+// Where a check box draws its box, in the window.
+QRect boxOf(const QWidget &window, const QCheckBox *check) {
+    QStyleOptionButton option;
+    option.initFrom(check);
+    const QRect box = check->style()->subElementRect(QStyle::SE_CheckBoxIndicator, &option, check);
+    return QRect(check->mapTo(&window, box.topLeft()), box.size());
+}
+
+// The first column with ink in a control (the last one in right-to-left text), in the window's coordinates.
+int inkEdge(const QWidget &window, QWidget *control) {
+    const QImage image = control->grab().toImage().convertToFormat(QImage::Format_ARGB32);
+    const QRgb background = image.pixel(image.width() / 2, 1);
+    const bool rtl = control->isRightToLeft();
+    const int origin = control->mapTo(&window, QPoint()).x();
+    for (int i = 0; i < image.width(); ++i) {
+        const int x = rtl ? image.width() - 1 - i : i;
+        for (int y = 0; y < image.height(); ++y) {
+            const QRgb pixel = image.pixel(x, y);
+            if (std::abs(qRed(pixel) - qRed(background)) + std::abs(qGreen(pixel) - qGreen(background)) +
+                    std::abs(qBlue(pixel) - qBlue(background)) >
+                90)
+                return origin + x;
+        }
+    }
+    return -1;
+}
+
+// The controls of the scripts panel that keep their slots when selection starts and ends.
+struct LibraryPlaces {
+    QRect header, title, create, close, tools, toggle, list;
+    QString toggleName;
+    bool toggleIcon = false;
+};
+
+LibraryPlaces libraryPlaces(const QWidget &window) {
+    const auto find = [&window](const char *name) { return window.findChild<QWidget *>(name); };
+    LibraryPlaces places;
+    places.header = placeOf(window, find("scriptDrawerHeader"));
+    places.title = placeOf(window, find("libraryTitle"));
+    places.create = placeOf(window, find("newScript"));
+    places.close = placeOf(window, find("closeScriptDrawer"));
+    places.tools = placeOf(window, find("scriptLibraryTools"));
+    places.toggle = placeOf(window, find("selectScripts"));
+    places.list = placeOf(window, find("scriptList"));
+    if (auto *toggle = qobject_cast<QAbstractButton *>(find("selectScripts"))) {
+        places.toggleName = toggle->accessibleName();
+        places.toggleIcon = !toggle->icon().isNull();
+    }
+    return places;
+}
+
+// Selection starts and ends where it was started: nothing the library showed moves to another place,
+// appears or goes away, apart from what stands in the leading slot (Import, the master check box, Actions).
+void checkSlots(const QString &state, const LibraryPlaces &was, const LibraryPlaces &now) {
+    const auto same = [&](const char *what, const QRect &before, const QRect &after) {
+        if (before != after)
+            problem(state,
+                    QString("%1 moved from %2 to %3").arg(what, QDebug::toString(before), QDebug::toString(after)));
+    };
+    same("header", was.header, now.header);
+    same("title", was.title, now.title);
+    same("New", was.create, now.create);
+    same("close", was.close, now.close);
+    same("tools row", was.tools, now.tools);
+    same("Select/Done", was.toggle, now.toggle);
+    same("list", was.list, now.list);
+    if (!now.tools.isValid())
+        problem(state, "the tools row is not shown");
+}
+
+// The tools row in the mode shown: it fits its room (nothing is cut), each control shows its words or its icon
+// and keeps its words in its name, and the labels shorten in order (master box, Actions, Import, the toggle).
+void checkTools(const QString &state, const QWidget &window) {
+    auto *row = window.findChild<QWidget *>("scriptLibraryTools");
+    if (row->layout()->totalSizeHint().width() > row->width())
+        problem(state, QString("the tools row needs %1 and has %2")
+                           .arg(row->layout()->totalSizeHint().width())
+                           .arg(row->width()));
+    for (auto *button : row->findChildren<QAbstractButton *>()) {
+        if (!button->isVisibleTo(&window))
+            continue;
+        // (The master box has no icon of its own and Actions keeps its icon under its label.)
+        if (!qobject_cast<QCheckBox *>(button) && !qobject_cast<QToolButton *>(button) &&
+            button->text().isEmpty() == button->icon().isNull())
+            problem(state, describe(button) + " shows both its words and its icon, or neither");
+        if (button->accessibleName().isEmpty())
+            problem(state, describe(button) + " has lost its name with its label");
+        if (button->sizeHint().width() > button->width() + 1)
+            problem(state, describe(button) + " is squeezed");
+    }
+    auto *all = window.findChild<QCheckBox *>("selectAllScripts");
+    auto *actions = window.findChild<QAbstractButton *>("selectedScriptActions");
+    if (all->isVisibleTo(&window) && !all->text().isEmpty() && actions->text().isEmpty())
+        problem(state, "Actions lost its label while All kept its own");
+}
+
 void libraryStates(MainWindow &window, const QString &prefix) {
     auto *reader = window.prompter();
     // Selection has its own explicit scope at every supported window size and text scale.
@@ -201,23 +305,52 @@ void libraryStates(MainWindow &window, const QString &prefix) {
         settle();
         QTest::qWait(300);
         auto *drawer = reader->findChild<QWidget *>("scriptDrawer");
+        // The first interaction after a window appears can still settle the reader's bars by a pixel (taller
+        // fallback fonts: the panel's top follows the top bar). That is not selection moving anything: let it
+        // settle, so that the places compared below are the panel's own.
+        auto *toggle = window.findChild<QAbstractButton *>("selectScripts");
+        toggle->setChecked(true);
+        settle();
+        toggle->setChecked(false);
+        settle();
+        QTest::qWait(300);
         const auto normal = QString("%1 library %2x%3").arg(prefix).arg(size.width()).arg(size.height());
         for (const auto *name : {"scriptDrawerHeader", "scriptLibraryTools"})
             checkBar(normal, drawer->findChild<QWidget *>(name));
         checkWindow(normal, drawer);
+        if (auto *list = window.findChild<QListWidget *>("scriptList"); list->height() < list->sizeHintForRow(0))
+            problem(normal, "no complete script row is visible");
+        const auto browsing = libraryPlaces(window);
+        const int importStart = inkEdge(window, window.findChild<QWidget *>("importScript"));
+        if (browsing.toggleName != MainWindow::tr("Select"))
+            problem(normal, QString("the toggle is named \"%1\" while browsing").arg(browsing.toggleName));
+        checkTools(normal, window);
+        // The cross is where an overlay is closed from, and only there.
+        if (browsing.close.isValid() == reader->roomy())
+            problem(normal,
+                    QString("the cross is %1 while the panel is %2")
+                        .arg(browsing.close.isValid() ? "shown" : "hidden", reader->roomy() ? "docked" : "an overlay"));
         shoot(&window, QString(normal).replace(' ', '-'));
-        if (!outDir.isEmpty() && size.width() == 1100) {
+        {
+            // The menu of a row, at every size: its first line names the script and is not a command.
             const auto buttons = drawer->findChildren<QAbstractButton *>("scriptRowActions");
             if (buttons.size() > 1) {
                 buttons[1]->click();
                 settle();
                 if (auto *menu = window.findChild<QMenu *>("scriptRowMenu")) {
-                    shoot(menu, prefix + "-script-menu");
+                    const auto actions = menu->actions();
+                    if (actions.size() < 3 || actions[0]->isEnabled() || actions[0]->isSeparator() ||
+                        !actions[1]->isSeparator())
+                        problem(normal, "the row menu's first line is not a title above a separator");
+                    else if (QFontMetrics(menu->font()).horizontalAdvance(actions[0]->text()) >
+                             qRound(240 * (prefix == "text200" ? 2.0 : 1.0)))
+                        problem(normal, "the row menu's title is wider than 240 px at 100% text");
+                    shoot(menu, QString("%1-script-menu-%2x%3").arg(prefix).arg(size.width()).arg(size.height()));
                     menu->close();
                 }
             }
         }
-        auto *select = window.findChild<QCheckBox *>("selectScripts");
+        auto *select = window.findChild<QAbstractButton *>("selectScripts");
         select->setChecked(true);
         for (const int checked : {0, 1, 3}) {
             int row = 0;
@@ -227,22 +360,85 @@ void libraryStates(MainWindow &window, const QString &prefix) {
             const auto state =
                 QString("%1 selection%2 %3x%4").arg(prefix).arg(checked).arg(size.width()).arg(size.height());
             auto *drawer = reader->findChild<QWidget *>("scriptDrawer");
-            for (const auto *name : {"scriptDrawerHeader", "scriptLibraryTools", "scriptSelectionBar"})
+            for (const auto *name : {"scriptDrawerHeader", "scriptLibraryTools"})
                 checkBar(state, drawer->findChild<QWidget *>(name));
             auto *list = window.findChild<QListWidget *>("scriptList");
             if (list->height() < list->sizeHintForRow(0))
                 problem(state, "no complete script row is visible");
             checkWindow(state, drawer);
+            // The same row as before, in the same slots, with the leading slot and the toggle's label changed.
+            const auto selecting = libraryPlaces(window);
+            checkSlots(state, browsing, selecting);
+            // The title never loses the count, and Import's words or icon began where the master box is.
+            if (auto *titleLabel = window.findChild<QLabel *>("libraryTitle");
+                !titleLabel->property("shown").toString().contains(QLocale().toString(checked)))
+                problem(state,
+                        QString("the title \"%1\" lost its number").arg(titleLabel->property("shown").toString()));
+            if (selecting.toggleName != MainWindow::tr("Done"))
+                problem(state, QString("the toggle is named \"%1\" while selecting").arg(selecting.toggleName));
+            if (selecting.toggleIcon != browsing.toggleIcon)
+                problem(state, "the toggle is a word in one mode and an icon in the other");
+            checkTools(state, window);
+            auto *all = window.findChild<QCheckBox *>("selectAllScripts");
+            auto *actions = window.findChild<QAbstractButton *>("selectedScriptActions");
+            auto *import = window.findChild<QWidget *>("importScript");
+            if (import->isVisibleTo(&window) || !all->isVisibleTo(&window) || !actions->isVisibleTo(&window))
+                problem(state, "the leading slot does not hold the master check box and Actions");
+            if (actions->isEnabled() != (checked > 0))
+                problem(state, QString("Actions is %1 with %2 checked")
+                                   .arg(actions->isEnabled() ? "enabled" : "disabled")
+                                   .arg(checked));
+            // Labels go in order: the master check box's, then Actions'; the toggle keeps its own.
+            if (!all->text().isEmpty() && actions->text().isEmpty())
+                problem(state, "Actions lost its label while All kept its own");
+            if (all->sizeHint().width() > all->width() + 1)
+                problem(state, describe(all) + " label cut");
+            if (!actions->text().isEmpty() && actions->sizeHint().width() > actions->width() + 1)
+                problem(state, describe(actions) + " label cut");
+            if (const bool rtl = all->isRightToLeft(); importStart < 0 ||
+                std::abs(importStart - (rtl ? boxOf(window, all).right() : boxOf(window, all).left())) > 2)
+                problem(state, QString("Import starts at %1, the master box at %2")
+                                   .arg(importStart)
+                                   .arg(rtl ? boxOf(window, all).right() : boxOf(window, all).left()));
+            if (qEnvironmentVariableIsSet("KALIPSO_LIBRARY_STATES") && checked == 1)
+                fprintf(stderr, "info: %s all='%s' actions='%s' import='%s' toggle='%s'\n", qPrintable(state),
+                        qPrintable(all->text()), qPrintable(actions->text()),
+                        qPrintable(window.findChild<QAbstractButton *>("importScript")->text()),
+                        qPrintable(window.findChild<QAbstractButton *>("selectScripts")->text()));
+            // The master check box heads the column of the rows' boxes.
+            for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
+                if (box->isVisibleTo(&window)) {
+                    if (std::abs(boxOf(window, all).center().x() - boxOf(window, box).center().x()) > 2)
+                        problem(state,
+                                QString("the master box (%1) is not in line with the rows' (%2)")
+                                    .arg(QDebug::toString(boxOf(window, all)), QDebug::toString(boxOf(window, box))));
+                    break;
+                }
             shoot(&window, QString(state).replace(' ', '-'));
-            if (!outDir.isEmpty() && size.width() == 1100 && checked == 1) {
-                window.findChild<QAbstractButton *>("selectedScriptActions")->click();
+            if (!outDir.isEmpty() && checked == 1) {
+                actions->click();
                 settle();
                 auto *menu = window.findChild<QMenu *>("selectedScriptsMenu");
-                shoot(menu, prefix + "-selection-menu");
-                menu->close();
+                if (!menu || !menu->isVisible())
+                    problem(state, "Actions did not open its menu");
+                else {
+                    if (menu->actions().isEmpty() || menu->actions().first()->isEnabled() ||
+                        menu->actions().first()->text() != MainWindow::tr("Selected: %1").arg(QLocale().toString(1)))
+                        problem(state, "the menu does not name its target first, as a line that is not a command");
+                    else if (menu->actions().size() < 3 || !menu->actions().at(1)->isSeparator())
+                        problem(state, "the menu has no separator under its title");
+                    else if (!menu->actions().at(2)->isEnabled())
+                        problem(state, "the menu's commands are unavailable with a script checked");
+                    shoot(menu, QString("%1-selection-menu-%2x%3").arg(prefix).arg(size.width()).arg(size.height()));
+                    menu->close();
+                }
             }
         }
         select->setChecked(false);
+        settle();
+        // Done: everything is where it was before selecting.
+        checkSlots(QString("%1 library after selection %2x%3").arg(prefix).arg(size.width()).arg(size.height()),
+                   browsing, libraryPlaces(window));
         reader->setDrawerOpen(false);
     }
 }

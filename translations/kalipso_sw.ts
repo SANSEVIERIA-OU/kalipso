@@ -1236,8 +1236,12 @@ Tunaweza kuendelea hatua kwa hatua. [Pumzika] Tusikilize kwa makini, tuhakiki sw
             <translation>Chagua zote</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Vitendo…</translation>
+            <source>Done</source>
+            <translation>Imekamilika</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Vitendo</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Tunaweza kuendelea hatua kwa hatua. [Pumzika] Tusikilize kwa makini, tuhakiki sw
         <message>
             <source>Scripts deleted.</source>
             <translation>Maandishi yamefutwa.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Ghairi</translation>
         </message>
         <message>
             <source>All</source>
