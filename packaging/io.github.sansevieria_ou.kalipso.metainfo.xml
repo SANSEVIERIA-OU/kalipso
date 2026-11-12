@@ -336,6 +336,11 @@
   <url type="vcs-browser">https://github.com/SANSEVIERIA-OU/kalipso</url>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="3.3" date="2026-11-12" type="stable">
+      <description>
+        <p>The script library's controls stay in place when you select scripts: Select and Done share one button, and New and Close stay in the header. In narrow panels and at large text, labels give way to icons in a fixed order.</p>
+      </description>
+    </release>
     <release version="3.2" date="2026-11-07" type="stable">
       <description>
         <p>Each script has its own edit, export and delete menu. Select several scripts to export or delete them together, or set their reading speed. The library adapts to small windows and large text, with explicit selection and keyboard focus.</p>

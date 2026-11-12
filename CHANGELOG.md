@@ -4,6 +4,17 @@ Kalipso's versions go up one step at a time (0.1, 0.2 … 1.0, 1.1 …), one per
 published for every system (see [docs/releasing.md](docs/releasing.md)). This file lists what each
 version brings, for the people who use it.
 
+## 3.3 — 12 November 2026
+
+- The script library's controls stay in place. Select and Done are the same button in the same
+  spot, Import gives way to All and Actions while selecting, and New and Close stay in the header.
+  Close always closes the panel; New ends the selection first. Right-to-left layouts mirror this.
+- In narrow panels and at large text, labels give way to icons in a fixed order, so no control moves
+  or disappears. New icons mark Import, Select and Done; the title always shows the full selection count.
+- Script menus show their title as a bold heading, and the per-script menu follows the text size.
+- NOTICE now states, as SANSEVIERIA License 1.0 section 9 provides, which acts constitute acceptance
+  of the licence. The licence itself, the GNOME extension's terms and third-party terms are unchanged.
+
 ## 3.2 — 7 November 2026
 
 - Each script now has its own menu for editing, exporting and deleting that script. New and Import
