@@ -1236,8 +1236,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>সব বেছে নিন</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>কাজ…</translation>
+            <source>Done</source>
+            <translation>সম্পন্ন</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>কাজ</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>স্ক্রিপ্টগুলো মুছে ফেলা হয়েছে।</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>বাতিল</translation>
         </message>
         <message>
             <source>All</source>

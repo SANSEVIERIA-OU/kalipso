@@ -702,6 +702,8 @@ void ReaderPage::applyPalette(const Design::Palette &palette) {
         if (!button)
             continue;
         button->setProperty("motion", Icons::motion(name));
+        if (button->property("shortIcon").toBool() && !button->property("shortened").toBool())
+            continue; // Its icon shows only in place of its label.
         button->setIcon(Icons::icon(name, QColor(palette.text), QColor(palette.muted)));
     }
     handle_->grip->setPixmap(Icons::icon("grip", QColor(palette.muted)).pixmap(18, 18));
@@ -721,6 +723,43 @@ void ReaderPage::addIconButton(QAbstractButton *button, const QString &icon) {
     button->setIconSize(QSize(side, side));
     button->setProperty("motion", Icons::motion(icon));
     button->setIcon(Icons::icon(icon, QColor(colors_.text), QColor(colors_.muted)));
+}
+
+void ReaderPage::addShortIconButton(QAbstractButton *button, const QString &icon) {
+    addIconButton(button, icon);
+    button->setProperty("shortIcon", true);
+    button->setIcon(QIcon());
+    sizeIcons();
+}
+
+void ReaderPage::setIconName(QAbstractButton *button, const QString &icon) {
+    for (auto &[known, name] : icons_)
+        if (known == button)
+            name = icon;
+    button->setProperty("motion", Icons::motion(icon));
+    if (!button->property("shortIcon").toBool() || button->property("shortened").toBool())
+        button->setIcon(Icons::icon(icon, QColor(colors_.text), QColor(colors_.muted)));
+}
+
+void ReaderPage::setShortened(QAbstractButton *button, bool shortened) {
+    const QString text = shortened ? QString() : button->property("label").toString();
+    if (button->property("shortened").toBool() == shortened && button->text() == text)
+        return;
+    button->setProperty("shortened", shortened);
+    button->setText(text);
+    if (auto *tool = qobject_cast<QToolButton *>(button))
+        tool->setToolButtonStyle(shortened ? Qt::ToolButtonIconOnly : Qt::ToolButtonTextOnly);
+    if (button->property("shortIcon").toBool()) {
+        QIcon icon;
+        if (shortened)
+            for (const auto &[known, name] : icons_)
+                if (known == button)
+                    icon = Icons::icon(name, QColor(colors_.text), QColor(colors_.muted));
+        button->setIcon(icon);
+    }
+    // The layout keeps each item's last size until its widget says it changed.
+    for (QWidget *changed = button; changed && changed != drawer_; changed = changed->parentWidget())
+        changed->updateGeometry();
 }
 
 void ReaderPage::setReaderActions(const QList<QAction *> &actions) {
@@ -1075,9 +1114,14 @@ void ReaderPage::updateEditing() {
 
 void ReaderPage::sizeIcons() {
     const int side = std::max(20, qRound(fontMetrics().height() * 1.15));
+    // A button that shows its icon only in place of its label has an icon no taller than its text, so it
+    // is as tall with the one as with the other.
+    const int short_ = std::max(18, fontMetrics().height());
     for (const auto &[button, name] : icons_)
-        if (button)
-            button->setIconSize(QSize(side, side));
+        if (button) {
+            const int own = button->property("shortIcon").toBool() ? short_ : side;
+            button->setIconSize(QSize(own, own));
+        }
     primary_->setIconSize(QSize(side, side));
 }
 
@@ -1218,8 +1262,10 @@ void ReaderPage::placeDrawer() {
     // 320×240 window still has room for library controls and complete, scrollable rows.
     const int top = roomy_ ? progress_->height() + bars_.first()->sizeHint().height() : 0;
     const int bottom = roomy_ ? height() - bars_.last()->sizeHint().height() : height();
+    // The cross is where an overlay is closed from; beside the text there is nothing to close. Selecting
+    // does not change that: the cross is Close in both modes.
     if (auto *close = drawer_->findChild<QWidget *>("closeScriptDrawer"))
-        close->setVisible(!roomy_ || drawer_->property("selectingScripts").toBool());
+        close->setVisible(!roomy_);
     const bool sliding = drawerSlide_->state() == QAbstractAnimation::Running;
     // Closed, the panel takes no room at all: assistive technology does not report its rows as on
     // the screen (Qt decides that from their rectangles, not from the panel being hidden).
@@ -1231,46 +1277,103 @@ void ReaderPage::placeDrawer() {
     scrim_->setGeometry(0, top, this->width(), std::max(0, bottom - top));
     if (roomy_ && scrim_->isVisible())
         scrim_->hide(); // Beside the text, nothing is behind the scripts.
-    // Its header keeps one row: labels go before anything is cut.
+    // Its header keeps one row: labels go before anything is cut. The title says "Scripts" or "Selected: 3": it
+    // is one line that gives way to the buttons (shortened with "…" if it must), and the room kept for it is
+    // that of the longest word of either text ("reserve"), so that what New does and how tall the header is
+    // do not change when selection starts.
     if (auto *header = drawer_->findChild<QWidget *>("scriptDrawerHeader"); header && header->layout()) {
         const auto buttons = header->findChildren<QAbstractButton *>();
+        auto *title = header->findChild<QLabel *>("libraryTitle");
+        int titleWord = 0;
+        if (title)
+            for (const auto &text : title->property("reserve").toStringList())
+                for (const auto &word : text.split(u' ', Qt::SkipEmptyParts))
+                    titleWord = std::max(titleWord, title->fontMetrics().horizontalAdvance(word));
+        const auto need = [header, title, titleWord] {
+            header->layout()->activate();
+            const auto margins = header->layout()->contentsMargins();
+            int needed = margins.left() + margins.right(), shown = 0;
+            for (int i = 0; i < header->layout()->count(); ++i)
+                if (auto *widget = header->layout()->itemAt(i)->widget(); widget && !widget->isHidden()) {
+                    needed += widget == title && titleWord > 0 ? titleWord : widget->minimumSizeHint().width();
+                    ++shown;
+                }
+            return needed + std::max(0, shown - 1) * header->layout()->spacing();
+        };
         for (const bool icons : {false, true}) {
             for (auto *button : buttons)
                 if (button->property("label").isValid())
                     button->setText(icons ? QString() : button->property("label").toString());
-            header->layout()->activate();
-            if (header->layout()->minimumSize().width() + fontMetrics().averageCharWidth() * 6 <= width)
+            if (need() + fontMetrics().averageCharWidth() * 6 <= width)
                 break;
         }
         header->setMinimumHeight(
             std::max(header->layout()->minimumSize().height(), header->layout()->heightForWidth(header->width())));
     }
-    // Keep Import and Actions readable. In a very narrow panel the selection checkboxes
-    // retain their accessible names/tooltips and shorten to the familiar checkbox alone.
-    for (const auto *name : {"scriptLibraryTools", "scriptSelectionBar"}) {
-        if (auto *row = drawer_->findChild<QWidget *>(name); row && row->isVisible()) {
-            const auto checks = row->findChildren<QAbstractButton *>();
-            for (auto *button : checks)
-                if (button->property("label").isValid())
-                    button->setText(button->property("label").toString());
-            row->layout()->activate();
-            const auto insets = row->layout()->contentsMargins();
-            int needed = insets.left() + insets.right(), count = 0;
-            for (int i = 0; i < row->layout()->count(); ++i)
-                if (auto *control = row->layout()->itemAt(i)->widget(); control && control->isVisible()) {
-                    needed += control->sizeHint().width();
-                    ++count;
-                }
-            needed += std::max(0, count - 1) * row->layout()->spacing();
-            if (needed > row->width()) {
-                for (auto *button : checks)
-                    if (button->property("label").isValid())
-                        button->setText(QString());
-                row->layout()->activate();
+    // The tools row is one row in both modes, and what is shortened does not depend on the mode shown:
+    // Import and the toggle ("Select", "Done") are there while browsing, the master check box and Actions
+    // while selecting, and the toggle in both, so it is shortened for both or for neither. Each button has a
+    // step (property "shortenOrder"), taken in this order and only while a mode's row still does not fit:
+    // 1 the master check box's label, 2 Actions' label (its icon and chevron stay), 3 Import's label (its
+    // icon stays), 4 the toggle's label (its icon stays): the toggle's word is the last to go, and once it
+    // has gone nothing gets a word back. Accessible names and tooltips keep the words.
+    if (auto *row = drawer_->findChild<QWidget *>("scriptLibraryTools"); row && row->layout() && row->isVisible()) {
+        auto *layout = row->layout();
+        QList<QAbstractButton *> steps[5];
+        QString only[5]; // The mode whose row the step is for: "browsing", "selecting", or both.
+        for (auto *button : row->findChildren<QAbstractButton *>())
+            if (const int step = button->property("shortenOrder").toInt(); step >= 1 && step <= 4) {
+                steps[step] << button;
+                QWidget *item = button;
+                while (item->parentWidget() && item->parentWidget() != row)
+                    item = item->parentWidget();
+                only[step] = item->property("only").toString();
             }
+        const auto margins = drawer_->layout()->contentsMargins();
+        const int room = width - margins.left() - margins.right();
+        // The width a mode's row needs now, as the layout adds it: its controls and a gap between neighbours
+        // (a stretch between two does not take their gap away).
+        const auto needed = [&](const QString &mode) {
+            const auto edges = layout->contentsMargins();
+            int total = edges.left() + edges.right();
+            bool neighbour = false;
+            for (int i = 0; i < layout->count(); ++i) {
+                auto *item = layout->itemAt(i)->widget();
+                if (!item)
+                    continue; // A stretch.
+                if (const auto own = item->property("only").toString(); !own.isEmpty() && own != mode)
+                    continue;
+                item->ensurePolished();
+                total += std::max(item->sizeHint().width(), item->minimumWidth()) + (neighbour ? layout->spacing() : 0);
+                neighbour = true;
+            }
+            return total;
+        };
+        const auto set = [&](int step, bool shortened) {
+            for (auto *button : steps[step])
+                setShortened(button, shortened);
+        };
+        // Steps 1 to 3 for each mode, with the toggle's word still there; if a row still does not fit with
+        // all of them taken, the toggle goes too and the others stay as they are: all shortened.
+        set(4, false);
+        bool fitsAll = true;
+        for (const QString &mode : {QStringLiteral("selecting"), QStringLiteral("browsing")}) {
+            for (int step = 1; step <= 3; ++step)
+                if (only[step] == mode)
+                    set(step, false);
+            for (int step = 1; step <= 3 && needed(mode) > room; ++step)
+                if (only[step] == mode)
+                    set(step, true);
+            fitsAll = fitsAll && needed(mode) <= room;
         }
+        if (!fitsAll) {
+            for (int step = 1; step <= 3; ++step)
+                set(step, true);
+            set(4, true);
+        }
+        layout->invalidate();
+        layout->activate();
     }
-
 }
 
 void ReaderPage::placeCaret(int character) {

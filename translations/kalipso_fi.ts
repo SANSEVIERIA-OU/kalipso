@@ -1236,8 +1236,12 @@ Voimme edetä askel kerrallaan. [Tauko] Kuunnellaan tarkasti, tarkistetaan kysym
             <translation>Valitse kaikki</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Toiminnot…</translation>
+            <source>Done</source>
+            <translation>Valmis</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Toiminnot</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Voimme edetä askel kerrallaan. [Tauko] Kuunnellaan tarkasti, tarkistetaan kysym
         <message>
             <source>Scripts deleted.</source>
             <translation>Käsikirjoitukset poistettu.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Peruuta</translation>
         </message>
         <message>
             <source>All</source>

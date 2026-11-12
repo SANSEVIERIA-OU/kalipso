@@ -1236,8 +1236,12 @@ Podemos avançar um passo de cada vez. [Pausa] Ouvir com atenção, verificar a 
             <translation>Selecionar tudo</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Ações…</translation>
+            <source>Done</source>
+            <translation>Concluído</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Ações</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Podemos avançar um passo de cada vez. [Pausa] Ouvir com atenção, verificar a 
         <message>
             <source>Scripts deleted.</source>
             <translation>Guiões eliminados.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Cancelar</translation>
         </message>
         <message>
             <source>All</source>

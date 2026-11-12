@@ -2819,8 +2819,7 @@
   "s89a86adcc181": {
     "source": "Cancel",
     "locations": [
-      "desktop",
-      "app:MainWindow"
+      "desktop"
     ]
   },
   "s261eadbe611a": {
@@ -2892,7 +2891,8 @@
   "s8882688380a5": {
     "source": "Done",
     "locations": [
-      "desktop"
+      "desktop",
+      "app:MainWindow"
     ]
   },
   "sddcd7e8caacb": {
@@ -4456,8 +4456,8 @@
       "app:MainWindow"
     ]
   },
-  "s31dbec2184f2": {
-    "source": "Actions…",
+  "sff8059dc6752": {
+    "source": "Actions",
     "locations": [
       "app:MainWindow"
     ]

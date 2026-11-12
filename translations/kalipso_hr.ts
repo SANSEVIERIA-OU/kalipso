@@ -1245,8 +1245,12 @@ Možemo napredovati korak po korak. [Stanka] Pažljivo slušajmo, provjerimo pit
             <translation>Odaberi sve</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Radnje…</translation>
+            <source>Done</source>
+            <translation>Gotovo</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Radnje</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1279,10 +1283,6 @@ Možemo napredovati korak po korak. [Stanka] Pažljivo slušajmo, provjerimo pit
         <message>
             <source>Scripts deleted.</source>
             <translation>Tekstovi su izbrisani.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Odustani</translation>
         </message>
         <message>
             <source>All</source>

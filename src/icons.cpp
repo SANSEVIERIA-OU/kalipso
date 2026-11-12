@@ -29,7 +29,9 @@ QString motion(const QString &name) {
     static const QHash<QString, QString> motions{{"previous", "back"}, {"next", "forward"},   {"play", "grow"},
                                                  {"pause", "grow"},    {"sections", "down"},  {"edit", "tilt"},
                                                  {"close", "shrink"},  {"settings", "turn"},  {"reader", "out"},
-                                                 {"plus", "grow"},     {"microphone", "grow"}};
+                                                 {"plus", "grow"},     {"microphone", "grow"},
+                                                 {"import", "down"},   {"select", "grow"},
+                                                 {"done", "grow"}};
     return motions.value(name);
 }
 

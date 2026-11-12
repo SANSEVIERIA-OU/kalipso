@@ -1245,8 +1245,12 @@ Is féidir linn dul ar aghaidh céim ar chéim. [Sos] Éistimis go cúramach, d�
             <translation>Roghnaigh uile</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Gníomhartha…</translation>
+            <source>Done</source>
+            <translation>Déanta</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Gníomhartha</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1279,10 +1283,6 @@ Is féidir linn dul ar aghaidh céim ar chéim. [Sos] Éistimis go cúramach, d�
         <message>
             <source>Scripts deleted.</source>
             <translation>Scriosadh na scripteanna.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Cealaigh</translation>
         </message>
         <message>
             <source>All</source>

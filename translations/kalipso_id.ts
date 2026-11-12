@@ -1227,8 +1227,12 @@ Kita bisa melakukannya selangkah demi selangkah. [Jeda] Dengarkan baik-baik, pas
             <translation>Pilih semua</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Tindakan…</translation>
+            <source>Done</source>
+            <translation>Selesai</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Tindakan</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1261,10 +1265,6 @@ Kita bisa melakukannya selangkah demi selangkah. [Jeda] Dengarkan baik-baik, pas
         <message>
             <source>Scripts deleted.</source>
             <translation>Naskah dihapus.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Batal</translation>
         </message>
         <message>
             <source>All</source>

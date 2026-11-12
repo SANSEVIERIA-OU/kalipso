@@ -1236,8 +1236,12 @@ Vi kan tage ét skridt ad gangen. [Pause] Lyt opmærksomt, undersøg spørgsmål
             <translation>Vælg alle</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Handlinger…</translation>
+            <source>Done</source>
+            <translation>Færdig</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Handlinger</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ Vi kan tage ét skridt ad gangen. [Pause] Lyt opmærksomt, undersøg spørgsmål
         <message>
             <source>Scripts deleted.</source>
             <translation>Manuskripter slettet.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Annuller</translation>
         </message>
         <message>
             <source>All</source>

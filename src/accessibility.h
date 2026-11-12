@@ -221,6 +221,7 @@ QStatusBar::item { border: none; }
 QMenu { background: @surface; color: @text; border: 1px solid @border; padding: 4px; }
 QMenu::item { padding: 7px 18px; border-radius: 6px; }
 QMenu::item:selected { background: @hover; color: @text; }
+QMenu::item:disabled { color: @muted; }
 QToolTip { background: @text; color: @background; border: none; padding: 6px 8px; }
 QTabBar::tab { padding: 8px 14px; border: none; border-bottom: 2px solid transparent; background: transparent; color: @muted; }
 QTabBar::tab:selected { color: @text; border-bottom: 2px solid @accent; font-weight: 600; }
@@ -378,19 +379,28 @@ public:
         setSizePolicy(policy);
         setIconSize({18, 18});
     }
-    int heightForWidth(int width) const override {
-        const int textHeight = text().isEmpty() ? 0
-                                                : fontMetrics()
-                                                      .boundingRect(QRect(0, 0, textWidthFor(width), 10000),
-                                                                    Qt::TextWordWrap | Qt::AlignCenter, text())
-                                                      .height();
-        return std::max({Design::Metric::control, textHeight + 18, iconSize().height() + 18});
+    int heightForWidth(int width) const override { return heightFor(text(), width); }
+    // The height that shows this label whole at this width, as heightForWidth() gives it for the label shown now.
+    int heightFor(const QString &label, int width) const {
+        const int textHeight = label.isEmpty() ? 0
+                                               : fontMetrics()
+                                                     .boundingRect(QRect(0, 0, textWidthFor(width), 10000),
+                                                                   Qt::TextWordWrap | Qt::AlignCenter, label)
+                                                     .height();
+        // The icon counts only while it is shown: a button that shows one only in place of its label keeps
+        // its icon size meanwhile.
+        const int iconHeight = icon().isNull() ? 0 : iconSize().height() + 18;
+        return std::max({Design::Metric::control, textHeight + 18, iconHeight});
     }
     QSize sizeHint() const override {
-        // Slack for bold labels: style sheets set the weight after the first measure.
-        const int label = int(std::ceil(fontMetrics().horizontalAdvance(text()) * 1.08));
-        const int width = std::min(320, label + kPadding * 2 + iconSpace());
+        const int width = widthFor(text());
         return {std::max(width, Design::Metric::control), heightForWidth(width)};
+    }
+    // The width that shows this label whole, as sizeHint() gives it for the label shown now.
+    int widthFor(const QString &label) const {
+        // Slack for bold labels: style sheets set the weight after the first measure.
+        const int measured = int(std::ceil(fontMetrics().horizontalAdvance(label) * 1.08));
+        return std::min(320, measured + padLeft() + padRight() + iconSpace());
     }
     bool event(QEvent *event) override {
         if (event->type() == QEvent::Polish || event->type() == QEvent::FontChange ||
@@ -411,7 +421,7 @@ protected:
         option.text.clear();
         option.icon = QIcon();
         painter.drawControl(QStyle::CE_PushButton, option);
-        const QRect area = rect().adjusted(kPadding, 6, -kPadding, -6);
+        const QRect area = rect().adjusted(padLeft(), 6, -padRight(), -6);
         const int textWidth =
             text().isEmpty()
                 ? 0
@@ -419,7 +429,13 @@ protected:
                            fontMetrics()
                                .boundingRect(QRect(0, 0, textWidthFor(width()), 10000), Qt::TextWordWrap, text())
                                .width());
-        int x = area.center().x() - (iconSpace() + textWidth) / 2;
+        // With a leading padding set, the content begins at the leading edge of the area, as a row's text does;
+        // otherwise it is centred. (An icon alone has some margin of its own in its square: the padding that
+        // stands in front of it is less by that, so its ink begins where the text of a neighbour would.)
+        const int content = iconSpace() + textWidth;
+        int x = area.center().x() - content / 2;
+        if (property("leadPadding").isValid())
+            x = isRightToLeft() ? area.right() + 1 - content : area.left();
         if (!icon().isNull()) {
             const auto mode = isEnabled() ? QIcon::Normal : QIcon::Disabled;
             const QRect target(QPoint(x, area.center().y() - iconSize().height() / 2 + 1), iconSize());
@@ -437,8 +453,29 @@ protected:
 
 private:
     static constexpr int kPadding = 14;
+    // The padding before the label on the side reading starts (property "leadPadding", else 14): a button at
+    // the start of a row can begin where the controls below it begin.
+    int leadPadding() const {
+        if (!property("leadPadding").isValid())
+            return kPadding;
+        // The ink begins where the padding says: less the margin the first glyph has of its own (a letter's side
+        // bearing, an icon's margin in its square).
+        const bool iconAlone = text().isEmpty() && !icon().isNull();
+        return std::max(0, property("leadPadding").toInt() - (iconAlone ? iconSize().width() / 8 : edgeBearing()));
+    }
+    // The side bearing of the glyph at the leading edge of the text, as a layout of this direction shows it.
+    int edgeBearing() const {
+        const QString label = text();
+        if (label.isEmpty())
+            return 0;
+        const bool leadingRight = isRightToLeft(), textRight = label.isRightToLeft();
+        const QChar edge = leadingRight == textRight ? label.front() : label.back();
+        return leadingRight ? fontMetrics().rightBearing(edge) : fontMetrics().leftBearing(edge);
+    }
+    int padLeft() const { return isRightToLeft() ? kPadding : leadPadding(); }
+    int padRight() const { return isRightToLeft() ? leadPadding() : kPadding; }
     int iconSpace() const { return icon().isNull() ? 0 : iconSize().width() + (text().isEmpty() ? 0 : 8); }
-    int textWidthFor(int width) const { return std::max(24, width - kPadding * 2 - iconSpace()); }
+    int textWidthFor(int width) const { return std::max(24, width - padLeft() - padRight() - iconSpace()); }
     IconMotion *motion_;
 };
 
@@ -449,6 +486,13 @@ public:
     explicit MenuButton(QWidget *parent = nullptr) : QToolButton(parent), motion_(new IconMotion(this)) {
         setPopupMode(QToolButton::InstantPopup);
         setProperty("motion", "down");
+    }
+    // With the property "tightArrow" the arrow stands closer to the label.
+    QSize sizeHint() const override {
+        QSize size = QToolButton::sizeHint();
+        if (property("tightArrow").toBool())
+            size.setWidth(size.width() - (kArrowSpace - kTightArrowSpace));
+        return size;
     }
 
 protected:
@@ -464,7 +508,8 @@ protected:
         frame.features &= ~(QStyleOptionToolButton::HasMenu | QStyleOptionToolButton::MenuButtonPopup);
         painter.drawComplexControl(QStyle::CC_ToolButton, frame);
 
-        const QRect area = rect().adjusted(kPadding, 0, -kArrowSpace, 0);
+        const QRect area =
+            rect().adjusted(kPadding, 0, -(property("tightArrow").toBool() ? kTightArrowSpace : kArrowSpace), 0);
         const QTransform moved = motion_->transform(QRectF(area));
         int x = area.left();
         const bool showIcon = !icon().isNull() && toolButtonStyle() != Qt::ToolButtonTextOnly;
@@ -493,7 +538,7 @@ protected:
     }
 
 private:
-    static constexpr int kPadding = 14, kArrowSpace = 28;
+    static constexpr int kPadding = 14, kArrowSpace = 28, kTightArrowSpace = 24;
     IconMotion *motion_;
     QIcon arrow_;
     QColor arrowColor_;

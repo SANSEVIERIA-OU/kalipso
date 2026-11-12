@@ -1245,8 +1245,12 @@ Galime judėti pirmyn po vieną žingsnį. [Pauzė] Atidžiai klausykimės, pati
             <translation>Pasirinkti visus</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Veiksmai…</translation>
+            <source>Done</source>
+            <translation>Atlikta</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Veiksmai</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1279,10 +1283,6 @@ Galime judėti pirmyn po vieną žingsnį. [Pauzė] Atidžiai klausykimės, pati
         <message>
             <source>Scripts deleted.</source>
             <translation>Tekstai ištrinti.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Atsisakyti</translation>
         </message>
         <message>
             <source>All</source>

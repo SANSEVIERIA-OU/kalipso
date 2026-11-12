@@ -1272,8 +1272,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>تحديد الكل</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>إجراءات…</translation>
+            <source>Done</source>
+            <translation>تم</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>إجراءات</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1306,10 +1310,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>تم حذف النصوص.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>إلغاء</translation>
         </message>
         <message>
             <source>All</source>

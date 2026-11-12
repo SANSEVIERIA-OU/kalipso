@@ -1236,8 +1236,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>सर्व निवडा</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>कृती…</translation>
+            <source>Done</source>
+            <translation>झाले</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>कृती</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>संहिता हटवल्या.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>रद्द करा</translation>
         </message>
         <message>
             <source>All</source>

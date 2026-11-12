@@ -1236,8 +1236,12 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
             <translation>Επιλογή όλων</translation>
         </message>
         <message>
-            <source>Actions…</source>
-            <translation>Ενέργειες…</translation>
+            <source>Done</source>
+            <translation>Τέλος</translation>
+        </message>
+        <message>
+            <source>Actions</source>
+            <translation>Ενέργειες</translation>
         </message>
         <message>
             <source>Edit</source>
@@ -1270,10 +1274,6 @@ We can take this one step at a time. [Pause] Listen carefully, check the questio
         <message>
             <source>Scripts deleted.</source>
             <translation>Τα κείμενα διαγράφηκαν.</translation>
-        </message>
-        <message>
-            <source>Cancel</source>
-            <translation>Ακύρωση</translation>
         </message>
         <message>
             <source>All</source>

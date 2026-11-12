@@ -169,6 +169,10 @@ public:
     bool welcomeShown() const;
     // A button drawn in the reader's colours, with an icon that follows them.
     void addIconButton(QAbstractButton *button, const QString &icon);
+    // The same, but the icon shows only while the button is shortened (its label, property "label", gone).
+    void addShortIconButton(QAbstractButton *button, const QString &icon);
+    // A button whose icon changes with what it does ("Select", "Done").
+    void setIconName(QAbstractButton *button, const QString &icon);
     // A menu opened from the reader, in the reader's colours: the desktop's own menu with them, or
     // the drawn one.
     void styleMenu(QMenu *menu) const;
@@ -230,6 +234,8 @@ private:
     void trigger(ReaderAction action);
     void placeBars();
     void placeDrawer();
+    // A button of the drawer with its label (property "label") or without it, in its icon where it has one.
+    void setShortened(QAbstractButton *button, bool shortened);
     int drawerWidth() const;
     // Icons as large as the text beside them, at any interface size.
     void sizeIcons();

@@ -49,6 +49,7 @@
 #include <QSpinBox>
 #include <QSplitter>
 #include <QStackedWidget>
+#include <QStyleOptionButton>
 #include <QStyledItemDelegate>
 #include <QTabWidget>
 #include <QTextBlock>
@@ -282,6 +283,213 @@ protected:
         }
         QListWidget::mousePressEvent(event);
     }
+};
+
+// A line that names a count ("Selected: 12", "Sélectionnés : 12") shortened to `width`: only its words give way
+// (with "…" at their end), and the number stays whole wherever the translation puts it, at the start, in the
+// middle or at the end; the separator beside it (": ") stays too.
+QString shortenedCount(const QFontMetrics &metrics, const QString &pattern, const QString &number, int width) {
+    const QString whole = QString(pattern).arg(number);
+    if (metrics.horizontalAdvance(whole) <= width)
+        return whole;
+    const int mark = pattern.indexOf(QLatin1String("%1"));
+    if (mark < 0)
+        return metrics.elidedText(whole, Qt::ElideRight, width);
+    const QString before = pattern.left(mark), after = pattern.mid(mark + 2);
+    int cut = int(before.size());
+    while (cut > 0 && !before.at(cut - 1).isLetterOrNumber())
+        --cut;
+    int start = 0;
+    while (start < after.size() && !after.at(start).isLetterOrNumber())
+        ++start;
+    QString beforeWords = before.left(cut), afterWords = after.mid(start);
+    const QString beforeSeparator = before.mid(cut), afterSeparator = after.left(start);
+    const int fixed = metrics.horizontalAdvance(beforeSeparator + number + afterSeparator);
+    const int room = std::max(0, width - fixed);
+    const int wordsBefore = metrics.horizontalAdvance(beforeWords), wordsAfter = metrics.horizontalAdvance(afterWords);
+    if (wordsBefore + wordsAfter > room) { // The words share what is left in proportion.
+        const int forBefore = room * wordsBefore / std::max(1, wordsBefore + wordsAfter);
+        beforeWords = metrics.elidedText(beforeWords, Qt::ElideRight, forBefore);
+        afterWords = metrics.elidedText(afterWords, Qt::ElideRight, room - forBefore);
+    }
+    return beforeWords + beforeSeparator + number + afterSeparator + afterWords;
+}
+
+// The first line of a menu, naming what its commands act on. A style sheet does not paint the text of a menu
+// section, so this is a bold line that is not a command (disabled, which the style sheet mutes), followed by a
+// separator: the same in every style and for assistive technology. It is at most `width` wide: a script's title
+// is shortened in the middle, a count keeps its number. The tooltip has it whole.
+QFont menuTitleFont(const QMenu *menu) {
+    auto font = menu->font();
+    font.setWeight(QFont::DemiBold);
+    return font;
+}
+void setMenuTitle(QAction *title, const QFont &font, const QString &text, int width) {
+    QString shown = QFontMetrics(font).elidedText(text, Qt::ElideMiddle, width);
+    title->setText(shown.replace(u'&', QStringLiteral("&&")));
+    title->setToolTip(text);
+}
+void setMenuCountTitle(QAction *title, const QFont &font, const QString &pattern, const QString &number, int width) {
+    QString shown = shortenedCount(QFontMetrics(font), pattern, number, width);
+    title->setText(shown.replace(u'&', QStringLiteral("&&")));
+    title->setToolTip(QString(pattern).arg(number));
+}
+QAction *addMenuTitle(QMenu *menu) {
+    auto *title = menu->addAction(QString());
+    title->setEnabled(false);
+    title->setFont(menuTitleFont(menu));
+    menu->addSeparator();
+    return title;
+}
+
+// The rows' check boxes and the master check box above them stand in one column: the list's gap, then the
+// row's own margin on the side the text starts.
+constexpr int kListGap = 1;
+constexpr int kRowLead = Design::Metric::space2;
+constexpr int kRowTrail = Design::Metric::space1;
+constexpr int kCheckInset = kListGap + kRowLead;
+constexpr int kMenuTitleWidth = 240; // At 100% text: a menu's title line is no wider.
+
+// Margins for a row of controls: more on the side reading starts, less where it ends.
+QMargins leadTrailMargins(const QWidget *widget, int lead, int trail) {
+    return widget->isRightToLeft() ? QMargins(trail, 0, lead, 0) : QMargins(lead, 0, trail, 0);
+}
+
+// The library's tools row: as tall as its tallest push button in either mode, so that showing one control and
+// hiding another never changes its height (and with it the place of everything below). A layout asks a widget
+// that has a layout for its minimum height, not its size hint, so the height is kept as the minimum.
+// The drop-down button (Actions) is made as tall as the buttons: it paints its icon or label itself, centred,
+// so a larger icon, when the label has gone, does not need a taller button.
+class ToolRow : public QWidget {
+public:
+    using QWidget::QWidget;
+
+protected:
+    bool event(QEvent *event) override {
+        switch (event->type()) {
+        case QEvent::LayoutRequest:
+        case QEvent::Polish:
+        case QEvent::FontChange:
+        case QEvent::StyleChange:
+            reserve();
+            break;
+        default:
+            break;
+        }
+        return QWidget::event(event);
+    }
+
+private:
+    void reserve() {
+        const auto controls = findChildren<QWidget *>(Qt::FindDirectChildrenOnly);
+        int tallest = 0;
+        for (auto *control : controls)
+            if (!qobject_cast<QToolButton *>(control)) {
+                control->ensurePolished();
+                tallest = std::max(tallest, control->sizeHint().height());
+            }
+        if (tallest <= 0)
+            return;
+        for (auto *control : controls)
+            if (qobject_cast<QToolButton *>(control) && control->minimumHeight() != tallest)
+                control->setFixedHeight(tallest);
+        if (tallest != minimumHeight())
+            setMinimumHeight(tallest);
+    }
+};
+
+// The panel's title: one line, shortened with "…" when the buttons beside it leave less room (its tooltip then
+// has it whole). It never wraps, so "Scripts" and "Selected: 12" make the header equally tall and nothing below
+// it moves when selection starts. A title that names a count (setCount) shortens only its words: the number
+// stays whole, wherever the translation puts it. What is shown is in the property "shown".
+class TitleLabel : public QLabel {
+public:
+    using QLabel::QLabel;
+    void setPlain(const QString &text) {
+        pattern_.clear();
+        number_.clear();
+        QLabel::setText(text);
+        refresh();
+    }
+    void setCount(const QString &pattern, const QString &number) {
+        pattern_ = pattern;
+        number_ = number;
+        QLabel::setText(QString(pattern).arg(number));
+        refresh();
+    }
+    QSize sizeHint() const override { return {fontMetrics().horizontalAdvance(text()), fontMetrics().height()}; }
+    QSize minimumSizeHint() const override {
+        return {fontMetrics().horizontalAdvance(QChar(0x2026) + number_), fontMetrics().height()};
+    }
+
+protected:
+    void resizeEvent(QResizeEvent *event) override {
+        QLabel::resizeEvent(event);
+        refresh();
+    }
+    void changeEvent(QEvent *event) override {
+        QLabel::changeEvent(event);
+        if (event->type() == QEvent::FontChange)
+            refresh();
+    }
+    void paintEvent(QPaintEvent *) override {
+        QPainter painter(this);
+        const auto alignment = QStyle::visualAlignment(layoutDirection(), Qt::AlignLeft | Qt::AlignVCenter);
+        style()->drawItemText(&painter, rect(), alignment, palette(), isEnabled(), shown_, foregroundRole());
+    }
+
+private:
+    void refresh() {
+        shown_ = width() <= 0 ? text()
+                 : number_.isEmpty() ? fontMetrics().elidedText(text(), Qt::ElideRight, width())
+                                     : shortenedCount(fontMetrics(), pattern_, number_, width());
+        setToolTip(shown_ == text() ? QString() : text());
+        setProperty("shown", shown_);
+        update();
+    }
+    QString pattern_, number_, shown_;
+};
+
+// A check box that, without its label, is only as wide as its box: what follows it stands close.
+class BoxCheckBox : public QCheckBox {
+public:
+    using QCheckBox::QCheckBox;
+    QSize sizeHint() const override {
+        QSize hint = QCheckBox::sizeHint();
+        if (text().isEmpty()) {
+            QStyleOptionButton option;
+            initStyleOption(&option);
+            hint.setWidth(std::min(hint.width(), style()->pixelMetric(QStyle::PM_IndicatorWidth, &option, this)));
+        }
+        return hint;
+    }
+};
+
+// A button whose label changes between two words ("Select", "Done"). It is as wide as the wider word at any
+// text size and in any language, so its edges stay where they are when the label changes.
+class SwitchButton : public AccessibleButton {
+public:
+    SwitchButton(const QString &first, const QString &second) : AccessibleButton(first), labels_{first, second} {}
+    QSize sizeHint() const override {
+        if (text().isEmpty()) // Shortened to its icon: both words have icons of one size.
+            return AccessibleButton::sizeHint();
+        int width = 0;
+        for (const auto &label : labels_)
+            width = std::max(width, widthFor(label));
+        return {std::max(width, Design::Metric::control), heightForWidth(width)};
+    }
+    // As tall as the taller word needs (accents and fallback fonts make "Xong" and "Chọn" differ).
+    int heightForWidth(int width) const override {
+        if (text().isEmpty())
+            return AccessibleButton::heightForWidth(width);
+        int height = 0;
+        for (const auto &label : labels_)
+            height = std::max(height, heightFor(label, width));
+        return height;
+    }
+
+private:
+    QStringList labels_;
 };
 
 class ScriptItemDelegate : public QStyledItemDelegate {
@@ -694,10 +902,12 @@ QWidget *MainWindow::makeDrawer() {
     auto *header = new QHBoxLayout(headerRow);
     header->setContentsMargins(Design::Metric::space2, 0, 0, 0);
     header->setSpacing(Design::Metric::space1);
-    auto *title = new QLabel(tr("Scripts"));
+    auto *title = new TitleLabel(tr("Scripts"));
     title->setObjectName("libraryTitle");
-    title->setWordWrap(true);
     title->setProperty("role", "muted");
+    // What the title says: the reader keeps room for the longest word of either when it decides whether New
+    // keeps its label, so that does not depend on whether selection has started.
+    title->setProperty("reserve", QStringList{tr("Scripts"), tr("Selected: %1").arg(QLocale().toString(0))});
     auto titleFont = title->font();
     titleFont.setWeight(QFont::DemiBold);
     title->setFont(titleFont);
@@ -719,55 +929,87 @@ QWidget *MainWindow::makeDrawer() {
     close->setFocusPolicy(Qt::TabFocus);
     header->addWidget(close);
     prompter_->addIconButton(close, "close");
-    connect(close, &QAbstractButton::clicked, this, [this] {
-        if (selectingScripts_)
-            setSelectingScripts(false);
-        else
-            prompter_->setDrawerOpen(false);
-    });
+    // Always Close: closing the panel also ends selection (see drawerShown below).
+    connect(close, &QAbstractButton::clicked, this, [this] { prompter_->setDrawerOpen(false); });
     layout->addWidget(headerRow);
     prompter_->addIconButton(add, "plus");
 
-    auto *toolsRow = new QWidget;
+    // One row in both modes, every control in its own slot: [Import | All] [Actions] ... [Select | Done].
+    // Import and the master check box share the leading slot; Actions follows it while selecting; the one toggle
+    // is at the trailing end, as wide for "Done" as for "Select". Nothing is hidden by a swap of rows.
+    auto *toolsRow = new ToolRow;
     toolsRow->setObjectName("scriptLibraryTools");
     auto *tools = new QHBoxLayout(toolsRow);
     tools->setContentsMargins(0, 0, 0, 0);
+    tools->setSpacing(Design::Metric::space1); // As the header's: the panel is narrow.
     auto *import = new AccessibleButton(tr("Import…"));
     import->setObjectName("importScript");
     import->setToolTip(tr("Text, Markdown, Word (.docx) and OpenDocument (.odt) documents, or speaker notes from "
                          "PowerPoint (.pptx) and Impress (.odp)"));
     import->setProperty("quiet", true);
     import->setFocusPolicy(Qt::TabFocus);
-    selectScripts_ = new QCheckBox(tr("Select"));
+    // Narrow, the label goes before the toggle's (third step) and the icon stays: the words stay in the name.
+    import->setAccessibleName(import->text());
+    import->setToolTip(import->text() + QLatin1Char('\n') + import->toolTip());
+    import->setProperty("label", import->text());
+    // Its words or its icon start where the master check box below them starts.
+    import->setProperty("leadPadding", kCheckInset);
+    import->setProperty("shortenOrder", 3);
+    import->setProperty("only", "browsing");
+    prompter_->addShortIconButton(import, "import");
+    // The master check box heads the column of the rows' boxes: the same distance from the edge as theirs.
+    selectAllSlot_ = new QWidget;
+    selectAllSlot_->setObjectName("selectAllSlot");
+    selectAllSlot_->setProperty("only", "selecting");
+    auto *master = new QHBoxLayout(selectAllSlot_);
+    master->setContentsMargins(leadTrailMargins(this, kCheckInset, 0));
+    selectAllScripts_ = new BoxCheckBox(tr("All"));
+    selectAllScripts_->setAccessibleName(tr("Select all"));
+    selectAllScripts_->setToolTip(tr("Select all"));
+    selectAllScripts_->setObjectName("selectAllScripts");
+    selectAllScripts_->setProperty("label", selectAllScripts_->text()); // The reader drops it first in a narrow panel.
+    selectAllScripts_->setProperty("shortenOrder", 1);
+    master->addWidget(selectAllScripts_);
+    selectAllSlot_->hide();
+    auto *actions = new MenuButton;
+    actions->setObjectName("selectedScriptActions");
+    actions->setText(tr("Actions"));
+    actions->setProperty("label", actions->text()); // The reader drops it second, and keeps the icon.
+    actions->setProperty("shortenOrder", 2);
+    actions->setProperty("only", "selecting");
+    actions->setProperty("tightArrow", true); // The chevron close to the word: the panel is narrow.
+    actions->setProperty("quiet", true);
+    actions->setAutoRaise(true);
+    // Its label and the menu's chevron; the icon shows when the label has gone (the panel is only so wide).
+    actions->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    actions->setFocusPolicy(Qt::TabFocus);
+    actions->hide();
+    selectedScriptActions_ = actions;
+    prompter_->addIconButton(actions, "more");
+    selectScripts_ = new SwitchButton(tr("Select"), tr("Done"));
     selectScripts_->setObjectName("selectScripts");
+    selectScripts_->setCheckable(true);
+    selectScripts_->setProperty("quiet", true);
+    selectScripts_->setFocusPolicy(Qt::TabFocus);
+    selectScripts_->setAccessibleName(selectScripts_->text());
+    selectScripts_->setToolTip(selectScripts_->text());
+    // Last to shorten, for both modes at once: then it is an icon ("select", "done"), as wide in either.
     selectScripts_->setProperty("label", selectScripts_->text());
-    selectScripts_->setAccessibleName(tr("Select"));
-    selectScripts_->setToolTip(tr("Select"));
+    selectScripts_->setProperty("shortenOrder", 4);
+    prompter_->addShortIconButton(selectScripts_, "select");
     tools->addWidget(import);
+    tools->addWidget(selectAllSlot_);
+    tools->addWidget(actions);
     tools->addStretch();
     tools->addWidget(selectScripts_);
     layout->addWidget(toolsRow);
 
-    scriptSelectionBar_ = new QWidget;
-    scriptSelectionBar_->setObjectName("scriptSelectionBar");
-    auto *selection = new QHBoxLayout(scriptSelectionBar_);
-    selection->setContentsMargins(0, 0, 0, 0);
-    selectAllScripts_ = new QCheckBox(tr("All"));
-    selectAllScripts_->setAccessibleName(tr("Select all"));
-    selectAllScripts_->setToolTip(tr("Select all"));
-    selectAllScripts_->setObjectName("selectAllScripts");
-    selectAllScripts_->setProperty("label", selectAllScripts_->text());
-    selectedScriptActions_ = new AccessibleButton(tr("Actions…"));
-    selectedScriptActions_->setObjectName("selectedScriptActions");
-    selectedScriptActions_->setProperty("quiet", true);
-    selectedScriptActions_->setFocusPolicy(Qt::TabFocus);
-    selection->addWidget(selectAllScripts_);
-    selection->addStretch();
-    selection->addWidget(selectedScriptActions_);
-    layout->addWidget(scriptSelectionBar_);
-    scriptSelectionBar_->hide();
     auto *batchMenu = new QMenu(this);
     batchMenu->setObjectName("selectedScriptsMenu");
+    selectedScriptsMenu_ = batchMenu;
+    // Names the target, as the row menu names its script; not a command.
+    selectedScriptsTitle_ = addMenuTitle(batchMenu);
+    selectedScriptsTitle_->setObjectName("selectedScriptsTitle");
     auto *speed = batchMenu->addAction(tr("Reading speed…"));
     speed->setObjectName("selectedScriptsSpeed");
     auto *exportBatch = batchMenu->addAction(tr("Export…"));
@@ -776,13 +1018,12 @@ QWidget *MainWindow::makeDrawer() {
     auto *deleteBatch = batchMenu->addAction(tr("Delete…"));
     deleteBatch->setObjectName("deleteSelectedScripts");
     connect(batchMenu, &QMenu::aboutToShow, this, [this, batchMenu] { prompter_->styleMenu(batchMenu); });
-    connect(selectedScriptActions_, &QAbstractButton::clicked, batchMenu, [this, batchMenu] {
-        batchMenu->popup(selectedScriptActions_->mapToGlobal(QPoint(0, selectedScriptActions_->height())));
-    });
+    connect(actions, &QAbstractButton::clicked, batchMenu,
+            [actions, batchMenu] { batchMenu->popup(actions->mapToGlobal(QPoint(0, actions->height()))); });
     connect(speed, &QAction::triggered, this, &MainWindow::changeSelectedSpeed);
     connect(exportBatch, &QAction::triggered, this, &MainWindow::exportSelectedScripts);
     connect(deleteBatch, &QAction::triggered, this, [this] { deleteScripts(selectedScriptIds()); });
-    connect(selectScripts_, &QCheckBox::toggled, this, &MainWindow::setSelectingScripts);
+    connect(selectScripts_, &QAbstractButton::toggled, this, &MainWindow::setSelectingScripts);
     connect(selectAllScripts_, &QCheckBox::clicked, this, [this] {
         const bool all = selectedScripts_.size() == library_.entries().size();
         selectedScripts_.clear();
@@ -807,6 +1048,12 @@ QWidget *MainWindow::makeDrawer() {
             selectedScripts_.insert(entry.id);
         updateScriptSelection();
     });
+    // Delete asks about the checked scripts, as the menu's Delete… does; with none checked it does nothing.
+    auto *deleteKey = new QShortcut(QKeySequence(Qt::Key_Delete), drawer);
+    deleteKey->setObjectName("deleteSelectedScriptsKey");
+    deleteKey->setContext(Qt::WidgetWithChildrenShortcut);
+    deleteKey->setEnabled(false);
+    connect(deleteKey, &QShortcut::activated, this, [this] { deleteScripts(selectedScriptIds()); });
     impressAction_ = new QAction(tr("Present with Impress…"), this);
     impressAction_->setObjectName("presentWithImpress");
     impressAction_->setToolTip(tr("Open a presentation in LibreOffice Impress and follow its slideshow: the reader "
@@ -823,7 +1070,7 @@ QWidget *MainWindow::makeDrawer() {
     scriptList_->setTextElideMode(Qt::ElideRight);
     scriptList_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scriptList_->setItemDelegate(new ScriptItemDelegate(scriptList_));
-    scriptList_->setSpacing(1);
+    scriptList_->setSpacing(kListGap);
     scriptList_->setResizeMode(QListView::Adjust);
     auto *toggleSelection = new QShortcut(QKeySequence(Qt::Key_Space), scriptList_);
     toggleSelection->setObjectName("toggleScriptSelection");
@@ -892,9 +1139,11 @@ QWidget *MainWindow::makeDrawer() {
     connect(import, &QAbstractButton::clicked, this, &MainWindow::importScript);
     scriptList_->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(scriptList_, &QWidget::customContextMenuRequested, this, [this](const QPoint &point) {
-        if (!selectingScripts_)
-            if (auto *item = scriptList_->itemAt(point))
-                showScriptMenu(item->data(Qt::UserRole).toString(), scriptList_->viewport()->mapToGlobal(point));
+        const auto where = scriptList_->viewport()->mapToGlobal(point);
+        if (selectingScripts_) // Selecting, the menu is the bulk one: its target is the checked scripts.
+            selectedScriptsMenu_->popup(where);
+        else if (auto *item = scriptList_->itemAt(point))
+            showScriptMenu(item->data(Qt::UserRole).toString(), where);
     });
     connect(impressAction_, &QAction::triggered, this, [this] {
         if (impress_->active()) {
@@ -1029,7 +1278,7 @@ void MainWindow::refreshLibrary() {
         row->setAutoFillBackground(false);
         row->setObjectName("scriptRow");
         auto *layout = new QHBoxLayout(row);
-        layout->setContentsMargins(Design::Metric::space2, 0, Design::Metric::space1, 0);
+        layout->setContentsMargins(leadTrailMargins(row, kRowLead, kRowTrail));
         auto *check = new QCheckBox;
         check->setObjectName("scriptCheck");
         check->setProperty("scriptId", entry.id);
@@ -1073,29 +1322,38 @@ void MainWindow::setSelectingScripts(bool selecting) {
             if (scriptList_->item(row)->data(Qt::UserRole).toString() == currentId_)
                 scriptList_->setCurrentRow(row);
     }
+    // The toggle is one button: it says what pressing it does next, and its edges stay where they are.
     const QSignalBlocker block(selectScripts_);
     selectScripts_->setChecked(selecting);
+    const auto label = selecting ? tr("Done") : tr("Select");
+    selectScripts_->setProperty("label", label);
+    if (!selectScripts_->text().isEmpty()) // Not when it is shortened to its icon.
+        selectScripts_->setText(label);
+    prompter_->setIconName(selectScripts_, selecting ? "done" : "select");
+    selectScripts_->setAccessibleName(label);
+    selectScripts_->setToolTip(label);
     scriptList_->setProperty("selectingScripts", selecting);
-    findChild<QShortcut *>("toggleScriptSelection")->setEnabled(selecting);
-    scriptSelectionBar_->setVisible(selecting);
-    auto *drawer = findChild<QWidget *>("scriptDrawer");
-    drawer->setProperty("selectingScripts", selecting);
-    auto *close = findChild<QAbstractButton *>("closeScriptDrawer");
-    close->setVisible(selecting || !prompter_->roomy());
-    close->setAccessibleName(selecting ? tr("Cancel") : tr("Close"));
-    close->setToolTip(close->accessibleName());
-    findChild<QWidget *>("scriptLibraryTools")->setVisible(!selecting);
-    findChild<QShortcut *>("cancelScriptSelection")->setEnabled(selecting);
-    findChild<QWidget *>("newScript")->setVisible(!selecting);
+    for (const auto *name : {"toggleScriptSelection", "cancelScriptSelection", "deleteSelectedScriptsKey"})
+        findChild<QShortcut *>(name)->setEnabled(selecting);
+    // The leading slot: Import gives it to the master check box, and Actions comes after it. New and the
+    // header's cross stay as they are: the cross always closes the panel, which also ends selection.
     findChild<QWidget *>("importScript")->setVisible(!selecting);
+    selectAllSlot_->setVisible(selecting);
+    selectedScriptActions_->setVisible(selecting);
     for (auto *check : scriptList_->findChildren<QCheckBox *>("scriptCheck"))
         check->setVisible(selecting);
     for (auto *more : scriptList_->findChildren<QAbstractButton *>("scriptRowActions"))
         more->setVisible(!selecting);
     updateScriptSelection();
     prompter_->orderTabs();
-    if (prompter_->drawerOpen() && !prompter_->roomy())
-        scriptList_->setFocus();
+    // Keys stay in the panel's visible controls: where they are if still shown (the toggle, pressed from the
+    // keyboard), otherwise on the list.
+    if (prompter_->drawerOpen() && !prompter_->roomy()) {
+        auto *focus = QApplication::focusWidget();
+        auto *drawer = findChild<QWidget *>("scriptDrawer");
+        if (!focus || !drawer->isAncestorOf(focus) || !focus->isVisibleTo(drawer))
+            scriptList_->setFocus();
+    }
 }
 
 void MainWindow::updateScriptSelection() {
@@ -1110,10 +1368,24 @@ void MainWindow::updateScriptSelection() {
     }
     const int count = int(selectedScripts_.size());
     const int total = int(library_.entries().size());
-    libraryTitle_->setText(selectingScripts_ ? tr("Selected: %1").arg(QLocale().toString(count)) : tr("Scripts"));
+    const auto number = QLocale().toString(count);
+    const auto selected = tr("Selected: %1").arg(number);
+    // The title and the menu's first line shorten their words, never the number.
+    auto *title = static_cast<TitleLabel *>(libraryTitle_);
+    if (selectingScripts_)
+        title->setCount(tr("Selected: %1"), number);
+    else
+        title->setPlain(tr("Scripts"));
+    // The bulk menu, wherever it opens from, names its target and offers nothing with none checked.
+    setMenuCountTitle(selectedScriptsTitle_, menuTitleFont(selectedScriptsMenu_), tr("Selected: %1"), number,
+                      qRound(kMenuTitleWidth * interfaceScale_));
+    for (auto *action : selectedScriptsMenu_->actions())
+        if (!action->isSeparator() && action != selectedScriptsTitle_)
+            action->setEnabled(count > 0);
     selectedScriptActions_->setEnabled(count > 0);
-    selectedScriptActions_->setAccessibleName(tr("Actions…") + QStringLiteral(" · ") +
-                                              tr("Selected: %1").arg(QLocale().toString(count)));
+    const auto actions = tr("Actions") + QStringLiteral(" · ") + selected;
+    selectedScriptActions_->setAccessibleName(actions);
+    selectedScriptActions_->setToolTip(actions); // Still said when the reader shortens the button to its icon.
     selectAllScripts_->setEnabled(total > 0);
     selectScripts_->setEnabled(total > 0 || selectingScripts_);
     const QSignalBlocker block(selectAllScripts_);
@@ -1134,8 +1406,13 @@ void MainWindow::showScriptMenu(const QString &id, const QPoint &globalPosition)
         return;
     auto *menu = new QMenu(this);
     menu->setObjectName("scriptRowMenu");
+    // A menu made now has the window's font, not the scaled one the panel's controls have been given.
+    auto font = menu->font();
+    font.setPointSizeF(std::max(8.0, font.pointSizeF()) * interfaceScale_);
+    menu->setFont(font);
     const auto text = id == currentId_ ? script_->toPlainText() : library_.load(id);
-    menu->addSection(ScriptLibrary::titleFor(text).replace(u'&', QStringLiteral("&&")));
+    const auto title = ScriptLibrary::titleFor(text);
+    setMenuTitle(addMenuTitle(menu), menuTitleFont(menu), title, qRound(kMenuTitleWidth * interfaceScale_));
     auto *edit = menu->addAction(tr("Edit"));
     edit->setObjectName("editScript");
     auto *exportAction = menu->addAction(tr("Export…"));

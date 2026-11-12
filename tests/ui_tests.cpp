@@ -35,12 +35,14 @@
 #include <QSignalSpy>
 #include <QSpinBox>
 #include <QStandardPaths>
+#include <QStyleOptionButton>
 #include <QTabWidget>
 #include <QTemporaryDir>
 #include <QTextBlock>
 #include <QTextDocument>
 #include <QTextLayout>
 #include <QToolButton>
+#include <QTranslator>
 #include <QWheelEvent>
 #include <QtTest>
 #include <atomic>
@@ -110,6 +112,114 @@ double inkCentre(const QImage &image) {
                 ++count;
             }
     return count ? sum / count / image.width() : 0.5;
+}
+
+// Where a control is in the window, in the window's coordinates; an empty rectangle when it is not shown.
+QRect placeIn(const QWidget &window, const QWidget *widget) {
+    if (!widget || !widget->isVisibleTo(&window))
+        return {};
+    return QRect(widget->mapTo(&window, QPoint()), widget->size());
+}
+// Where a check box draws its box (the part a person aims at), in the window's coordinates.
+QRect boxIn(const QWidget &window, const QCheckBox *check) {
+    QStyleOptionButton option;
+    option.initFrom(check);
+    const QRect box = check->style()->subElementRect(QStyle::SE_CheckBoxIndicator, &option, check);
+    return QRect(check->mapTo(&window, box.topLeft()), box.size());
+}
+// The panel's control words in languages with longer ones (French, German, Russian: as the catalogs have them),
+// installed before a window is made: its tools row then has to shorten labels to icons at a large text size.
+class ControlWords : public QTranslator {
+public:
+    explicit ControlWords(const QString &language) {
+        if (language == "fr")
+            words_ = {{"Select", "Sélectionner"}, {"Done", "Terminé"}, {"Import…", "Importer…"}, {"All", "Tout"},
+                      {"Actions", "Actions"}};
+        else if (language == "de")
+            words_ = {{"Select", "Auswählen"}, {"Done", "Fertig"}, {"Import…", "Importieren…"}, {"All", "Alle"},
+                      {"Actions", "Aktionen"}};
+        else if (language == "ru")
+            words_ = {{"Select", "Выбрать"}, {"Done", "Готово"}, {"Import…", "Импорт…"}, {"All", "Все"},
+                      {"Actions", "Действия"}};
+        else if (language == "longselect") // French, but for a short Import: only the toggle's word is long.
+            words_ = {{"Select", "Sélectionner"}, {"Done", "Terminé"}, {"Import…", "Add…"}, {"All", "Tout"},
+                      {"Actions", "Actions"}};
+        // The titles: as the catalogs have them, and patterns that put the number first, in the middle, and in
+        // right-to-left text (only the title's words change in these three).
+        if (language == "fr")
+            words_.insert("Scripts", "Textes"), words_.insert("Selected: %1", "Sélectionnés : %1");
+        else if (language == "de")
+            words_.insert("Scripts", "Redetexte"), words_.insert("Selected: %1", "Ausgewählt: %1");
+        else if (language == "ru")
+            words_.insert("Scripts", "Тексты"), words_.insert("Selected: %1", "Выбрано: %1");
+        else if (language == "numberfirst")
+            words_.insert("Selected: %1", "%1 textes sélectionnés pour l'export");
+        else if (language == "numbermiddle")
+            words_.insert("Selected: %1", "Vos %1 textes sont sélectionnés");
+        else if (language == "arabic")
+            words_.insert("Selected: %1", "النصوص المحددة للتصدير: %1");
+    }
+    QString word(const char *source) const { return words_.value(source, QString::fromUtf8(source)); }
+    QString translate(const char *context, const char *source, const char *, int) const override {
+        return QByteArray(context) == "MainWindow" ? words_.value(source) : QString();
+    }
+    bool isEmpty() const override { return false; }
+
+private:
+    QHash<QByteArray, QString> words_;
+};
+// The first column with ink in a control (the last one in right-to-left text), in the window's coordinates.
+int inkEdge(const QWidget &window, QWidget *control, bool rtl) {
+    const QImage image = control->grab().toImage().convertToFormat(QImage::Format_ARGB32);
+    const QRgb background = image.pixel(image.width() / 2, 1);
+    const auto differs = [&](int x, int y) {
+        const QRgb pixel = image.pixel(x, y);
+        return std::abs(qRed(pixel) - qRed(background)) + std::abs(qGreen(pixel) - qGreen(background)) +
+                   std::abs(qBlue(pixel) - qBlue(background)) >
+               90;
+    };
+    const int origin = control->mapTo(&window, QPoint()).x();
+    for (int i = 0; i < image.width(); ++i) {
+        const int x = rtl ? image.width() - 1 - i : i;
+        for (int y = 0; y < image.height(); ++y)
+            if (differs(x, y))
+                return origin + x;
+    }
+    return -1;
+}
+// The controls of the scripts panel that must not move when selection starts and ends.
+struct LibrarySlots {
+    QRect header, title, create, close, tools, leading, toggle, list;
+    QString toggleText, toggleName, closeName;
+    bool toggleChecked = false, toggleIcon = false;
+};
+LibrarySlots librarySlots(MainWindow &window) {
+    const auto find = [&window](const char *name) { return window.findChild<QWidget *>(name); };
+    LibrarySlots places;
+    places.header = placeIn(window, find("scriptDrawerHeader"));
+    places.title = placeIn(window, find("libraryTitle"));
+    places.create = placeIn(window, find("newScript"));
+    places.close = placeIn(window, find("closeScriptDrawer"));
+    places.list = placeIn(window, find("scriptList"));
+    if (auto *tools = find("scriptLibraryTools")) {
+        places.tools = placeIn(window, tools);
+        // The control at the leading edge (left, or right when the text reads right to left).
+        for (int i = 0; places.tools.isValid() && i < tools->layout()->count(); ++i)
+            if (auto *widget = tools->layout()->itemAt(i)->widget(); widget && widget->isVisibleTo(&window)) {
+                places.leading = placeIn(window, widget);
+                break;
+            }
+    }
+    if (auto *toggle = qobject_cast<QAbstractButton *>(find("selectScripts"))) {
+        places.toggle = placeIn(window, toggle);
+        places.toggleText = toggle->text();
+        places.toggleName = toggle->accessibleName();
+        places.toggleChecked = toggle->isChecked();
+        places.toggleIcon = !toggle->icon().isNull();
+    }
+    if (auto *close = qobject_cast<QAbstractButton *>(find("closeScriptDrawer")))
+        places.closeName = close->accessibleName();
+    return places;
 }
 } // namespace
 
@@ -390,7 +500,7 @@ private slots:
         window.activateWindow();
         QVERIFY(QTest::qWaitForWindowActive(&window));
         auto *list = window.findChild<QListWidget *>("scriptList");
-        auto *select = window.findChild<QCheckBox *>("selectScripts");
+        auto *select = window.findChild<QAbstractButton *>("selectScripts");
         auto *all = window.findChild<QCheckBox *>("selectAllScripts");
         select->click();
         QVERIFY(!window.findChild<QAbstractButton *>("selectedScriptActions")->isEnabled());
@@ -458,7 +568,7 @@ private slots:
         auto *drawer = window.findChild<QWidget *>("scriptDrawer");
         QVERIFY(drawer->isAncestorOf(QApplication::focusWidget()));
         for (const bool selecting : {false, true}) {
-            window.findChild<QCheckBox *>("selectScripts")->setChecked(selecting);
+            window.findChild<QAbstractButton *>("selectScripts")->setChecked(selecting);
             for (int i = 0; i < 25; ++i) {
                 auto *focus = QApplication::focusWidget();
                 QVERIFY(focus && drawer->isAncestorOf(focus));
@@ -471,6 +581,488 @@ private slots:
         QTest::keyClick(QApplication::focusWidget(), Qt::Key_Escape);
         QVERIFY(!reader->drawerOpen());
         QTRY_VERIFY(editor(window)->hasFocus());
+    }
+
+    // The owner's report: controls moved from side to side depending on where you clicked. Every control of
+    // the panel keeps its slot: starting and ending selection only changes what the leading slot, the label
+    // of the one toggle and the title say. Large and small windows, large text, and right to left.
+    void libraryControlsKeepTheirSlotsWhenSelectionStartsAndEnds_data() {
+        QTest::addColumn<QSize>("size");
+        QTest::addColumn<double>("scale");
+        QTest::addColumn<bool>("rtl");
+        QTest::addColumn<QString>("language");
+        QTest::addColumn<bool>("importIcon"); // Import is shortened to its icon (the third step).
+        QTest::addColumn<bool>("toggleIcon"); // The toggle is shortened to its icon (the fourth).
+        QTest::newRow("1100x760") << QSize(1100, 760) << 1.0 << false << "" << false << false;
+        QTest::newRow("624x384") << QSize(624, 384) << 1.0 << false << "" << false << false;
+        QTest::newRow("320x240") << QSize(320, 240) << 1.0 << false << "" << false << false;
+        QTest::newRow("624x384 text 150%") << QSize(624, 384) << 1.5 << false << "" << false << false;
+        QTest::newRow("624x384 text 200%") << QSize(624, 384) << 2.0 << false << "" << false << false;
+        QTest::newRow("1100x760 text 200%") << QSize(1100, 760) << 2.0 << false << "" << false << false;
+        QTest::newRow("320x240 text 200%") << QSize(320, 240) << 2.0 << false << "" << false << false;
+        QTest::newRow("1100x760 right to left") << QSize(1100, 760) << 1.0 << true << "" << false << false;
+        QTest::newRow("320x240 right to left") << QSize(320, 240) << 1.0 << true << "" << false << false;
+        // Long words: at 320x240 and 200% text, Import and the toggle do not both fit, nor do the master box,
+        // Actions and the toggle. Russian and German need only Import shortened to its icon (the third step:
+        // the toggle keeps its word in both modes); French needs the toggle shortened to its icon too (the
+        // fourth, the last to go), and then nothing else has a word.
+        QTest::newRow("320x240 text 200% ru") << QSize(320, 240) << 2.0 << false << "ru" << true << false;
+        QTest::newRow("320x240 text 200% de") << QSize(320, 240) << 2.0 << false << "de" << true << false;
+        QTest::newRow("320x240 text 200% fr") << QSize(320, 240) << 2.0 << false << "fr" << true << true;
+        QTest::newRow("320x240 text 200% fr right to left") << QSize(320, 240) << 2.0 << true << "fr" << true << true;
+        QTest::newRow("320x240 text 200% ru right to left") << QSize(320, 240) << 2.0 << true << "ru" << true << false;
+        // Only the toggle's word is long: the browsing row fits with Import's word and the toggle's, the selecting
+        // row does not fit even bare. The toggle goes to its icon, and then Import is an icon too, though its row
+        // would fit: nothing shows a word once the toggle's is gone.
+        QTest::newRow("320x240 text 200% long toggle word")
+            << QSize(320, 240) << 2.0 << false << "longselect" << true << true;
+        QTest::newRow("624x384 text 200% fr") << QSize(624, 384) << 2.0 << false << "fr" << false << false;
+    }
+
+    void libraryControlsKeepTheirSlotsWhenSelectionStartsAndEnds() {
+        QFETCH(QSize, size);
+        QFETCH(double, scale);
+        QFETCH(bool, rtl);
+        QFETCH(QString, language);
+        QFETCH(bool, importIcon);
+        QFETCH(bool, toggleIcon);
+        const auto direction = QGuiApplication::layoutDirection();
+        QGuiApplication::setLayoutDirection(rtl ? Qt::RightToLeft : Qt::LeftToRight);
+        ControlWords words(language);
+        if (!language.isEmpty())
+            QCoreApplication::installTranslator(&words);
+        const auto restore = qScopeGuard([direction, &words] {
+            QCoreApplication::removeTranslator(&words);
+            QGuiApplication::setLayoutDirection(direction);
+        });
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nWords");
+        stored.create("Second talk\nMore words");
+        stored.create("Third talk with a title that is long enough to need its room\nWords");
+        QSettings().setValue("library/current", first);
+        QSettings().setValue("appearance/textScale", scale);
+        MainWindow window(scripts_.path());
+        window.resize(size);
+        window.show();
+        window.activateWindow();
+        QVERIFY(QTest::qWaitForWindowActive(&window));
+        auto *reader = window.prompter();
+        reader->setDrawerOpen(true);
+        auto *drawer = window.findChild<QWidget *>("scriptDrawer");
+        QTRY_COMPARE(drawer->x(), rtl ? reader->width() - drawer->width() : 0);
+        QTest::qWait(250); // The text size is applied by a queued call.
+        QCOMPARE(reader->roomy(), size.width() > 960);
+        QCOMPARE(window.isRightToLeft(), rtl);
+
+        auto *select = window.findChild<QAbstractButton *>("selectScripts");
+        auto *all = window.findChild<QCheckBox *>("selectAllScripts");
+        auto *actions = window.findChild<QAbstractButton *>("selectedScriptActions");
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        QVERIFY(select && all && actions && list);
+        const auto rowBox = [&](const QString &id) {
+            for (auto *box : list->findChildren<QCheckBox *>("scriptCheck"))
+                if (box->property("scriptId").toString() == id)
+                    return box;
+            return static_cast<QCheckBox *>(nullptr);
+        };
+        // Every difference is listed, not only the first.
+        const auto sameSlots = [rtl](const char *when, const LibrarySlots &a, const LibrarySlots &b) {
+            QStringList moved;
+            const auto compare = [&moved](const char *what, const QRect &was, const QRect &now) {
+                if (was != now)
+                    moved << QString("%1 %2 -> %3").arg(what, QDebug::toString(was), QDebug::toString(now));
+            };
+            compare("header", a.header, b.header);
+            compare("title", a.title, b.title);
+            compare("New", a.create, b.create);
+            compare("close", a.close, b.close);
+            compare("tools row", a.tools, b.tools);
+            compare("Select/Done", a.toggle, b.toggle);
+            compare("list", a.list, b.list);
+            // The leading slot starts at the same edge, whatever stands in it.
+            if (rtl ? a.leading.right() != b.leading.right() : a.leading.left() != b.leading.left())
+                moved << QString("leading slot %1 -> %2").arg(QDebug::toString(a.leading), QDebug::toString(b.leading));
+            QVERIFY2(moved.isEmpty(), qPrintable(QString("%1, moved: %2").arg(when, moved.join("; "))));
+        };
+
+        auto *import = window.findChild<QAbstractButton *>("importScript");
+        const auto selectedTitle = [&words](int count) {
+            return QString(words.word("Selected: %1")).arg(count);
+        };
+        const QString select_ = words.word("Select"), done = words.word("Done"), importWord = words.word("Import…");
+        // The tools row never overflows its room (so nothing is cut), in the mode shown.
+        const auto fits = [&window] {
+            auto *row = window.findChild<QWidget *>("scriptLibraryTools");
+            return row->layout()->totalSizeHint().width() <= row->width();
+        };
+        // A control shows its words or its icon, never both, and the words stay in its names.
+        const auto wordsOrIcon = [](QAbstractButton *button) {
+            return button->text().isEmpty() == !button->icon().isNull();
+        };
+
+        const auto normal = librarySlots(window);
+        QVERIFY(normal.tools.isValid());
+        QVERIFY(normal.toggle.isValid() && normal.create.isValid() && normal.list.isValid());
+        // Shortened to the icons only where the words do not fit (the third and fourth steps).
+        QCOMPARE(normal.toggleIcon, toggleIcon);
+        QCOMPARE(import->text().isEmpty(), importIcon);
+        QVERIFY(wordsOrIcon(select) && wordsOrIcon(import));
+        QCOMPARE(select->text(), toggleIcon ? QString() : select_);
+        QCOMPARE(import->text(), importIcon ? QString() : importWord);
+        QCOMPARE(normal.toggleName, select_);
+        QCOMPARE(select->toolTip(), select_);
+        QCOMPARE(import->accessibleName(), importWord);
+        QVERIFY(import->toolTip().startsWith(importWord));
+        // The toggle's word is the last to go: when it has gone, Import's has.
+        QVERIFY(!toggleIcon || importIcon);
+        QVERIFY2(fits(), "the row is wider than its room while browsing");
+        // Import's words or icon start where the master check box below starts, so the slot does not shift.
+        const int importStart = inkEdge(window, import, rtl);
+        QVERIFY(import->sizeHint().width() <= import->width() && select->sizeHint().width() <= select->width());
+        QVERIFY(!normal.toggleChecked);
+        // The cross is where an overlay is closed from, and only there.
+        QCOMPARE(normal.close.isValid(), !reader->roomy());
+        QVERIFY(!normal.closeName.isEmpty());
+        QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), words.word("Scripts"));
+        QVERIFY(window.findChild<QWidget *>("importScript")->isVisibleTo(&window));
+        QVERIFY(!all->isVisibleTo(&window) && !actions->isVisibleTo(&window));
+
+        select->click();
+        QTest::qWait(50);
+        const auto selecting = librarySlots(window);
+        sameSlots("selection started", normal, selecting);
+        // The same word-or-icon state in both modes, and the icon says the new thing.
+        QCOMPARE(selecting.toggleText, toggleIcon ? QString() : done);
+        QCOMPARE(selecting.toggleName, done);
+        QCOMPARE(selecting.toggleIcon, toggleIcon);
+        QCOMPARE(select->toolTip(), done);
+        QVERIFY(wordsOrIcon(select));
+        QVERIFY2(fits(), "the row is wider than its room while selecting");
+        QVERIFY(selecting.toggleChecked);
+        QCOMPARE(selecting.closeName, normal.closeName); // The cross is Close in both.
+        QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), selectedTitle(0));
+        QVERIFY(all->isVisibleTo(&window) && actions->isVisibleTo(&window));
+        QVERIFY(!window.findChild<QWidget *>("importScript")->isVisibleTo(&window));
+        QVERIFY(!actions->isEnabled());
+        // The master box is the head of the column of the rows' boxes, to the pixel or two.
+        QVERIFY(rowBox(first)->isVisibleTo(&window));
+        const QRect master = boxIn(window, all), row = boxIn(window, rowBox(first));
+        QVERIFY2(std::abs(master.center().x() - row.center().x()) <= 2,
+                 qPrintable(QString("master box %1, row box %2").arg(QDebug::toString(master), QDebug::toString(row))));
+        QCOMPARE(master.size(), row.size());
+        QVERIFY(master.bottom() < row.top());
+        const int boxEdge = rtl ? master.right() : master.left();
+        QVERIFY2(importStart >= 0 && std::abs(importStart - boxEdge) <= 2,
+                 qPrintable(QString("Import starts at %1, the master box at %2").arg(importStart).arg(boxEdge)));
+        // The title never loses the count, and the menu that opens from Actions says it too.
+        QVERIFY(window.findChild<QLabel *>("libraryTitle")->property("shown").toString().contains("0"));
+        // Once the toggle has gone to its icon, nothing has a word: the master box's, Actions' and Import's.
+        QVERIFY(!toggleIcon || (all->text().isEmpty() && actions->text().isEmpty()));
+        // Actions follows the master box and stays clear of the toggle, whichever way the text reads.
+        const QRect menu = placeIn(window, actions), toggle = selecting.toggle;
+        QVERIFY(!menu.intersects(toggle));
+        QVERIFY(selecting.tools.contains(menu));
+        QVERIFY(rtl ? menu.right() < placeIn(window, all).left() : menu.left() > placeIn(window, all).right());
+        // Labels shorten in order: the master box's before the Actions button's; each keeps its name.
+        QVERIFY2(all->text().isEmpty() || !actions->text().isEmpty(), "Actions lost its label while All kept its own");
+        QVERIFY(actions->accessibleName().startsWith(words.word("Actions")));
+        QCOMPARE(all->accessibleName(), QString("Select all"));
+        QVERIFY(select->sizeHint().width() <= select->width());
+        QVERIFY(actions->sizeHint().width() <= actions->width());
+        // At the default text size the panel keeps every word ("All" among them), even in the narrowest window.
+        if (scale == 1.0 && language.isEmpty()) {
+            QCOMPARE(all->text(), QString("All"));
+            QCOMPARE(actions->text(), QString("Actions"));
+            // Actions stands right after the master check box: its frame starts a few pixels from the box.
+            const int gap = rtl ? master.left() - menu.right() : menu.left() - master.right();
+            QVERIFY2(std::abs(gap) < 70, qPrintable(QString("master %1, Actions %2")
+                                                        .arg(QDebug::toString(master), QDebug::toString(menu))));
+        }
+
+        // Checking rows, and checking all of them, moves nothing either.
+        rowBox(first)->click();
+        QVERIFY(window.findChild<QLabel *>("libraryTitle")->property("shown").toString().contains("1"));
+        QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), selectedTitle(1));
+        QVERIFY(actions->isEnabled());
+        sameSlots("one checked", normal, librarySlots(window));
+        all->click();
+        QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), selectedTitle(3));
+        sameSlots("all checked", normal, librarySlots(window));
+
+        // Done: the same button, in the same place, says Select again; the cross is where it was.
+        select->click();
+        QTest::qWait(50);
+        QVERIFY(!select->isChecked());
+        const auto ended = librarySlots(window);
+        sameSlots("selection ended", normal, ended);
+        QCOMPARE(ended.toggleText, toggleIcon ? QString() : select_);
+        QCOMPARE(ended.toggleName, select_);
+        QCOMPARE(ended.toggleIcon, toggleIcon);
+        QVERIFY(window.findChild<QWidget *>("importScript")->isVisibleTo(&window));
+        QVERIFY(!all->isVisibleTo(&window) && !actions->isVisibleTo(&window));
+        QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), words.word("Scripts"));
+
+        // Escape ends it too, without moving anything. The cross closes the panel in both modes.
+        select->click();
+        list->setFocus();
+        QTest::keyClick(list, Qt::Key_Escape);
+        QVERIFY(!select->isChecked());
+        sameSlots("escape", normal, librarySlots(window));
+        if (!reader->roomy()) {
+            select->click();
+            QTest::qWait(50);
+            auto *close = window.findChild<QAbstractButton *>("closeScriptDrawer");
+            QVERIFY(close->isVisibleTo(&window));
+            close->click(); // Close, not Cancel: the panel goes, and with it the selection.
+            QVERIFY(!reader->drawerOpen());
+            QTRY_VERIFY(!select->isChecked()); // When it has slid out.
+        }
+    }
+
+    void newScriptEndsSelectionThenCreatesAScript() {
+        for (const bool shortcut : {false, true}) {
+            QDir(scripts_.path()).removeRecursively();
+            QDir().mkpath(scripts_.path());
+            ScriptLibrary stored(scripts_.path());
+            const auto first = stored.create("First talk\nWords");
+            const auto second = stored.create("Second talk\nMore words");
+            QSettings().setValue("library/current", first);
+            MainWindow window(scripts_.path());
+            window.resize(1100, 760);
+            window.show();
+            window.activateWindow();
+            QVERIFY(QTest::qWaitForWindowActive(&window));
+            auto *list = window.findChild<QListWidget *>("scriptList");
+            auto *select = window.findChild<QAbstractButton *>("selectScripts");
+            auto *add = window.findChild<QAbstractButton *>("newScript");
+            QCOMPARE(list->count(), 2);
+            select->click();
+            for (auto *box : list->findChildren<QCheckBox *>("scriptCheck"))
+                if (box->property("scriptId").toString() == second)
+                    box->click();
+            QVERIFY(add->isVisibleTo(&window) && add->isEnabled()); // New is there while selecting.
+            QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), QString("Selected: 1"));
+            if (shortcut)
+                QTest::keySequence(editor(window), QKeySequence::New);
+            else
+                add->click();
+            QVERIFY(!select->isChecked()); // Selection ended first, then a script was made.
+            QCOMPARE(list->count(), 3);
+            QVERIFY(window.currentScript() != first && window.currentScript() != second);
+            QVERIFY(editor(window)->toPlainText().isEmpty());
+            QCOMPARE(window.findChild<QLabel *>("libraryTitle")->text(), QString("Scripts"));
+            QVERIFY(ScriptLibrary(scripts_.path()).contains(first));
+            QVERIFY(ScriptLibrary(scripts_.path()).contains(second)); // Nothing was deleted or changed.
+        }
+    }
+
+    void bulkMenuContextMenuAndDeleteKeyActOnCheckedScriptsOnly() {
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nKeep this");
+        const auto second = stored.create("Second talk\nChange this");
+        const auto third = stored.create("Third talk\nChange this too");
+        QSettings().setValue("library/current", first);
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        window.activateWindow();
+        QVERIFY(QTest::qWaitForWindowActive(&window));
+        auto *list = window.findChild<QListWidget *>("scriptList");
+        auto *select = window.findChild<QAbstractButton *>("selectScripts");
+        auto *actions = window.findChild<QAbstractButton *>("selectedScriptActions");
+        auto *menu = window.findChild<QMenu *>("selectedScriptsMenu");
+        QVERIFY(list && select && actions && menu);
+        const auto contextMenu = [&] {
+            const QPoint point(10, 10);
+            QContextMenuEvent event(QContextMenuEvent::Mouse, point, list->viewport()->mapToGlobal(point));
+            QApplication::sendEvent(list->viewport(), &event);
+        };
+        // Outside selection, the list's context menu is not the bulk one.
+        contextMenu();
+        QVERIFY(!menu->isVisible());
+        for (auto *rowMenu : window.findChildren<QMenu *>("scriptRowMenu"))
+            rowMenu->close();
+
+        select->click();
+        QVERIFY(!actions->isEnabled());
+        // Nothing checked: Delete asks nothing and removes nothing; every entry of the menu is unavailable.
+        bool asked = false;
+        QTimer watch;
+        QObject::connect(&watch, &QTimer::timeout, &window, [&asked] {
+            if (auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget())) {
+                asked = true;
+                dialog->reject();
+            }
+        });
+        watch.start(10);
+        list->setFocus();
+        QTest::keyClick(list, Qt::Key_Delete);
+        QTest::qWait(60);
+        QVERIFY(!asked);
+        window.findChild<QAction *>("deleteSelectedScripts")->trigger();
+        QTest::qWait(60);
+        QVERIFY(!asked);
+        for (const auto &id : {first, second, third})
+            QVERIFY(ScriptLibrary(scripts_.path()).contains(id));
+        contextMenu();
+        QVERIFY(menu->isVisible());
+        for (auto *action : menu->actions())
+            QVERIFY2(action->isSeparator() || !action->isEnabled(), qPrintable(action->text()));
+        QCOMPARE(menu->findChild<QAction *>("selectedScriptsTitle")->text(), QString("Selected: 0"));
+        menu->close();
+        watch.stop();
+
+        // Two checked: the context menu and the Actions button open the same menu, naming its target.
+        for (auto *box : list->findChildren<QCheckBox *>("scriptCheck"))
+            if (box->property("scriptId").toString() != first)
+                box->click();
+        QVERIFY(actions->isEnabled());
+        for (const bool fromButton : {true, false}) {
+            if (fromButton)
+                actions->click();
+            else
+                contextMenu();
+            QVERIFY(menu->isVisible());
+            // The first line names the target and is not a command; the rest are enabled.
+            QStringList entries;
+            for (auto *action : menu->actions()) {
+                const bool title = action->objectName() == "selectedScriptsTitle";
+                entries << (action->isSeparator() ? QString("---")
+                            : title               ? "[" + action->text() + "]"
+                                                  : action->text());
+                QVERIFY(action->isSeparator() || action->isEnabled() != title);
+            }
+            QCOMPARE(entries, (QStringList{"[Selected: 2]", "---", "Reading speed…", "Export…", "---", "Delete…"}));
+            menu->close();
+        }
+        // Delete asks about the two checked scripts; Cancel keeps them, Yes removes only them.
+        int answered = 0;
+        for (const auto answer : {QMessageBox::Cancel, QMessageBox::Yes}) {
+            QTimer::singleShot(50, &window, [answer, &answered] {
+                auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget());
+                QVERIFY(dialog);
+                ++answered;
+                QCOMPARE(dialog->informativeText(), QString("Selected: 2"));
+                QVERIFY(dialog->detailedText().contains("Second talk"));
+                QVERIFY(dialog->detailedText().contains("Third talk"));
+                QVERIFY(!dialog->detailedText().contains("First talk"));
+                QCOMPARE(dialog->defaultButton(), dialog->button(QMessageBox::Cancel));
+                dialog->button(answer)->click();
+            });
+            window.activateWindow(); // A closed confirmation does not always give the focus back.
+            QVERIFY(QTest::qWaitForWindowActive(&window));
+            list->setFocus();
+            QTRY_VERIFY(list->hasFocus());
+            QTest::keyClick(list, Qt::Key_Delete);
+            const ScriptLibrary now(scripts_.path());
+            QVERIFY(now.contains(first));
+            QCOMPARE(now.contains(second), answer == QMessageBox::Cancel);
+            QCOMPARE(now.contains(third), answer == QMessageBox::Cancel);
+        }
+        QCOMPARE(answered, 2); // Both times the Delete key asked.
+        QCOMPARE(window.currentScript(), first);
+    }
+
+    // The title, and the first line of the menu Actions opens, shorten their words and never their number,
+    // wherever the translation puts it: at the start, in the middle, at the end, and in right-to-left text.
+    void titleKeepsItsNumberWhenItsWordsDoNotFit_data() {
+        QTest::addColumn<QString>("language");
+        QTest::addColumn<bool>("rtl");
+        QTest::addColumn<bool>("cut"); // The words are shortened at this size.
+        QTest::newRow("fr") << "fr" << false << true;
+        QTest::newRow("de") << "de" << false << true;
+        QTest::newRow("ru") << "ru" << false << true;
+        QTest::newRow("number first") << "numberfirst" << false << true;
+        QTest::newRow("number in the middle") << "numbermiddle" << false << true;
+        QTest::newRow("right to left") << "arabic" << true << true;
+    }
+
+    void titleKeepsItsNumberWhenItsWordsDoNotFit() {
+        QFETCH(QString, language);
+        QFETCH(bool, rtl);
+        QFETCH(bool, cut);
+        const auto direction = QGuiApplication::layoutDirection();
+        QGuiApplication::setLayoutDirection(rtl ? Qt::RightToLeft : Qt::LeftToRight);
+        ControlWords words(language);
+        QCoreApplication::installTranslator(&words);
+        const auto restore = qScopeGuard([direction, &words] {
+            QCoreApplication::removeTranslator(&words);
+            QGuiApplication::setLayoutDirection(direction);
+        });
+        ScriptLibrary stored(scripts_.path());
+        for (int i = 0; i < 12; ++i)
+            stored.create(QString("Talk %1\nWords").arg(i));
+        QSettings().setValue("appearance/textScale", 2.0);
+        MainWindow window(scripts_.path());
+        window.resize(320, 240); // The panel is 288 px wide, the text twice its size: the title has little room.
+        window.show();
+        window.activateWindow();
+        QVERIFY(QTest::qWaitForWindowActive(&window));
+        window.prompter()->setDrawerOpen(true);
+        QTest::qWait(500);
+        auto *select = window.findChild<QAbstractButton *>("selectScripts");
+        select->click();
+        window.findChild<QCheckBox *>("selectAllScripts")->click();
+        QTest::qWait(50);
+        auto *title = window.findChild<QLabel *>("libraryTitle");
+        const auto shown = title->property("shown").toString();
+        QVERIFY2(title->text().contains("12"), qPrintable(title->text()));
+        QVERIFY2(shown.contains("12"), qPrintable(QString("%1 (of %2)").arg(shown, title->text())));
+        QCOMPARE(shown != title->text(), cut);
+        if (cut)
+            QCOMPARE(title->toolTip(), title->text()); // Whole in its tooltip.
+        QVERIFY(title->fontMetrics().horizontalAdvance(shown) <= title->width());
+        // The menu says it too, and its first line is not a command.
+        auto *line = window.findChild<QAction *>("selectedScriptsTitle");
+        QVERIFY(line && !line->isEnabled() && !line->isSeparator());
+        QVERIFY2(line->text().contains("12"), qPrintable(line->text()));
+        QCOMPARE(line->toolTip(), title->text());
+    }
+
+    // A menu made when it is asked for has the text size of the panel's own controls, and a title that is no
+    // wider than a menu's first line should be (shortened in the middle, whole in its tooltip).
+    void rowMenuFollowsTheTextSizeAndShortensItsTitle_data() {
+        QTest::addColumn<double>("scale");
+        QTest::newRow("100%") << 1.0;
+        QTest::newRow("150%") << 1.5;
+        QTest::newRow("200%") << 2.0;
+    }
+
+    void rowMenuFollowsTheTextSizeAndShortensItsTitle() {
+        QFETCH(double, scale);
+        const QString longTitle = ScriptLibrary::titleFor(
+            "A title so long that no menu should be as wide as it is, said at length, and then some more");
+        ScriptLibrary stored(scripts_.path());
+        const auto first = stored.create("First talk\nWords");
+        const auto second = stored.create(longTitle + "\nMore words");
+        QSettings().setValue("library/current", first);
+        QSettings().setValue("appearance/textScale", scale);
+        MainWindow window(scripts_.path());
+        window.resize(1100, 760);
+        window.show();
+        QVERIFY(QTest::qWaitForWindowExposed(&window));
+        QTest::qWait(250);
+        QAbstractButton *button = nullptr;
+        for (auto *candidate : window.findChildren<QAbstractButton *>("scriptRowActions"))
+            if (candidate->property("scriptId").toString() == second)
+                button = candidate;
+        QVERIFY(button);
+        button->click();
+        auto *menu = window.findChild<QMenu *>("scriptRowMenu");
+        QVERIFY(menu);
+        // The same text size as the bulk menu, which the panel scaled with its controls; so, bigger at 200%.
+        auto *bulk = window.findChild<QMenu *>("selectedScriptsMenu");
+        QVERIFY2(qFuzzyCompare(menu->font().pointSizeF(), bulk->font().pointSizeF()),
+                 qPrintable(QString("%1 and %2").arg(menu->font().pointSizeF()).arg(bulk->font().pointSizeF())));
+        QVERIFY(qFuzzyCompare(menu->font().pointSizeF(), std::max(8.0, window.font().pointSizeF()) * scale));
+        const auto actions = menu->actions();
+        QCOMPARE(actions.size(), 6); // Title, separator, Edit, Export…, separator, Delete script….
+        QVERIFY(!actions[0]->isEnabled() && !actions[0]->isSeparator() && actions[1]->isSeparator());
+        QVERIFY(actions[4]->isSeparator());
+        QVERIFY(actions[0]->text() != longTitle);
+        QCOMPARE(actions[0]->toolTip(), longTitle);
+        QVERIFY(QFontMetrics(menu->font()).horizontalAdvance(actions[0]->text()) <= qRound(240 * scale));
+        menu->close();
     }
 
     void rowMenuTargetsItsOwnScriptAndDeleteCanCancel() {
@@ -566,7 +1158,7 @@ private slots:
         QCOMPARE(single.readAll(), QByteArray("Second talk\nOther text"));
         QCOMPARE(window.currentScript(), first);
         QCoreApplication::sendPostedEvents(nullptr, QEvent::DeferredDelete);
-        window.findChild<QCheckBox *>("selectScripts")->click();
+        window.findChild<QAbstractButton *>("selectScripts")->click();
         for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
             if (box->property("scriptId").toString() != third)
                 box->click();
@@ -596,7 +1188,7 @@ private slots:
         window.resize(1100, 760);
         window.show();
         QVERIFY(QTest::qWaitForWindowExposed(&window));
-        window.findChild<QCheckBox *>("selectScripts")->click();
+        window.findChild<QAbstractButton *>("selectScripts")->click();
         for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
             if (box->property("scriptId").toString() == first)
                 box->click();
@@ -617,7 +1209,7 @@ private slots:
         auto *speed = window.findChild<QLabel *>("readerSpeed");
         QVERIFY(speed);
         QVERIFY(speed->text().contains("240"));
-        window.findChild<QCheckBox *>("selectScripts")->setChecked(false);
+        window.findChild<QAbstractButton *>("selectScripts")->setChecked(false);
         auto *list = window.findChild<QListWidget *>("scriptList");
         for (int row = 0; row < list->count(); ++row)
             if (list->item(row)->data(Qt::UserRole).toString() == second)
@@ -629,7 +1221,7 @@ private slots:
                 list->setCurrentRow(row);
         QTRY_COMPARE(window.currentScript(), first);
         QVERIFY(speed->text().contains("240"));
-        window.findChild<QCheckBox *>("selectScripts")->setChecked(true);
+        window.findChild<QAbstractButton *>("selectScripts")->setChecked(true);
         window.findChild<QCheckBox *>("selectAllScripts")->click();
         QTimer::singleShot(50, &window, [] {
             auto *dialog = qobject_cast<QMessageBox *>(QApplication::activeModalWidget());
@@ -642,7 +1234,7 @@ private slots:
         QVERIFY(!after.contains(first));
         QVERIFY(!after.contains(second));
         QVERIFY(editor(window)->toPlainText().isEmpty());
-        QVERIFY(!window.findChild<QCheckBox *>("selectScripts")->isChecked());
+        QVERIFY(!window.findChild<QAbstractButton *>("selectScripts")->isChecked());
         QVERIFY(window.prompter()->welcomeShown());
     }
 
@@ -656,7 +1248,7 @@ private slots:
         window.resize(1100, 760);
         window.show();
         QVERIFY(QTest::qWaitForWindowExposed(&window));
-        window.findChild<QCheckBox *>("selectScripts")->click();
+        window.findChild<QAbstractButton *>("selectScripts")->click();
         for (auto *box : window.findChildren<QCheckBox *>("scriptCheck"))
             if (box->property("scriptId").toString() != first)
                 box->click();
