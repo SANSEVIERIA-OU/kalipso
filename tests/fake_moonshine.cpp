@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Lifecycle test double. No inference and no quality/performance claims.
 #include "../third_party/moonshine/moonshine-c-api.h"
 #include <cstring>

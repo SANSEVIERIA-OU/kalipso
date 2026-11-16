@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Copy the shared JavaScript modules from desktop/ into the Plasma package and
 the website, which must contain their own copies. --check fails on any drift."""
 from pathlib import Path

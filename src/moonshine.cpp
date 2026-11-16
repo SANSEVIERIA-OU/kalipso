@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 #include "moonshine.h"
 #include "../third_party/moonshine/moonshine-c-api.h"
 #include "speech_library.h"

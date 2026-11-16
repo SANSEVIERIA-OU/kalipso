@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Every static page has a complete local catalog, including full BCP 47 tags.
 export const t = (await import(`./strings/${document.documentElement.lang}.mjs`)).default;
 

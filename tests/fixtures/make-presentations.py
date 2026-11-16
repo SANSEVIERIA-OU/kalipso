@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Regenerate the import fixtures with LibreOffice through UNO.
 
 notes.odp and notes.pptx: slides built the way a user would, with real title

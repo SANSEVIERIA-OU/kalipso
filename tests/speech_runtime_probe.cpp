@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Opt-in network test: the production downloader, native recognizer and tracker, with synthetic
 // speech. Runs on each native CI host; no microphone and no system recognizer is required.
 #include "speech.h"

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {contrastRatio,PaletteChoice} from '../desktop/contrast.mjs';

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // The widget's settings, in Plasma's own configuration dialog (right-click → Configure Kalipso…).
 import QtQuick
 import org.kde.plasma.configuration

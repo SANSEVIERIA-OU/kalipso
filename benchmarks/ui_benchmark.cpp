@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Production widgets on an isolated profile. Rendering ends at a pixmap, not the display.
 #include "accessibility.h"
 #include "backdrop.h"

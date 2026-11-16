@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Kalipso's GNOME Shell extension as GNOME Shell reports it, and the Settings section that turns it on.
 // A stand-in GNOME Shell on a private session bus (run under dbus-run-session) answers as GNOME Shell 51
 // does (checked against a real one: GetExtensionInfo gives "state" and "enabled", EnableExtension

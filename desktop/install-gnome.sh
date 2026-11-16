@@ -1,5 +1,5 @@
 #!/bin/sh
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 # Builds the GNOME extension archive and installs it for the current user.
 set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)

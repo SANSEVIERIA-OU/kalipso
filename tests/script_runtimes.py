@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Run the shared tracker in the real QML (Plasma) and GJS (GNOME) engines.
 
 Node passing desktop/tracker.test.mjs does not prove that QML's V4 or GNOME's

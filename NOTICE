@@ -10,13 +10,13 @@ Acceptance: this notice and the complete licence text are supplied so that they
 can be examined and retained in advance. Modifying, distributing or otherwise
 making available the covered software, enabling External Network Use of it, or
 using it in a Commercial Offering constitutes acceptance of SANSEVIERIA License
-1.0 under its section 9. Viewing the code or merely receiving a copy is not
+1.1 under its section 9. Viewing the code or merely receiving a copy is not
 acceptance.
 
 The original application, companion, Plasma widget, KWin script, website and
-shared supporting code in this source revision use SANSEVIERIA License 1.0,
+shared supporting code in this source revision use SANSEVIERIA License 1.1,
 except for the GNOME component and other separately licensed material below. The complete, unchanged licence is supplied as LICENSE and as
-LICENSES/LicenseRef-SANSEVIERIA-1.0.txt. LicenseRef-SANSEVIERIA-1.0 is a local
+LICENSES/LicenseRef-SANSEVIERIA-1.1.txt. LicenseRef-SANSEVIERIA-1.1 is a local
 identifier for this custom licence, not an OSI approval or SPDX-list entry.
 This licence applies to the copies and revisions expressly offered under it.
 The rights holder may also offer an earlier software version under these terms.
@@ -34,7 +34,7 @@ Separately licensed components remain under their existing terms:
 - AppStream metadata: CC0-1.0, as marked in its metadata_license field.
 
 These component-specific licences do not grant an alternative AGPL licence for
-new application code released solely under SANSEVIERIA License 1.0. Existing
+new application code released solely under SANSEVIERIA License 1.1. Existing
 copyright, licence and attribution notices must be preserved. No copyright
 assignment to the Steward is implied by this notice.
 

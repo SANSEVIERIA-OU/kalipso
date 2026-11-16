@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 #include "pcm_converter.h"
 #include "system_speech/client.h"
 #include "system_speech/grammar.h"

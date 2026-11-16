@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Kalipso's KWin script (packaging/kwin/contents/code/main.js) against a stand-in for KWin's
 // scripting API: the title marks frame, stack and exclude the window under the camera, the person's
 // choice about screen sharing is followed, the place given to the reader is kept and checked against

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Kalipso moved from the organization "brianidavide" to SANSEVIERIA-OU: the first start under the new
 // name brings the settings and the scripts along, and never overwrites what is already there.
 #include "settings_migration.h"

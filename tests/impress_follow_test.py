@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Run src/impress/impress_follow.py against a real LibreOffice Impress slideshow.
 
 Needs LibreOffice, a Python that can import uno (on Windows and macOS,

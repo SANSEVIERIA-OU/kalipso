@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Sequential native benchmarks. Models, audio, logs and results stay outside Git.
 
 Generate speech with tools/make-speech-fixtures.py first. Each repetition is a fresh process;

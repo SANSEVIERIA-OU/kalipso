@@ -1,28 +1,33 @@
 # Contributing
 
-Original project code uses [SANSEVIERIA License 1.0](LICENSE), except for the GNOME component
+Original project code uses [SANSEVIERIA License 1.1](LICENSE), except for the GNOME component
 and other separately licensed material listed in [NOTICE](NOTICE).
 Contributors retain their copyright; no assignment is requested. Preserve third-party notices.
 The GNOME extension retains its existing terms while its licensing scope is resolved.
 
 ## Licence assent for contributions under SANSEVIERIA License
 
-Before submitting code covered by SANSEVIERIA License 1.0, read the complete licence. Include this express declaration
+Before submitting code covered by SANSEVIERIA License 1.1, read the complete licence. Include this express declaration
 in your PR or an associated signed record, identifying the contribution and licence version:
 
-> I intentionally submit the identified Contribution under the SANSEVIERIA License 1.0, whose complete text has been provided to me. I have the authority necessary to make the copyright and patent grants applicable to this Contribution. I expressly agree to the limited authority in section 7 allowing SANSEVIERIA OÜ to authorize specified commercial offerings and charge for those authorizations while preserving the source, reciprocity, notice and recipient-rights conditions. I retain my rights and do not grant a general proprietary relicensing power. I have identified separately licensed material and other rights holders whose permission is relevant, and I do not purport to grant rights they have not authorized me to grant. I also authorize SANSEVIERIA OÜ to make the identified Contribution available under any later version of the SANSEVIERIA License that it publishes as the common licence of all its projects, provided that version preserves source availability, reciprocity, the patent permission, my retained rights and the limits on SANSEVIERIA OÜ's authority at least to the extent of version 1.0; recipients keep the rights they received under earlier versions.
+> I intentionally submit the identified Contribution under the SANSEVIERIA License 1.1, whose complete text has been provided to me. I have the authority necessary to make the copyright and patent grants applicable to this Contribution. I expressly agree to the limited authority in section 7 allowing SANSEVIERIA OÜ to authorize specified commercial offerings and charge for those authorizations while preserving the source, reciprocity, notice and recipient-rights conditions, and to the authority in section 15 to make the Contribution available under later common versions that preserve the guarantees listed there. I understand that both authorities are personal to SANSEVIERIA OÜ, end or are suspended as provided in section 7, including on a Change of Control or its dissolution, and can be renewed only by my express statement after the event. I retain my rights and do not grant a general proprietary relicensing power. I have identified separately licensed material and other rights holders whose permission is relevant, and I do not purport to grant rights they have not authorized me to grant.
 
-This declaration is specific to SANSEVIERIA License 1.0, not the standard DCO. Maintainers must
+This declaration is specific to SANSEVIERIA License 1.1, not the standard DCO. Maintainers must
 record the assent and verify the scope of any employer or third-party permission. An automatically
 filled checkbox, silence or merely opening a PR does not establish that assent. Contributions to
 components retaining AGPL use those component terms; this declaration must not silently relicense them.
 
 SANSEVIERIA License is a single licence for all SANSEVIERIA OÜ projects: improvements found in one
-project go into a new common version, never into a per-product variant. Section 15 does not convert
-code to later versions automatically, so the declaration includes consent to later common versions
-that keep at least source availability, reciprocity, the patent permission, contributors' rights and
-the limits on SANSEVIERIA OÜ's authority of version 1.0. It allows no proprietary relicensing, and
-recipients of earlier copies keep the rights they received.
+project go into a new common version, never into a per-product variant. Section 15 lets SANSEVIERIA
+OÜ move contributions, and changes published in forks, to later common versions that keep the
+guarantees it lists: free use, source availability, reciprocity, the patent permission,
+contributors' rights and the limits on SANSEVIERIA OÜ's authority. It allows no proprietary
+relicensing, and recipients of earlier copies keep the rights they received.
+
+Under section 7, the authorities you grant SANSEVIERIA OÜ cannot be transferred. They end for your
+code if someone else acquires control of the company or it is dissolved or declared bankrupt, and
+are suspended during insolvency proceedings; only your express statement after the event renews
+them. Your rights and every recipient's rights stay unchanged.
 
 SANSEVIERIA OÜ and its appointed maintainers decide which contributions to merge and which releases
 are official. Submission does not guarantee acceptance. Reusing code from forks requires preserving

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 #include "gnome_extension.h"
 #ifdef KALIPSO_PORTAL_COLORS
 #include <QDBusConnection>

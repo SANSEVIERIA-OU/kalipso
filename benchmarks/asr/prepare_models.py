@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Download the exact benchmark models, verify hashes and write relocated models.json.
 
 No model code is executed. Uses the model definitions in benchmarks/asr/models.json.
