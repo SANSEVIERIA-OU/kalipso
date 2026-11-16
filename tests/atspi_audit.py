@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """What a screen reader gets from Kalipso, through AT-SPI (the interface Orca uses on Linux).
 
 Walks the accessibility tree of a running Kalipso and reports every control a person can reach that

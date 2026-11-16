@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Follow a LibreOffice Impress slideshow for Kalipso.
 
 Run with LibreOffice's Python (or a Python that can import uno):

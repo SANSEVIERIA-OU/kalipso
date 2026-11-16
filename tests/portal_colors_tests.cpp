@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 #include "screen_colors/pixels.h"
 #include "screen_colors/portal.h"
 #include <QDBusArgument>

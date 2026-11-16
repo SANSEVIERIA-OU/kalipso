@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Preserve Qt's offline license catalog and installed package metadata in CI bundles."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
@@ -26,7 +26,7 @@ def main():
     root = Path(__file__).resolve().parents[1]
     destination = args.output
     destination.mkdir(parents=True, exist_ok=True)
-    shutil.copy(root / 'LICENSE', destination / 'Kalipso-SANSEVIERIA-1.0.txt')
+    shutil.copy(root / 'LICENSE', destination / 'Kalipso-SANSEVIERIA-1.1.txt')
     shutil.copy(root / 'NOTICE', destination)
     shutil.copy(root / 'THIRD_PARTY_NOTICES.md', destination)
     shutil.copytree(root / 'LICENSES', destination / 'license-texts', dirs_exist_ok=True)

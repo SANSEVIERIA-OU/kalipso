@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 """Build the Plasma widget, GNOME extension and KWin script archives from source.
 
 Archives contain only frontend source and notices: no companion binary,
@@ -114,7 +114,7 @@ def kwin_files():
 
 
 def entries(files, generated, licence):
-    name = 'AGPL-3.0-or-later' if licence == BASE / 'gnome/LICENSE' else 'SANSEVIERIA License 1.0'
+    name = 'AGPL-3.0-or-later' if licence == BASE / 'gnome/LICENSE' else 'SANSEVIERIA License 1.1'
     notice = (
         'KALIPSO DESKTOP COMPONENT — RELEASE NOTICE\n\n'
         'Steward: SANSEVIERIA OÜ\n'

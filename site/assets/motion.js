@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Motion that shows what Kalipso does. With reduced motion nothing moves on its own. The scenes play once,
 // in under five seconds; the reader in the first screen keeps going, so it has a pause button and stops
 // whenever it is out of sight (WCAG 2.2.2).

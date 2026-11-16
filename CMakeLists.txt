@@ -403,7 +403,7 @@ set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "pipewire-bin, xdg-desktop-portal")
 # Fedora and openSUSE: rpmbuild finds the libraries the binaries need; PipeWire's tools are named, since
 # the microphone is recorded with pw-record.
 set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
-set(CPACK_RPM_PACKAGE_LICENSE "LicenseRef-SANSEVIERIA-1.0 AND AGPL-3.0-or-later")
+set(CPACK_RPM_PACKAGE_LICENSE "LicenseRef-SANSEVIERIA-1.1 AND AGPL-3.0-or-later")
 set(CPACK_RPM_PACKAGE_GROUP "Applications/Multimedia")
 set(CPACK_RPM_PACKAGE_URL "https://sansevieria-ou.github.io/kalipso/")
 set(CPACK_RPM_PACKAGE_AUTOREQ ON)

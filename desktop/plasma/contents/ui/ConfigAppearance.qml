@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Configure Kalipso → Appearance: the reader's colors, typeface, size and spacing.
 import QtQuick
 import QtQuick.Controls as QQC2

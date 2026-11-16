@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Real production recognizers with file input: no microphone, GUI or word alignment claim.
 #include "speech.h"
 #include "speech_download.h"

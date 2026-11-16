@@ -1,13 +1,13 @@
 # Third-party notices
 
-The original application uses SANSEVIERIA License 1.0; the [release notice](NOTICE) identifies
+The original application uses SANSEVIERIA License 1.1; the [release notice](NOTICE) identifies
 components retaining other terms. The licence change does not alter third-party permissions.
 
 The generated character classification tables in `desktop/unicode-tokens.mjs`
 and its Plasma package and website copies derive from Unicode Character Database 15.1.0 through Python
 3.13's `unicodedata`. Unicode data © 1991–2026 Unicode, Inc.; distributed under
 [Unicode License v3](LICENSES/Unicode-3.0.txt). The generation and tokenization code written
-for this project uses SANSEVIERIA License 1.0; the separately preserved GNOME
+for this project uses SANSEVIERIA License 1.1; the separately preserved GNOME
 snapshot remains under its component licence. Python is used only for generation, not by either
 frontend at runtime.
 

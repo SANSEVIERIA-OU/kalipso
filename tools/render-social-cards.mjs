@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Generate the shipped, localized Open Graph images from the website's actual titles and tokens.
 // PLAYWRIGHT=/path/to/playwright/index.mjs node tools/render-social-cards.mjs
 import {readFile} from 'node:fs/promises';

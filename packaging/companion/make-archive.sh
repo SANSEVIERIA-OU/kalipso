@@ -1,5 +1,5 @@
 #!/bin/sh
-# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+# SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 # Packs the companion download for people who use only the Plasma widget or the GNOME extension:
 # the built kalipso-engine, an install script and the notices. Unpacked, one command installs it
 # under ~/.local (see README.txt); the language is then chosen in the widget or extension.

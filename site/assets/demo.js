@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.0
+// SPDX-License-Identifier: LicenseRef-SANSEVIERIA-1.1
 // Manual presentation only. No microphone, network request or inference.
 import {Tracker} from './tracker.mjs';
 import {t} from './i18n.mjs';

@@ -164,7 +164,7 @@ reproduce in [Issues](https://github.com/SANSEVIERIA-OU/kalipso/issues). Release
 ## License
 
 The current original application, companion, Plasma widget, KWin script and website
-use **SANSEVIERIA License 1.0**, with the component exceptions identified below.
+use **SANSEVIERIA License 1.1**, with the component exceptions identified below.
 It permits free use, modification and compliant forks, with source reciprocity; the commercial
 offerings defined in the licence require written authorization from SANSEVIERIA OÜ.
 This is a source-available licence, not an OSI-approved open-source licence.
