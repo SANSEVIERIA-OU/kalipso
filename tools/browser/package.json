@@ -3,7 +3,7 @@
   "private": true,
   "description": "Development-only browser verification; not shipped with Kalipso.",
   "devDependencies": {
-    "axe-core": "4.14.0",
+    "axe-core": "4.14.1",
     "playwright": "1.65.0"
   }
 }
